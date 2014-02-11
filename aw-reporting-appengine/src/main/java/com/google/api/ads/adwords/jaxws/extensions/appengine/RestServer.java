@@ -64,9 +64,6 @@ public class RestServer extends Application {
     try {
       properties = initApplicationContextAndProperties("aw-report-sample-appengine.properties");
       
-      UserToken userToken = new UserToken("id Test", 123L, "email", "token");
-      persister.save(userToken);
-      
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
