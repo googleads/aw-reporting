@@ -6,12 +6,17 @@ aw-report-model/.classpath
 
 aw-report-model/.project
 
-
 aw-reporting/target/*
 
 aw-reporting/.classpath
 
 aw-reporting/.project
+
+aw-reporting-appengine/target/*
+
+aw-reporting-appengine/.classpath
+
+aw-reporting-appengine/.project
 
 
 examples/kratubackend/target/*
