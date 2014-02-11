@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Hello App Engine</title>
+  
+  <link href="/stylesheets/revamp.css" rel="stylesheet" type="text/css" />
+  <link href="/stylesheets/smoke.css" rel="stylesheet" type="text/css" />
+  <script src="/stylesheets/jquery.min.js"></script>
+  <script src="/stylesheets/smoke.min.js"></script>
+  <script src="/stylesheets/revamp.js"></script>
+  <script src="/stylesheets/revamp.model.js"></script>
+  
+  <script language="JavaScript">
+    <!--
+    function submit(){
+    	location.href= '/oauth/'+ document.getElementById('mcctextbox').value;
+    }
+    -->
+    </script>
+  </head>
+
+  <body>
+    <h1>PSP Reporting</h1>
+	
+	<div id='usertokens'></div>
+	
+	<div id='oauth' class='oauth'>
+		MCC ID: <input type="text" name="mcctextbox" id="mcctextbox" size="30" maxlength="70">
+		<button onclick="submit()">Authorize</button>
+	</div>
+<div id='table'>	
+<div class="left-column">
+  <div><a href="/mymccs">My MCCs</a></div>
+
+  <div id='topAccountId'><a href="/oauth/{topAccountId}">/oauth/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/accounts/{topAccountId}">/accounts/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/hal/{topAccountId}">/hal/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/halreport/index.html?mccId={topAccountId}">/halreport/index.html?mccId={topAccountId}</a></div>
+  <div></div>
+  <div id='topAccountId'><a href="/reportaccount/{topAccountId}">/reportaccount/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportcampaign/{topAccountId}">/reportcampaign/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportadgroup/{topAccountId}">/reportadgroup/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportad/{topAccountId}">/reportad/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportkeyword/{topAccountId}">/reportkeyword/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportadextension/{topAccountId}">/reportadextension/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/reportcampaignnegativekeyword/{topAccountId}">/reportcampaignnegativekeyword/{topAccountId}</a></div>
+  <div></div>
+  <div id='topAccountId'><a href="/generatereports/{topAccountId}">/generatereports/{topAccountId}</a></div>
+  <div id='topAccountId'><a href="/generatehals/{topAccountId}">/generatehals/{topAccountId}</a></div>
+  <div></div>
+  <div id='topAccountId'><a href="/oauth/user/login">Login</a></div>
+  <div id='topAccountId'><a href="/oauth/user/logout">Logout</a></div>
+  <div id='topAccountId'><a href="/oauth/user/user">User Info</a></div>
+  
+  
+</div>
+<div class="right-column">
+
+  <div>List MCC and User information</div>
+  <div>Register and Authenticate a MCC</div>  
+  <div>List all Accounts</div>
+  <div>Hal Reporting for all Accounts</div>
+  <div>Get Hal raw info for all Accounts</div>
+  <div></div>
+  <div>Get Account reports for all Accounts</div>
+  <div>Get Campaign reports for all Accounts</div>
+  <div>Get AdGroup reports for all Accounts</div>
+  <div>Get Ad reports for all Accounts</div>
+  <div>Get Keyword reports for all Accounts</div>
+  <div>Get Ad Extension reports for all Accounts</div>
+  <div>Get Campaign Negative Keywords reports for all Accounts</div>
+  <div></div>
+  <div>Generate Reports Tasks for the MCC</div>
+  <div>Generate Hals Tasks for the MCC</div>
+  
+</div>
+</div>
+	
+  </body>
+</html>
