@@ -26,6 +26,7 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.jaxb.v201309.ReportDefinition;
@@ -99,7 +100,7 @@ public class ReportProcessorTest {
     appCtx = new ClassPathXmlApplicationContext("classpath:aw-report-test-beans.xml");
 
     reportProcessor =
-        new ReportProcessor("1", "token", "companyName", "clientId", "clientSecret", 10, 2);
+        new ReportProcessor("1", "token", "companyName", "clientId", "clientSecret", 10, 2, ReportWriterType.FileSystemWriter);
 
     MockitoAnnotations.initMocks(this);
 

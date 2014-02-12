@@ -14,6 +14,7 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.util;
 
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter;
 import com.lowagie.text.DocumentException;
 import com.samskivert.mustache.Mustache;
 
@@ -21,12 +22,16 @@ import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.XMLResource;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 
 /**
@@ -43,20 +48,18 @@ public class HTMLExporter {
    *
    * @param map the data from the Report
    * @param templateFile where to read out the HTML template
-   * @param outputFile where to write out the HTML
+   * @param reportWriter the ReportWriter to which HTML should be written
    * @throws IOException error writing HTML file
    * @throws FileNotFoundException error reading template file
    */
   public static void exportHTML(final Map<String, Object> map,
-      File templateFile, final File outputFile) throws IOException {
-
+      File templateFile, ReportWriter reportWriter) throws IOException {
     FileReader templateReader = new FileReader(templateFile);
-    FileWriter fileWriter = new FileWriter(outputFile);
+//    FileWriter fileWriter = new FileWriter(outputFile);
+    Mustache.compiler().compile(templateReader).execute(map, reportWriter);
 
-    Mustache.compiler().compile(templateReader).execute(map, fileWriter);
-
-    fileWriter.flush();
-    fileWriter.close();
+    reportWriter.flush();
+    reportWriter.close();
     templateReader.close();
   }
 
@@ -64,11 +67,11 @@ public class HTMLExporter {
    * Convert a given HTML file to a PDF file
    *
    * @param inFile The HTML file
-   * @param outFile The resulting PDF file
+   * @param reportWriter the ReportWriter to which HTML should be written
    * @throws DocumentException error creating PDF file
    * @throws IOException error closing file
    */
-  public static void convertHTMLtoPDF(File inFile, File outFile)
+  public static void convertHTMLtoPDF(File inFile, ReportWriter reportWriter)
       throws DocumentException, IOException {
 
     FileReader htmlReader = new FileReader(inFile);
@@ -80,12 +83,14 @@ public class HTMLExporter {
     renderer.setDocument(document, null);
 
     renderer.layout();
+    
+//    FileOutputStream fos = new FileOutputStream(outFile);
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    renderer.createPDF(outputStream, true);
+    ByteArrayInputStream is = new ByteArrayInputStream(outputStream.toByteArray());
+    reportWriter.write(is);
 
-    FileOutputStream fos = new FileOutputStream(outFile);
-
-    renderer.createPDF(fos, true);
-
-    fos.flush();
-    fos.close();
+    outputStream.flush();
+    outputStream.close();
   }
 }

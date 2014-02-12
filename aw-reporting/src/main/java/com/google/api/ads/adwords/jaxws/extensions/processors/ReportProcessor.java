@@ -14,6 +14,30 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.processors;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import au.com.bytecode.opencsv.bean.MappingStrategy;
+
 import com.google.api.ads.adwords.jaxws.extensions.ManagedCustomerDelegate;
 import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AnnotationBasedMappingStrategy;
@@ -24,6 +48,12 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.Auth
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter.FileSystemReportWriterBuilder;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.GoogleDriveReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter.ReportFileType;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.jaxws.extensions.util.GetRefreshToken;
 import com.google.api.ads.adwords.jaxws.extensions.util.HTMLExporter;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ApiException;
@@ -45,30 +75,6 @@ import com.google.api.client.util.Sets;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
-import au.com.bytecode.opencsv.bean.MappingStrategy;
-
-import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 /**
  * Main reporting processor responsible for downloading and saving the files to
  * the file system. The persistence of the parsed beans is delegated to the
@@ -76,6 +82,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author jtoledo@google.com (Julian Toledo)
  * @author gustavomoreira@google.com (Gustavo Moreira)
+ * @author joeltoby@google.com (Joel Toby)
  */
 @Component
 public class ReportProcessor {
@@ -108,6 +115,7 @@ public class ReportProcessor {
   private String developerToken = null;
   private String mccAccountId = null;
   private String companyName = null;
+  private ReportWriterType reportWriterType = null;
 
   private int reportRowsSetSize = REPORT_BUFFER_DB;
   private int numberOfReportProcessors = NUMBER_OF_REPORT_PROCESSORS;
@@ -136,13 +144,15 @@ public class ReportProcessor {
       @Value(value = "${clientId}") String clientId,
       @Value(value = "${clientSecret}") String clientSecret,
       @Value(value = "${aw.report.processor.rows.size:}") Integer reportRowsSetSize,
-      @Value(value = "${aw.report.processor.threads:}") Integer numberOfReportProcessors) {
+      @Value(value = "${aw.report.processor.threads:}") Integer numberOfReportProcessors,
+      @Value(value = "${aw.report.processor.reportwritertype:}") ReportWriterType reportWriterType) {
 
     this.mccAccountId = mccAccountId;
     this.developerToken = developerToken;
     this.companyName = companyName;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
+    this.reportWriterType = reportWriterType;
 
     if (reportRowsSetSize != null && reportRowsSetSize > 0) {
       this.reportRowsSetSize = reportRowsSetSize;
@@ -760,7 +770,7 @@ public class ReportProcessor {
    * @throws Exception error creating PDF
    */
   public void generatePdf(String dateStart, String dateEnd, Properties properties,
-      File htmlTemplateFile, File outputDirectory, boolean sumAdExtensions) throws Exception {
+      File htmlTemplateFile, String outputDirectory, boolean sumAdExtensions) throws Exception {
 
     LOGGER.info("Starting PDF Generation");
     Map<String, Object> reportMap = Maps.newHashMap();
@@ -795,12 +805,33 @@ public class ReportProcessor {
             "Report_" + accountId + "_" + dateStart + "_" + dateEnd + ".html");
         File pdfFile = new File(outputDirectory,
             "Report_" + accountId + "_" + dateStart +  "_" + dateEnd + ".pdf");
-
+        
+        // Construct report writers
+        ReportWriter htmlReportWriter;
+        ReportWriter pdfReportWriter;
+        
+        if (reportWriterType != null && reportWriterType.equals(ReportWriterType.GoogleDriveWriter.name())) {
+          
+          LOGGER.debug("Constructing Google Drive Report Writers to write reports");
+          htmlReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, ReportFileType.HTML).build();
+          pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+        } else {
+          
+          LOGGER.debug("Constructing File System Report Writers to write reports");
+          htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.HTML).build();
+          pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+          
+        }
+        
         LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
-        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlFile);
+        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
 
         LOGGER.debug("Converting HTML to PDF for account: " + accountId);
-        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfFile);
+        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfReportWriter);
       }
     }
   }

@@ -135,7 +135,7 @@ public class AwReporting {
         // Get HTML template and output directory
         String[] pdfFiles = cmdLine.getOptionValues("generatePdf");
         File htmlTemplateFile = new File(pdfFiles[0]);
-        File outputDirectory = new File(pdfFiles[1]);
+        String outputDirectory = pdfFiles[1];
         boolean sumAdExtensions = false;
         
         if (cmdLine.hasOption("sumAdExtensions")) {

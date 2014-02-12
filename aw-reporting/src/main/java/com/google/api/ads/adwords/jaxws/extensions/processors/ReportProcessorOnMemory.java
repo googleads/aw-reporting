@@ -23,6 +23,11 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.Auth
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.GoogleDriveReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriterType;
+import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter.ReportFileType;
 import com.google.api.ads.adwords.jaxws.extensions.util.GetRefreshToken;
 import com.google.api.ads.adwords.jaxws.extensions.util.HTMLExporter;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ApiException;
@@ -69,6 +74,7 @@ import java.util.concurrent.TimeUnit;
  * 
  * @author jtoledo@google.com (Julian Toledo)
  * @author gustavomoreira@google.com (Gustavo Moreira)
+ * @author joeltoby@google.com (Joel Toby)
  */
 @Component
 public class ReportProcessorOnMemory {
@@ -96,6 +102,7 @@ public class ReportProcessorOnMemory {
   private String developerToken = null;
   private String mccAccountId = null;
   private String companyName = null;
+  private ReportWriterType reportWriterType = null;
 
   private int reportRowsSetSize = REPORT_BUFFER_DB;
   private int numberOfReportProcessors = NUMBER_OF_REPORT_PROCESSORS;
@@ -124,7 +131,8 @@ public class ReportProcessorOnMemory {
       @Value(value = "${clientId}") String clientId,
       @Value(value = "${clientSecret}") String clientSecret,
       @Value(value = "${aw.report.processor.rows.size:}") Integer reportRowsSetSize,
-      @Value(value = "${aw.report.processor.threads:}") Integer numberOfReportProcessors) {
+      @Value(value = "${aw.report.processor.threads:}") Integer numberOfReportProcessors,
+      @Value(value = "${aw.report.processor.reportwritertype:}") ReportWriterType reportWriterType) {
 
     this.mccAccountId = mccAccountId;
     this.developerToken = developerToken;
@@ -652,7 +660,7 @@ public class ReportProcessorOnMemory {
    * @throws Exception error creating PDF
    */
   public void generatePdf(String dateStart, String dateEnd, Properties properties,
-      File htmlTemplateFile, File outputDirectory) throws Exception {
+      File htmlTemplateFile, String outputDirectory) throws Exception {
 
     LOGGER.info("Starting PDF Generation");
     Map<String, Object> reportMap = Maps.newHashMap();
@@ -679,12 +687,32 @@ public class ReportProcessorOnMemory {
             "Report_" + accountId + "_" + dateStart + "_" + dateEnd + ".html");
         File pdfFile = new File(outputDirectory,
             "Report_" + accountId + "_" + dateStart +  "_" + dateEnd + ".pdf");
-
+        
+        // Construct report writers
+        ReportWriter htmlReportWriter;
+        ReportWriter pdfReportWriter;
+        
+        if (reportWriterType != null && reportWriterType.equals(ReportWriterType.GoogleDriveWriter.name())) {
+          
+          LOGGER.debug("Constructing Google Drive Report Writers to write reports");
+          htmlReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, ReportFileType.HTML).build();
+          pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+        } else {
+          
+          LOGGER.debug("Constructing File System Report Writers to write reports");
+          htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.HTML).build();
+          pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+        }
+        
         LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
-        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlFile);
+        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
 
         LOGGER.debug("Converting HTML to PDF for account: " + accountId);
-        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfFile);
+        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfReportWriter);
       }
     }
   }
