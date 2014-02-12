@@ -21,13 +21,13 @@
 	<TABLE WIDTH = "100%"><TR><TD>
 	<IMG SRC="FILE:partners-badge.png" width="300px"></IMG>
 		<div id="Partnerlogo" class="media"
-		  data-src="src/main/resources/templates/partners-badge.png"
+		  data-src="partners-badge.png"
 		  style="width: 300px;" 
 		/>
 	</TD><TD>
 	<IMG SRC="FILE:google.jpg" width="200px"></IMG>
 		<div id="logo" class="media"
-		  data-src="src/main/resources/templates/google.jpg"
+		  data-src="google.jpg"
 		  style="width: 200px; position:absolute; top:30px; right:5px; "
 		/>
 	</TD></TR></TABLE>
@@ -62,6 +62,8 @@
 			<th>Status</th>
 			<th>FeedId</th>
 			<th>FeedItemId</th>
+			<th>ClickType</th>
+			<th>Impressions</th>
 			<th>Clicks</th>
 			<th>AvgCPC</th>
 			<th>AvgCPM</th>
@@ -82,6 +84,8 @@
 				<td style="text-align: left; background: #E1EEF4; color: #00496B;">{{status}}</td>
 				<td style="text-align: right;">{{feedId}}</td>
 				<td style="text-align: right; background: #E1EEF4; color: #00496B;">{{feedItemId}}</td>
+				<td style="text-align: right;">{{clickType}}</td>
+				<td style="text-align: right; background: #E1EEF4; color: #00496B;">{{impressions}}</td>
 				<td style="text-align: right;">{{clicks}}</td>
 				<td style="text-align: right; background: #E1EEF4; color: #00496B;">{{avgCpc}}</td>
 				<td style="text-align: right;">{{avgCpm}}</td>

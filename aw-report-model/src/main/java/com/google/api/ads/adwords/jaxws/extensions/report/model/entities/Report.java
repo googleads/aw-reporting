@@ -52,6 +52,7 @@ public abstract class Report implements MongoEntity {
   public static final String DATE_END = "dateEnd";
 
   @Id
+  @com.googlecode.objectify.annotation.Id
   @Column(name = "ROW_ID")
   protected String id;
 

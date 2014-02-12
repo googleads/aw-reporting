@@ -29,6 +29,7 @@ import javax.persistence.Table;
  * @author gustavomoreira@google.com (Gustavo Moreira)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportAdExtension")
 @CsvReport(value = ReportDefinitionReportType.AD_EXTENSIONS_PERFORMANCE_REPORT,
     reportExclusions = {"ExternalCustomerId", "AccountDescriptiveName", "AccountCurrencyCode"})

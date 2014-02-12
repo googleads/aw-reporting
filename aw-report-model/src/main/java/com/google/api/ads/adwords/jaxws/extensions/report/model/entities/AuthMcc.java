@@ -28,10 +28,12 @@ import javax.persistence.Table;
  * @author gustavomoreira@google.com (Gustavo Moreira)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_AuthMcc")
 public class AuthMcc implements MongoEntity {
 
   @Id
+  @com.googlecode.objectify.annotation.Id
   @Column(name = "TOP_ACCOUNT_ID")
   private String topAccountId;
 

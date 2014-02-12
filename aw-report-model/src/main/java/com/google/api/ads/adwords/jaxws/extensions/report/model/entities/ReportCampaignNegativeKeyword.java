@@ -29,6 +29,7 @@ import javax.persistence.Table;
  * @author gustavomoreira@google.com (Gustavo Moreira)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportCampaignNegativeKeyword")
 @CsvReport(value = ReportDefinitionReportType.CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT,
     reportExclusions = {"ExternalCustomerId"})

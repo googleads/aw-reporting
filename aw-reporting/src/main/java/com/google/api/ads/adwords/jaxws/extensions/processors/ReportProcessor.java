@@ -59,6 +59,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -759,7 +760,7 @@ public class ReportProcessor {
    * @throws Exception error creating PDF
    */
   public void generatePdf(String dateStart, String dateEnd, Properties properties,
-      File htmlTemplateFile, File outputDirectory) throws Exception {
+      File htmlTemplateFile, File outputDirectory, boolean sumAdExtensions) throws Exception {
 
     LOGGER.info("Starting PDF Generation");
     Map<String, Object> reportMap = Maps.newHashMap();
@@ -772,13 +773,21 @@ public class ReportProcessor {
         if (properties.containsKey(reportType.name())) {
           // Adding each report type rows from DB to the accounts montlyeports list.
 
-          List<Report> montlyReports = Lists.newArrayList(persister.listMonthReports(
+          List<Report> monthlyReports = Lists.newArrayList(persister.listMonthReports(
               csvReportEntitiesMapping.getReportBeanClass(reportType), accountId,
               DateUtil.parseDateTime(dateStart), DateUtil.parseDateTime(dateEnd)));
+          
+          if (sumAdExtensions && reportType.name() == "PLACEHOLDER_FEED_ITEM_REPORT") {
+            Map<String, Integer> adExtensions = new HashMap<String, Integer>();
+            for (Report report : monthlyReports) {
+              System.out.println(report);
+            }
+          }
 
-          reportMap.put(reportType.name(), montlyReports);
+          reportMap.put(reportType.name(), monthlyReports);
         }
       }
+
 
       if (reportMap != null && reportMap.size() > 0) {
 

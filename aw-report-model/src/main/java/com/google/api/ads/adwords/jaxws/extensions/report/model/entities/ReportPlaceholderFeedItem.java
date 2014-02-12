@@ -20,6 +20,7 @@ import javax.persistence.Table;
  * @author markbowyer@google.com (Mark R. Bowyer)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportPlaceholderFeedItem")
 @CsvReport(value = ReportDefinitionReportType.PLACEHOLDER_FEED_ITEM_REPORT)
 public class ReportPlaceholderFeedItem extends ReportBase {

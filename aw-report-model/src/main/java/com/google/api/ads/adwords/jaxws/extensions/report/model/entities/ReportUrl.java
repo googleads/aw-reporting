@@ -19,6 +19,7 @@ import javax.persistence.Table;
  * @author nafis@google.com (Nafis Zebarjadi)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportURL")
 @CsvReport(value = ReportDefinitionReportType.URL_PERFORMANCE_REPORT,
     reportExclusions = {"AveragePosition", "Device", "ClickType"})

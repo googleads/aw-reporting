@@ -195,6 +195,11 @@
 			<version>2.3-eb</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.googlecode.objectify</groupId>
+			<artifactId>objectify</artifactId>
+			<version>4.0</version>
+		</dependency>
 	</dependencies>
 
 	<reporting>

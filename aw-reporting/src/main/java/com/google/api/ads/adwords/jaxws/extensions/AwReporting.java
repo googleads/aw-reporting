@@ -127,7 +127,7 @@ public class AwReporting {
       LOGGER.debug("Creating ReportProcessor bean...");
       ReportProcessor processor = createReportProcessor();
       LOGGER.debug("... success.");
-
+      
       if (cmdLine.hasOption("generatePdf")) {
 
         LOGGER.debug("GeneratePDF option detected.");
@@ -136,13 +136,19 @@ public class AwReporting {
         String[] pdfFiles = cmdLine.getOptionValues("generatePdf");
         File htmlTemplateFile = new File(pdfFiles[0]);
         File outputDirectory = new File(pdfFiles[1]);
+        boolean sumAdExtensions = false;
+        
+        if (cmdLine.hasOption("sumAdExtensions")) {
+          LOGGER.debug("sumAdExtensions option detected.");
+          sumAdExtensions = true;
+        }
 
         LOGGER.debug("Html template file to be used: " + htmlTemplateFile);
         LOGGER.debug("Output directory for PDF: " + outputDirectory);
 
         // Generate PDFs
         processor.generatePdf(cmdLine.getOptionValue("startDate"),
-            cmdLine.getOptionValue("endDate"), properties, htmlTemplateFile, outputDirectory);
+            cmdLine.getOptionValue("endDate"), properties, htmlTemplateFile, outputDirectory, sumAdExtensions);
 
       } else if (cmdLine.hasOption("startDate") && cmdLine.hasOption("endDate")) {
         // Generate Reports
@@ -280,6 +286,12 @@ public class AwReporting {
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("verbose"));
 
+    OptionBuilder.withArgName("sumAdExtensions");
+    OptionBuilder.hasArg(false);
+    OptionBuilder.withDescription("The application will include calculated sums for AdExtension reporting in HTML/PDF reports.");
+    OptionBuilder.isRequired(false);
+    options.addOption(OptionBuilder.create("sumAdExtensions"));
+    
     OptionBuilder.withArgName("debug");
     OptionBuilder.hasArg(false);
     OptionBuilder.withDescription("Will display all the debug information. "
@@ -306,7 +318,7 @@ public class AwReporting {
         .printHelp(
             " java -Xmx1G -jar aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD "
                 + "-file <file>\n java -Xmx1G -jar aw-reporting.jar "
-                + "-generatePdf <htmlTemplateFile> <outputDirectory> "
+                + "-generatePdf <htmlTemplateFile> <outputDirectory> -sumAdExtensions "
                 + "-startDate YYYYMMDD -endDate YYYYMMDD -file <file>",
             "\nArguments:", options, "");
     System.out.println();

@@ -32,6 +32,7 @@ import javax.persistence.Table;
  * @author gustavomoreira@google.com (Gustavo Moreira)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportCampaign")
 @CsvReport(value = ReportDefinitionReportType.CAMPAIGN_PERFORMANCE_REPORT)
 public class ReportCampaign extends ReportBase {

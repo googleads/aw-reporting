@@ -31,6 +31,7 @@ import javax.persistence.Table;
  * @author marcwan@google.com (Marc Wandschneider)
  */
 @Entity
+@com.googlecode.objectify.annotation.Entity
 @Table(name = "AW_ReportDestinationUrl")
 @CsvReport(value = ReportDefinitionReportType.DESTINATION_URL_REPORT)
 public class ReportDestinationUrl extends ReportBase {
