@@ -19,6 +19,8 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.mong
 
 import org.joda.time.DateTime;
 
+import com.googlecode.objectify.annotation.Index;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -56,24 +58,29 @@ public abstract class Report implements MongoEntity {
   @Column(name = "ROW_ID")
   protected String id;
 
+  @Index
   @Column(name = "PARTNER_ID")
   protected Long partnerId;
 
+  @Index
   @Column(name = "TOP_ACCOUNT_ID")
   protected Long topAccountId;
 
   @Column(name = "TIMESTAMP")
   protected Date timestamp;
 
+  @Index
   @Column(name = "DATE_START")
   protected String dateStart;
 
+  @Index
   @Column(name = "DATE_END")
   protected String dateEnd;
 
   @Column(name = "DATE_RANGE_TYPE")
   protected String dateRangeType;
 
+  @Index
   @Column(name = "ACCOUNT_ID")
   @CsvField(value = "Customer ID", reportField = "ExternalCustomerId")
   protected Long accountId;

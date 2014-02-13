@@ -1,7 +1,9 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.util;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -48,14 +50,18 @@ public class BigDecimalUtil {
 
       } else if (indexOfComma > indexOfDot) {
         nonSpacedString = nonSpacedString.replaceAll("[.]", "");
-        format = new DecimalFormat("##,#");
+        
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols();
+        otherSymbols.setDecimalSeparator(',');
+        format = new DecimalFormat("##,#", otherSymbols);
 
       } else {
         format = new DecimalFormat();
       }
 
       try {
-        return new BigDecimal(format.parse(nonSpacedString).doubleValue());
+        return new BigDecimal(format.parse(nonSpacedString).doubleValue(),
+            new MathContext(12));
 
       } catch (ParseException e) {
         // unrecognized number format

@@ -19,6 +19,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -43,13 +44,14 @@ import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientRepo
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AnnotationBasedMappingStrategy;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.CsvReportEntitiesMapping;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.NameImprClicks;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter;
-import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter.FileSystemReportWriterBuilder;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.GoogleDriveReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter.ReportFileType;
@@ -119,7 +121,7 @@ public class ReportProcessor {
 
   private int reportRowsSetSize = REPORT_BUFFER_DB;
   private int numberOfReportProcessors = NUMBER_OF_REPORT_PROCESSORS;
-
+  
   /**
    * Constructor.
    * 
@@ -788,16 +790,45 @@ public class ReportProcessor {
               DateUtil.parseDateTime(dateStart), DateUtil.parseDateTime(dateEnd)));
           
           if (sumAdExtensions && reportType.name() == "PLACEHOLDER_FEED_ITEM_REPORT") {
-            Map<String, Integer> adExtensions = new HashMap<String, Integer>();
+            Map<String, NameImprClicks> adExtensionsMap = new HashMap<String, NameImprClicks>();
+            NameImprClicks totnic = new NameImprClicks();
+            totnic.clickType = "Headline Totals";
             for (Report report : monthlyReports) {
-              System.out.println(report);
+              String clickType = ((ReportPlaceholderFeedItem)report).getClickType();
+              Long impressions = ((ReportPlaceholderFeedItem)report).getImpressions();
+              Long clicks = ((ReportPlaceholderFeedItem)report).getClicks();
+              if (clickType.equals("Headline")){
+                totnic.clicks += clicks;
+                totnic.impressions += impressions;
+              } else if (adExtensionsMap.containsKey(clickType)) {
+                NameImprClicks oldValues = adExtensionsMap.get(clickType);
+                oldValues.impressions += impressions;
+                oldValues.clicks += clicks;
+                adExtensionsMap.put(clickType, oldValues);
+              } else {
+                NameImprClicks Values = new NameImprClicks(); 
+                Values.impressions = impressions;
+                Values.clicks = clicks;
+                adExtensionsMap.put(clickType, Values);
+              }
             }
+            
+            List<NameImprClicks> adExtensions = new ArrayList<NameImprClicks>();
+            
+            for (Map.Entry<String, NameImprClicks> entry : adExtensionsMap.entrySet()) { 
+              NameImprClicks nic = new NameImprClicks();
+              nic.clickType = entry.getKey();
+              nic.clicks = entry.getValue().clicks;
+              nic.impressions = entry.getValue().impressions;
+              adExtensions.add(nic);
+            }
+            adExtensions.add(totnic);
+            reportMap.put("ADEXTENSIONS", adExtensions);
           }
 
           reportMap.put(reportType.name(), monthlyReports);
         }
       }
-
 
       if (reportMap != null && reportMap.size() > 0) {
 

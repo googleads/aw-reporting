@@ -10,6 +10,7 @@ import au.com.bytecode.opencsv.bean.MappingStrategy;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -43,7 +44,9 @@ import java.util.Map;
  *
  * @param <T> type of sub Report.
  */
-public class AnnotationBasedMappingStrategy<T extends Report> implements MappingStrategy<T> {
+public class AnnotationBasedMappingStrategy<T extends Report> implements MappingStrategy<T>, Serializable {
+
+  private static final long serialVersionUID = 1L;
 
   private Class<T> reportEntityClass;
 

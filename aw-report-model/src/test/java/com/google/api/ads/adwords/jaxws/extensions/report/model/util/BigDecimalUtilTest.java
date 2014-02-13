@@ -36,13 +36,13 @@ public class BigDecimalUtilTest {
     BigDecimal parsed = BigDecimalUtil.parseFromNumberString(sparseString);
 
     Assert.assertEquals(
-        "The parsed value is not the expected.", 0.0000001, 1200300.10, parsed.doubleValue());
+        "The parsed value is not the expected.", 1200300.10, parsed.doubleValue(), 0.0000001);
 
     sparseString = "1,200,300.10";
     parsed = BigDecimalUtil.parseFromNumberString(sparseString);
 
     Assert.assertEquals(
-        "The parsed value is not the expected.", 0.0000001, 1200300.10, parsed.doubleValue());
+        "The parsed value is not the expected.", 1200300.10, parsed.doubleValue(), 0.0000001);
 
   }
 
@@ -56,13 +56,13 @@ public class BigDecimalUtilTest {
     BigDecimal parsed = BigDecimalUtil.parseFromNumberString(sparseString);
 
     Assert.assertEquals(
-        "The parsed value is not the expected.", 0.0000001, 1200300.10, parsed.doubleValue());
+        "The parsed value is not the expected.", 1200300.10, parsed.doubleValue(), 0.0000001);
 
     sparseString = "1.200.300,10";
     parsed = BigDecimalUtil.parseFromNumberString(sparseString);
 
     Assert.assertEquals(
-        "The parsed value is not the expected.", 0.0000001, 1200300.10, parsed.doubleValue());
+        "The parsed value is not the expected.", 1200300.10, parsed.doubleValue(), 0.0000001);
 
   }
 

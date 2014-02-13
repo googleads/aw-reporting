@@ -372,7 +372,7 @@ public abstract class ReportBase extends Report {
   }
 
   public void setAvgCpc(String avgCpc) {
-    this.avgCpc = new BigDecimal(avgCpc);
+    this.avgCpc = BigDecimalUtil.parseFromNumberString(avgCpc);
   }
 
   public String getAvgPosition() {
@@ -384,7 +384,7 @@ public abstract class ReportBase extends Report {
   }
 
   public void setAvgPosition(String avgPosition) {
-    this.avgPosition = new BigDecimal(avgPosition);
+    this.avgPosition = BigDecimalUtil.parseFromNumberString(avgPosition);
   }
 
   public String getCurrencyCode() {

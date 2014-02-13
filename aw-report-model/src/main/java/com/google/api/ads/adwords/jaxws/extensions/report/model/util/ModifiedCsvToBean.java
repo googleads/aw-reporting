@@ -6,6 +6,7 @@ import au.com.bytecode.opencsv.bean.MappingStrategy;
 
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +17,9 @@ import java.util.List;
  *
  * @param <T> the object type
  */
-public class ModifiedCsvToBean<T> extends CsvToBean<T> {
+public class ModifiedCsvToBean<T> extends CsvToBean<T> implements Serializable{
+
+  private static final long serialVersionUID = 1L;
 
   /**
    * Parses the CSV lazily, letting the client class decide when getting new elements.
