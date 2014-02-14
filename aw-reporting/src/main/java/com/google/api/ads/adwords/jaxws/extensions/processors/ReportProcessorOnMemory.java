@@ -56,8 +56,12 @@ import org.springframework.stereotype.Component;
 
 import au.com.bytecode.opencsv.bean.MappingStrategy;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -477,7 +481,7 @@ public class ReportProcessorOnMemory {
     @SuppressWarnings("unchecked")
     Class<R> reportBeanClass = (Class<R>) this.csvReportEntitiesMapping
     .getReportBeanClass(reportType);
-    
+
     final CountDownLatch latch = new CountDownLatch(acountIdList.size());
     ExecutorService executorService = Executors
         .newFixedThreadPool(numberOfReportProcessors);
@@ -683,36 +687,44 @@ public class ReportProcessorOnMemory {
 
       if (reportMap != null && reportMap.size() > 0) {
 
-        File htmlFile = new File(outputDirectory,
-            "Report_" + accountId + "_" + dateStart + "_" + dateEnd + ".html");
-        File pdfFile = new File(outputDirectory,
-            "Report_" + accountId + "_" + dateStart +  "_" + dateEnd + ".pdf");
-        
-        // Construct report writers
-        ReportWriter htmlReportWriter;
-        ReportWriter pdfReportWriter;
-        
         if (reportWriterType != null && reportWriterType.equals(ReportWriterType.GoogleDriveWriter.name())) {
-          
-          LOGGER.debug("Constructing Google Drive Report Writers to write reports");
-          htmlReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
-              accountId, dateStart, dateEnd, ReportFileType.HTML).build();
-          pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
-              accountId, dateStart, dateEnd, ReportFileType.PDF).build();
-        } else {
-          
-          LOGGER.debug("Constructing File System Report Writers to write reports");
-          htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
-              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.HTML).build();
-          pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
-              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.PDF).build();
-        }
-        
-        LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
-        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
 
-        LOGGER.debug("Converting HTML to PDF for account: " + accountId);
-        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfReportWriter);
+          LOGGER.debug("Constructing Google Drive Report Writers to write reports");
+
+          // Get HTML report as InputStream to avoid writing to Drive
+          LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
+          ByteArrayOutputStream htmlReportOutput = new ByteArrayOutputStream();
+          OutputStreamWriter htmlOutputStreamWriter = new OutputStreamWriter(htmlReportOutput);
+          HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlOutputStreamWriter);
+          InputStream htmlReportInput = new ByteArrayInputStream(htmlReportOutput.toByteArray());
+
+          GoogleDriveReportWriter pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, clientId, clientSecret).build();
+
+          LOGGER.debug("Converting HTML to PDF for account: " + accountId);
+          HTMLExporter.convertHTMLtoPDF(htmlReportInput, pdfReportWriter);
+
+          htmlOutputStreamWriter.close();
+          htmlReportInput.close();
+          pdfReportWriter.close();
+
+        } else {
+
+          LOGGER.debug("Constructing File System Report Writers to write reports");
+          FileSystemReportWriter htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.HTML).build();
+          FileSystemReportWriter pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+              outputDirectory, accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+
+          LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
+          HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
+
+          LOGGER.debug("Converting HTML to PDF for account: " + accountId);
+          HTMLExporter.convertHTMLtoPDF(htmlReportWriter.getOutputFile(), pdfReportWriter);
+
+          htmlReportWriter.close();
+          pdfReportWriter.close();
+        }
       }
     }
   }

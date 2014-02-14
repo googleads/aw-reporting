@@ -14,9 +14,13 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.processors;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +57,6 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.GoogleDriveReportWriter;
-import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter.ReportFileType;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.jaxws.extensions.util.GetRefreshToken;
@@ -831,38 +834,45 @@ public class ReportProcessor {
       }
 
       if (reportMap != null && reportMap.size() > 0) {
-
-        File htmlFile = new File(outputDirectory,
-            "Report_" + accountId + "_" + dateStart + "_" + dateEnd + ".html");
-        File pdfFile = new File(outputDirectory,
-            "Report_" + accountId + "_" + dateStart +  "_" + dateEnd + ".pdf");
         
-        // Construct report writers
-        ReportWriter htmlReportWriter;
-        ReportWriter pdfReportWriter;
-        
-        if (reportWriterType != null && reportWriterType.equals(ReportWriterType.GoogleDriveWriter.name())) {
+        if (reportWriterType != null && reportWriterType == ReportWriterType.GoogleDriveWriter) {
           
           LOGGER.debug("Constructing Google Drive Report Writers to write reports");
-          htmlReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
-              accountId, dateStart, dateEnd, ReportFileType.HTML).build();
-          pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
-              accountId, dateStart, dateEnd, ReportFileType.PDF).build();
+          
+          // Get HTML report as inputstream to avoid writing to Drive
+          LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
+          ByteArrayOutputStream htmlReportOutput = new ByteArrayOutputStream();
+          OutputStreamWriter htmlOutputStreamWriter = new OutputStreamWriter(htmlReportOutput);
+          HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlOutputStreamWriter);
+          InputStream htmlReportInput = new ByteArrayInputStream(htmlReportOutput.toByteArray());
+          
+          GoogleDriveReportWriter pdfReportWriter = new GoogleDriveReportWriter.GoogleDriveReportWriterBuilder(
+              accountId, dateStart, dateEnd, clientId, clientSecret).build();
+
+          LOGGER.debug("Converting HTML to PDF for account: " + accountId);
+          HTMLExporter.convertHTMLtoPDF(htmlReportInput, pdfReportWriter);
+          
+          htmlOutputStreamWriter.close();
+          htmlReportInput.close();
+          pdfReportWriter.close();
+          
         } else {
           
           LOGGER.debug("Constructing File System Report Writers to write reports");
-          htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+          FileSystemReportWriter htmlReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
               outputDirectory, accountId, dateStart, dateEnd, ReportFileType.HTML).build();
-          pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
+          FileSystemReportWriter pdfReportWriter = new FileSystemReportWriter.FileSystemReportWriterBuilder(
               outputDirectory, accountId, dateStart, dateEnd, ReportFileType.PDF).build();
           
-        }
-        
-        LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
-        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
+          LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
+          HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlReportWriter);
 
-        LOGGER.debug("Converting HTML to PDF for account: " + accountId);
-        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfReportWriter);
+          LOGGER.debug("Converting HTML to PDF for account: " + accountId);
+          HTMLExporter.convertHTMLtoPDF(htmlReportWriter.getOutputFile(), pdfReportWriter);
+          
+          htmlReportWriter.close();
+          pdfReportWriter.close();
+        }
       }
     }
   }

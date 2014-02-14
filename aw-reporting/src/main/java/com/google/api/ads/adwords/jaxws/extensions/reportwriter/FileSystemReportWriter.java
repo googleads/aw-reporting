@@ -15,7 +15,6 @@
 package com.google.api.ads.adwords.jaxws.extensions.reportwriter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class FileSystemReportWriter extends ReportWriter {
   private final String dateStart;
   private final String dateEnd;
   private final ReportFileType reportFileType;
-  private File outputFile;
+  private final File outputFile;
   
   private FileSystemReportWriter(FileSystemReportWriterBuilder builder) throws IOException {
     this.outputDirectory = builder.outputDirectory;
@@ -52,6 +51,57 @@ public class FileSystemReportWriter extends ReportWriter {
     fileWriter = new FileWriter(outputFile);
   }
   
+  /**
+   * @return the fileWriter
+   */
+  public FileWriter getFileWriter() {
+    return fileWriter;
+  }
+
+  /**
+   * @return the outputDirectory
+   */
+  public String getOutputDirectory() {
+    return outputDirectory;
+  }
+
+  /**
+   * @return the accountId
+   */
+  public long getAccountId() {
+    return accountId;
+  }
+
+  /**
+   * @return the dateStart
+   */
+  public String getDateStart() {
+    return dateStart;
+  }
+
+  /**
+   * @return the dateEnd
+   */
+  public String getDateEnd() {
+    return dateEnd;
+  }
+
+  /**
+   * @return the reportFileType
+   */
+  public ReportFileType getReportFileType() {
+    return reportFileType;
+  }
+
+  /**
+   * @return the outputFile
+   */
+  public File getOutputFile() {
+    return outputFile;
+  }
+
+
+
   public static class FileSystemReportWriterBuilder {
     private final String outputDirectory;
     private final long accountId;
@@ -92,7 +142,6 @@ public class FileSystemReportWriter extends ReportWriter {
 
   @Override
   public void write(InputStream inputStream) throws IOException {
-
     OutputStream outputStream = new FileOutputStream(outputFile);
     int read = 0;
     byte[] bytes = new byte[1024];
