@@ -39,8 +39,7 @@ import com.google.api.services.drive.model.ParentReference;
 
 public class GoogleDriveReportWriter extends ReportWriter {
   
-  private static final Logger LOGGER = Logger
-      .getLogger(GoogleDriveReportWriter.class);
+  private static final Logger LOGGER = Logger.getLogger(GoogleDriveReportWriter.class);
   
   private static final ReportFileType REPORT_FILE_TYPE = ReportFileType.PDF;
   
@@ -53,14 +52,15 @@ public class GoogleDriveReportWriter extends ReportWriter {
   private final long accountId;
   private final String dateStart;
   private final String dateEnd;
+  private final boolean folderPerAccount;
   private Drive driveService;
   
   
   private GoogleDriveReportWriter(GoogleDriveReportWriterBuilder builder) throws IOException {
-//    this.outputDirectory = builder.outputDirectory;
     this.accountId = builder.accountId;
     this.dateStart = builder.dateStart;
     this.dateEnd = builder.dateEnd;
+    this.folderPerAccount = builder.folderPerAccount;
     
     driveService = GoogleDriveService.getInstance().getDriveService();
   }
@@ -92,27 +92,40 @@ public class GoogleDriveReportWriter extends ReportWriter {
   public ReportFileType getReportFileType() {
     return REPORT_FILE_TYPE;
   }
-
-//  /**
-//   * @return the outputFile
-//   */
-//  public File getOutputFile() {
-//    return outputFile;
-//  }
-
-
-
+  
+  /**
+   * @return true if a sub-folder is created per account
+   */
+  public boolean isFolderPerAccount() {
+    return folderPerAccount;
+  }
+  
+  /**
+   * Builder for the {@link GoogleDriveReportWriter}.
+   * @author joeltoby
+   *
+   */
   public static class GoogleDriveReportWriterBuilder {
-//    private final String outputDirectory;
     private final long accountId;
     private final String dateStart;
     private final String dateEnd;
+    private boolean folderPerAccount = false;
     
     public GoogleDriveReportWriterBuilder(long accountId, String dateStart, 
         String dateEnd, String clientId, String clientSecret) {
       this.accountId = accountId;
       this.dateStart = dateStart;
       this.dateEnd = dateEnd;
+    }
+    
+    /**
+     * If set to true, a sub folder will be created on Google Drive for each account.
+     * @param folderPerAccount
+     * @return
+     */
+    public GoogleDriveReportWriterBuilder withFolderPerAccount(boolean folderPerAccount) {
+      this.folderPerAccount = folderPerAccount;
+      return this;
     }
     
     public GoogleDriveReportWriter build() throws IOException {
@@ -143,14 +156,19 @@ public class GoogleDriveReportWriter extends ReportWriter {
     // Get or create an AW Reports folder
     File reportsFolder = getReportsFolder();
     
+    // Create a Google Drive PDF file
     File reportPdfFile = new File();
     reportPdfFile.setFileExtension(REPORT_FILE_TYPE.name());
     reportPdfFile.setDescription("AdWords Report for account " + accountId + "for dates between" 
         + dateStart + " and " + dateEnd);
-    reportPdfFile.setTitle("Report_" + accountId + "_" + dateStart + "_" + dateEnd);
+    reportPdfFile.setTitle("Report_" + accountId + "_" + dateStart + "_" + dateEnd + "."
+        + REPORT_FILE_TYPE.name().toLowerCase());
     reportPdfFile.setMimeType(PDF_MIME_TYPE);
+    
+    // Place the file in the correct Drive folder
     reportPdfFile.setParents(Arrays.asList(new ParentReference().setId(reportsFolder.getId())));
     
+    // Write the file to Drive.
     AbstractInputStreamContent aisc = new InputStreamContent("application/pdf", inputStream);
     driveService.files().insert(reportPdfFile, aisc).execute();
     
