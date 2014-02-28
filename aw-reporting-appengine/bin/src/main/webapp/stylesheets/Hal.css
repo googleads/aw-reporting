@@ -1,0 +1,245 @@
+/*
+Copyright 2011 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+body {
+  background-color: #fff;
+}
+
+body, td {
+  font-family:verdana;
+}
+
+#title {
+  display:inline;
+  float:left;
+  margin-bottom: 10px;
+}
+
+progress {
+  clear:both;
+  width:300px;
+}
+
+#dates {
+  padding-left:100px;
+  color:#999;
+}
+
+#firstTimeUsage {
+  display: none;
+  position: fixed;
+  left:0px;
+  right:0px;
+  top:0px;
+  bottom:0px;
+  background-color: #eee;
+}
+#firstTimeUsage > div {
+  background-color: #fff;
+  box-shadow: 2px 2px 8px #ccc;
+  color:#777;
+  text-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+  font-family:Open Sans;
+  border:1px solid #ddd;
+  margin:50px auto;
+  padding:20px;
+  border-radius:12px;
+  width:960px;
+}
+
+
+button {
+  text-decoration:underline;
+  color:blue;
+  border:none;
+  background:none;
+  display:block;
+  cursor: pointer;
+}
+#firstTimeUsage button {
+  margin-left:920px;
+}
+
+#firstTimeUsage h1 {
+  font-style: italic;
+  margin-top:0px;
+  margin-bottom:10px;
+}
+#firstTimeUsage h2, #firstTimeUsage h3 {
+  font-size:20px;
+}
+
+#firstTimeUsage video {
+  margin-left:10px;
+}
+
+#csvDownload, #htmlDownload {
+  display: none;
+  text-decoration:none;
+  color:blue;
+  font-size:12px;
+  padding-left:10px;
+}
+#csvDownload:hover, #htmlDownload:hover {
+  text-decoration:underline;
+  color:red;
+  cursor:pointer;
+}
+
+svg text {
+  fill:white;
+  cursor:pointer;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.accountData {
+  position: fixed;
+  top:0px;
+  left:0px;
+  right:0px;
+  bottom:0px;
+  background:white;
+  padding:20px;
+  border:10px solid #9BC;
+}
+.accountData .title {
+  font-weight:bold;
+  color:#256;
+  font-size:16px;
+  padding-bottom:20px;
+}
+.accountDataSet {
+  width:600px;
+  float:left;
+}
+.accountDataKey {
+  width:440px;
+  font-weight:bold;
+  float:left;
+  text-align:right;
+}
+.accountDataValue {
+  width:140px;
+  font-color:#BDE;
+  float:right;
+  padding-left:10px;
+}
+.accountData button {
+  clear:both;
+  margin-left:45% ;
+  display:block;
+}
+
+#reportTable {
+  clear:both;
+  border-collapse:collapse;
+  margin-top:5px;
+  border:10px solid white;
+  box-shadow: 0px 0px 7px #999;
+}
+
+td:first-child {
+  width:256px;
+}
+
+tr.accountRow:hover {
+  opacity: 0.8;
+}
+
+th {
+  cursor:pointer;
+}
+
+th, td {
+  border:1px solid white;
+  font-size:10px;
+  font-family:verdana;
+  background-color: #256;
+  color: #fff;
+  vertical-align:bottom;
+  padding:3px;
+  white-space:nowrap;
+}
+th.disabled {
+  background-color:#89A;
+}
+td.disabled {
+  background-color:#CDD;
+}
+td {
+  border:1px solid lightgrey;
+  background-color:#fff;
+  color: #000;
+}
+td a {
+  color:#000;
+  text-decoration:none;
+}
+.string {
+  text-align:left;
+}
+.int, .float, .amount, .percentage {
+  text-align:right;
+}
+.boolean {
+  width:25px;
+  text-align:center;
+}
+#HalSignalAdjustments {
+  position: fixed;
+  right:0px;
+  top:0px;
+  width:600px;
+  height:440px;
+  background:white;
+  padding:20px;
+  margin:10px;
+  border:10px solid #9BC;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#HalSignalAdjustments header {
+  padding-bottom:10px;
+}
+#HalSignalAdjustments button {
+  clear:both;
+  margin-left:45% ;
+  display:block;
+}
+#chart {
+  padding:none;
+  clear:both;
+  width:600px;
+  height:300px;
+}
+
+.sliderContainer {
+  float:left;
+  margin:5px; 
+}
+.sliderContainer label {
+}
+.sliderContainer span {
+  font-weight:bold;
+  float:right;
+}
+.sliderContainer input {
+  display:block;
+}

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.api.ads.adwords.jaxws.extensions.processors;
+package com.google.api.ads.adwords.jaxws.extensions.processors.onfile;
 
 import com.google.api.ads.adwords.jaxws.extensions.downloader.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AwReportCsvReader;
@@ -55,9 +55,9 @@ import java.util.concurrent.CountDownLatch;
  * 
  * @param <R> type of sub Report.
  */
-public class RunnableProcessor<R extends Report> implements Runnable {
+public class RunnableProcessorOnFile<R extends Report> implements Runnable {
 
-  private static final Logger LOGGER = Logger.getLogger(RunnableProcessor.class);
+  private static final Logger LOGGER = Logger.getLogger(RunnableProcessorOnFile.class);
 
   private CountDownLatch latch;
 
@@ -78,7 +78,7 @@ public class RunnableProcessor<R extends Report> implements Runnable {
    * @param csvToBean the {@code CsvToBean}
    * @param mappingStrategy
    */
-  public RunnableProcessor(File file,  ModifiedCsvToBean<R> csvToBean,
+  public RunnableProcessorOnFile(File file,  ModifiedCsvToBean<R> csvToBean,
       MappingStrategy<R> mappingStrategy, ReportDefinitionDateRangeType dateRangeType,
       String dateStart, String dateEnd, String mccAccountId, EntityPersister persister,
       Integer reportRowsSetSize) {

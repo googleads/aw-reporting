@@ -94,7 +94,7 @@ public class HTMLExporterTest {
     reportPHFI.setAvgPosition(new BigDecimal(2.2));
     reportPHFI.setClickType("SiteLink");
     reportPHFI.setClicks((long) 33);
-    reportPHFI.setImpressions((long)333);
+    reportPHFI.setImpressions((long) 333);
     reportPHFI.setStatus("ACTIVE");
     reportPHFI.setConversionRate1(new BigDecimal(1.5));
     reportPHFI.setConversionRateMany(new BigDecimal(3.3));

@@ -148,7 +148,8 @@ public class AwReporting {
 
         // Generate PDFs
         processor.generatePdf(cmdLine.getOptionValue("startDate"),
-            cmdLine.getOptionValue("endDate"), properties, htmlTemplateFile, outputDirectory, sumAdExtensions);
+            cmdLine.getOptionValue("endDate"), properties, htmlTemplateFile,
+            outputDirectory, sumAdExtensions);
 
       } else if (cmdLine.hasOption("startDate") && cmdLine.hasOption("endDate")) {
         // Generate Reports
@@ -288,7 +289,8 @@ public class AwReporting {
 
     OptionBuilder.withArgName("sumAdExtensions");
     OptionBuilder.hasArg(false);
-    OptionBuilder.withDescription("The application will include calculated sums for AdExtension reporting in HTML/PDF reports.");
+    OptionBuilder.withDescription("The application will include calculated sums"
+        + "for AdExtension reporting in HTML/PDF reports.");
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("sumAdExtensions"));
     

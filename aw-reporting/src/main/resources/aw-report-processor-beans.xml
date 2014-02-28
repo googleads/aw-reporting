@@ -9,10 +9,14 @@
   ">
 
   <context:component-scan
+<<<<<<< HEAD
     base-package="com.google.api.ads.adwords.jaxws.extensions.processors" />
-  
+
+<context:component-scan
+    base-package="com.google.api.ads.adwords.jaxws.extensions.processors.reportwriter" />
+
   <context:component-scan
-    base-package="com.google.api.ads.adwords.jaxws.extensions.reportwriter" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.authentication" />
 
   <bean id="awReportProperties"
     class="com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer">

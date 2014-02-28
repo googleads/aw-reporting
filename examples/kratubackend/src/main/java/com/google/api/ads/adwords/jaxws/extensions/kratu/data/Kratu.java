@@ -362,11 +362,16 @@ public class Kratu implements MongoEntity {
           kratu.totalClicksSearch = reportAccount.getClicks();
           kratu.impressionsSearch = reportAccount.getImpressions();
 
-          kratu.elegibleImpressionsSearch = 
-              new BigDecimal(kratu.impressionsSearch).divide(reportAccount.getSearchImpressionShareBigDecimal().divide(BIGDECIMAL_100), 2, RoundingMode.HALF_UP);
+          if (reportAccount.getSearchImpressionShareBigDecimal() != null  &&
+              reportAccount.getSearchImpressionShareBigDecimal().compareTo(BigDecimal.ZERO) == 1)  {
+            kratu.elegibleImpressionsSearch = new BigDecimal(kratu.impressionsSearch).divide(
+                reportAccount.getSearchImpressionShareBigDecimal().divide(BIGDECIMAL_100), 2, RoundingMode.HALF_UP);
 
-          kratu.lostImpressionsDueToBudgetSearch = reportAccount.getSearchLostISBudgetBigDecimal().divide(BIGDECIMAL_100).multiply(kratu.elegibleImpressionsSearch);
-          kratu.lostImpressionsDueToBidAdRankSearch = reportAccount.getSearchLostISRankBigDecimal().divide(BIGDECIMAL_100).multiply(kratu.elegibleImpressionsSearch);
+            kratu.lostImpressionsDueToBudgetSearch = reportAccount.getSearchLostISBudgetBigDecimal().divide(
+                BIGDECIMAL_100).multiply(kratu.elegibleImpressionsSearch);
+            kratu.lostImpressionsDueToBidAdRankSearch = reportAccount.getSearchLostISRankBigDecimal().divide(
+                BIGDECIMAL_100).multiply(kratu.elegibleImpressionsSearch);
+          }
 
           kratu.ctrSearch = reportAccount.getCtrBigDecimal();
           kratu.averageCpcSearch = reportAccount.getAvgCpcBigDecimal();
@@ -381,11 +386,16 @@ public class Kratu implements MongoEntity {
           kratu.totalClicksDisplay = reportAccount.getClicks();
           kratu.impressionsDisplay = reportAccount.getImpressions();
 
-          kratu.elegibleImpressionsDisplay =
-              new BigDecimal(kratu.impressionsDisplay).divide(reportAccount.getContentImpressionShareBigDecimal().divide(BIGDECIMAL_100), 2, RoundingMode.HALF_UP);
-
-          kratu.lostImpressionsDueToBudgetDisplay = reportAccount.getContentLostISBudgetBigDecimal().divide(BIGDECIMAL_100).multiply(kratu.elegibleImpressionsDisplay);
-          kratu.lostImpressionsDueToBidAdRankDisplay = reportAccount.getContentLostISRankBigDecimal().divide(BIGDECIMAL_100).multiply(kratu.elegibleImpressionsDisplay);          
+          if (reportAccount.getContentImpressionShareBigDecimal() != null  &&
+              reportAccount.getContentImpressionShareBigDecimal().compareTo(BigDecimal.ZERO) == 1)  {
+            kratu.elegibleImpressionsDisplay = new BigDecimal(kratu.impressionsDisplay).divide(
+                reportAccount.getContentImpressionShareBigDecimal().divide(BIGDECIMAL_100), 2, RoundingMode.HALF_UP);
+            
+            kratu.lostImpressionsDueToBudgetDisplay = reportAccount.getContentLostISBudgetBigDecimal().divide(
+                BIGDECIMAL_100).multiply(kratu.elegibleImpressionsDisplay);
+            kratu.lostImpressionsDueToBidAdRankDisplay = reportAccount.getContentLostISRankBigDecimal().divide(
+                BIGDECIMAL_100).multiply(kratu.elegibleImpressionsDisplay);
+          }
 
           kratu.ctrDisplay = reportAccount.getCtrBigDecimal();
           kratu.averageCpcDisplay = reportAccount.getAvgCpcBigDecimal();

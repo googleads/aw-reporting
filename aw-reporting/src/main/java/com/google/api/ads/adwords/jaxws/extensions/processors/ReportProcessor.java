@@ -14,6 +14,7 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.processors;
 
+<<<<<<< HEAD
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -46,42 +47,54 @@ import au.com.bytecode.opencsv.bean.MappingStrategy;
 import com.google.api.ads.adwords.jaxws.extensions.ManagedCustomerDelegate;
 import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AnnotationBasedMappingStrategy;
+=======
+import com.google.api.ads.adwords.jaxws.extensions.authentication.Authenticator;
+>>>>>>> master
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.CsvReportEntitiesMapping;
-import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.NameImprClicks;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportPlaceholderFeedItem;
-import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
+<<<<<<< HEAD
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.FileSystemReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.GoogleDriveReportWriter;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriter.ReportFileType;
 import com.google.api.ads.adwords.jaxws.extensions.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.jaxws.extensions.util.GetRefreshToken;
+=======
+>>>>>>> master
 import com.google.api.ads.adwords.jaxws.extensions.util.HTMLExporter;
+import com.google.api.ads.adwords.jaxws.extensions.util.ManagedCustomerDelegate;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ApiException;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ManagedCustomer;
-import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.jaxb.v201309.DateRange;
 import com.google.api.ads.adwords.lib.jaxb.v201309.DownloadFormat;
 import com.google.api.ads.adwords.lib.jaxb.v201309.ReportDefinition;
 import com.google.api.ads.adwords.lib.jaxb.v201309.ReportDefinitionDateRangeType;
 import com.google.api.ads.adwords.lib.jaxb.v201309.ReportDefinitionReportType;
 import com.google.api.ads.adwords.lib.jaxb.v201309.Selector;
-import com.google.api.ads.common.lib.auth.OfflineCredentials;
-import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
-import com.google.api.ads.common.lib.exception.OAuthException;
-import com.google.api.ads.common.lib.exception.ValidationException;
-import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.util.Maps;
 import com.google.api.client.util.Sets;
-import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 
+<<<<<<< HEAD
+=======
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+>>>>>>> master
 /**
- * Main reporting processor responsible for downloading and saving the files to
+ * Reporting processor, responsible for downloading and saving the files to
  * the file system. The persistence of the parsed beans is delegated to the
  * configured persister.
  * 
@@ -89,23 +102,18 @@ import com.google.common.collect.Lists;
  * @author gustavomoreira@google.com (Gustavo Moreira)
  * @author joeltoby@google.com (Joel Toby)
  */
-@Component
-public class ReportProcessor {
 
-  public static final int REPORT_BUFFER_DB = 1000;
-
-  public static final int NUMBER_OF_REPORT_PROCESSORS = 4;
+public abstract class ReportProcessor {
 
   private static final Logger LOGGER = Logger
       .getLogger(ReportProcessor.class);
 
-  private static final DateFormat TIMESTAMPFORMAT = new SimpleDateFormat(
-      "yyyy-MM-dd-HH_mm");
-
-  private static final String USER_AGENT = "AwReporting";
+  private static final int REPORT_BUFFER_DB = 1000;
+  private static final int NUMBER_OF_REPORT_PROCESSORS = 20;
 
   private static final String REPORT_PREFIX = "AwReporting-";
 
+<<<<<<< HEAD
   private CsvReportEntitiesMapping csvReportEntitiesMapping;
 
   private MultipleClientReportDownloader multipleClientReportDownloader;
@@ -264,123 +272,26 @@ public class ReportProcessor {
    */
   protected AdWordsSession.Builder authenticate(boolean force)
       throws OAuthException, IOException {
+=======
+  protected CsvReportEntitiesMapping csvReportEntitiesMapping;
+>>>>>>> master
 
-    String authToken = this.retrieveAuthToken(force);
-    String localUserAgent = this.buildLocalUserAgent();
+  protected EntityPersister persister;
 
-    Credential oAuth2Credential = null;
-    try {
-      oAuth2Credential = this.buildOAuth2Credentials(authToken);
+  protected Authenticator authenticator;
 
-    } catch (OAuthException e) {
-      if (e.getMessage().contains("Credential could not be refreshed")) {
-        System.out
-        .println("**ERROR** Credential could not be refreshed,"
-            + " we need a new OAuth2 Token");
+  protected String mccAccountId = null;
 
-        authToken = GetRefreshToken.get(this.clientId,
-            this.clientSecret);
-        oAuth2Credential = this.buildOAuth2Credentials(authToken);
+  protected int reportRowsSetSize = REPORT_BUFFER_DB;
 
-        System.out.println("Saving Refresh Token to DB...\n");
-        this.saveAuthTokenToStorage(this.mccAccountId, authToken);
+  protected int numberOfReportProcessors = NUMBER_OF_REPORT_PROCESSORS;
 
-      } else {
-        e.printStackTrace();
-        throw e;
-      }
-    }
+  abstract protected void cacheAccounts(Set<Long> accountIdsSet);
 
-    return new AdWordsSession.Builder()
-    .withOAuth2Credential(oAuth2Credential)
-    .withUserAgent(localUserAgent)
-    .withClientCustomerId(this.mccAccountId)
-    .withDeveloperToken(this.developerToken);
-  }
-
-  /**
-   * Builds the OAuth 2.0 credential for the user
-   * 
-   * @param authToken
-   *            the last authentication token
-   * @return the new {@link Credential}
-   * @throws OAuthException
-   *             error creating the credentials
-   */
-  private Credential buildOAuth2Credentials(String authToken)
-      throws OAuthException {
-
-    try {
-      return new OfflineCredentials.Builder().forApi(Api.ADWORDS)
-          .withRefreshToken(authToken)
-          .withClientSecrets(this.clientId, this.clientSecret)
-          .build().generateCredential();
-    } catch (ValidationException e) {
-
-      e.printStackTrace();
-      throw new IllegalStateException("Builder not set properly. "
-          + "This might mean a bug with the authentication, "
-          + "or the credential values are incorrect.", e);
-    }
-  }
-
-  /**
-   * Retrieves the authentication token by refreshing it if necessary, and
-   * persisting the updated token into the DB.
-   * 
-   * @param force
-   *            if the actual token should be refreshed
-   * @return the valid token for the moment
-   * @throws IOException
-   *             error connecting to authentication server
-   * @throws OAuthException
-   *             error on the OAuth process
-   */
-  private String retrieveAuthToken(boolean force) throws IOException,
-  OAuthException {
-
-    LOGGER.debug("Retrieving auth token from DB.");
-    String authToken = this.getAuthTokenFromStorage(this.mccAccountId);
-
-    // Generate a new Auth token if necessary
-    if ((authToken == null || force)) {
-      try {
-        if (force) {
-          LOGGER.debug("Token refresh FORCED. Getting a new one.");
-        } else {
-          LOGGER.debug("Token not found. Getting one.");
-        }
-        authToken = GetRefreshToken.get(this.clientId,
-            this.clientSecret);
-
-      } catch (IOException e) {
-        if (e.getMessage().contains("Connection reset")) {
-          LOGGER.info("Connection reset when getting authToken, retrying...");
-          this.authenticate(true);
-        } else {
-          LOGGER.error("Error authenticating: " + e.getMessage());
-          e.printStackTrace();
-          throw e;
-        }
-      }
-      LOGGER.info("Saving Refresh Token to DB...");
-      this.saveAuthTokenToStorage(this.mccAccountId, authToken);
-    }
-    return authToken;
-  }
-
-  /**
-   * @return the local user agent built from the global user agent and the
-   *         company name
-   */
-  private String buildLocalUserAgent() {
-
-    String localUserAgent = USER_AGENT;
-    if (this.companyName != null && this.companyName.length() > 0) {
-      localUserAgent += "-" + this.companyName;
-    }
-    return localUserAgent;
-  }
+  abstract public void generateReportsForMCC(
+      ReportDefinitionDateRangeType dateRangeType, String dateStart,
+      String dateEnd, Set<Long> accountIdsSet, Properties properties)
+          throws Exception;
 
   /**
    * Uses the API to retrieve the managed accounts, and extract their IDs.
@@ -395,8 +306,8 @@ public class ReportProcessor {
     try {
 
       LOGGER.info("Account IDs being recovered from the API. This may take a while...");
-      accountIdsSet = new ManagedCustomerDelegate(this
-          .authenticate(false).build()).getAccountIds();
+      accountIdsSet = new ManagedCustomerDelegate(
+          authenticator.authenticate(mccAccountId, false).build()).getAccountIds();
 
     } catch (ApiException e) {
       if (e.getMessage().contains("AuthenticationError")) {
@@ -404,8 +315,8 @@ public class ReportProcessor {
         // retries Auth once for expired Tokens
         LOGGER.info("AuthenticationError, Getting a new Token...");
         LOGGER.info("Account IDs being recovered from the API. This may take a while...");
-        accountIdsSet = new ManagedCustomerDelegate(this.authenticate(
-            true).build()).getAccountIds();
+        accountIdsSet = new ManagedCustomerDelegate(
+            authenticator.authenticate(mccAccountId, true).build()).getAccountIds();
 
       } else {
         LOGGER.error("API error: " + e.getMessage());
@@ -414,39 +325,9 @@ public class ReportProcessor {
       }
     }
 
-    this.cacheAccountsToFile(accountIdsSet);
+    this.cacheAccounts(accountIdsSet);
 
     return accountIdsSet;
-  }
-
-  /**
-   * Caches the accounts into a temporary file.
-   * 
-   * @param accountIdsSet
-   *            the set with all the accounts
-   */
-  private void cacheAccountsToFile(Set<Long> accountIdsSet) {
-
-    DateTime now = new DateTime();
-    String nowFormat = TIMESTAMPFORMAT.format(now.toDate());
-
-    try {
-      File tempFile = File.createTempFile(nowFormat + "-accounts-ids",
-          ".txt");
-      LOGGER.info("Cache file created for accounts: "
-          + tempFile.getAbsolutePath());
-
-      FileWriter writer = new FileWriter(tempFile);
-      for (Long accountId : accountIdsSet) {
-        writer.write(Long.toString(accountId) + "\n");
-      }
-      writer.close();
-      LOGGER.info("All account IDs added to cache file.");
-
-    } catch (IOException e) {
-      LOGGER.error("Could not create temporary file with the accounts. Accounts won't be cached.");
-      e.printStackTrace();
-    }
   }
 
   /**
@@ -460,14 +341,14 @@ public class ReportProcessor {
 
     List<ManagedCustomer> accounts = Lists.newArrayList();
     try {
-      accounts = new ManagedCustomerDelegate(this.authenticate(false)
-          .build()).getAccounts();
+      accounts = new ManagedCustomerDelegate(
+          authenticator.authenticate(mccAccountId, false).build()).getAccounts();
     } catch (ApiException e) {
       if (e.getMessage().contains("AuthenticationError")) {
         // retries Auth once for expired Tokens
         LOGGER.info("AuthenticationError, Getting a new Token...");
-        accounts = new ManagedCustomerDelegate(this.authenticate(true)
-            .build()).getAccounts();
+        accounts = new ManagedCustomerDelegate(
+            authenticator.authenticate(mccAccountId, true).build()).getAccounts();
       } else {
         LOGGER.error("API error: " + e.getMessage());
         e.printStackTrace();
@@ -478,166 +359,88 @@ public class ReportProcessor {
   }
 
   /**
-   * Generate all the mapped reports to the given account IDs.
-   * 
-   * @param dateRangeType
-   *            the date range type.
-   * @param dateStart
-   *            the starting date.
-   * @param dateEnd
-   *            the ending date.
-   * @param accountIdsSet
-   *            the account IDs.
-   * @param properties
-   *            the properties file
-   * @throws Exception
-   *             error reaching the API.
+   * Generates the PDF files from the report data
+   *
+   * @param dateStart the start date for the reports
+   * @param dateEnd the end date for the reports
+   * @param properties the properties file containing all the configuration
+   * @throws Exception error creating PDF
    */
-  public void generateReportsForMCC(
-      ReportDefinitionDateRangeType dateRangeType, String dateStart,
-      String dateEnd, Set<Long> accountIdsSet, Properties properties)
-          throws Exception {
+  public void generatePdf(String dateStart, String dateEnd, Properties properties,
+      File htmlTemplateFile, File outputDirectory, boolean sumAdExtensions) throws Exception {
 
-    LOGGER.info("*** Retrieving account IDs ***");
+    LOGGER.info("Starting PDF Generation");
+    Map<String, Object> reportMap = Maps.newHashMap();
 
-    if (accountIdsSet == null || accountIdsSet.size() == 0) {
-      accountIdsSet = this.retrieveAccountIds();
-    } else {
-      LOGGER.info("Accounts loaded from file.");
-    }
+    for (Long accountId : retrieveAccountIds()) {
+      LOGGER.debug("Retrieving monthly reports for account: " + accountId);
 
-    AdWordsSession.Builder builder = this.authenticate(false);
+      Set<ReportDefinitionReportType> reports = this.csvReportEntitiesMapping.getDefinedReports();
+      for (ReportDefinitionReportType reportType : reports) {
+        if (properties.containsKey(reportType.name())) {
+          // Adding each report type rows from DB to the accounts montlyeports list.
 
-    LOGGER.info("*** Generating Reports for " + accountIdsSet.size()
-        + " accounts ***");
+          List<Report> monthlyReports = Lists.newArrayList(persister.listMonthReports(
+              csvReportEntitiesMapping.getReportBeanClass(reportType), accountId,
+              DateUtil.parseDateTime(dateStart), DateUtil.parseDateTime(dateEnd)));
 
-    Stopwatch stopwatch = new Stopwatch();
-    stopwatch.start();
+          if (sumAdExtensions && reportType.name() == "PLACEHOLDER_FEED_ITEM_REPORT") {
+            Map<String, NameImprClicks> adExtensionsMap = new HashMap<String, NameImprClicks>();
+            int sitelinks = 0;
+            for (Report report : monthlyReports) {
+              String clickType = ((ReportPlaceholderFeedItem) report).getClickType();
+              Long impressions = ((ReportPlaceholderFeedItem) report).getImpressions();
+              Long clicks = ((ReportPlaceholderFeedItem) report).getClicks();
+              if (!clickType.equals("Headline")) {
+                if (clickType.equals("Sitelink")) {
+                  sitelinks++;
+                }
+                if (adExtensionsMap.containsKey(clickType)) {
+                  NameImprClicks oldValues = adExtensionsMap.get(clickType);
+                  oldValues.impressions += impressions;
+                  oldValues.clicks += clicks;
+                  adExtensionsMap.put(clickType, oldValues);
+                } else {
+                  NameImprClicks values = new NameImprClicks(); 
+                  values.impressions = impressions;
+                  values.clicks = clicks;
+                  adExtensionsMap.put(clickType, values);
+                }
+              }
+            }
 
-    Set<ReportDefinitionReportType> reports = this.csvReportEntitiesMapping
-        .getDefinedReports();
+            List<NameImprClicks> adExtensions = new ArrayList<NameImprClicks>();
+            for (Map.Entry<String, NameImprClicks> entry : adExtensionsMap.entrySet()) { 
+              NameImprClicks nic = new NameImprClicks();
+              nic.clickType = entry.getKey();
+              if (nic.clickType.equals("Sitelink")) {
+                nic.clickType = "Sitelinks (x" + sitelinks + ")";
+              }
+              nic.clicks = entry.getValue().clicks;
+              nic.impressions = entry.getValue().impressions;
+              adExtensions.add(nic);
+            }
+            reportMap.put("ADEXTENSIONS", adExtensions);
+          }
 
-    // reports
-    for (ReportDefinitionReportType reportType : reports) {
+          reportMap.put(reportType.name(), monthlyReports);
+        }
+      }
 
-      if (properties.containsKey(reportType.name())) {
-        this.downloadAndProcess(builder, reportType, dateRangeType,
-            dateStart, dateEnd, accountIdsSet, properties);
+      if (reportMap != null && reportMap.size() > 0) {
+
+        File htmlFile = new File(outputDirectory,
+            "Report_" + accountId + "_" + dateStart + "_" + dateEnd + ".html");
+        File pdfFile = new File(outputDirectory,
+            "Report_" + accountId + "_" + dateStart +  "_" + dateEnd + ".pdf");
+
+        LOGGER.debug("Exporting monthly reports to HTML for account: " + accountId);
+        HTMLExporter.exportHTML(reportMap, htmlTemplateFile, htmlFile);
+
+        LOGGER.debug("Converting HTML to PDF for account: " + accountId);
+        HTMLExporter.convertHTMLtoPDF(htmlFile, pdfFile);
       }
     }
-
-    this.multipleClientReportDownloader.finalizeExecutorService();
-
-    stopwatch.stop();
-    LOGGER.info("*** Finished processing all reports in "
-        + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)
-        + " seconds ***\n");
-  }
-
-  /**
-   * Downloads all the files from the API and process all the rows, saving the
-   * data to the configured data base.
-   * 
-   * @param builder
-   *            the session builder.
-   * @param reportType
-   *            the report type.
-   * @param dateRangeType
-   *            the date range type.
-   * @param dateStart
-   *            the start date.
-   * @param dateEnd
-   *            the ending date.
-   * @param acountIdList
-   *            the account IDs.
-   * @param properties
-   *            the properties resource.
-   */
-  private <R extends Report> void downloadAndProcess(
-      AdWordsSession.Builder builder,
-      ReportDefinitionReportType reportType,
-      ReportDefinitionDateRangeType dateRangeType, String dateStart,
-      String dateEnd, Set<Long> acountIdList, Properties properties) {
-
-    // Download Reports to local files and Generate Report objects
-    LOGGER.info("\n\n ** Generating: " + reportType.name() + " **");
-    LOGGER.info(" Downloading reports...");
-    Collection<File> localFiles = Lists.newArrayList();
-    try {
-
-      ReportDefinition reportDefinition = getReportDefinition(reportType,
-          dateRangeType, dateStart, dateEnd, properties);
-
-      localFiles = this.multipleClientReportDownloader.downloadReports(
-          builder, reportDefinition, acountIdList);
-
-    } catch (InterruptedException e) {
-      LOGGER.error(e.getMessage());
-      e.printStackTrace();
-      return;
-    }
-
-    this.processLocalFiles(reportType, localFiles, dateStart, dateEnd,
-        dateRangeType);
-
-    this.deleteTemporaryFiles(localFiles, reportType);
-  }
-
-  /**
-   * Process the local files delegating the call to the concrete
-   * implementation.
-   * 
-   * @param reportType
-   *            the report type.
-   * @param localFiles
-   *            the local files.
-   * @param dateStart
-   *            the start date.
-   * @param dateEnd
-   *            the end date.
-   * @param dateRangeType
-   *            the date range type.
-   */
-  private <R extends Report> void processLocalFiles(
-      ReportDefinitionReportType reportType, Collection<File> localFiles,
-      String dateStart, String dateEnd,
-      ReportDefinitionDateRangeType dateRangeType) {
-
-    Stopwatch stopwatch = new Stopwatch();
-    stopwatch.start();
-
-    @SuppressWarnings("unchecked")
-    Class<R> reportBeanClass = (Class<R>) this.csvReportEntitiesMapping
-    .getReportBeanClass(reportType);
-    this.processFiles(reportBeanClass, localFiles, dateRangeType,
-        dateStart, dateEnd);
-
-    stopwatch.stop();
-    LOGGER.info("\n* DB Process finished in "
-        + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)
-        + " seconds ***");
-  }
-
-  /**
-   * Deletes the local files used as temporary containers.
-   * 
-   * @param localFiles
-   *            the list of local files.
-   * @param reportType
-   *            the report type.
-   */
-  private void deleteTemporaryFiles(Collection<File> localFiles,
-      ReportDefinitionReportType reportType) {
-
-    // Delete temporary report files
-    LOGGER.info("\n Deleting temporary report files after Parsing...");
-    for (File file : localFiles) {
-      File gUnzipFile = new File(file.getAbsolutePath() + ".gunzip");
-      gUnzipFile.delete();
-      file.delete();
-      LOGGER.trace(".");
-    }
-    LOGGER.info("\n ** Finished: " + reportType.name() + " **");
   }
 
   /**
@@ -656,7 +459,7 @@ public class ReportProcessor {
    *            the properties resource.
    * @return the {@code ReportDefinition} instance.
    */
-  private ReportDefinition getReportDefinition(
+  protected ReportDefinition getReportDefinition(
       ReportDefinitionReportType reportDefinitionReportType,
       ReportDefinitionDateRangeType dateRangeType, String dateStart,
       String dateEnd, Properties properties) {
@@ -697,7 +500,7 @@ public class ReportProcessor {
    * @param selector
    *            the selector with the properties.
    */
-  private void adjustDateRange(
+  protected void adjustDateRange(
       ReportDefinitionReportType reportDefinitionReportType,
       ReportDefinitionDateRangeType dateRangeType, String dateStart,
       String dateEnd, Selector selector) {
@@ -723,7 +526,7 @@ public class ReportProcessor {
    *            the selector containing the report properties.
    * @return the {@code ReportDefinition}
    */
-  private ReportDefinition instantiateReportDefinition(
+  protected ReportDefinition instantiateReportDefinition(
       ReportDefinitionReportType reportDefinitionReportType,
       ReportDefinitionDateRangeType dateRangeType, Selector selector) {
 
@@ -749,7 +552,7 @@ public class ReportProcessor {
    *            the resource properties.
    * @return the list of properties that should be included in the report.
    */
-  private List<String> getReportInclusions(
+  protected List<String> getReportInclusions(
       ReportDefinitionReportType reportType, Properties properties) {
 
     String propertyInclusions = properties.getProperty(reportType.name());
@@ -767,6 +570,7 @@ public class ReportProcessor {
   }
 
   /**
+<<<<<<< HEAD
    * Generates the PDF files from the report data
    *
    * @param dateStart the start date for the reports
@@ -880,6 +684,8 @@ public class ReportProcessor {
   }
 
   /**
+=======
+>>>>>>> master
    * @param csvReportEntitiesMapping
    *            the csvReportEntitiesMapping to set
    */
@@ -887,16 +693,6 @@ public class ReportProcessor {
   public void setCsvReportEntitiesMapping(
       CsvReportEntitiesMapping csvReportEntitiesMapping) {
     this.csvReportEntitiesMapping = csvReportEntitiesMapping;
-  }
-
-  /**
-   * @param multipleClientReportDownloader
-   *            the multipleClientReportDownloader to set
-   */
-  @Autowired
-  public void setMultipleClientReportDownloader(
-      MultipleClientReportDownloader multipleClientReportDownloader) {
-    this.multipleClientReportDownloader = multipleClientReportDownloader;
   }
 
   /**
@@ -909,11 +705,11 @@ public class ReportProcessor {
   }
 
   /**
-   * @param authTokenPersister
-   *            the authTokenPersister to set
+   * @param authentication
+   *            the helper class for Auth
    */
   @Autowired
-  public void setAuthTokenPersister(AuthTokenPersister authTokenPersister) {
-    this.authTokenPersister = authTokenPersister;
+  public void setAuthentication(Authenticator authenticator) {
+    this.authenticator = authenticator;
   }
 }

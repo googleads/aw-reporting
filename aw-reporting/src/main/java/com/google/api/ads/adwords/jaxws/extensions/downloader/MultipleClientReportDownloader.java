@@ -83,8 +83,7 @@ public class MultipleClientReportDownloader {
     // We use a Latch so the main thread knows when all the worker threads are complete.
     final CountDownLatch latch = new CountDownLatch(cids.size());
 
-    Stopwatch stopwatch = new Stopwatch();
-    stopwatch.start();
+    Stopwatch stopwatch = Stopwatch.createStarted();
 
     for (final Long cid : cids) {
       RunnableDownloader downloader = new RunnableDownloader(this.retriesCount,

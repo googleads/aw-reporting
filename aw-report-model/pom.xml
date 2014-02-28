@@ -12,6 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<springframework.version>3.2.2.RELEASE</springframework.version>
+		<google-client.version>1.17.0-rc</google-client.version>
 	</properties>
 
 	<build>
@@ -32,46 +33,17 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.datanucleus</groupId>
-				<artifactId>maven-datanucleus-plugin</artifactId>
-				<version>1.1.4</version>
-				<configuration>
-					<mappingIncludes>**/model/entities/*.class</mappingIncludes>
-					<log4jConfiguration>${basedir}/log4j.properties
-					</log4jConfiguration>
-					<verbose>true</verbose>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>enhance</goal>
-						</goals>
-					</execution>
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>javax.jdo</groupId>
-						<artifactId>jdo2-api</artifactId>
-						<version>2.3-eb</version>
-						<scope>runtime</scope>
-					</dependency>
-				</dependencies>
-			</plugin>
-
 		</plugins>
 	</build>
 
 	<dependencies>
 
+		<!-- Spring dependencies -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
@@ -83,25 +55,21 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${springframework.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -113,7 +81,6 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>4.2.1.Final</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -141,7 +108,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-jdk5</artifactId>
-			<version>14.0.1</version>
+			<version>16.0-rc1</version>
 		</dependency>
 
 		<!-- Ads client library dependencies -->
@@ -150,8 +117,12 @@
 			<artifactId>ads-lib</artifactId>
 			<version>RELEASE</version>
 		</dependency>
-
-
+    	<dependency>
+      	  <groupId>com.google.http-client</groupId>
+      	  <artifactId>google-http-client</artifactId>
+          <version>${google-client.version}</version>
+    	</dependency>
+    
 		<!-- Testing dependencies -->
 		<dependency>
 			<groupId>junit</groupId>

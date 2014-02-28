@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.api.ads.adwords.jaxws.extensions.util;
+package com.google.api.ads.adwords.jaxws.extensions.authentication;
 
 import com.google.api.ads.common.lib.auth.GoogleClientSecretsBuilder;
 import com.google.api.ads.common.lib.auth.GoogleClientSecretsBuilder.Api;
@@ -93,7 +93,7 @@ public class GetRefreshToken {
    * @return the refresh token
    * @throws IOException error connecting to the auth server
    */
-  public static String get(String clientId, String clientSecret) throws IOException {
+  protected static String get(String clientId, String clientSecret) throws IOException {
 
     GoogleClientSecrets clientSecrets = null;
     try {

@@ -20,7 +20,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.api.ads.adwords.jaxws.extensions.authentication.Authenticator;
+import com.google.api.ads.adwords.jaxws.extensions.authentication.InstalledOAuth2Authenticator;
 import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader;
+import com.google.api.ads.adwords.jaxws.extensions.processors.onfile.ReportProcessorOnFile;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.CsvReportEntitiesMapping;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
@@ -77,7 +80,10 @@ public class ReportProcessorTest {
   private MultipleClientReportDownloader mockedMultipleClientReportDownloader;
 
   @Spy
-  private ReportProcessor reportProcessor;
+  private ReportProcessorOnFile reportProcessorOnFile;
+  
+  @Mock
+  private Authenticator authenticator;
 
   private Properties properties;
 
@@ -102,10 +108,13 @@ public class ReportProcessorTest {
     reportProcessor =
         new ReportProcessor("1", "token", "companyName", "clientId", "clientSecret", 10, 2, ReportWriterType.FileSystemWriter);
 
+    reportProcessorOnFile = new ReportProcessorOnFile("1", 10, 2);
+    authenticator = new InstalledOAuth2Authenticator("DevToken","ClientId", "ClientSecret", ReportWriterType.FileSystemWriter);
+
     MockitoAnnotations.initMocks(this);
 
-    when(mockedAuthTokenPersister.getAuthToken(Mockito.anyString()))
-    .thenReturn(new AuthMcc("1", "TOKEN"));
+    when(mockedAuthTokenPersister.getAuthToken(Mockito.anyString())).thenReturn(
+        new AuthMcc("1", "TOKEN"));
 
     Mockito.doAnswer(new Answer<Void>() {
       @Override
@@ -117,20 +126,21 @@ public class ReportProcessorTest {
 
     mockDownloadReports(CIDS.size());
 
-    reportProcessor.setMultipleClientReportDownloader(mockedMultipleClientReportDownloader);
-    reportProcessor.setAuthTokenPersister(mockedAuthTokenPersister);
-    reportProcessor.setPersister(mockedReportEntitiesPersister);
-    reportProcessor.setCsvReportEntitiesMapping(appCtx.getBean(CsvReportEntitiesMapping.class));
+    reportProcessorOnFile.setMultipleClientReportDownloader(mockedMultipleClientReportDownloader);
+    reportProcessorOnFile.setPersister(mockedReportEntitiesPersister);
+    reportProcessorOnFile.setCsvReportEntitiesMapping(appCtx.getBean(CsvReportEntitiesMapping.class));    
+    reportProcessorOnFile.setAuthentication(authenticator);
 
     // Mocking the Authentication because in OAuth2 we are force to call buildOAuth2Credentials
     AdWordsSession.Builder builder = new AdWordsSession.Builder().withClientCustomerId("1");
-    Mockito.doReturn(builder).when(reportProcessor).authenticate(Mockito.anyBoolean());
+    Mockito.doReturn(builder).when(authenticator).authenticate(
+        Mockito.anyString(), Mockito.anyBoolean());
   }
 
   @Test
   public void testGenerateReportsForMCC() throws Exception {
 
-    reportProcessor.generateReportsForMCC(
+    reportProcessorOnFile.generateReportsForMCC(
         ReportDefinitionDateRangeType.CUSTOM_DATE, "20130101", "20130131", CIDS, properties);
 
     verify(mockedMultipleClientReportDownloader, times(REPORT_TYPES_SIZE)).downloadReports(

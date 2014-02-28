@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.api.ads.adwords.jaxws.extensions.util.ManagedCustomerDelegate;
 import com.google.api.ads.adwords.jaxws.v201309.cm.Selector;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ApiException;
 import com.google.api.ads.adwords.jaxws.v201309.mcm.ManagedCustomer;

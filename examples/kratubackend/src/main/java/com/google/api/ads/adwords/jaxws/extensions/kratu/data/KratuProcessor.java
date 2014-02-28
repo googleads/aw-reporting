@@ -56,8 +56,7 @@ public class KratuProcessor {
 
     // We use a Latch so the main thread knows when all the worker threads are complete.
     final CountDownLatch latch = new CountDownLatch(1);
-    Stopwatch stopwatch = new Stopwatch();
-    stopwatch.start();
+    Stopwatch stopwatch = Stopwatch.createStarted();
 
     RunnableKratu runnableKratu = createRunnableKratu(storageHelper, dateStart, dateEnd);
 
