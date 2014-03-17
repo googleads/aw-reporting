@@ -208,6 +208,11 @@ public class ReportDestinationUrl extends ReportBase {
     }
 
     this.id += setIdDates();
+    
+    // add some random to the end, we don't have enough uniqueness for URL reports on occasion:
+    Random random = new Random();
+    int randNumber = random.nextInt(1000000) + 1;
+    this.id += randNumber;
 
     // Adding extra fields for unique ID
     if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
