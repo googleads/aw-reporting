@@ -59,7 +59,6 @@ public class KratuCompute {
   private static final RoundingMode ROUNDING = RoundingMode.HALF_UP;
   private static final int SCALE = 2;
 
-
   /*
    * Creates a new Kratu, summarizing Kratus within the date range and for a single Account
    * Each item on the list is a Kratu for a day for the same account 
@@ -189,7 +188,7 @@ public class KratuCompute {
       // Process ReportAccount Info
       for (ReportAccount reportAccount : reportAccountList) {
 
-        kratu.addSpend(reportAccount.getCostBigDecimal());
+        kratu.addSpend(reportAccount.getCost());
         kratu.addConversions(reportAccount.getConversions());
 
         // SEARCH_NETWORK Info
@@ -213,8 +212,8 @@ public class KratuCompute {
           }
 
           kratu.setCtrSearch(reportAccount.getCtrBigDecimal());
-          kratu.setAverageCpcSearch(reportAccount.getAvgCpcBigDecimal());
-          kratu.setAverageCpmSearch(reportAccount.getAvgCpmBigDecimal());
+          kratu.setAverageCpcSearch(reportAccount.getAvgCpc());
+          kratu.setAverageCpmSearch(reportAccount.getAvgCpm());
           kratu.setAveragePositionSearch(reportAccount.getAvgPositionBigDecimal());
         }
 
@@ -239,8 +238,8 @@ public class KratuCompute {
           }
 
           kratu.setCtrDisplay(reportAccount.getCtrBigDecimal());
-          kratu.setAverageCpcDisplay(reportAccount.getAvgCpcBigDecimal());
-          kratu.setAverageCpmDisplay(reportAccount.getAvgCpmBigDecimal());
+          kratu.setAverageCpcDisplay(reportAccount.getAvgCpc());
+          kratu.setAverageCpmDisplay(reportAccount.getAvgCpm());
           kratu.setAveragePositionDisplay(reportAccount.getAvgPositionBigDecimal());
         }
       }
@@ -257,8 +256,8 @@ public class KratuCompute {
           kratu.addNumberOfActiveCampaigns(BigDecimal.ONE);
         }
 
-        if (reportCampaign.getBudgetBigDecimal() != null) {
-          kratu.addSumBudget(reportCampaign.getBudgetBigDecimal());
+        if (reportCampaign.getBudget() != null) {
+          kratu.addSumBudget(reportCampaign.getBudget());
         }
       }
 

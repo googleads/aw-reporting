@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -52,17 +52,14 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
     Assert.assertEquals(1785447, first.getFeedItemId().longValue());
     Assert.assertEquals(1, first.getFeedPlaceholderType());
     Assert.assertEquals("Les Ecuries De Kerballan - Gommenech", first.getAccountDescriptiveName());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.7"),
-        BigDecimalUtil.parseFromNumberString(first.getCost()));
+    Assert.assertEquals(0.7,first.getCost().doubleValue());
     Assert.assertEquals(9, first.getClicks().intValue());
     Assert.assertEquals(74, first.getImpressions().intValue());
     Assert.assertEquals(0, first.getConversions().intValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("12.16"),
         BigDecimalUtil.parseFromNumberString(first.getCtr()));
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("9.46"),
-        BigDecimalUtil.parseFromNumberString(first.getAvgCpm()));
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.08"),
-        BigDecimalUtil.parseFromNumberString(first.getAvgCpc()));
+    Assert.assertEquals(9.46, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.08, first.getAvgCpc().doubleValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("2.2"),
         BigDecimalUtil.parseFromNumberString(first.getAvgPosition()));
     Assert.assertEquals("Headline", first.getClickType());
@@ -77,17 +74,14 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
     Assert.assertEquals(1785567, last.getFeedItemId().longValue());
     Assert.assertEquals(1, last.getFeedPlaceholderType());
     Assert.assertEquals("Les Ecuries De Kerballan - Gommenech", last.getAccountDescriptiveName());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.0"),
-        BigDecimalUtil.parseFromNumberString(last.getCost()));
+    Assert.assertEquals(0d, last.getCost().doubleValue());
     Assert.assertEquals(0, last.getClicks().intValue());
     Assert.assertEquals(130, last.getImpressions().intValue());
     Assert.assertEquals(0, last.getConversions().intValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.0"),
         BigDecimalUtil.parseFromNumberString(last.getCtr()));
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.0"),
-        BigDecimalUtil.parseFromNumberString(last.getAvgCpm()));
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.0"),
-        BigDecimalUtil.parseFromNumberString(last.getAvgCpc()));
+    Assert.assertEquals(0d, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0d, last.getAvgCpc().doubleValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("2.8"),
         BigDecimalUtil.parseFromNumberString(last.getAvgPosition()));
     Assert.assertEquals("Sitelink", last.getClickType());

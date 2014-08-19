@@ -4,7 +4,7 @@
 
   <groupId>com.google</groupId>
   <artifactId>kratubackend</artifactId>
-  <version>1.4.3-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>kratubackend</name>
@@ -12,7 +12,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springframework.version>3.2.2.RELEASE</springframework.version>
-    <aw-reporting.version>1.4.3-SNAPSHOT</aw-reporting.version>
+    <aw-reporting.version>1.5.0-SNAPSHOT</aw-reporting.version>
+    <com.google.api-ads.version>1.31.0</com.google.api-ads.version>
   </properties>
 
   <repositories>
@@ -145,7 +146,7 @@
     <dependency>
       <groupId>com.google.api-ads</groupId>
       <artifactId>adwords-appengine</artifactId>
-      <version>1.26.0</version>
+      <version>${com.google.api-ads.version}</version>
     </dependency>
 
     <dependency>

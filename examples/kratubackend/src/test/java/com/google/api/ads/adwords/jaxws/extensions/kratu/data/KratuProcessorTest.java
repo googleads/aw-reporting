@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 import com.google.api.ads.adwords.jaxws.extensions.processors.ReportProcessor;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
-import com.google.api.ads.adwords.jaxws.v201402.mcm.Customer;
+import com.google.api.ads.adwords.jaxws.v201406.mcm.Customer;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 

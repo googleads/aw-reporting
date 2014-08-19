@@ -17,7 +17,8 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.entities;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 
@@ -82,27 +83,27 @@ public class ReportAd extends ReportBase {
 
   @Column(name = "CONVERSIONRATESIGNIFICANCE")
   @CsvField(value = "Click conversion rate ACE indicator", reportField = "ConversionRateSignificance")
-  protected BigDecimal conversionRateSignificance;
+  private BigDecimal conversionRateSignificance;
 
   @Column(name = "CONVERSIONRATEMANYPERCLICKSIGNIFICANCE")
   @CsvField(value = "Conversion rate ACE indicator", reportField = "ConversionRateManyPerClickSignificance")
-  protected BigDecimal conversionRateManyPerClickSignificance;
+  private BigDecimal conversionRateManyPerClickSignificance;
   
   @Column(name = "CONVERSIONMANYPERCLICKSIGNIFICANCE")
   @CsvField(value = "Conversion ACE indicator", reportField = "ConversionManyPerClickSignificance")
-  protected BigDecimal conversionManyPerClickSignificance;
+  private BigDecimal conversionManyPerClickSignificance;
 
   @Column(name = "COSTPERCONVERSIONMANYPERCLICKSIGNIFICANCE")
   @CsvField(value = "Cost/conversion ACE indicator", reportField = "CostPerConversionManyPerClickSignificance")
-  protected BigDecimal costPerConversionManyPerClickSignificance;
+  private BigDecimal costPerConversionManyPerClickSignificance;
   
   @Column(name = "CONVERSIONSIGNIFICANCE")
   @CsvField(value = "Converted clicks ACE indicator", reportField = "ConversionSignificance")
-  protected BigDecimal conversionSignificance;
+  private BigDecimal conversionSignificance;
 
   @Column(name = "COSTPERCONVERSIONSIGNIFICANCE")
   @CsvField(value = "Cost/converted click ACE indicator", reportField = "CostPerConversionSignificance")
-  protected BigDecimal costPerConversionSignificance;
+  private BigDecimal costPerConversionSignificance;
 
   @Column(name = "AVERAGE_PAGEVIEWS")
   @CsvField(value = "Pages / visit", reportField = "AveragePageviews")
@@ -119,6 +120,11 @@ public class ReportAd extends ReportBase {
   @Column(name = "PERCENT_NEW_VISITORS")
   @CsvField(value = "% new visits", reportField = "PercentNewVisitors")
   private BigDecimal percentNewVisitors;
+
+  @Lob
+  @Column(name = "LABELS", length = 2048)
+  @CsvField(value = "Labels", reportField = "Labels")
+  private String labels;
 
   /**
    * Hibernate needs an empty constructor
@@ -365,5 +371,21 @@ public class ReportAd extends ReportBase {
   
   public void setPercentNewVisitors(String percentNewVisitors) {
     this.percentNewVisitors =  BigDecimalUtil.parseFromNumberString(percentNewVisitors);
+  }
+  
+  public String getLabels() {
+    return this.labels;
+  }
+
+  public boolean hasLabel(String label) {
+    if (labels != null && labels.length() > 0) {
+      return Lists.newArrayList(labels.split(";")).contains(label);
+    } else {
+      return false;
+    }
+  }
+
+  public void setLabels(String labels) {
+    this.labels = labels;
   }
 }

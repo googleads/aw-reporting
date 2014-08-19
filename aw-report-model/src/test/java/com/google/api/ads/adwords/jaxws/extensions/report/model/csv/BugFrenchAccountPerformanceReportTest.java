@@ -57,13 +57,13 @@ public class BugFrenchAccountPerformanceReportTest {
     Assert.assertEquals("2013-10-04", reportAccount.getDay());
     Assert.assertEquals(
         "L'occitane Automobiles - Pezenas", reportAccount.getAccountDescriptiveName());
-    Assert.assertEquals("6.70", reportAccount.getCost());
+    Assert.assertEquals(6.7, reportAccount.getCost().doubleValue());
     Assert.assertEquals(4L, reportAccount.getClicks().longValue());
     Assert.assertEquals(87L, reportAccount.getImpressions().longValue());
     Assert.assertEquals(0L, reportAccount.getConversions().longValue());
     Assert.assertEquals("4.60", reportAccount.getCtr());
-    Assert.assertEquals("77.01", reportAccount.getAvgCpm());
-    Assert.assertEquals("1.68", reportAccount.getAvgCpc());
+    Assert.assertEquals(77.01, reportAccount.getAvgCpm().doubleValue());
+    Assert.assertEquals(1.68, reportAccount.getAvgCpc().doubleValue());
     Assert.assertEquals("1.40", reportAccount.getAvgPosition());
     Assert.assertEquals("EUR", reportAccount.getCurrencyCode());
 

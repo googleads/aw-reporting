@@ -21,26 +21,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to map a field in the CSV file to the annotated bean property.
+ * Annotation to mark as Money value a field in the CSV file to the annotated bean property.
  *
- *  The CSV is constructed based on the mapping between the report property selected and the file
- * created.
- *
- * @author gustavomoreira@google.com (Gustavo Moreira)
- *
+ * @author jtoledo@google.com (Julian Toledo)
  */
 @Target({FIELD})
 @Retention(RUNTIME)
-public @interface CsvField {
-
-  /**
-   * The name of the property in the CSV file.
-   */
-  String value();
-
-  /**
-   * The report field on the API that will be selected to download.
-   */
-  String reportField();
+public @interface MoneyField {
 
 }

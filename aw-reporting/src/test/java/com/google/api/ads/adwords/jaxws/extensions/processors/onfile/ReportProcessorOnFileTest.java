@@ -46,7 +46,6 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.google.api.ads.adwords.jaxws.extensions.authentication.Authenticator;
 import com.google.api.ads.adwords.jaxws.extensions.authentication.InstalledOAuth2Authenticator;
-import com.google.api.ads.adwords.jaxws.extensions.downloader.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader;
 import com.google.api.ads.adwords.jaxws.extensions.exporter.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.CsvReportEntitiesMapping;
@@ -54,11 +53,12 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.EntityPersister;
+import com.google.api.ads.adwords.jaxws.extensions.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinition;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionDateRangeType;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.collect.Lists;

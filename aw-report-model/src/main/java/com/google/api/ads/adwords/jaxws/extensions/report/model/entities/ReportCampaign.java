@@ -16,13 +16,16 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.entities;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvReport;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -51,6 +54,7 @@ public class ReportCampaign extends ReportBase {
 
   @Column(name = "BUDGET")
   @CsvField(value = "Budget", reportField = "Amount")
+  @MoneyField
   private BigDecimal budget;
 
   @Column(name = "CONVERSIONRATESIGNIFICANCE")
@@ -121,6 +125,11 @@ public class ReportCampaign extends ReportBase {
   @CsvField(value = "Search Exact match IS", reportField = "SearchExactMatchImpressionShare")
   private BigDecimal searchExactMatchImpressionShare;
 
+  @Lob
+  @Column(name = "LABELS", length = 2048)
+  @CsvField(value = "Labels", reportField = "Labels")
+  private String labels;
+
   /**
    * Hibernate needs an empty constructor
    */
@@ -179,16 +188,12 @@ public class ReportCampaign extends ReportBase {
     this.status = status;
   }
 
-  public String getBudget() {
-    return BigDecimalUtil.formatAsReadable(budget);
-  }
-
-  public BigDecimal getBudgetBigDecimal() {
+  public BigDecimal getBudget() {
     return budget;
   }
 
-  public void setBudget(String budget) {
-    this.budget = BigDecimalUtil.parseFromNumberString(budget);
+  public void setBudget(BigDecimal budget) {
+    this.budget = budget;
   }  
 
   public String getConversionRateSignificance() {
@@ -395,5 +400,21 @@ public class ReportCampaign extends ReportBase {
 
   public void setSearchExactMatchImpressionShare(String searchExactMatchImpressionShare) {
     this.searchExactMatchImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchExactMatchImpressionShare);
+  }
+  
+  public String getLabels() {
+    return this.labels;
+  }
+
+  public boolean hasLabel(String label) {
+    if (labels != null && labels.length() > 0) {
+      return Lists.newArrayList(labels.split(";")).contains(label);
+    } else {
+      return false;
+    }
+  }
+
+  public void setLabels(String labels) {
+    this.labels = labels;
   }
 }

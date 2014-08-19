@@ -1,6 +1,6 @@
 "AwReporting-PLACEMENT_PERFORMANCE_REPORT 1391111192439 (Mar 1, 2014-Mar 31, 2014)"
 Ad group ID,Ad group,Ad group state,Campaign ID,Campaign,Criteria Display Name,Criterion ID,Max. CPM,Placement,Month,Cost,Clicks,Impressions,CTR,Avg. CPM,Avg. CPC,Device,Click type,Network,Network (with search partners)
-1154812872,Digital-TV,enabled,42344742,[Generic] Private,www.common.se, --, --,www.common.se,2014-03-01,1.61,1,1,100.00%,"1,610.00",1.61,Computers,Headline,Search Network,Search partners
-1154812872,Digital-TV,enabled,42344742,[Generic] Private,wiz.com, --, --,wiz.com,2014-03-01,1.22,1,1,100.00%,"1,220.00",1.22,Computers,Headline,Search Network,Search partners
-7645868292,Kittens & Cats,enabled,145627092,[SEARCH][DSA-Extracted]Kittens,raspberry.com, --, --,raspberry.com,2014-03-01,1.90,1,3,33.33%,633.33,1.90,Mobile devices with full browsers,Headline,Search Network,Search partners
+1154812872,Digital-TV,enabled,42344742,[Generic] Private,www.common.se, --, --,www.common.se,2014-03-01,1610000,1,1,100.00%,1610000000,1610000,Computers,Headline,Search Network,Search partners
+1154812872,Digital-TV,enabled,42344742,[Generic] Private,wiz.com, --, --,wiz.com,2014-03-01,1220000,1,1,100.00%,1220000000,1220000,Computers,Headline,Search Network,Search partners
+7645868292,Kittens & Cats,enabled,145627092,[SEARCH][DSA-Extracted]Kittens,raspberry.com, --, --,raspberry.com,2014-03-01,1900000,1,3,33.33%,633330000,1900000,Mobile devices with full browsers,Headline,Search Network,Search partners
 Total, --, --, --, --, --, --, --, --, --, --, --, --, --, --, --, --, --, --, --

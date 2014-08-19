@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportShopping;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -47,12 +47,12 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
   @Override
   protected void testFirstEntry(ReportShopping first) {
     Assert.assertEquals("2014-06-20", first.getDay());
-    Assert.assertEquals(0.53, first.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.53, first.getCost().doubleValue());
     Assert.assertEquals(2L, first.getClicks().longValue());
     Assert.assertEquals(99L, first.getImpressions().longValue());
     Assert.assertEquals(0L, first.getConversions().longValue());
     Assert.assertEquals(2.02, first.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.26, first.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(0.26, first.getAvgCpc().doubleValue());
     Assert.assertEquals(100514323L, first.getMerchantId().longValue());
     Assert.assertEquals("France", first.getCountryCriteriaId());
     Assert.assertEquals("Maison et jardin", first.getCategoryL1());
@@ -71,12 +71,12 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
   @Override
   protected void testLastEntry(ReportShopping last) {
     Assert.assertEquals("2014-06-21", last.getDay());
-    Assert.assertEquals(0.00, last.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, last.getCost().doubleValue());
     Assert.assertEquals(0L, last.getClicks().longValue());
     Assert.assertEquals(19L, last.getImpressions().longValue());
     Assert.assertEquals(0L, last.getConversions().longValue());
     Assert.assertEquals(0.00, last.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, last.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, last.getAvgCpc().doubleValue());
     Assert.assertEquals(100514323L, last.getMerchantId().longValue());
     Assert.assertEquals("France", last.getCountryCriteriaId());
     Assert.assertEquals("Meubles", last.getCategoryL1());

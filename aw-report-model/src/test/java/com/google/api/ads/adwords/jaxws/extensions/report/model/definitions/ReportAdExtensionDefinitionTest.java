@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportAdExtension;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -60,10 +60,10 @@ public class ReportAdExtensionDefinitionTest
     Assert.assertEquals(0L, first.getClicks().longValue());
     Assert.assertEquals(47L, first.getImpressions().longValue());
     Assert.assertEquals(0L, first.getConversions().longValue());
-    Assert.assertEquals(0.00, first.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, first.getCost().doubleValue());
     Assert.assertEquals(0.00, first.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, first.getAvgCpcBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, first.getAvgCpmBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, first.getAvgCpc().doubleValue());
+    Assert.assertEquals(0.00, first.getAvgCpm().doubleValue());
     Assert.assertEquals(4.51, first.getAvgPositionBigDecimal().doubleValue());
 
   }
@@ -89,10 +89,10 @@ public class ReportAdExtensionDefinitionTest
     Assert.assertEquals(0L, last.getClicks().longValue());
     Assert.assertEquals(1L, last.getImpressions().longValue());
     Assert.assertEquals(0L, last.getConversions().longValue());
-    Assert.assertEquals(0.00, last.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, last.getCost().doubleValue());
     Assert.assertEquals(0.00, last.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, last.getAvgCpcBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, last.getAvgCpmBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, last.getAvgCpc().doubleValue());
+    Assert.assertEquals(0.00, last.getAvgCpm().doubleValue());
     Assert.assertEquals(3.00, last.getAvgPositionBigDecimal().doubleValue());
 
   }

@@ -27,7 +27,7 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.Enti
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.jaxws.extensions.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionDateRangeType;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;

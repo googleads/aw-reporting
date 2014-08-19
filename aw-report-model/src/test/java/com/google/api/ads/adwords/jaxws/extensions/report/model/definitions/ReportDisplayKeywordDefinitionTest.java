@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportDisplayKeyword;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -48,13 +48,13 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
   protected void testFirstEntry(ReportDisplayKeyword first) {
     Assert.assertEquals(1056270861L, first.getAccountId().longValue());
     Assert.assertEquals("2014-06-09", first.getDay());
-    Assert.assertEquals(0.00, first.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, first.getCost().doubleValue());
     Assert.assertEquals(0L, first.getClicks().longValue());
     Assert.assertEquals(59L, first.getImpressions().longValue());
     Assert.assertEquals(0L, first.getConversions().longValue());
     Assert.assertEquals(0.00, first.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, first.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.00, first.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(0.00, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.00, first.getAvgCpc().doubleValue());
 
     Assert.assertEquals(208108586L, first.getCampaignId().longValue());
     Assert.assertEquals("Search IP", first.getCampaignName());
@@ -75,13 +75,13 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
   protected void testLastEntry(ReportDisplayKeyword last) {
     Assert.assertEquals(1056270861L, last.getAccountId().longValue());
     Assert.assertEquals("2014-06-09", last.getDay());
-    Assert.assertEquals(0.30, last.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.30, last.getCost().doubleValue());
     Assert.assertEquals(2L, last.getClicks().longValue());
     Assert.assertEquals(1853L, last.getImpressions().longValue());
     Assert.assertEquals(0L, last.getConversions().longValue());
     Assert.assertEquals(0.11, last.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(0.16, last.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.15, last.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(0.16, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.15, last.getAvgCpc().doubleValue());
 
     Assert.assertEquals(209867786L, last.getCampaignId().longValue());
     Assert.assertEquals("Display", last.getCampaignName());

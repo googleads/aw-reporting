@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportBudget;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -91,7 +91,7 @@ public class ReportBudgetDefinitionTest extends AbstractReportDefinitionTest<Rep
    */
   @Override
   protected void testFirstEntry(ReportBudget first) {
-    Assert.assertEquals(4.37, first.getAmountBigDecimal().doubleValue());
+    Assert.assertEquals(4.37, first.getAmount().doubleValue());
     Assert.assertEquals(963487963L, first.getBudgetId().longValue());
     Assert.assertEquals("Xvg", first.getBudgetName());
     Assert.assertEquals("Active", first.getBudgetStatus());
@@ -107,7 +107,7 @@ public class ReportBudgetDefinitionTest extends AbstractReportDefinitionTest<Rep
    */
   @Override
   protected void testLastEntry(ReportBudget last) {
-    Assert.assertEquals(1.00, last.getAmountBigDecimal().doubleValue());
+    Assert.assertEquals(1.00, last.getAmount().doubleValue());
     Assert.assertEquals(323491323L, last.getBudgetId().longValue());
     Assert.assertEquals("Zngevk", last.getBudgetName());
     Assert.assertEquals("Deleted", last.getBudgetStatus());

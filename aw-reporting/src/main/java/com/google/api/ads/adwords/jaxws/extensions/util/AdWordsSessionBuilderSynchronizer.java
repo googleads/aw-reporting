@@ -1,6 +1,5 @@
-package com.google.api.ads.adwords.jaxws.extensions.downloader;
+package com.google.api.ads.adwords.jaxws.extensions.util;
 
-import com.google.api.ads.adwords.jaxws.extensions.util.AdWordsSessionUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.common.lib.exception.ValidationException;
 
@@ -21,8 +20,7 @@ public class AdWordsSessionBuilderSynchronizer {
    * @param builder the session builder for the API.
    */
   public AdWordsSessionBuilderSynchronizer(AdWordsSession.Builder builder) {
-
-    this.builder = builder.disableReportMoneyInMicros();
+    this.builder = builder;
   }
 
   /**

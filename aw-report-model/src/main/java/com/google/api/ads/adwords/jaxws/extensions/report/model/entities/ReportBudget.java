@@ -16,8 +16,8 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.entities;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.MoneyField;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -41,6 +41,7 @@ public class ReportBudget extends ReportBase {
 
   @Column(name = "AMOUNT")
   @CsvField(value = "Budget", reportField = "Amount")
+  @MoneyField
   private BigDecimal amount;
 
   @Column(name = "ASSOCIATED_CAMPAIGN_ID")
@@ -106,19 +107,15 @@ public class ReportBudget extends ReportBase {
   /**
    * @return the amount
    */
-  public String getAmount() {
-    return BigDecimalUtil.formatAsReadable(amount);
-  }
-
-  public BigDecimal getAmountBigDecimal() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
   /**
    * @param amount the amount to set
    */
-  public void setAmount(String amount) {
-    this.amount = BigDecimalUtil.parseFromNumberString(amount);
+  public void setAmount(BigDecimal amount) {
+    this.amount = amount;
   }
 
   /**

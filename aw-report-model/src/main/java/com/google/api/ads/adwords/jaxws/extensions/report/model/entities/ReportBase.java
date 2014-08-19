@@ -15,6 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.entities;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvField;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.dateranges.DateRangeHandler;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.dateranges.Last14DaysDateRangeHandler;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.dateranges.Last30DaysDateRangeHandler;
@@ -26,7 +27,7 @@ import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.dateran
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.dateranges.YesterdayDateRangeHandler;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Maps;
 
 import com.googlecode.objectify.annotation.Index;
@@ -113,6 +114,7 @@ public abstract class ReportBase extends Report {
   // Main Metrics
   @Column(name = "COST")
   @CsvField(value = "Cost", reportField = "Cost")
+  @MoneyField
   protected BigDecimal cost;
 
   @Column(name = "CLICKS")
@@ -129,10 +131,12 @@ public abstract class ReportBase extends Report {
 
   @Column(name = "AVERAGE_CPM")
   @CsvField(value = "Avg. CPM", reportField = "AverageCpm")
+  @MoneyField
   protected BigDecimal avgCpm;
 
   @Column(name = "AVERAGE_CPC")
   @CsvField(value = "Avg. CPC", reportField = "AverageCpc")
+  @MoneyField
   protected BigDecimal avgCpc;
 
   @Column(name = "AVERAGE_POSITION")
@@ -168,6 +172,7 @@ public abstract class ReportBase extends Report {
 
   @Column(name = "COSTPERCONVERSIONMANYPERCLICK")
   @CsvField(value = "Cost / conv.", reportField = "CostPerConversionManyPerClick")
+  @MoneyField
   protected BigDecimal costPerConversionManyPerClick;
 
   @Column(name = "VALUEPERCONVMANYPERCLICK")
@@ -189,6 +194,7 @@ public abstract class ReportBase extends Report {
 
   @Column(name = "COSTPERCONVERSION")
   @CsvField(value = "Cost / converted click", reportField = "CostPerConversion")
+  @MoneyField
   protected BigDecimal costPerConversion;
 
   @Column(name = "VALUEPERCONV")
@@ -381,10 +387,6 @@ public abstract class ReportBase extends Report {
     this.year = year;
   }
 
-  public void setCost(BigDecimal cost) {
-    this.cost = cost;
-  }
-
   public void setCtr(BigDecimal ctr) {
     this.ctr = ctr;
   }
@@ -433,16 +435,12 @@ public abstract class ReportBase extends Report {
     this.customerDescriptiveName = customerDescriptiveName;
   }
 
-  public String getCost() {
-    return BigDecimalUtil.formatAsReadable(cost);
-  }
-
-  public BigDecimal getCostBigDecimal() {
+  public BigDecimal getCost() {
     return cost;
   }
 
-  public void setCost(String cost) {
-    this.cost = BigDecimalUtil.parseFromNumberString(cost);
+  public void setCost(BigDecimal cost) {
+    this.cost = cost;
   }
 
   public Long getClicks() {
@@ -477,28 +475,12 @@ public abstract class ReportBase extends Report {
     }
   }
 
-  public String getAvgCpm() {
-    return BigDecimalUtil.formatAsReadable(avgCpm);
-  }
-
-  public BigDecimal getAvgCpmBigDecimal() {
+  public BigDecimal getAvgCpm() {
     return avgCpm;
   }
 
-  public void setAvgCpm(String avgCpm) {
-    this.avgCpm = BigDecimalUtil.parseFromNumberString(avgCpm);
-  }
-
-  public String getAvgCpc() {
-    return BigDecimalUtil.formatAsReadable(avgCpc);
-  }
-
-  public BigDecimal getAvgCpcBigDecimal() {
+  public BigDecimal getAvgCpc() {
     return avgCpc;
-  }
-
-  public void setAvgCpc(String avgCpc) {
-    this.avgCpc = BigDecimalUtil.parseFromNumberString(avgCpc);
   }
 
   public String getAvgPosition() {
@@ -583,17 +565,12 @@ public abstract class ReportBase extends Report {
         BigDecimalUtil.parseFromNumberString(conversionRateManyPerClick);
   }
 
-  public String getCostPerConversionManyPerClick() {
-    return BigDecimalUtil.formatAsReadable(costPerConversionManyPerClick);
-  }
-
-  public BigDecimal getCostPerConversionManyPerClickBigDecimal() {
+  public BigDecimal getCostPerConversionManyPerClick() {
     return costPerConversionManyPerClick;
   }
 
-  public void setCostPerConversionManyPerClick(String costPerConversionManyPerClick) {
-    this.costPerConversionManyPerClick =
-        BigDecimalUtil.parseFromNumberString(costPerConversionManyPerClick);
+  public void setCostPerConversionManyPerClick(BigDecimal costPerConversionManyPerClick) {
+    this.costPerConversionManyPerClick = costPerConversionManyPerClick;
   }
 
   public BigDecimal getValuePerConvManyPerClickBigDecimal() {
@@ -633,16 +610,12 @@ public abstract class ReportBase extends Report {
     this.conversionRate = BigDecimalUtil.parseFromNumberString(conversionRate);
   }
 
-  public String getCostPerConversion() {
-    return BigDecimalUtil.formatAsReadable(costPerConversion);
-  }
-
-  public BigDecimal getCostPerConversionBigDecimal() {
+  public BigDecimal getCostPerConversion() {
     return costPerConversion;
   }
 
-  public void setCostPerConversion(String costPerConversion) {
-    this.costPerConversion = BigDecimalUtil.parseFromNumberString(costPerConversion);
+  public void setCostPerConversion(BigDecimal costPerConversion) {
+    this.costPerConversion = costPerConversion;
   }
 
   public String getValuePerConv() {

@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportAdGroup;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -48,13 +48,13 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
 
     Assert.assertEquals(1230945123L, first.getAccountId().longValue());
     Assert.assertEquals("2013-05-07", first.getDay());
-    Assert.assertEquals(2.72, first.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(2.72, first.getCost().doubleValue());
     Assert.assertEquals(6L, first.getClicks().longValue());
     Assert.assertEquals(16L, first.getImpressions().longValue());
     Assert.assertEquals(0L, first.getConversions().longValue());
     Assert.assertEquals(37.50, first.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(170.00, first.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.45, first.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(170.00, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.45, first.getAvgCpc().doubleValue());
     Assert.assertEquals(2.69, first.getAvgPositionBigDecimal().doubleValue());
     Assert.assertEquals("EUR", first.getCurrencyCode());
     Assert.assertEquals(129807304L, first.getCampaignId().longValue());
@@ -73,13 +73,13 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
 
     Assert.assertEquals(1230945123L, last.getAccountId().longValue());
     Assert.assertEquals("2013-05-10", last.getDay());
-    Assert.assertEquals(0.60, last.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(0.60, last.getCost().doubleValue());
     Assert.assertEquals(1L, last.getClicks().longValue());
     Assert.assertEquals(72L, last.getImpressions().longValue());
     Assert.assertEquals(0L, last.getConversions().longValue());
     Assert.assertEquals(1.39, last.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(8.33, last.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.60, last.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(8.33, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.60, last.getAvgCpc().doubleValue());
     Assert.assertEquals(2.58, last.getAvgPositionBigDecimal().doubleValue());
     Assert.assertEquals("EUR", last.getCurrencyCode());
     Assert.assertEquals(129807304L, last.getCampaignId().longValue());
@@ -162,6 +162,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
         "ContentImpressionShare",
         "ContentRankLostImpressionShare",
         "SearchExactMatchImpressionShare",
+        "Labels",
         // Analytics Fieds        
         "AveragePageviews",
         "AverageTimeOnSite",

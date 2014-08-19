@@ -14,8 +14,9 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.downloader;
 
+import com.google.api.ads.adwords.jaxws.extensions.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinition;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;
 

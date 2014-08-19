@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportAd;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -48,13 +48,13 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
 
     Assert.assertEquals(1001270004L, first.getAccountId().longValue());
     Assert.assertEquals("2013-05-01", first.getDay());
-    Assert.assertEquals(9.39, first.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(9.39, first.getCost().doubleValue());
     Assert.assertEquals(32L, first.getClicks().longValue());
     Assert.assertEquals(1258L, first.getImpressions().longValue());
     Assert.assertEquals(0L, first.getConversions().longValue());
     Assert.assertEquals(2.54, first.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(7.46, first.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.29, first.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(7.46, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.29, first.getAvgCpc().doubleValue());
     Assert.assertEquals(2.12, first.getAvgPositionBigDecimal().doubleValue());
     Assert.assertEquals("EUR", first.getCurrencyCode());
 
@@ -76,13 +76,13 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
 
     Assert.assertEquals(1001270004L, last.getAccountId().longValue());
     Assert.assertEquals("2013-05-10", last.getDay());
-    Assert.assertEquals(1.46, last.getCostBigDecimal().doubleValue());
+    Assert.assertEquals(1.46, last.getCost().doubleValue());
     Assert.assertEquals(2L, last.getClicks().longValue());
     Assert.assertEquals(58L, last.getImpressions().longValue());
     Assert.assertEquals(0L, last.getConversions().longValue());
     Assert.assertEquals(3.45, last.getCtrBigDecimal().doubleValue());
-    Assert.assertEquals(25.17, last.getAvgCpmBigDecimal().doubleValue());
-    Assert.assertEquals(0.73, last.getAvgCpcBigDecimal().doubleValue());
+    Assert.assertEquals(25.17, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.73, last.getAvgCpc().doubleValue());
     Assert.assertEquals(3.29, last.getAvgPositionBigDecimal().doubleValue());
     Assert.assertEquals("EUR", last.getCurrencyCode());
 
@@ -168,6 +168,7 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
         "Description1",
         "Description2",
         "CreativeApprovalStatus",
+        "Labels",
         // Analytics Fieds        
         "AveragePageviews",
         "AverageTimeOnSite",

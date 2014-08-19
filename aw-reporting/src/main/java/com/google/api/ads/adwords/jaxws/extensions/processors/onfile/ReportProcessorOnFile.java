@@ -14,15 +14,15 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.processors.onfile;
 
-import com.google.api.ads.adwords.jaxws.extensions.downloader.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader;
 import com.google.api.ads.adwords.jaxws.extensions.processors.ReportProcessor;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AnnotationBasedMappingStrategy;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.Report;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinition;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionDateRangeType;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.jaxws.extensions.util.AdWordsSessionBuilderSynchronizer;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;

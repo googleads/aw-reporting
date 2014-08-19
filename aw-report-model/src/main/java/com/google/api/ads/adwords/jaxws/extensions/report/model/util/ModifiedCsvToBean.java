@@ -14,6 +14,8 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.report.model.util;
 
+import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.AnnotationBasedMappingStrategy;
+
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.bean.CsvToBean;
 import au.com.bytecode.opencsv.bean.MappingStrategy;
@@ -22,6 +24,7 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,6 +87,7 @@ public class ModifiedCsvToBean<T> extends CsvToBean<T> implements Serializable{
    * @see au.com.bytecode.opencsv.bean.CsvToBean
    *      #processLine(au.com.bytecode.opencsv.bean.MappingStrategy, java.lang.String[])
    */
+  @SuppressWarnings("rawtypes")
   @Override
   protected T processLine(MappingStrategy<T> mapper, String[] line) throws IllegalAccessException,
       InvocationTargetException, InstantiationException, IntrospectionException {
@@ -96,7 +100,16 @@ public class ModifiedCsvToBean<T> extends CsvToBean<T> implements Serializable{
         if (null != prop) {
           String value = this.trimIfPossible(line[col], prop);
           Object obj = this.convertValue(value, prop);
+
+          // Convert Money values to regular Decimals by dividing by a Million
+          if (mapper instanceof AnnotationBasedMappingStrategy && 
+              ((AnnotationBasedMappingStrategy) mapper).isMoneyField(prop.getName())) {
+            BigDecimal bigDecimal = new BigDecimal((String)obj);
+            obj = bigDecimal.divide(new BigDecimal(1000000));
+          }
+
           prop.getWriteMethod().invoke(bean, obj);
+
         }
       } catch (Exception e) {
         System.err.println("Error Parsing column # " + col + " with contents: " + line[col]);

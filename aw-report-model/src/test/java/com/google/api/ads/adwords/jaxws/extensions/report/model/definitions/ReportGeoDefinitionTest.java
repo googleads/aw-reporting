@@ -14,15 +14,14 @@
 
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
-import junit.framework.Assert;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportGeo;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportGeo;
-import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import junit.framework.Assert;
 
 /**
  * Tests the Geo Performance report definition.
@@ -57,12 +56,12 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals("United States", first.getMostSpecificLocation());
     Assert.assertEquals("Froody Rudy", first.getAccountDescriptiveName());
     Assert.assertEquals("2014-03-01", first.getMonth());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.00"), BigDecimalUtil.parseFromNumberString(first.getCost()));
+    Assert.assertEquals(0d, first.getCost().doubleValue());
     Assert.assertEquals(0, first.getClicks().longValue());
     Assert.assertEquals(2, first.getImpressions().longValue());
     Assert.assertEquals("0.00", first.getCtr());
-    Assert.assertEquals("0.00", first.getAvgCpm());
-    Assert.assertEquals("0.00", first.getAvgCpc());
+    Assert.assertEquals(0d, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0d, first.getAvgCpc().doubleValue());
     Assert.assertEquals("1.00", first.getAvgPosition());
     Assert.assertEquals("0.00", first.getConversionRateManyPerClick());
     Assert.assertEquals("0.00", first.getConversionRate());
@@ -81,12 +80,12 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals("92124", last.getMostSpecificLocation());
     Assert.assertEquals("Froody Rudy", last.getAccountDescriptiveName());
     Assert.assertEquals("2014-03-01", last.getMonth());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.00"), BigDecimalUtil.parseFromNumberString(last.getCost()));
+    Assert.assertEquals(0d, last.getCost().doubleValue());
     Assert.assertEquals(0, last.getClicks().longValue());
     Assert.assertEquals(1, last.getImpressions().longValue());
     Assert.assertEquals("0.00", last.getCtr());
-    Assert.assertEquals("0.00", last.getAvgCpm());
-    Assert.assertEquals("0.00", last.getAvgCpc());
+    Assert.assertEquals(0d, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0d, last.getAvgCpc().doubleValue());
     Assert.assertEquals("1.00", last.getAvgPosition());
     Assert.assertEquals("0.00", last.getConversionRateManyPerClick());
     Assert.assertEquals("0.00", last.getConversionRate());

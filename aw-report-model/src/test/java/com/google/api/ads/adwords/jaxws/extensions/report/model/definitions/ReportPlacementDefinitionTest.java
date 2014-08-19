@@ -13,15 +13,14 @@
 // limitations under the License.package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
-import junit.framework.Assert;
+import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportPlacement;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportPlacement;
-import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import junit.framework.Assert;
 
 /**
  * Tests the Placement Performance report definition.
@@ -55,12 +54,12 @@ AbstractReportDefinitionTest<ReportPlacement> {
     Assert.assertEquals(" --", first.getMaxCpm());
     Assert.assertEquals("www.common.se", first.getPlacementUrl());
     Assert.assertEquals("2014-03-01", first.getMonth());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("1.61"), BigDecimalUtil.parseFromNumberString(first.getCost()));
+    Assert.assertEquals(1.61, first.getCost().doubleValue());
     Assert.assertEquals(1, first.getClicks().longValue());
     Assert.assertEquals(1, first.getImpressions().longValue());
     Assert.assertEquals("100.00", first.getCtr());
-    Assert.assertEquals("1610.00", first.getAvgCpm());
-    Assert.assertEquals("1.61", first.getAvgCpc());
+    Assert.assertEquals(1610.00, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(1.61, first.getAvgCpc().doubleValue());
     Assert.assertEquals("Computers", first.getDevice());
     Assert.assertEquals("Headline", first.getClickType());
     Assert.assertEquals("Search Network", first.getAdNetwork());
@@ -79,12 +78,12 @@ AbstractReportDefinitionTest<ReportPlacement> {
     Assert.assertEquals(" --", last.getMaxCpm());
     Assert.assertEquals("raspberry.com", last.getPlacementUrl());
     Assert.assertEquals("2014-03-01", last.getMonth());
-    Assert.assertEquals(BigDecimalUtil.parseFromNumberString("1.90"), BigDecimalUtil.parseFromNumberString(last.getCost()));
+    Assert.assertEquals(1.90, last.getCost().doubleValue());
     Assert.assertEquals(1, last.getClicks().longValue());
     Assert.assertEquals(3, last.getImpressions().longValue());
     Assert.assertEquals("33.33", last.getCtr());
-    Assert.assertEquals("633.33", last.getAvgCpm());
-    Assert.assertEquals("1.90", last.getAvgCpc());
+    Assert.assertEquals(633.33, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(1.90, last.getAvgCpc().doubleValue());
     Assert.assertEquals("Mobile devices with full browsers", last.getDevice());
     Assert.assertEquals("Headline", last.getClickType());
     Assert.assertEquals("Search Network", last.getAdNetwork());

@@ -17,12 +17,14 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.entities;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -116,6 +118,11 @@ public class ReportAdGroup extends ReportBase {
   @Column(name = "SEARCH_EXACT_MATCH_IMPRESSION_SHARE")
   @CsvField(value = "Search Exact match IS", reportField = "SearchExactMatchImpressionShare")
   private BigDecimal searchExactMatchImpressionShare;
+
+  @Lob
+  @Column(name = "LABELS", length = 2048)
+  @CsvField(value = "Labels", reportField = "Labels")
+  private String labels;
 
   /**
    * Hibernate needs an empty constructor
@@ -368,5 +375,21 @@ public class ReportAdGroup extends ReportBase {
 
   public void setSearchExactMatchImpressionShare(String searchExactMatchImpressionShare) {
     this.searchExactMatchImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchExactMatchImpressionShare);
+  }
+  
+  public String getLabels() {
+    return this.labels;
+  }
+
+  public boolean hasLabel(String label) {
+    if (labels != null && labels.length() > 0) {
+      return Lists.newArrayList(labels.split(";")).contains(label);
+    } else {
+      return false;
+    }
+  }
+
+  public void setLabels(String labels) {
+    this.labels = labels;
   }
 }

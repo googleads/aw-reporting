@@ -15,8 +15,8 @@ import com.google.api.ads.adwords.jaxws.extensions.exporter.reportwriter.ReportW
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.AuthMcc;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.jaxws.extensions.util.CustomerDelegate;
-import com.google.api.ads.adwords.jaxws.v201402.mcm.ApiException;
-import com.google.api.ads.adwords.jaxws.v201402.mcm.Customer;
+import com.google.api.ads.adwords.jaxws.v201406.mcm.ApiException;
+import com.google.api.ads.adwords.jaxws.v201406.mcm.Customer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;

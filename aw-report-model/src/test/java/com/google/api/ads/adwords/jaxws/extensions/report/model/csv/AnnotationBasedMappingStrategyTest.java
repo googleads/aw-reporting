@@ -17,11 +17,10 @@ package com.google.api.ads.adwords.jaxws.extensions.report.model.csv;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportAd;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.ModifiedCsvToBean;
 
-import au.com.bytecode.opencsv.CSVReader;
-
-import junit.framework.Assert;
-
 import org.junit.Test;
+
+import au.com.bytecode.opencsv.CSVReader;
+import junit.framework.Assert;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -63,13 +62,13 @@ public class AnnotationBasedMappingStrategyTest {
     ReportAd reportAd = parsedBeans.get(0);
     Assert.assertEquals(1001270004L, reportAd.getAccountId().longValue());
     Assert.assertEquals("2013-05-01", reportAd.getDay());
-    Assert.assertEquals("9.39", reportAd.getCost());
+    Assert.assertEquals(9.39, reportAd.getCost().doubleValue());
     Assert.assertEquals(32L, reportAd.getClicks().longValue());
     Assert.assertEquals(1258L, reportAd.getImpressions().longValue());
     Assert.assertEquals(0L, reportAd.getConversions().longValue());
     Assert.assertEquals("2.54", reportAd.getCtr());
-    Assert.assertEquals("7.46", reportAd.getAvgCpm());
-    Assert.assertEquals("0.29", reportAd.getAvgCpc());
+    Assert.assertEquals(7.46, reportAd.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.29, reportAd.getAvgCpc().doubleValue());
     Assert.assertEquals("2.12", reportAd.getAvgPosition());
     Assert.assertEquals("EUR", reportAd.getCurrencyCode());
     Assert.assertEquals(132958027L, reportAd.getCampaignId().longValue());
@@ -81,13 +80,13 @@ public class AnnotationBasedMappingStrategyTest {
     reportAd = parsedBeans.get(19);
     Assert.assertEquals(1001270004L, reportAd.getAccountId().longValue());
     Assert.assertEquals("2013-05-10", reportAd.getDay());
-    Assert.assertEquals("1.46", reportAd.getCost());
+    Assert.assertEquals(1.46, reportAd.getCost().doubleValue());
     Assert.assertEquals(2L, reportAd.getClicks().longValue());
     Assert.assertEquals(58L, reportAd.getImpressions().longValue());
     Assert.assertEquals(0L, reportAd.getConversions().longValue());
     Assert.assertEquals("3.45", reportAd.getCtr());
-    Assert.assertEquals("25.17", reportAd.getAvgCpm());
-    Assert.assertEquals("0.73", reportAd.getAvgCpc());
+    Assert.assertEquals(25.17, reportAd.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.73, reportAd.getAvgCpc().doubleValue());
     Assert.assertEquals("3.29", reportAd.getAvgPosition());
     Assert.assertEquals("EUR", reportAd.getCurrencyCode());
     Assert.assertEquals(132958027L, reportAd.getCampaignId().longValue());
@@ -127,13 +126,13 @@ public class AnnotationBasedMappingStrategyTest {
 
     Assert.assertEquals(1001270004L, reportAd.getAccountId().longValue());
     Assert.assertEquals("2013-05-01", reportAd.getDay());
-    Assert.assertEquals("9.39", reportAd.getCost());
+    Assert.assertEquals(9.39, reportAd.getCost().doubleValue());
     Assert.assertEquals(32L, reportAd.getClicks().longValue());
     Assert.assertEquals(1258L, reportAd.getImpressions().longValue());
     Assert.assertEquals(0L, reportAd.getConversions().longValue());
     Assert.assertEquals("2.54", reportAd.getCtr());
-    Assert.assertEquals("7.46", reportAd.getAvgCpm());
-    Assert.assertEquals("0.29", reportAd.getAvgCpc());
+    Assert.assertEquals(7.46, reportAd.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.29, reportAd.getAvgCpc().doubleValue());
     Assert.assertEquals("2.12", reportAd.getAvgPosition());
     Assert.assertEquals("EUR", reportAd.getCurrencyCode());
     Assert.assertEquals(132958027L, reportAd.getCampaignId().longValue());
@@ -156,13 +155,13 @@ public class AnnotationBasedMappingStrategyTest {
 
     Assert.assertEquals(1001270004L, reportAd.getAccountId().longValue());
     Assert.assertEquals("2013-05-10", reportAd.getDay());
-    Assert.assertEquals("1.46", reportAd.getCost());
+    Assert.assertEquals(1.46, reportAd.getCost().doubleValue());
     Assert.assertEquals(2L, reportAd.getClicks().longValue());
     Assert.assertEquals(58L, reportAd.getImpressions().longValue());
     Assert.assertEquals(0L, reportAd.getConversions().longValue());
     Assert.assertEquals("3.45", reportAd.getCtr());
-    Assert.assertEquals("25.17", reportAd.getAvgCpm());
-    Assert.assertEquals("0.73", reportAd.getAvgCpc());
+    Assert.assertEquals(25.17, reportAd.getAvgCpm().doubleValue());
+    Assert.assertEquals(0.73, reportAd.getAvgCpc().doubleValue());
     Assert.assertEquals("3.29", reportAd.getAvgPosition());
     Assert.assertEquals("EUR", reportAd.getCurrencyCode());
     Assert.assertEquals(132958027L, reportAd.getCampaignId().longValue());

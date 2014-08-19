@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportCampaignLocationTarget;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -58,8 +58,8 @@ public class ReportCampaignLocationTargetDefinitionTest extends
     Assert.assertEquals(100L, first.getClicks().longValue());
     Assert.assertEquals(500L, first.getImpressions().longValue());
     Assert.assertEquals("1.00", first.getCtr());
-    Assert.assertEquals("4.00", first.getAvgCpm());
-    Assert.assertEquals("5.00", first.getAvgCpc());
+    Assert.assertEquals(4.00, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(5.00, first.getAvgCpc().doubleValue());
     Assert.assertEquals("6.00", first.getAvgPosition());
     Assert.assertEquals(2L, first.getConversions().longValue());
     Assert.assertEquals("10.00", first.getConversionRate());
@@ -83,8 +83,8 @@ public class ReportCampaignLocationTargetDefinitionTest extends
     Assert.assertEquals(200L, last.getClicks().longValue());
     Assert.assertEquals(1000L, last.getImpressions().longValue());
     Assert.assertEquals("2.00", last.getCtr());
-    Assert.assertEquals("8.00", last.getAvgCpm());
-    Assert.assertEquals("10.00", last.getAvgCpc());
+    Assert.assertEquals(8.00, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(10.00, last.getAvgCpc().doubleValue());
     Assert.assertEquals("12.00", last.getAvgPosition());
     Assert.assertEquals(4L, last.getConversions().longValue());
     Assert.assertEquals("20.00", last.getConversionRate());

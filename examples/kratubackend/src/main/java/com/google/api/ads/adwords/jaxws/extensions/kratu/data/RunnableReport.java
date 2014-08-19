@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.jaxws.extensions.kratu.data;
 
 import com.google.api.ads.adwords.jaxws.extensions.processors.ReportProcessor;
 import com.google.api.ads.adwords.jaxws.extensions.report.model.util.DateUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionDateRangeType;
 
 import org.apache.log4j.Logger;
 

@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.jaxws.extensions.report.model.definitions;
 
 import com.google.api.ads.adwords.jaxws.extensions.report.model.entities.ReportSearchQuery;
-import com.google.api.ads.adwords.lib.jaxb.v201402.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201406.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -69,24 +69,25 @@ public class ReportSearchQueryDefinitionTest extends
     Assert.assertEquals("(GMT+08:00) Hong Kong", first.getAccountTimeZoneId());
     Assert.assertEquals("USD", first.getCurrencyCode());
     Assert.assertEquals("2014-03-01", first.getDay());
-    Assert.assertEquals("0.00", first.getCost());
+    Assert.assertEquals(0d, first.getCost().doubleValue());
     Assert.assertEquals(0L, first.getClicks().longValue());
     Assert.assertEquals(1L, first.getImpressions().longValue());
     Assert.assertEquals("0.00", first.getCtr());
-    Assert.assertEquals("0.00", first.getAvgCpm());
-    Assert.assertEquals("0.00", first.getAvgCpc());
+    Assert.assertEquals(0d, first.getAvgCpm().doubleValue());
+    Assert.assertEquals(0d, first.getAvgCpc().doubleValue());
     Assert.assertEquals("7.00", first.getAvgPosition());
     Assert.assertEquals("Tablets with full browsers", first.getDevice());
     Assert.assertEquals("Search Network", first.getAdNetwork());
 
     Assert.assertEquals(0L, first.getConversions().longValue());
     Assert.assertEquals("0.00", first.getConversionRate());
-    Assert.assertEquals("0.00", first.getCostPerConversion());
+    Assert.assertEquals(0d, first.getCostPerConversion().doubleValue());
     Assert.assertEquals("0.00", first.getValuePerConversion());
     Assert.assertEquals(0L, first.getConversionsManyPerClick().longValue());
     Assert.assertEquals("0.00", first.getConversionRateManyPerClick());
 
-    Assert.assertEquals("0.00", first.getCostPerConversionManyPerClick());
+    Assert.assertEquals(0d, first.getCostPerConversionManyPerClick().doubleValue());
+    
     Assert.assertEquals("0.00", first.getValuePerConvManyPerClick());
     Assert.assertEquals(0L, first.getViewThroughConversions().longValue());
 
@@ -121,24 +122,24 @@ public class ReportSearchQueryDefinitionTest extends
     Assert.assertEquals("(GMT+08:00) Hong Kong", last.getAccountTimeZoneId());
     Assert.assertEquals("USD", last.getCurrencyCode());
     Assert.assertEquals("2014-03-01", last.getDay());
-    Assert.assertEquals("0.00", last.getCost());
+    Assert.assertEquals(0d, last.getCost().doubleValue());
     Assert.assertEquals(0L, last.getClicks().longValue());
     Assert.assertEquals(2L, last.getImpressions().longValue());
     Assert.assertEquals("0.00", last.getCtr());
-    Assert.assertEquals("0.00", last.getAvgCpm());
-    Assert.assertEquals("0.00", last.getAvgCpc());
+    Assert.assertEquals(0d, last.getAvgCpm().doubleValue());
+    Assert.assertEquals(0d, last.getAvgCpc().doubleValue());
     Assert.assertEquals("1.00", last.getAvgPosition());
     Assert.assertEquals("Computers", last.getDevice());
     Assert.assertEquals("Search Network", last.getAdNetwork());
 
     Assert.assertEquals(0L, last.getConversions().longValue());
     Assert.assertEquals("0.00", last.getConversionRate());
-    Assert.assertEquals("0.00", last.getCostPerConversion());
+    Assert.assertEquals(0d, last.getCostPerConversion().doubleValue());
     Assert.assertEquals("0.00", last.getValuePerConversion());
     Assert.assertEquals(0L, last.getConversionsManyPerClick().longValue());
     Assert.assertEquals("0.00", last.getConversionRateManyPerClick());
 
-    Assert.assertEquals("0.00", last.getCostPerConversionManyPerClick());
+    Assert.assertEquals(0d, last.getCostPerConversionManyPerClick().doubleValue());
     Assert.assertEquals("0.00", last.getValuePerConvManyPerClick());
     Assert.assertEquals(0L, last.getViewThroughConversions().longValue());
 

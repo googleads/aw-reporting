@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.api.ads.adwords.jaxws.extensions.downloader;
+package com.google.api.ads.adwords.jaxws.extensions.util;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import com.google.api.ads.adwords.jaxws.extensions.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -50,7 +51,7 @@ public class AdWordsSessionBuilderSynchronizerTest {
     AdWordsSession copiedSession = adWordsSessionBuilderSynchronizer.getAdWordsSessionCopy(777L);
 
     assertEquals(copiedSession.getClientCustomerId(), "777");
-    assertEquals(copiedSession.isReportMoneyInMicros(), false);
+    assertEquals(copiedSession.isReportMoneyInMicros(), null);
 
     assertEquals(copiedSession.getDeveloperToken(), adWordsSession.getDeveloperToken());
     assertEquals(copiedSession.getEndpoint(), adWordsSession.getEndpoint());
