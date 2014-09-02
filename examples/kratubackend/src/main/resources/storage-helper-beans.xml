@@ -9,16 +9,16 @@
   ">
 
   <bean
-    class="com.google.api.ads.adwords.awreporting.kratubackend.data.StorageHelper"
+    class="com.google.api.ads.adwords.jaxws.extensions.kratu.data.StorageHelper"
     id="storageHelper">
   </bean>
 
   <bean id="awReportProperties"
-    class="com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer">
+    class="com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer">
   </bean>
 
 
   <context:component-scan
-     base-package="com.google.api.ads.adwords.awreporting.kratubackend.persisters" />
+     base-package="com.google.api.ads.adwords.jaxws.extensions.kratu.persisters" />
 
 </beans>

@@ -16,7 +16,7 @@
   <import resource="classpath:data-source.xml" />
 
   <context:component-scan
-    base-package="com.google.api.ads.adwords.awreporting.model.persistence.sql" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.report.model.persistence.sql" />
 
   <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
     <property name="dataSource" ref="dataSource"></property>
@@ -31,8 +31,8 @@
     </property>
     <property name="packagesToScan">
      <list>
-        <value>com.google.api.ads.adwords.awreporting.model.entities</value>
-        <value>com.google.api.ads.adwords.awreporting.kratubackend.data</value>
+        <value>com.google.api.ads.adwords.jaxws.extensions.report.model.entities</value>
+        <value>com.google.api.ads.adwords.jaxws.extensions.kratu.data</value>
      </list>
 	</property>
   </bean>

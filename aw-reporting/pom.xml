@@ -4,7 +4,7 @@
 
   <groupId>com.google</groupId>
   <artifactId>aw-reporting</artifactId>
-  <version>1.6.0-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>aw-reporting</name>
@@ -63,7 +63,7 @@
               <manifest>
                 <addClasspath>true</addClasspath>
                 <classpathPrefix>dependency/</classpathPrefix>
-                <mainClass>com.google.api.ads.adwords.awreporting.AwReporting</mainClass>
+                <mainClass>com.google.api.ads.adwords.jaxws.extensions.AwReporting</mainClass>
               </manifest>
               <manifestEntries>
                 <Class-Path>.</Class-Path>
@@ -79,7 +79,7 @@
 
     <dependency>
       <groupId>com.google</groupId>
-      <artifactId>aw-reporting-model</artifactId>
+      <artifactId>aw-report-model</artifactId>
       <version>${project.version}</version>
       <type>jar</type>
     </dependency>
