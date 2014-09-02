@@ -9,23 +9,23 @@
   ">
 
   <context:component-scan
-    base-package="com.google.api.ads.adwords.awreporting.processors.onmemory" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.processors.onmemory" />
   
   <context:component-scan
-    base-package="com.google.api.ads.adwords.awreporting.exporter" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.exporter" />
   
   <context:component-scan
-    base-package="com.google.api.ads.adwords.awreporting.exporter.reportwriter" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.exporter.reportwriter" />
 
   <context:component-scan
-    base-package="com.google.api.ads.adwords.awreporting.authentication" />
+    base-package="com.google.api.ads.adwords.jaxws.extensions.authentication" />
 
   <bean id="awReportProperties"
-    class="com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer">
+    class="com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer">
   </bean>
 
   <bean init-method="initializeExecutorService"
-    class="com.google.api.ads.adwords.awreporting.downloader.MultipleClientReportDownloader"
+    class="com.google.api.ads.adwords.jaxws.extensions.downloader.MultipleClientReportDownloader"
     id="multipleClientReportDownloader">
     <property name="numThreads" value="${aw.report.downloader.num.threads}" />
     <property name="retriesCount" value="${aw.report.downloader.retries.count}" />

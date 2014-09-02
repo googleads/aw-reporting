@@ -9,12 +9,12 @@
   ">
 
   <bean
-    class="com.google.api.ads.adwords.awreporting.kratubackend.data.KratuProcessor"
+    class="com.google.api.ads.adwords.jaxws.extensions.kratu.data.KratuProcessor"
     id="kratuProcessor">
   </bean>
 
   <bean id="awReportProperties"
-    class="com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer">
+    class="com.google.api.ads.adwords.jaxws.extensions.util.DynamicPropertyPlaceholderConfigurer">
   </bean>
   
 </beans>
