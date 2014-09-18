@@ -18,10 +18,8 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.google.api.ads.adwords.awreporting.kratubackend.KratuCompute;
-import com.google.api.ads.adwords.awreporting.kratubackend.data.Account;
-import com.google.api.ads.adwords.awreporting.kratubackend.data.Kratu;
-import com.google.api.ads.adwords.awreporting.kratubackend.data.StorageHelper;
+import com.google.api.ads.adwords.awreporting.kratubackend.entities.Kratu;
+import com.google.api.ads.adwords.awreporting.kratubackend.util.KratuStorageHelper;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
@@ -30,6 +28,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
+import com.google.api.ads.adwords.awreporting.server.entities.Account;
 import com.google.api.client.util.Lists;
 import com.google.common.collect.ImmutableList;
 
@@ -69,7 +68,7 @@ public class KratuComputeTest {
   private Account account;
   
   @Mock
-  private StorageHelper storageHelper;
+  private KratuStorageHelper storageHelper;
   
   @Captor
   ArgumentCaptor<Class<? extends Report>> classReportCaptor;
@@ -80,7 +79,7 @@ public class KratuComputeTest {
     account = new Account();
     account.setCurrencyCode("EUR");
     account.setDateTimeZone("Europe/Paris");
-    account.setExternalCustomerId(777L);
+    account.setId("777");
     account.setName("Account1");
 
     kratu1 = new Kratu(123L, account, day1);

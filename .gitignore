@@ -27,6 +27,15 @@ examples/kratubackend/.project
 examples/kratubackend/.settings
 
 
+aw-reporting-server/target/*
+
+aw-reporting-server/.classpath
+
+aw-reporting-server/.project
+
+aw-reporting-server/.settings/
+
+
 *.DS_Store
 
 
