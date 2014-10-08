@@ -131,6 +131,18 @@ public class ReportAd extends ReportBase {
   @CsvField(value = "Labels", reportField = "Labels")
   private String labels;
 
+  @Column(name = "AD_TYPE", length = 255)
+  @CsvField(value = "Ad type", reportField = "AdType")
+  private String adType;
+
+  @Column(name = "ADGROUP_NAME", length = 255)
+  @CsvField(value = "Ad group", reportField = "AdGroupName")
+  private String adGroupName;
+
+  @Column(name = "CAMPAIGN_NAME", length=255)
+  @CsvField(value="Campaign", reportField = "CampaignName")
+  private String campaignName;
+
   /**
    * Hibernate needs an empty constructor
    */
@@ -176,6 +188,15 @@ public class ReportAd extends ReportBase {
     this.adId = adId;
   }
 
+  // campaign
+  public String getCampaignName() {
+    return campaignName;
+  }
+
+  public void setCampaignName(String campaignName) {
+    this.campaignName = campaignName;
+  }
+
   // adGroupId
   public Long getAdGroupId() {
     return adGroupId;
@@ -183,6 +204,24 @@ public class ReportAd extends ReportBase {
 
   public void setAdGroupId(Long adGroupId) {
     this.adGroupId = adGroupId;
+  }
+
+  // adType
+  public String getAdType() {
+    return adType;
+  }
+
+  public void setAdType(String adType) {
+    this.adType = adType;
+  }
+ 
+  // adGroup 
+  public String getAdGroupName() {
+    return adGroupName;
+  }
+
+  public void setAdGroupName(String adGroupName) {
+    this.adGroupName = adGroupName;
   }
 
   // campaignId
