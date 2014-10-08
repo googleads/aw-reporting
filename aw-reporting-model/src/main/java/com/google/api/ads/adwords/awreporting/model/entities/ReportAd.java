@@ -188,7 +188,7 @@ public class ReportAd extends ReportBase {
     this.adId = adId;
   }
 
-  // campaign
+  // campaignName
   public String getCampaignName() {
     return campaignName;
   }
@@ -197,13 +197,13 @@ public class ReportAd extends ReportBase {
     this.campaignName = campaignName;
   }
 
-  // adGroupId
-  public Long getAdGroupId() {
-    return adGroupId;
+  // adGroupName 
+  public String getAdGroupName() {
+    return adGroupName;
   }
 
-  public void setAdGroupId(Long adGroupId) {
-    this.adGroupId = adGroupId;
+  public void setAdGroupName(String adGroupName) {
+    this.adGroupName = adGroupName;
   }
 
   // adType
@@ -215,13 +215,13 @@ public class ReportAd extends ReportBase {
     this.adType = adType;
   }
  
-  // adGroup 
-  public String getAdGroupName() {
-    return adGroupName;
+  // adGroupId
+  public Long getAdGroupId() {
+    return adGroupId;
   }
 
-  public void setAdGroupName(String adGroupName) {
-    this.adGroupName = adGroupName;
+  public void setAdGroupId(Long adGroupId) {
+    this.adGroupId = adGroupId;
   }
 
   // campaignId
