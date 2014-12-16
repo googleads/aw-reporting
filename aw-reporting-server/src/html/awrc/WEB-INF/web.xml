@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+	<display-name>first steps servlet</display-name>
+
+	<servlet>
+		<servlet-name>RestletServlet</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<param-name>org.restlet.application</param-name>
+			<param-value>com.google.api.ads.adwords.awreporting.appengine.RestServer</param-value>
+		</init-param>
+	</servlet>
+
+	<!-- Catch all requests -->
+	<servlet-mapping>
+		<servlet-name>RestletServlet</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<security-constraint>
+		<web-resource-collection>
+			<url-pattern>/</url-pattern>
+			<url-pattern>/mcc/*</url-pattern>
+			<url-pattern>/account/*</url-pattern>
+			<url-pattern>/oauth/*</url-pattern>
+			<url-pattern>/template/*</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>*</role-name>
+		</auth-constraint>
+	</security-constraint>
+
+	<!-- Restricting cron to be run only by admin/job, not users -->
+	<security-constraint>
+	    <web-resource-collection>
+	        <web-resource-name>cron</web-resource-name>
+	        <url-pattern>/generatereportscron*</url-pattern>
+	    </web-resource-collection>
+	    <auth-constraint>
+	        <role-name>admin</role-name>
+	    </auth-constraint>
+	</security-constraint>
+
+	<static-files>
+		<include path="stylesheets/**.js" />
+		<include path="stylesheets/**.css" />
+	</static-files>
+
+</web-app>

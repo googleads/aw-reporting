@@ -1,0 +1,26 @@
+body, div, input, h1 {
+  padding:10px;
+  font-family: 'Inconsolata', sans-serif;
+}
+
+.usertoken {
+  padding:10px;
+  background-color:#070;
+  color:#fff;
+  width:80%; 
+  height:20px;
+  margin-bottom:10px;
+  vertical-align:middle;
+  position: relative;
+  box-shadow: 2px 2px 2px #ccc;
+}
+
+.left-column, .right-column{
+  float:left;
+}
+.left-column{
+  width:30%; 
+}
+.right-column{
+  width:60%; 
+}

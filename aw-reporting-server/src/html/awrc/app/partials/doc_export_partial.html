@@ -1,0 +1,188 @@
+<div id="doc_export_partial" class="home-partial" ng-show="!loading_task_count">
+
+  <div class="alert alert-danger" ng-show="load_error_text" style="margin-top: 30px">
+    <p>{{ load_error_text }}</p>
+    <p ng-show="load_error == 'no_such_mcc'">
+      <a href="/oauth/{{mccid}}"><button class="btn btn-primary"> Add the MCC {{ mccid }} to my list</button></a>
+    </p>
+  </div>
+
+
+  <div ng-show="!load_error_text">
+    <h2>MCC: {{ mcc_info.name }}</h2>
+    <section id="pdf_export_step1">
+      <div id="pdf_export_step1">
+        <div id="account_selection" ng-show="! selected_account">
+        <h3>Select an account</h3>
+        <div id="account_list" class="block">
+          <div class="instructions">
+            <div class="instruction" style="text-align: center">
+              <div class="large-image"><span class="glyphicon glyphicon-folder-open" style="color: #428bca;"></span></div>
+            </div>
+            <div style="clear: left"></div>
+          </div>
+          <div class="elements-list-section">
+              <input class="elements-filter" type="text" placeholder="Search for accounts ..." ng-model="filter_accounts"/>
+          <div style="clear: left"></div>
+          <div style="float: left">
+            <div id="accounts" class="list-group elements-list-group list" ng-show="accounts.length">
+              <div>
+                <a class="list-group-item" href=""
+                   ng-class="{ 'active': account_selectedIndexes.contains($index) }"
+                   ng-repeat="account in account_matches = (source_accounts | filter: filter_accounts)"
+                   ng-click="selectAccount($index, account);">
+                  <h4 class="list-group-item-heading">{{account.name}}</h4>
+            	  <p class="list-group-item-text">{{ account._accountId }}</p>
+                </a>
+              </div>
+            </div>
+            <div id="no_accounts" ng-show="accounts.length == 0">
+              <div class="bs-callout bs-callout-danger" style="width: 400px">
+                <h4>This MCC has no accounts</h4>
+              </div>
+            </div>
+          </div>
+          <div style="clear: left"></div>
+        </div>
+      </div>
+      </div>
+      <div id="account_selected" ng-show="selected_account">
+      <h3>Selected account</h3>
+      	<div id="selected_account_box" class="selected_element_box">
+      	  <div style="float: right"
+      	    ng-click="selected_account = null; switchStep(1);"
+      	    title="Select a different account">
+            <span class="delete_button glyphicon glyphicon-remove"></span>
+          </div>
+      	  <h4 class="list-group-item-heading">{{ selected_account.name }}</h4>
+          <h4>{{ selected_account._accountId }}</h4>
+      	</div>
+      </div>
+    </div>
+  </section> <!-- / pdf_export_step1 -->
+  
+  <section id="pdf_export_step2">
+    <div id=pdf_export_step2 ng-show="step >= 2  || report_selected">
+      <div id="report_selection" style="margin-top: 20px" ng-show="! report_selected">
+        <h3>Select Report Type</h3>
+        <div id="templates_list" class="block">
+        <div class="instructions">
+          <div class="instruction" style="text-align: center">
+            <div class="large-image"><span class="glyphicon glyphicon-list-alt" style="color: rgb(92,184,92);"></span></div>
+          </div>
+          <div style="clear: left"></div>
+        </div>
+        <div class="elements-list-section">
+          <input type="text" class="elements-filter" placeholder="Search for report type ..." ng-model="filter_reports"/>
+          <div style="clear: left"></div>
+          <div style="float: left">
+            <div id="templates" class="list-group elements-list-group list" ng-show="templates.length">
+              <div>
+                <a class="list-group-item" href=""
+                    ng-class="{ 'active': $index == report_selectedIndex, first: $first, last: $index && $last }"
+                    ng-repeat="template in matches = (templates | filter: filter_reports)"
+                    ng-click="selectReport($index, template.templateName, template);">
+                  <div style="float: right">
+                    <span ng-show="template.isPublic" style="font-size: 100%"
+                        title="Public Shared Template"
+                        class="glyphicon glyphicon-cloud pull-right"></span>
+                    <span ng-show="!template.isPublic" style="font-size: 100%"
+                        title="Private Template"
+                        class="glyphicon glyphicon-user pull-right"></span>
+                  </div>
+                  <h4 class="list-group-item-heading">{{ template.templateName }}</h4>
+                  <p>{{ template.templateDescription }}</p>
+                </a>
+              </div>
+            </div>
+            <div id="no_templates" ng-show="templates.length == 0">
+              <div class="bs-callout bs-callout-danger" style="width: 400px">
+                <h4> You haven't created any templates yet </h4>
+                <p> Click <a href="#/template">here</a> to create your first template </p>
+              </div>
+            </div>
+          </div>
+          <div style="clear: left"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="template_selected" ng-show="report_selected">
+      <h3>Selected report type</h3>
+  	  <div id="selected_template_box" class="selected_element_box">
+        <div style="float: right"
+      	    ng-click="report_selected = null; switchStep(2);"
+      	    title="Select a different report type">
+         <span class="delete_button glyphicon glyphicon-remove"></span>
+        </div>
+        <h4 class="list-group-item-heading" style="font-weight:bold;">{{ report_selected.templateName }}</h4>
+        <p style=""> {{ report_selected.templateDescription }} </p>
+      </div>
+    </div>
+  </div>
+</section> <!-- / pdf_export_step2 -->
+  
+  <section id="pdf_export_step3">
+    <div id="pdf_export_step3" ng-show="step >= 3 || report_selected">
+      <div id="date_range_selection" style="margin-top: 20px" ng-show="! date_start || ! date_end  || date_end < date_start">
+        <h3> Select Date Range </h3>
+        <div id="date_selection" class="block">
+
+          <div style="float: left; margin: 20px">
+            <h4> Start Date </h4>
+            <div >
+              <datepicker id="start_date_picker" ng-model="date_start" datepicker-mode="'month'" min-mode="month" max-mode="month" min-date="reports_min_date" max-date="reports_max_date" class="well well-sm"></datepicker>
+            </div>
+          </div>
+
+          <div style="float: left; font-size: 1000%; color: #f0ad4e; padding: 25px; padding-top: 70px">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </div>
+
+          <div style="float: left; margin: 20px">
+            <h4> End Date </h4>
+            <div>
+              <datepicker id="end_date_picker" ng-model="date_end" datepicker-mode="'month'" min-mode="month" max-mode="month" min-date="reports_min_date" max-date="reports_max_date" class="well well-sm"></datepicker>
+            </div>
+          </div>
+          <div style="clear: left"></div>
+        
+          <div id="alert_container" style="text-align: center; font-size: 135%; margin-bottom: 20px" ng-show="date_start && date_end && date_end < date_start">
+            <div id="invalid_date_alert" class="alert alert-danger" ng-show="date_end < date_start">End date cannot be before start date</div>
+          </div>
+        </div>
+      </div>
+      <div id="date_range_selected" ng-show="date_start && date_end && !(date_end < date_start)">
+      <h3>Selected month range</h3>
+      	<div id="selected_template_box" class="selected_element_box">
+      	  <div style="float: right"
+      	    ng-click="resetDatePickers(); switchStep(3);"
+      	    title="Select a different date range">
+            <span class="delete_button glyphicon glyphicon-remove"></span>
+          </div>
+      	  <h4 class="list-group-item-heading" style="font-weight:bold;">{{ date_start | date: 'MMMM yyyy' }} - {{ date_end | date: 'MMMM yyyy' }}</h4>
+      	</div>
+      </div>
+    </div>
+  </section> <!-- / pdf_export_step3 -->
+  
+  <section id="pdf_export_step4">
+    <div id="pdf_export_step4" ng-show="step >= 4 || ( date_start && date_end && !(date_end < date_start) )">
+      <a target="_blank" href="/mcc/{{mcc_info.topAccountId}}/previewreports/account/{{selected_account.id}}?templateId={{report_selected.id}}&monthStart={{ date_start | date: 'yyyyMM' }}&monthEnd={{ date_end | date: 'yyyyMM' }}&reportType=pdf">
+        <button class="btn btn-success" ng-disabled="!(selected_account && report_selected && date_start && date_end)">Generate Report</button>
+      </a>
+    </div>
+  </section>
+</div>
+</div>
+
+
+<div id="account_partial_loading" class="page_loading" ng-show="loading_task_count">
+  <progressbar class="loading_status" type="success" value="TOTAL_LOADING_TASKS - loading_task_count"
+               max="TOTAL_LOADING_TASKS">
+    Loading {{ TOTAL_LOADING_TASKS - loading_task_count }} of {{ TOTAL_LOADING_TASKS }}
+  </progressbar>
+</div>
+
+
+<div style="margin: 20px"></div>

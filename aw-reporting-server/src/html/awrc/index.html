@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html ng-app="awrcApp">
+<head>
+  <title>AdWords Reporting Console</title>
+
+  <link href="css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="css/app.css" rel="stylesheet" type="text/css" />
+  <link href="css/ng-table.css" rel="stylesheet" type="text/css" />
+  <script src="js/angular.min.js"></script>
+  <script src="js/angular-route.min.js"></script>
+  <script src="js/angular-cookies.min.js"></script>
+  <script src="js/angular-scroll.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="js/async.js"></script>
+  <script src="js/ui-bootstrap-tpls-0.12.0-SNAPSHOT.min.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/ng-table.js"></script>
+
+
+  <script type="text/javascript" src="app/app.js"></script>
+
+  <!-- controllers -->
+  <script type="text/javascript" src="app/controllers/homeaccountslistcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/accountcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/docexportcontroller.js"></script> 
+  <script type="text/javascript" src="app/controllers/rawdatacontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/templatecontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/staticcontentcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/onboardingcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/nvsptecontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/errorcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/healthcheckcontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/hometemplatescontroller.js"></script>
+  <script type="text/javascript" src="app/controllers/settingsdropdowncontroller.js"></script>
+
+  <!-- services, factories, configs -->
+  <script type="text/javascript" src="app/services/coreservices.js"></script>
+
+  <!-- filters and directives -->
+  <script type="text/javascript" src="app/filters/filters.js"></script>
+
+  
+</head>
+<body>
+
+  <div id="top_bar">
+    <a href="index.html#/"><div style="color: #225" class="glyphicon glyphicon-th"></div></a>
+    <div id="title"> AdWords Reporting Console </div>
+    <div id="settings-container" style="float:right;" ng-controller="settingsdropdowncontroller">
+    	<!-- <a href=""><div class="glyphicon glyphicon-cog"></div></a> -->
+      <div class="btn-group" dropdown is-open="status.isopen">
+        <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle ng-disabled="disabled" ng-click="toggleDropdown($event)">
+          <div class="glyphicon glyphicon-cog">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="#/templates">Manage Report Templates</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div ng-view id="ng-view"></div>
+
+</body>
+</html>
+
+

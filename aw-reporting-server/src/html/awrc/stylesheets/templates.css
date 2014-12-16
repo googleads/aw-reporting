@@ -1,0 +1,16 @@
+form {
+    line-height: 2em;
+}
+
+#templateHtml {
+    margin: 10px;
+    background: #eee;
+    padding: 10px;
+    height: 120px;
+    width: 1000px;
+    overflow: auto;
+}
+
+.formtextbox {
+	width: 400px;
+}

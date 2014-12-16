@@ -1,0 +1,353 @@
+<!--
+    Copyright 2013 Google Inc. All Rights Reserved.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <title> AwReporting Server </title>
+<!--  <link rel="stylesheet" href="kratureport/css/examples.css" type="text/css">-->
+  <link rel="stylesheet" href="index.css" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" type="text/css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+  <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    $(function() {
+        $("#from").datepicker({ dateFormat: "yy-mm-dd" }).val();
+        $("#to").datepicker({ dateFormat: "yy-mm-dd" }).val();  
+
+        $("#canned_date_ranges").val("choose");
+        
+/*
+        var date = new Date();
+        date.setMonth(date.getMonth(), 1);
+        if ($('#from').datepicker('getDate') == null) {
+            $('#from').datepicker().datepicker('setDate', date);    
+        }
+        if ($('#to').datepicker('getDate') == null) {
+            $('#to').datepicker().datepicker('setDate', new Date());  
+        }
+        changeLinksDates();
+*/
+        $('#from').on('change', function() {
+            changeLinksDates();
+        });
+        $('#to').on('change', function() {
+            changeLinksDates();
+        });
+
+        $( "#from" ).datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#to" ).datepicker( "option", "minDate", selectedDate );
+            }
+        });
+        $( "#to" ).datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 3,
+            onClose: function( selectedDate ) {
+                $( "#from" ).datepicker( "option", "maxDate", selectedDate );
+            }
+        });
+
+        function updateLinkMccids() {
+            $("a.xdate_restricted div.api").each(function () {
+                var idx = nth_indexOf(3, $(this).text(), "/");
+                var part = "/mcc/" + $("#mccids").val();
+                $(this).text( part + $(this).text().substr(idx));
+            });
+
+            $("a.xdate_restricted").each(function () {
+                var idx = nth_indexOf(3, $(this).text(), "/");
+                var part = "/mcc/" + $("#mccids").val();
+                $(this).attr("href",  part + $(this).text().substr(idx));
+            });
+
+            var parts = $("#kratu_link").attr('href').split("=");
+            var qparts = $("#kratu_link").attr('href').split("&");
+            qparts.shift();
+            var extra = qparts.length ? ("&" + qparts.join("&")) : "";
+            $("#kratu_link").attr('href', parts[0] + "=" + $("#mccids").val() + extra);
+        }
+
+        function nth_indexOf(n, str, what) {
+            return str.split(what).splice(0, n).join(what).length;
+        }
+
+        function changeLinksDates() {
+            var date1 = $.datepicker.formatDate('yymmdd',$('#from').datepicker('getDate'));
+            var date2 = $.datepicker.formatDate('yymmdd',$('#to').datepicker('getDate'));
+
+            // only show body if we have two dates
+            if (date1 && date2) {
+                $("#rest_of_page").fadeIn(300);
+            }
+
+            var dateParameters = "?dateStart="+date1+"&dateEnd="+date2;
+            var dp2 = dateParameters.substring(1);
+            $("#kratu_link").attr("href", "/kratureport/index.html?mccid=" + $("#mccids").val() + "&" + dp2);
+
+            $("a.xdate_restricted div.api").each(function () {
+                if ($(this).text().indexOf("?") > 0) {
+		    $(this).text($(this).text().replace(/\?.*/, dateParameters));
+                } else {
+                    $(this).text($(this).text() + dateParameters);
+                }
+            });            
+            $("a.xdate_restricted").each(function () {
+                if ($(this).attr('href').indexOf("?") > 0) {
+                    $(this).attr('href',$(this).attr('href').replace(/\?.*/, dateParameters));
+                } else {
+                    $(this).attr('href', $(this).attr('href') + dateParameters);
+                }
+            });
+        }
+
+        function set_mccs (data) {
+            if (!Array.isArray(data)) {
+                console.error("Unexpected data returned from /mccs!!");
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    $("#mccids").append($("<option>", {
+                        value: data[i].topAccountId,
+                        text: data[i].topAccountId + " - " + data[i].topAccountName
+                    }));
+                }
+            }
+        }
+
+        $.getJSON("/mcc")
+            .done(set_mccs)
+            .fail(function () {
+                $("#page_load_error").css("display", "block");
+                $("#mcc_picker").css("display", "none");
+            });
+
+        $("#mccids").change(function () {
+            var chosen = $("#mccids").val() != "choose";
+
+            if (chosen) {
+                $("#date_range").css("display", "block");
+                updateLinkMccids();
+            } else {
+                $("#date_range").css("display", "none");
+                $("#rest_of_page").css("display", "none");
+            }
+        });
+
+
+        $("#canned_date_ranges").change(function () {
+            if ($("#canned_date_ranges").val() == "custom") {
+                $("#my_date_range").css("display", "block");
+                return;
+            } else {
+                $("#my_date_range").css("display", "none");
+            }
+            
+            if ($("#canned_date_ranges").val() == "LAST_7_DAYS") {
+                var date1 = new Date(new Date().getTime() - (86400000 * 7));
+                var date2 = new Date();
+            } else if ($("#canned_date_ranges").val() == "LAST_14_DAYS") {
+                var date1 = new Date(new Date().getTime() - (86400000 * 14));
+                var date2 = new Date();
+            } else if ($("#canned_date_ranges").val() == "LAST_30_DAYS") {
+                var date1 = new Date(new Date().getTime() - (86400000 * 30));
+                var date2 = new Date();
+            } else if ($("#canned_date_ranges").val() == "LAST_CALENDAR_MONTH") {
+                var date1 = new Date();
+                date1.setMonth(date1.getMonth() - 1);
+                date1.setDate(1);
+                var date2 = new Date();
+                date2.setDate(0);
+            } else {
+                console.error("Where did that come from?");
+            }
+
+            $('#from').datepicker().datepicker('setDate', date1);    
+            $('#to').datepicker().datepicker('setDate', date2);    
+            changeLinksDates();
+        });
+    });
+
+  </script>
+</head>
+<body>
+  <div id="top_bar">
+    <div class="kratuLogo small" style="margin-left: 18px; float: left"><a style='color: white' href="">k</a><span>powered by</span></div>
+
+      <div id="title"> AdWords Reporting &amp; Account Analysis </div>
+    <div style="clear: left"></div>
+  </div>
+
+  <div class="content">
+  </div>
+
+  <div id="mcc_picker" class="circle content">
+    <h2> I want to work with this MCC: </h2>
+    <div id="mccid_holder">
+      <select id="mccids" style="min-width: 400px">
+        <option value="choose">(Choose)</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div id="page_load_error" class="circle content" style="display: none; color: rgb(170, 66, 66); border: 1px solid rgb(200,150,150); background-color: rgb(242, 222, 222)">
+    Unable to fetch the list of MCCs from the server. Bummer.
+  </div>
+
+
+  <div class="content">
+  </div>
+
+  <div id="date_range" class="circle content" style="display: none">
+    <div id="have_mccs" style="display: block">
+      <h2> I want to see reports for these dates: </h2>
+      <select id="canned_date_ranges" style="font-size: 110%; width: 325px">
+        <option value="choose">(Choose)</option>
+        <option value="LAST_7_DAYS">Most recent 7 Days</option>
+        <option value="LAST_14_DAYS">Most recent 14 Days</option>
+        <option value="LAST_30_DAYS">Most recent 30 Days</option>
+        <option value="LAST_CALENDAR_MONTH">Last full calendar month</option>
+        <option value="custom">Manually pick dates...</option>
+      </select>
+      <div id="my_date_range" style="display: none; margin-top: 20px">
+        <label for="from">From</label> <input type="text" id="from" name="from"> <label for="to">to</label> <input type="text" id="to" name="to">
+      </div>
+    </div>
+  </div>
+
+<div id="rest_of_page" style="display: none">
+  <div style="margin-top: 40px" class="content circle">
+    <div  id="kratu">
+      <a id="kratu_link" href="kratureport/index.html?mccid=XYZ&dateStart=YYYYMMDD&dateEnd=YYYYMMDD">
+        <div style="float: left"><img style="height: 60px" src="kratureport/img/kratu_screen.png" border="0"/></div>
+        <div style="float: left;font-size: 20px; margin-top: 8px;margin-left: 10px"> Kratu Opportunity Analysis Tool
+          <br/><span style="font-size: 60%">(You probably want this)</span>
+        </div>
+
+        <div style="clear: left"></div>
+      </a>
+    </div>
+  </div>
+
+  <div style="margin-top: 40px" class="content circle">
+    <div style="float: right; margin-top: 5px"><a href="" id="showhide_json">[Show]</a></div>
+    <h3> AwReporting Server JSON API functions</h3>
+    <div> <span class="small">(All of these return JSON, operate on <em>all</em> accounts)</span></div>
+    <div id="json_calls" style="display: none">
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/accounts">
+          <div class="desc"> List of all accounts </div>
+          <div class="api"> /mcc/mccid/accounts?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/kratu">
+          <div class="desc"> Kratu signal data </div>
+          <div class="api"> /mcc/mccid/kratu?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportaccount">
+          <div class="desc"> Account reports </div>
+          <div class="api"> /mcc/mccid/reportaccount?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportcampaign">
+          <div class="desc"> Campaign reports </div>
+          <div class="api"> /mcc/mccid/reportcampaign?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportadgroup">
+          <div class="desc"> Adgroup reports </div>
+          <div class="api"> /mcc/mccid/reportadgroup?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportad">
+          <div class="desc"> Ad reports </div>
+          <div class="api"> /mcc/mccid/reportad?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportkeyword">
+          <div class="desc"> Keyword reports </div>
+          <div class="api"> /mcc/mccid/reportkeyword?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportadextension">
+          <div class="desc"> Ad extension reports </div>
+          <div class="api"> /mcc/mccid/reportadextension?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+      <div class="json_call">
+        <a class="json xdate_restricted" href="/mcc/mccid/reportcampaignnegativekeyword">
+          <div class="desc" style="font-size: 110%"> Campaign negative keyword reports </div>
+          <div class="api"> /mcc/mccid/reportcampaignnegativekeyword?dateStart=YYYYMMDD&dateEnd=YYYYMMDD</div>
+          <div style="clear: left"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+<!--
+<div class="content" style="margin-top: 40px; text-align: center">
+  <a class="button med blue xdate_restricted" href="/generatereports?dateStart=YYYYMMDD&dateEnd=YYYYMMDD">
+    <span>Re-download all reports </span>
+  </a>
+  <a class="button med blue xdate_restricted" href="/generatekratus?dateStart=YYYYMMDD&dateEnd=YYYYMMDD">
+    <span>Re-process all Kratu signals </span>
+  </a>
+</div>
+-->
+</div>
+
+<div style="margin-bottom: 40px"></div>
+
+
+
+<script type="text/javascript">
+$("#showhide_json").click(function (e){
+  e.preventDefault();
+  if ($("#json_calls").is(":visible")) {
+    $("#json_calls").hide(300);
+    $("#showhide_json").html("[Show]");
+  } else {
+    $("#json_calls").show(300);
+    $("#showhide_json").html("[Hide]");
+  }
+});
+</script>
+
+</body>
+</html>
+

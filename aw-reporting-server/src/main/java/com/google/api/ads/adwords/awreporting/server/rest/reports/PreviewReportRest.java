@@ -45,7 +45,11 @@ public class PreviewReportRest extends AbstractBaseResource {
 
       Long topAccountId = getParameterAsLong("topAccountId");
       Long accountId = getParameterAsLong("accountId");
+<<<<<<< HEAD
+      String templateId = getParameter("templateId");
+=======
       Long templateId = getParameterAsLong("templateId");
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       String monthStart = getParameter("monthStart");
       String monthEnd = getParameter("monthEnd");
       String reportType = getParameter("reportType");
@@ -92,6 +96,12 @@ public class PreviewReportRest extends AbstractBaseResource {
           if (reportType != null && reportType.equals("pdf")) {
             // PDF
             byte[] pdfContent = serverReportExporter.getReportPdf(accountId, properties, templateId, dateStart, dateEnd);
+<<<<<<< HEAD
+            
+            String reportFileName = "performance-report-" + accountId + "_" + dateStart + "_" + dateEnd + ".pdf";
+            addFileNameHeader(reportFileName, false);
+=======
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
             return createPdfResult(pdfContent);
 
           } else {

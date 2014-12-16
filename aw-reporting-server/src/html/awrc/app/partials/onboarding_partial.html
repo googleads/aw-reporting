@@ -1,0 +1,57 @@
+
+<div id="onboarding_partial">
+
+  <div class="alert alert-danger" ng-show="page_load_error">
+    {{ page_load_error }}
+  </div>
+
+  <h3> Start Loading Reports </h3>
+  <div class="block" style="padding: 20px">
+    <p style="text-align: center"> We have no data for this MCC. Pick a start date and let's start downloading!</p>
+
+    <div class="alert alert-danger" ng-show="generate_reports_error">
+      {{ generate_reports_error }}
+    </div>
+
+      <div id="date_selection" class="block" style="padding: 0">
+
+        <div style="float: left; margin: 20px; margin-left: 280px; margin-top: 0">
+          <h4> Start Date </h4>
+
+          <div >
+            <datepicker ng-model="date_start" datepicker-mode="'month'" min-mode="month" class="well well-sm"></datepicker>
+          </div>
+        </div>
+<!--
+        <div style="float: left; font-size: 1000%; color: #f0ad4e; padding: 30px; padding-top: 70px">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </div>
+        <div style="float: left; margin: 20px">
+          <h4> End Date </h4>
+
+          <div>
+            <datepicker ng-model="date_end" datepicker-mode="'month'" min-mode="month" max-date="max_date" class="well well-sm"></datepicker>
+          </div>
+        </div>
+-->
+        <div style="clear: left"></div>
+        <div style="text-align: center; font-size: 110%; margin-bottom: 20px" ng-show="date_end && date_start">
+          Pull reports from <strong>{{ date_start | date: 'yyyy-MM-dd' }}</strong>
+          to <strong>{{ fixed_date_end | date: 'yyyy-MM-dd' }}</strong>
+        </div>
+      </div>
+      <div style="text-align: center">
+        <div class="alert alert-success" ng-show="generate_reports_success" style="width: 400px; margin-left: 235px">
+          {{ generate_reports_success }}  <img src="media/loader_success_throb.gif" border="0"/>
+        </div>
+
+        <button ng-disabled="force_disable_generate_button || !date_start || !date_end"
+                id="generate_reports" class="btn btn-primary" style="width: 200px;"
+                ng-click="generateReports();">
+          Begin Report Download
+        </button>
+      </div>
+  </div>
+
+</div>
+

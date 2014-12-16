@@ -344,7 +344,11 @@ public class RestServer extends Application {
 
 
     // *** Static files *** 
+<<<<<<< HEAD
+    String target = "awrc/index.html";
+=======
     String target = "index.html";
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     Redirector redirector = new Redirector(getContext(), target, Redirector.MODE_CLIENT_FOUND);
     router.attach("/", redirector);
     File currentPath = new File(RestServer.class.getProtectionDomain().getCodeSource().getLocation().getPath());

@@ -1,0 +1,143 @@
+<div id="health_check_partial">
+    <link rel="stylesheet" href="css/kratu/kratu.css">
+    <link rel="stylesheet" href="css/kratu/examples.css">
+    <script src="js/kratu.js"></script>
+    <script src="js/kratu/kratuSignalAdjustments.js"></script>
+    <script src="js/kratu/dataproviders/json.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" type="text/css">
+    <script src="http://code.jquery.com/jquery-1.9.1.js" type="text/javascript"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" type="text/javascript"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      /** Render a Kratu report showcasing the AdWords HealthCheck Example */
+      window.onload = function() {
+        'use strict';
+        var mccid = getQuery("mccid");
+        var kratu = new Kratu();
+        var reportElm = document.getElementById('kratuReport');
+
+        kratu.setRenderElement(reportElm);
+        kratu.setPageSize(20);
+        console.log("Instantiated");
+        var jsonProvider = new KratuJsonProvider({forceReload: true});
+        jsonProvider.load('./kratu/aw_reportdefinition.json', setReport);
+
+        document.getElementById('previous').addEventListener('click', function() {
+            kratu.renderPreviousPage();
+          });
+        document.getElementById('next').addEventListener('click', function () {
+            kratu.renderNextPage();
+          });
+          
+        function setReport(report) {
+          console.log("Got report");
+          kratu.setReportDefinition(report, loadData);
+        }
+        function loadData() {
+            console.log("loading data");
+
+          	if (get('dateStart') != null && get('dateEnd') != null){
+        		var dateParameters = "?dateStart="+get('dateStart')+"&dateEnd="+get('dateEnd');
+          		jsonProvider.load('/mcc/' + mccid + '/kratu'+dateParameters, renderData, failedToLoad);
+          	} else {
+        		alert('Please provide a DateRange in the URL with format ?dateStart=YYMMDD&dateEnd=YYMMDD')
+          	}
+        }
+        function renderData(data) {
+
+          // NOTE: THIS IS SOME EXTRA CODE WE ADDED TO FILTER OUT ACCOUNTS WITH
+          // ZERO BUDGETED SPEND -- YOU SHOULD / CAN TOTALLY ADD YOUR OWN CODE
+          // HERE TO DO FURTHER FILTERING ON ACCOUNTS. PERHAPS ONLY SHOW THOSE
+          // ACCOUNTS THAT MATCH AN ACCOUNT MANAGER NAME IN A COOKIE, ETC
+          
+          var d2 = [];
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].sumBudget != 0) d2.push(data[i]);
+          }
+          data = d2;
+          // END EXTRA CODE
+
+          try {
+              kratu.setEntities(d2);
+              kratu.renderCurrentPage(addExportLinks);
+              $("#load_progress").css("display", "none");
+          } catch (e) {
+              $("#load_progress").css("display", "none");
+              $("#load_error").css("display", "block");
+              console.log(e);
+              if (e == "Need atleast one entity in order to calculated number of pages") {
+                  $("#generic_error").text("");
+                  $("#actual_error_was").text("Sorry, no accounts have any data for this date range.");
+              }
+          }
+        }
+        function failedToLoad(err) {
+            console.log(err);
+            $("#load_progress").css("display", "none");
+            $("#load_error").css("display", "block");
+        }
+        function addExportLinks() {
+          window.URL = window.webkitURL || window.URL;
+          var blob = new Blob([kratu.getReportAs('csv')], {type: 'text/csv'});
+
+          var downloadLink = document.createElement('a');
+          downloadLink.innerText = 'Download CSV';
+          downloadLink.download = 'Report.csv';
+          downloadLink.classList.add('downloadLink');
+          downloadLink.href = window.URL.createObjectURL(blob);
+          downloadLink.dataset.downloadurl = [
+            'text/csv',
+            downloadLink.download,
+            downloadLink.href
+          ].join(':');
+
+          reportElm.appendChild(downloadLink);
+        }
+
+      };
+
+function getQuery(key){
+        var temp = location.search.match(new RegExp(key + "=(.*?)($|\&)", "i"));
+        if(!temp) return;
+        return temp[1];
+}
+
+function getUrl(key){
+    var temp = location.search.match(new RegExp(key + "=(.*?)($|\&)", "i"));
+    if(!temp) return;
+    return temp[1];
+}
+      $(function () {
+          $("#kratu_loading_progress").progressbar({
+              value: false
+          });
+          $("#kratu_loading_progress").find(".ui-progressbar-value").css("background-color", "rgb(102,102,255)");
+      });
+
+
+      function get(name){
+    	   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+    	      return decodeURIComponent(name[1]);
+      }
+
+          
+  </script>
+  
+  <div class="kratuLogo small"><a href="">k</a><span>powered by</span></div>
+    <h1>Kratu AdWords Health Check</h1>
+    <div id="kratuReport" style="text-align: center; margin-top: 50px">
+      <div id="load_progress">
+        <div id="kratu_loading_progress" style="margin: 0 auto; width: 300px; height: 25px;"></div>
+        <p style='color: #888'> Loading Account Data </p>
+      </div>
+      <div id='load_error' style="display: none; color: #b00">
+        <p id="generic_error">Oops, there was a network error when loading this page. Please refresh and try again. If the problem persists, consult your network administrator as the server may be down or malfunctioning.</p>
+        <p id="actual_error_was">(To see the exact error message, open the Javascript Console)</p>
+      </div>
+    </div>
+
+    <div class='navigation'>
+      		<button id='previous'>&laquo;</button>
+      		<button id='next'>&raquo;</button>
+    </div>
+</div>

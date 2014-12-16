@@ -43,9 +43,16 @@ import java.util.Properties;
 import java.util.Set;
 
 /**
+<<<<<<< HEAD
+ * Reporting processor, responsible for downloading and saving the files to
+ * the file system. The persistence of the parsed beans is delegated to the
+ * configured persister.
+ * 
+=======
  * Reporting processor, responsible for downloading and saving the files to the file system. The
  * persistence of the parsed beans is delegated to the configured persister.
  *
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
  * @author jtoledo@google.com (Julian Toledo)
  * @author gustavomoreira@google.com (Gustavo Moreira)
  * @author joeltoby@google.com (Joel Toby)
@@ -53,8 +60,11 @@ import java.util.Set;
 
 public abstract class ReportProcessor {
 
+<<<<<<< HEAD
+=======
   protected static final char REPORT_KEY_SEPARATOR = '$';
 
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
   private static final Logger LOGGER = Logger.getLogger(ReportProcessor.class);
 
   private static final int REPORT_BUFFER_DB = 1000;
@@ -74,6 +84,28 @@ public abstract class ReportProcessor {
 
   abstract protected void cacheAccounts(Set<Long> accountIdsSet);
 
+<<<<<<< HEAD
+  abstract public void generateReportsForMCC(
+      String userId, String mccAccountId,
+      ReportDefinitionDateRangeType dateRangeType, String dateStart,
+      String dateEnd, Set<Long> accountIdsSet, Properties properties,
+      ReportDefinitionReportType reportType, List<String> reportFieldsToInclude)
+          throws Exception;
+
+  /**
+   * Uses the API to retrieve the managed accounts, and extract their IDs.
+   * 
+   * @return the account IDs for all the managed accounts.
+   * @throws IOException 
+   * @throws ValidationException 
+   * @throws OAuthException 
+   * @throws ApiException 
+   * @throws Exception
+   *             error reading the API.
+   */
+  public Set<Long> retrieveAccountIds(String userId, String mccAccountId)
+      throws OAuthException, ValidationException, IOException, ApiException {
+=======
   abstract public void generateReportsForMCC(String userId,
       String mccAccountId,
       ReportDefinitionDateRangeType dateRangeType,
@@ -96,6 +128,7 @@ public abstract class ReportProcessor {
    */
   public Set<Long> retrieveAccountIds(String userId, String mccAccountId) throws OAuthException,
       ValidationException, IOException, ApiException {
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     Set<Long> accountIdsSet = Sets.newHashSet();
     try {
@@ -127,9 +160,16 @@ public abstract class ReportProcessor {
 
   /**
    * Uses the API to retrieve the managed accounts, and extract their IDs.
+<<<<<<< HEAD
+   * 
+   * @return the account IDs for all the managed accounts.
+   * @throws Exception
+   *             error reading the API.
+=======
    *
    * @return the account IDs for all the managed accounts.
    * @throws Exception error reading the API.
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
    */
   public List<ManagedCustomer> getAccounts(String userId, String mccAccountId) throws Exception {
 
@@ -152,8 +192,12 @@ public abstract class ReportProcessor {
     return accounts;
   }
 
+<<<<<<< HEAD
+  public List<Customer> getAccountsInfo(String userId, String mccAccountId, Set<Long> accountIds) throws OAuthException, ValidationException, IOException {
+=======
   public List<Customer> getAccountsInfo(String userId, String mccAccountId, Set<Long> accountIds)
       throws OAuthException, ValidationException, IOException {
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     List<Customer> accounts = Lists.newArrayList();
     AdWordsSession adWordsSession = authenticator.authenticate(userId, mccAccountId, false).build();
 
@@ -171,6 +215,12 @@ public abstract class ReportProcessor {
           try {
             accounts.add(customerDelegate.getCustomer());
           } catch (ApiException e2) {
+<<<<<<< HEAD
+            LOGGER.error("Skipping Account " + accountId + " error while getting it's information: " + e2.getMessage());          }
+        } else {
+          LOGGER.error("Skipping Account " + accountId + " error while getting it's information: " + e.getMessage());
+        } 
+=======
             LOGGER.error("Skipping Account " + accountId + " error while getting it's information: "
                 + e2.getMessage());
           }
@@ -178,12 +228,34 @@ public abstract class ReportProcessor {
           LOGGER.error("Skipping Account " + accountId + " error while getting it's information: "
               + e.getMessage());
         }
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       }
     }
     return accounts;
   }
 
   /**
+<<<<<<< HEAD
+   * Creates the complete report definition with all the dates and types
+   * properly set.
+   * 
+   * @param reportDefinitionReportType
+   *            the report type.
+   * @param dateRangeType
+   *            the date range type.
+   * @param dateStart
+   *            the initial date.
+   * @param dateEnd
+   *            the ending date.
+   * @param properties
+   *            the properties resource.
+   * @return the {@code ReportDefinition} instance.
+   */
+  protected ReportDefinition getReportDefinition(
+      ReportDefinitionReportType reportDefinitionReportType,
+      ReportDefinitionDateRangeType dateRangeType, String dateStart,
+      String dateEnd, Properties properties) {
+=======
    * Creates the complete report definition with all the dates and types properly set.
    *
    * @param reportDefinitionReportType the report type.
@@ -200,20 +272,85 @@ public abstract class ReportProcessor {
       String dateEnd,
       String reportDefinitionKey,
       Properties properties) {
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     // Create the Selector with all the fields defined in the Mapping
     Selector selector = new Selector();
 
+<<<<<<< HEAD
+    List<String> reportFields = this.csvReportEntitiesMapping
+        .retrievePropertiesToSelect(reportDefinitionReportType);
+
+    // Add the inclusions from the properties file
+    List<String> reportFieldsToInclude = this.getReportInclusions(
+        reportDefinitionReportType, properties);
+=======
     List<String> reportFields =
         this.csvReportEntitiesMapping.retrievePropertiesToSelect(reportDefinitionReportType);
 
     // Add the inclusions from the properties file
     List<String> reportFieldsToInclude = this.getReportInclusions(reportDefinitionKey, properties);
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     for (String reportField : reportFields) {
       if (reportFieldsToInclude.contains(reportField)) {
         selector.getFields().add(reportField);
       }
     }
+<<<<<<< HEAD
+    this.adjustDateRange(reportDefinitionReportType, dateRangeType,
+        dateStart, dateEnd, selector);
+
+    return this.instantiateReportDefinition(reportDefinitionReportType,
+        dateRangeType, selector, properties);
+  }
+  
+  protected ReportDefinition getReportDefinition(
+      ReportDefinitionReportType reportDefinitionReportType,
+      ReportDefinitionDateRangeType dateRangeType, String dateStart,
+      String dateEnd, List<String> reportFieldsToInclude, Properties properties) {
+
+    // Create the Selector with all the fields defined in the Mapping
+    Selector selector = new Selector();
+
+    List<String> reportFields = this.csvReportEntitiesMapping
+        .retrievePropertiesToSelect(reportDefinitionReportType);
+
+    for (String reportField : reportFields) {
+      if (reportFieldsToInclude.contains(reportField)) {
+        selector.getFields().add(reportField);
+      }
+    }
+    this.adjustDateRange(reportDefinitionReportType, dateRangeType,
+        dateStart, dateEnd, selector);
+
+    return this.instantiateReportDefinition(reportDefinitionReportType,
+        dateRangeType, selector, properties);
+  }
+
+  /**
+   * Adjusts the date range in case of a custom date type. The adjustment do
+   * not apply for the {@code CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT}.
+   * 
+   * @param reportDefinitionReportType
+   *            the report type.
+   * @param dateRangeType
+   *            the date range type.
+   * @param dateStart
+   *            the start.
+   * @param dateEnd
+   *            the end.
+   * @param selector
+   *            the selector with the properties.
+   */
+  protected void adjustDateRange(
+      ReportDefinitionReportType reportDefinitionReportType,
+      ReportDefinitionDateRangeType dateRangeType, String dateStart,
+      String dateEnd, Selector selector) {
+
+    if (dateRangeType.equals(ReportDefinitionDateRangeType.CUSTOM_DATE)
+        && !reportDefinitionReportType
+        .equals(ReportDefinitionReportType.CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT)) {
+=======
     this.adjustDateRange(reportDefinitionReportType, dateRangeType, dateStart, dateEnd, selector);
 
     return this.instantiateReportDefinition(reportDefinitionReportType, dateRangeType, selector,
@@ -257,6 +394,7 @@ public abstract class ReportProcessor {
     if (dateRangeType.equals(
         ReportDefinitionDateRangeType.CUSTOM_DATE) && !reportDefinitionReportType.equals(
         ReportDefinitionReportType.CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT)) {
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       DateRange dateRange = new DateRange();
       dateRange.setMin(dateStart);
       dateRange.setMax(dateEnd);
@@ -266,14 +404,32 @@ public abstract class ReportProcessor {
 
   /**
    * Instantiates the report definition, setting all the correct formats.
+<<<<<<< HEAD
+   * 
+   * @param reportDefinitionReportType
+   *            the report definition type.
+   * @param dateRangeType
+   *            the date range type.
+   * @param selector
+   *            the selector containing the report properties.
+=======
    *
    * @param reportDefinitionReportType the report definition type.
    * @param dateRangeType the date range type.
    * @param selector the selector containing the report properties.
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
    * @return the {@code ReportDefinition}
    */
   protected ReportDefinition instantiateReportDefinition(
       ReportDefinitionReportType reportDefinitionReportType,
+<<<<<<< HEAD
+      ReportDefinitionDateRangeType dateRangeType, Selector selector,
+      Properties properties) {
+
+    // retrieve relevant properties
+    boolean bIncludeZeroImpressions = false;  // default to false when property is missing or of invalid value
+    String sIncludeZeroImpressions = properties.getProperty("aw.report.definition.includeZeroImpressions");
+=======
       ReportDefinitionDateRangeType dateRangeType, Selector selector, Properties properties) {
 
     // retrieve relevant properties
@@ -281,10 +437,21 @@ public abstract class ReportProcessor {
                                              // invalid value
     String sIncludeZeroImpressions =
         properties.getProperty("aw.report.definition.includeZeroImpressions");
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     if (null != sIncludeZeroImpressions) {
       bIncludeZeroImpressions = sIncludeZeroImpressions.equalsIgnoreCase("true");
     }
 
+<<<<<<< HEAD
+    LOGGER.info("Instantiate report definition for " + reportDefinitionReportType.value() + 
+                " with includeZeroImpressions=" + String.valueOf(bIncludeZeroImpressions));
+    
+    // Create the Report Definition
+    ReportDefinition reportDefinition = new ReportDefinition();
+    reportDefinition.setReportName(REPORT_PREFIX
+        + reportDefinitionReportType.value() + " "
+        + System.currentTimeMillis());
+=======
     LOGGER.info("Instantiate report definition for " + reportDefinitionReportType.value()
         + " with includeZeroImpressions=" + String.valueOf(bIncludeZeroImpressions));
 
@@ -292,6 +459,7 @@ public abstract class ReportProcessor {
     ReportDefinition reportDefinition = new ReportDefinition();
     reportDefinition.setReportName(
         REPORT_PREFIX + reportDefinitionReportType.value() + " " + System.currentTimeMillis());
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     reportDefinition.setDateRangeType(dateRangeType);
     reportDefinition.setReportType(reportDefinitionReportType);
     reportDefinition.setDownloadFormat(DownloadFormat.GZIPPED_CSV);
@@ -302,6 +470,24 @@ public abstract class ReportProcessor {
 
   /**
    * Look for properties to include in the reports.
+<<<<<<< HEAD
+   * 
+   * @param reportType
+   *            the report type.
+   * @param properties
+   *            the resource properties.
+   * @return the list of properties that should be included in the report.
+   */
+  protected List<String> getReportInclusions(
+      ReportDefinitionReportType reportType, Properties properties) {
+
+    String propertyInclusions = properties.getProperty(reportType.name());
+
+    if (propertyInclusions != null && propertyInclusions.length() > 0) {
+      String[] inclusions = propertyInclusions.split(",");
+      List<String> inclusionsList = Lists
+          .newArrayListWithCapacity(inclusions.length);
+=======
    *
    * @param reportDefinitionKey the report definition key specified in the properties file.
    * @param properties the resource properties.
@@ -314,6 +500,7 @@ public abstract class ReportProcessor {
     if (propertyInclusions != null && propertyInclusions.length() > 0) {
       String[] inclusions = propertyInclusions.split(",");
       List<String> inclusionsList = Lists.newArrayListWithCapacity(inclusions.length);
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       for (int i = 0; i < inclusions.length; i++) {
         inclusionsList.add(inclusions[i].trim());
       }
@@ -323,10 +510,19 @@ public abstract class ReportProcessor {
   }
 
   /**
+<<<<<<< HEAD
+   * @param csvReportEntitiesMapping
+   *            the csvReportEntitiesMapping to set
+   */
+  @Autowired
+  public void setCsvReportEntitiesMapping(
+      CsvReportEntitiesMapping csvReportEntitiesMapping) {
+=======
    * @param csvReportEntitiesMapping the csvReportEntitiesMapping to set
    */
   @Autowired
   public void setCsvReportEntitiesMapping(CsvReportEntitiesMapping csvReportEntitiesMapping) {
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
     this.csvReportEntitiesMapping = csvReportEntitiesMapping;
   }
 
@@ -339,7 +535,11 @@ public abstract class ReportProcessor {
   }
 
   /**
+<<<<<<< HEAD
+   * @param authentication the helper class for Auth
+=======
    * @param authenticator the helper class for Auth
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
    */
   @Autowired
   public void setAuthentication(Authenticator authenticator) {

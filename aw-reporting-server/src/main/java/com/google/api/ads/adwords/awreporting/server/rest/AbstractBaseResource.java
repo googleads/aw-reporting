@@ -98,6 +98,27 @@ public abstract class AbstractBaseResource extends ServerResource {
     getMessageHeaders(getResponse()).add("Pragma", "no-cache"); 
     getMessageHeaders(getResponse()).add("Expires", "0");
   }
+<<<<<<< HEAD
+  
+  /**
+   * Adds the 'Content-Disposition' header which suggests a file name for downloads
+   * to browsers. <br>
+   * This should be invoked for any file responses to be saved such as PDFs.
+   * 
+   * @param fileName the suggested name of the file to be returned
+   * @param forceFileDownload whether or not to foce the browser to download the file and not to try displaying it
+   */
+  protected void addFileNameHeader(String fileName, boolean forceFileDownload) {
+	String contentDisposition;
+	if( forceFileDownload ) {
+		contentDisposition = "attachment; filename=\"" + fileName + "\"";
+	} else {
+		contentDisposition = "inline; filename=\"" + fileName + "\"";
+	}
+	getMessageHeaders(getResponse()).add("Content-Disposition", contentDisposition);
+  }
+=======
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
   protected Representation createJsonResult(String result) {
     this.setAutoCommitting(true);

@@ -45,7 +45,11 @@ public class HtmlTemplateRest extends AbstractBaseResource {
     try {
       RestServer.getWebAuthenticator().checkAuthentication();
 
+<<<<<<< HEAD
+      String templateId = getParameter("templateId");
+=======
       Long templateId = getParameterAsLong("templateId");
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       boolean isPublic = getParameterAsBoolean("public");
 
       List<HtmlTemplate> htmlTemplateList = Lists.newArrayList();

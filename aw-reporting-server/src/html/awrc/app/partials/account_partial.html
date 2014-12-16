@@ -1,0 +1,110 @@
+<div id="account_partial">
+
+  <div class="alert alert-danger" ng-show="load_error" style="margin-top: 30px">
+    <p ng-show="load_error.error != 'no_such_mcc'">
+      Unable to load info for this MCC. Make sure you have added it to your
+      account list and have permissions to work with it ({{ load_error.error }}):
+      {{ load_error.message }}
+    </p>
+    <div ng-show="load_error.error == 'no_such_mcc'">
+      <p> You haven't added this MCC to your list yet.</p>
+      <p>
+        <a href="/oauth/{{mccid}}"><button class="btn btn-primary"> Add the MCC {{ mccid }} to my list</button></a>
+      </p>
+    </div>
+  </div>
+
+
+  <div id="call_to_action" class="block" ng-show="show_choices">
+    <div>
+      <div class="action" ng-switch="reports_no_data">
+        <a ng-href="#/account/{{mccid}}/export" ng-switch-when="false">
+          <div class="img-holder"><img src="media/drive_doc.png" border="0"/></div>
+          <div class="title">Export reports to Google Drive</div>
+        </a>
+        <div ng-switch-when="true" class="disabled" title="No report data">
+          <div class="img-holder"><img src="media/drive_doc.png" border="0"/></div>
+          <div class="title">Export reports to Google Drive</div>
+        </div>
+      </div>
+      
+      <div class="action" ng-switch="reports_no_data">
+        <a ng-href="#/account/{{mccid}}/rawdata" ng-switch-when="false">
+          <div class="img-holder"><img src="media/charts.png" border="0"/></div>
+          <div class="title">View raw performance data</div>
+        </a>
+        <div ng-switch-when="true" class="disabled" title="No report data">
+          <div class="img-holder"><img src="media/charts.png" border="0"/></div>
+          <div class="title">View raw performance data</div>
+        </div>
+      </div>
+      
+      <div class="action" ng-switch="kratu_no_data">
+      	<a ng-click="$parent.show_date_picker = true; $parent.scroll_to_date_selection();" ng-switch-when="false">
+      	<div style="color: rgb(92,184,92)" class="glyphicon glyphicon-stats"></div>
+          <div class="title">View account health check</div>
+      	</a>
+      	<div ng-switch-when="true" class="disabled" title="No health check data">
+          <div class="img-holder"><img src="media/kratu.png" border="0"/></div>
+          <div class="title">View account health check</div>
+        </div>
+        <!-- <a ng-href="/kratureport?mccid={{mccid}}&dateStart=20140101&dateEnd=20140228">
+          <div class="img-holder"><img src="media/kratu.png" border="0"/></div>
+          <div class="title">View account health check</div>
+        </a> -->
+      </div>
+    </div>
+    <div style="clear: left"></div>
+
+  </div> <!-- #call_to_action -->
+  
+  <section id= "date_section">
+  <div id="date_picker_holder" class="block" style="margin-top:50px;" ng-show="show_date_picker">
+	<div>
+      <h2>Select Health Report Date Range</h2>
+      <span class="subtitle">Available dates: <strong>{{kratu_min_date | date: 'yyyy-MM-dd' }}</strong> - <strong>{{kratu_max_date | date: 'yyyy-MM-dd' }}</strong></span>
+      <div id="date_selection" class="block">
+
+        <div style="float: left; margin: 20px">
+          <h4> Start Date </h4>
+          <div>
+            <datepicker ng-model="date_start" datepicker-mode="'day'" min-mode="day" min-date="kratu_min_date" max-date="kratu_max_date" show-weeks="false" class="date_picker well well-sm" style="border-width: 6px; border-color:white;"></datepicker>
+          </div>
+        </div>
+
+        <div style="float: left; font-size: 900%; color: #f0ad4e; padding: 20px; padding-top: 70px">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </div>
+
+        <div style="float: left; margin: 20px">
+          <h4> End Date </h4>
+          <div>
+            <datepicker ng-model="date_end" datepicker-mode="'day'" min-mode="day" min-date="kratu_min_date" max-date="kratu_max_date" show-weeks="false" class="date_picker well well-sm" style="border-width: 6px; border-color:white;"></datepicker>
+          </div>
+        </div>
+        <div style="clear: left"></div>
+        <div id="action_or_error" style="min-height: 85px;">
+        <div id="view_kratu" style="text-align: center; font-size: 135%;" ng-show="date_start && date_end">
+          <div>Selected date range: <strong>{{ date_start | date: 'yyyy-MM-dd' }}</strong>
+          to <strong>{{ date_end | date: 'yyyy-MM-dd' }}</strong></div>
+          <a id="go_button_link" href="/kratureport?mccid={{mccid}}&dateStart={{ date_start | date: 'yyyyMMdd' }}&dateEnd={{ date_end | date: 'yyyyMMdd' }}">
+            <button class="btn btn-success" style="margin-top: 20px;"
+              ng-show=" !(date_end < date_start)">
+          	  <span>Go</span>
+            </button>
+          </a>
+          <div id="date_range_error" class="alert alert-danger" ng-show="date_end < date_start" style="margin-top: 20px;">End date cannot be before start date</div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+</div> <!-- #account_partial -->
+
+<div id="home_partial_loading" class="page_loading" ng-show="!load_error && !show_choices">
+  <img src="media/loader_throb.gif" border="0"/> Loading MCC Info ...
+</div>
+
+<div style="margin: 20px"></div>

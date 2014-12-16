@@ -1,6 +1,8 @@
 # AwReporting (Beta)
 
 ## Special Note
+<<<<<<< HEAD
+=======
 
 If you are using this project, please follow the API anouncements and API version Sunsets:
 https://developers.google.com/adwords/api/community/aw-announcements
@@ -8,6 +10,7 @@ https://developers.google.com/adwords/api/docs/sunset-dates
 
 The AdWords API changes version more or less every 4 months, so you would need to upgrade your project around that timeframe.
 
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 Please let us know if you run into issues in the project's issue tracker (https://github.com/googleads/aw-reporting/issues), this Beta release may not fit your needs if you work with very large accounts but we are working to make the project better, your feedback is very important.
 
 ## Overview
@@ -79,6 +82,7 @@ Fill in the following with your database connection.
 >aw.report.model.db.sql.password=SOME_PASSWORD
 
 ### Run the project and verify it's working 
+<<<<<<< HEAD
 
 Now, you are ready to run AwReporting with following command.
 
@@ -101,6 +105,30 @@ Check your database when the run finishes to be sure it's been populated with th
 
 ### Command line options 
 
+=======
+
+Now, you are ready to run AwReporting with following command.
+
+```
+$ java -Xmx1G -jar aw-reporting/target/aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD \
+-file aw-reporting/src/main/resources/aw-report-sample.properties -verbose
+```
+
+Be sure to specify the properties file you edited above on the command line. 
+
+It's possible to run the project using either Eclipse or the command line. If using Eclipse, open and run:
+
+> aw-reporting/src/main/java/com/google/api/ads/adwords/jaxws/extensions/AwReporting.java
+
+As it's running, the project will provide status messages about the reports it's downloading on the command line. 
+
+Check your database when the run finishes to be sure it's been populated with the reporting data, e.g.:
+
+> SELECT * FROM AWReports.AW_ReportAd limit 1;
+
+### Command line options 
+
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 Set the following command line options before running the project:
 
 <pre>
@@ -159,6 +187,7 @@ Next import the database code:
 
 
 ## Details about the code
+<<<<<<< HEAD
 
 For better organization and encapsulation, the project groups the reporting workflow into two parts:
 **Aw-Report-Model** for the logic (API services, downloader and processors) and **Aw-Reporting** for persistence, entities and the CSV mapping to AdWords information.
@@ -202,6 +231,51 @@ PDF generation works monthly and also needs the use of a HTML template like ACCO
 
 First run the the date range without the -generatePdf to download the data needed to generate them.
 
+=======
+
+For better organization and encapsulation, the project groups the reporting workflow into two parts:
+**Aw-Report-Model** for the logic (API services, downloader and processors) and **Aw-Reporting** for persistence, entities and the CSV mapping to AdWords information.
+
+
+### Aw-Report-Model
+Provides all the necessary classes to persist data and the entities’ mapping  to AdWords report data.
+
+* **Entities:** these POJOs define all the available fields for each report kind as java fields, by using annotations. The Entities contain the information to link the java fields to the report fields definition, the csv display name header fields and the datastore fields.
+
+* **CSV:** The CSV classes use the OpenCSV library to convert CSV files into Java beans using annotations. The package also contains two new annotations to define the Report Definition Type and the mapping between java field, report’s Column Name and Display Name headers. For example:
+
+  + Annotation **@CsvReport** at the Report class level, for example for ReportAccount:
+<code>@CsvReport(value=
+  ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT)
+public class ReportAccount extends Report {...</code>
+
+  + Annotation **@CsvField** at the java field level, for example for avgCpm:
+<code>@CsvField (value = "Avg. CPM", reportField = "AverageCpm")
+public BigDecimal avgCpm;</code>
+
++ **Persistence:** The persistence layer uses Spring for bean management, injection and in class annotations, this helps to clearly demarcate the application layers.
+AuthTokenPersister: is the interface for the authorization token storage, we have implemented it for Mysql and a MongoDB.
+ReportEntitiesPersister is the interface for the report entities storage, we have implemented it for Mysql and a MongoDB.
+
+
+### Aw-Reporting
+Provides the logic (API services, downloader and processors) 
+
+* **Downloader:** Based on MultipleClientReportDownloader java example (it uses the Library ReportDownloader) the Downloader is on charge of downloading all the report files using multiple threads.
+
+* **Processors:** The ReportProcessor is the class with the main logic, it is responsible for calling the downloader, use the CVS classes for the parsing and call the Persistence helpers for the storage. This class can be replace by a custom processor by changing the bean component in the projects xml configuration files.
+
+* **API Services:** Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is on charge of getting all the account ids in the MCC tree.
+
+* **AwReporting main:** The AwReporting main class is on charge of printing the help information, the properties file example and of passing the command line parameters to the processor for execution.
+
+## PDF Generation
+
+PDF generation works monthly and also needs the use of a HTML template like ACCOUNT\_PERFORMANCE\_REPORT.tmpl
+
+First run the the date range without the -generatePdf to download the data needed to generate them.
+
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 Here's an example properties file for PDF generation:
 
 > aw-report-sample-for-pdf.properties

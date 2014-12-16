@@ -1,0 +1,184 @@
+<div id="raw_data_partial" ng-show="!loading_task_count">
+
+  <h2 style="margin-bottom: 20px"> Monthly Statistics for {{ name }} ({{ mccid }}) </h2>
+
+  <div class="alert alert-danger" ng-show="load_error_text" style="margin-top: 30px">
+    <p>{{ load_error_text }}</p>
+    <p ng-show="load_error == 'no_such_mcc'">
+      <a href="/oauth/{{mccid}}"><button class="btn btn-primary"> Add the MCC {{ mccid }} to my list</button></a>
+    </p>
+  </div>
+  
+  <div id="raw-data-main-container" ng-show="!load_error_text">
+    <div id="settings-side-bar">
+      <div id="settings-panel" class="block">
+      
+        <div id="accounts-list-small-section" class="section">
+          <h3 class="heading">Account</h3>
+          <div id="filter-container">
+            <input id="accounts-filter" type="text" placeholder="Search for accounts ..." ng-model="filter_accounts" ng-disabled="formDisabed"/>
+            <button id="clear-filter-button" type="button" class="btn btn-default" ng-click="resetAccountFilter()" ng-disabled="formDisabed">Clear</button>
+          </div>
+          <div style="clear: left"></div>
+          <div>
+            <div id="accounts" class="list-group accounts-list-group list" ng-show="accounts.length">
+              <div>
+                <a class="list-group-item" href=""
+                   ng-class="{ 'active': isSelectedAccount(account) }"
+                   ng-repeat="account in account_matches = (source_accounts | filter: filter_accounts)"
+                   ng-click="selectAccount($index, account);">
+                  <!-- <p class="list-group-item-heading">{{account.name}}</p> -->
+                  <p class="list-group-item-text">{{ account.name }}</p>
+            	  <p class="list-group-item-text">[{{ account._accountId }}]</p>
+                </a>
+              </div>
+            </div>
+            <div id="no_accounts" ng-show="accounts.length == 0">
+              <div class="bs-callout bs-callout-danger" style="width: 400px">
+                <h4>This MCC has no accounts</h4>
+              </div>
+            </div>
+          </div>
+          <div style="clear: left"></div>
+        </div> <!-- End account section -->
+        
+        <div id="data-type-section" class="section" style="padding-bottom:10px;">
+          <h3 class="heading">Data Type</h3>
+          <div class="btn-group">
+            <label class="btn btn-primary" ng-model="dataType" btn-radio="'account'">Account</label>
+            <label class="btn btn-primary" ng-model="dataType" btn-radio="'campaign'">Campaign</label>
+            <!-- <label class="btn btn-primary" ng-model="dataTypeModel" btn-radio="'adgroup'">Ad Group</label> -->
+          </div>
+        </div> <!-- End data type section -->
+        
+        <div id="date-range-section" class="section">
+          <h3 class="heading">Date Range</h3>
+        
+          <p id="start-date-picker-group" class="input-group">
+            <input type="text" class="form-control" placeholder="Start date" datepicker-popup="dd MMMM yyyy" ng-model="date_start" ng-click="start_cal_open($event)" is-open="start_cal_opened" min-date="min_date" max-date="max_date" show-weeks="false" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default cal-button" ng-click="start_cal_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+          <p id="end-date-picker-group" class="input-group">
+            <input type="text" class="form-control" placeholder="End date" datepicker-popup="dd MMMM yyyy" ng-model="date_end" ng-click="end_cal_open($event)" is-open="end_cal_opened" min-date="min_date" max-date="max_date" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default cal-button" ng-click="end_cal_open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+            </span>
+          </p>
+          
+          <!-- Invalid date range warning -->
+          <div id="invalid_date_alert" class="alert alert-danger" ng-show="date_start && date_end && date_end < date_start">End date cannot be before start date</div>
+          
+        </div> <!-- End date range section -->
+        
+        
+        <div id="action-button-section" class="section">
+          <button type="button" class="btn btn-danger" style="width:75px;" ng-click="resetSettings();">Reset</button>
+          <button type="button" class="btn btn-success" style="width:75px; margin-left:5px;" 
+            ng-click="updateRawData();"
+            ng-disabled="selected_account == null || ! valid_date_range">Update</button>
+        </div>
+      </div>
+    </div> <!-- # settings-side-bar -->
+    <div id="raw-data" style="margin:10px;">
+      <div id="no_accounts" ng-show="raw_data.length == 0">
+        <div class="bs-callout bs-callout-danger" style="width: 400px">
+          <h4>No data to display</h4>
+        </div>
+      </div>
+      
+      <!-- Account data table -->
+      <div id="account-data-table-container" class="data-table-container" ng-show="raw_data.length > 0 && raw_data_type == 'account'">
+        <table id="account-data-table" ng-table="tableParams" class="table" style="font-size:80%;">
+          <tr ng-repeat="report in $data">
+            <td data-title="'Day'" sortable="'day'" ng-show="showTableField('day', 'account');">{{report.day}}</td>
+            <td data-title="'Cost'" sortable="'cost'" ng-show="showTableField('cost', 'account');">{{report.cost}}</td>
+            <td data-title="'Clicks'" sortable="'clicks'" ng-show="showTableField('clicks', 'account');">{{report.clicks}}</td>
+            <td data-title="'Impressions'" sortable="'impressions'" ng-show="showTableField('impressions', 'account');">{{report.impressions}}</td>
+            <td data-title="'CTR'" sortable="'ctr'" ng-show="showTableField('ctr', 'account');">{{report.ctr}}</td>
+            <td data-title="'Avg CPM'" sortable="'avgCpm'" ng-show="showTableField('avgCpm', 'account');">{{report.avgCpm}}</td>
+            <td data-title="'Avg CPC'" sortable="'avgCpc'" ng-show="showTableField('avgCpc', 'account');">{{report.avgCpc}}</td>
+            <td data-title="'Avg Position'" sortable="'avgPosition'" ng-show="showTableField('avgPosition', 'account');">{{report.avgPosition}}</td>
+            <td data-title="'Conversions'" sortable="'conversions'" ng-show="showTableField('conversions', 'account');">{{report.conversions}}</td>
+            <td data-title="'Search Impression Share'" sortable="'searchImpressionShare'" ng-show="showTableField('searchImpressionShare', 'account');">{{report.searchImpressionShare}}</td>
+            <td data-title="'Search Lost IS Budget'" sortable="'searchLostISBudget'" ng-show="showTableField('searchLostISBudget', 'account');">{{report.searchLostISBudget}}</td>
+            <td data-title="'Search Lost IS Rank'" sortable="'searchLostISRank'" ng-show="showTableField('searchLostISRank', 'account');">{{report.searchLostISRank}}</td>
+            <td data-title="'Content Impression Share'" sortable="'contentImpressionShare'" ng-show="showTableField('contentImpressionShare', 'account');">{{report.contentImpressionShare}}</td>
+            <td data-title="'Content Lost IS Budget'" sortable="'contentLostISBudget'" ng-show="showTableField('contentLostISBudget', 'account');">{{report.contentLostISBudget}}</td>
+            <td data-title="'Content Lost IS Rank'" sortable="'contentLostISRank'" ng-show="showTableField('contentLostISRank', 'account');">{{report.contentLostISRank}}</td>
+            <td data-title="'CurrencyCode'" sortable="'currencyCode'" ng-show="showTableField('currencyCode', 'account');">{{report.currencyCode}}</td>
+            <td data-title="'AdNetwork'" sortable="'adNetwork'" ng-show="showTableField('adNetwork', 'account');">{{report.adNetwork}}</td>
+            <td data-title="'Conversions Many Per Click'" sortable="'conversionsManyPerClick'" ng-show="showTableField('conversionsManyPerClick', 'account');">{{report.conversionsManyPerClick}}</td>
+            <td data-title="'View Through Conversions'" sortable="'viewThroughConversions'" ng-show="showTableField('viewThroughConversions', 'account');">{{report.viewThroughConversions}}</td>
+            <td data-title="'Timestamp'" sortable="'timestamp'" ng-show="showTableField('timestamp', 'account');">{{report.timestamp}}</td>
+            <td data-title="'DateStart'" sortable="'dateStart'" ng-show="showTableField('dateStart', 'account');">{{report.dateStart}}</td>
+            <td data-title="'DateEnd'" sortable="'dateEnd'" ng-show="showTableField('dateEnd', 'account');">{{report.dateEnd}}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <!-- Campaign data table -->
+      <div id="campaign-data-table-container" class="data-table-container" ng-show="raw_data.length > 0 && raw_data_type == 'campaign'">
+        <table id="campaign-data-table" ng-table="tableParams2" class="table" style="font-size:80%;">
+          <tr ng-repeat="report in $data">
+            <td data-title="'Campaign ID'" sortable="'campaignId'" ng-show="showTableField('campaignId', 'campaign');">{{report.campaignId}}</td>
+            <td data-title="'Campaign Name'" sortable="'campaignName'" ng-show="showTableField('campaignName', 'campaign');">{{report.campaignName}}</td>
+            <td data-title="'Status'" sortable="'status'" ng-show="showTableField('status', 'campaign');">{{report.status}}</td>
+            <td data-title="'Budget'" sortable="'budget'" ng-show="showTableField('budget', 'campaign');">{{report.budget}}</td>
+            <td data-title="'Account Name'" sortable="'accountDescriptiveName'" ng-show="showTableField('accountDescriptiveName', 'campaign');">{{report.accountDescriptiveName}}</td>
+            <td data-title="'Currency Code'" sortable="'currencyCode'" ng-show="showTableField('currencyCode', 'campaign');">{{report.currencyCode}}</td>
+            <td data-title="'Day'" sortable="'day'" ng-show="showTableField('day', 'campaign');">{{report.day}}</td>
+            <td data-title="'Cost'" sortable="'cost'" ng-show="showTableField('cost', 'campaign');">{{report.cost}}</td>
+            <td data-title="'Clicks'" sortable="'clicks'" ng-show="showTableField('clicks', 'campaign');">{{report.clicks}}</td>
+            <td data-title="'Impressions'" sortable="'impressions'" ng-show="showTableField('impressions', 'campaign');">{{report.impressions}}</td>
+            <td data-title="'CTR'" sortable="'ctr'" ng-show="showTableField('ctr', 'campaign');">{{report.ctr}}</td>
+            <td data-title="'Avg CPM'" sortable="'avgCpm'" ng-show="showTableField('avgCpm', 'campaign');">{{report.avgCpm}}</td>
+            <td data-title="'Avg CPC'" sortable="'avgCpc'" ng-show="showTableField('avgCpc', 'campaign');">{{report.avgCpc}}</td>
+            <td data-title="'Avg Position'" sortable="'avgPosition'" ng-show="showTableField('avgPosition', 'campaign');">{{report.avgPosition}}</td>
+            <td data-title="'Conversions Many Per Click'" sortable="'conversionsManyPerClick'" ng-show="showTableField('conversionsManyPerClick', 'campaign');">{{report.conversionsManyPerClick}}</td>
+            <td data-title="'Conversions'" sortable="'conversions'" ng-show="showTableField('conversions', 'campaign');">{{report.conversions}}</td>
+            <td data-title="'View Through Conversions'" sortable="'viewThroughConversions'" ng-show="showTableField('viewThroughConversions', 'campaign');">{{report.viewThroughConversions}}</td>
+            <td data-title="'Date Start'" sortable="'dateStart'" ng-show="showTableField('dateStart', 'campaign');">{{report.dateStart}}</td>
+            <td data-title="'Date End'" sortable="'dateEnd'" ng-show="showTableField('dateEnd', 'campaign');">{{report.dateEnd}}</td>
+          </tr>
+        </table>
+      </div>
+      <div style="clear: left"></div>
+    
+      <div class="data-fields-container">
+      
+        <!-- Account fields selectable list -->
+        <div id="account-fields-container" class ="block" ng-show="raw_data.length > 0 && raw_data_type == 'account'">
+          <h3 class="heading">Account data columns</h3>
+        	<div ng-repeat="column in partitionedAccountFieldsList" class="data-field-list-group">
+         	  <p ng-repeat="field in column">
+              <input type="checkbox" ng-model="field.show"> {{field.name}}
+            </p>
+          </div>
+          <div style="clear: left"></div>
+        </div>
+        
+        <!-- Campaign fields selectable list -->
+        <div id="campaign-fields-container" class ="block" ng-show="raw_data.length > 0 && raw_data_type == 'campaign'">
+          <h3 class="heading">Campaign data columns</h3>
+          <div ng-repeat="column in partitionedCampaignFieldsList" class="data-field-list-group">
+            <p ng-repeat="field in column">
+              <input type="checkbox" ng-model="field.show"> {{field.name}}
+            </p>
+          </div>
+          <div style="clear: left"></div>
+        </div>
+      </div>
+    </div>
+  </div> <!-- #raw-data-main-container -->
+</div> <!-- #raw_data_partial -->
+
+<div id="raw_data_partial_loading" class="page_loading" ng-show="loading_task_count">
+  <progressbar class="loading_status" type="success" value="TOTAL_LOADING_TASKS - loading_task_count"
+  	 max="TOTAL_LOADING_TASKS">
+     Loading {{ TOTAL_LOADING_TASKS - loading_task_count }} of {{ TOTAL_LOADING_TASKS }}
+  </progressbar>
+</div>
+
+<div style="margin: 20px"></div>

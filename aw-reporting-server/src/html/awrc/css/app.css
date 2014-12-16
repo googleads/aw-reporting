@@ -1,0 +1,580 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+div#top_bar {
+  text-align: left;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+  height: 65px;
+}
+
+h2 {
+  font-weight: normal;
+  font-size: 175%;
+}
+
+span.subtitle {
+  font-weight: normal;
+  font-size: 110%;
+}
+
+div#top_bar a {
+  text-decoration: none;
+}
+div#top_bar .glyphicon {
+  float: left;
+  font-size: 400%;
+  padding-left: 20px;
+  padding-bottom: 10px;
+  padding-top: 3px;
+  padding-right: 20px;
+  color: #666;
+}
+
+div#top_bar div#title {
+  border-left: 1px solid #ccc;
+  font-family: Helvetica;
+  font-size: 28px;
+  height: 60px;
+  padding-left: 10px;
+  /* margin-left: 95px; */
+  padding-top: 12px;
+  font-weight: 100;
+  color: #666;
+  float:left;
+}
+
+/*
+ * Settings menu styles 
+ */
+
+div#top_bar div#settings-container {
+  float:right;
+  margin-right: 10px;
+  margin-top: 15px;
+}
+
+div#top_bar div#settings-container .glyphicon {
+  color: white;
+  font-size:20px;
+  padding: 0px;
+}
+
+div#top_bar div#settings-container .dropdown-menu {
+  right: 0;
+  left: inherit;
+}
+
+div#top_bar div#settings-container .dropdown-menu > li > a:hover,
+div#top_bar div#settings-container .dropdown-menu > li > a:focus {
+  background-color: rgb(66,139,202);
+}
+
+input[type=text] {
+  padding: 3px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+}
+
+textarea {
+  padding: 3px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+}
+
+.pad-top-20 {
+  padding-top: 20px;
+}
+
+.lighter {
+color: #aaa;
+}
+div#ng-view {
+  width: 1000px;
+  margin: auto;
+  padding: 0 50px;
+}
+.show-on-hover {
+display: none;
+}
+
+div.hover-host:hover .show-on-hover {
+display: block;
+}
+
+/* Base styles (regardless of theme) */
+.bs-callout {
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border-left: 5px solid #eee;
+}
+.bs-callout h4 {
+  margin-top: 0;
+}
+.bs-callout p:last-child {
+  margin-bottom: 0;
+}
+.bs-callout code,
+.bs-callout .highlight {
+  background-color: #fff;
+}
+ 
+/* Themes for different contexts */
+.bs-callout-danger {
+  background-color: #fdf7f7;
+  border-color: #d9534f;
+}
+.bs-callout-danger h4 {
+  color: #d9534f;
+}
+
+.bs-callout-warning {
+  background-color: #fcf8f2;
+  border-color: #f0ad4e;
+}
+.bs-callout-warning h4 {
+  color: #f0ad4e;
+}
+
+.bs-callout-info {
+  background-color: #f4f8f;
+  border-color: #5bc0de;
+}
+.bs-callout-info h4 {
+  color: #5bc0de;
+}
+
+
+div.page_loading {
+  padding: 100px 20px;
+  text-align: center;   
+}
+
+
+div.block {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+}
+
+div.tabblock {
+  padding: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-right: 1px solid rgb(221,221,221);
+  border-bottom: 1px solid rgb(221,221,221);
+  border-left: 1px solid rgb(221,221,221);
+  background-color: #f8f8f8;
+}
+
+
+/**
+ * Home Partial
+ */
+
+.home-partial {
+ padding-top:10px;
+}
+.home-partial .nav-tabs {
+  width: 100%;
+  margin-top: 40px;
+}
+.home-partial .nav-tabs li {
+font-size: 140%;
+}
+
+/**
+ * Home partial: Instructions section
+ */
+.home-partial div.instructions {
+  padding-top: 30px;
+  font-size: 150%;
+  width: 400px;
+  float: right;
+}
+.home-partial div.instructions div.instruction div.pic {
+  float: left;
+  width: 40px;
+}
+.home-partial div.instructions div.instruction div.text {
+  float: left;
+  width: 340px;
+}
+.home-partial div.instructions div.instruction div.large-image {
+  float: left;
+  width: 100%;
+  font-size: 900%;
+  margin-top: 20px;
+}
+
+/**
+ * Home partial: elements list section
+ */
+.home-partial div.elements-list-section {
+  width: 440px;
+}
+
+.home-partial h2{
+  color: #428bca;
+  font-size: 200%;
+}
+
+.home-partial div.elements-list-section h3{
+  font-size: 150px;
+}
+
+.home-partial div.elements-list-section .elements-filter {
+  float:left;
+  padding: 5px;
+  width: 100%;
+  margin: 5px 0px 10px 0px;
+}
+
+.home-partial div.elements-list-section div.elements-list-group {
+  width: 440px;
+  height: 250px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.home-partial div.elements-list-section a.list-group-item {
+  border-radius: 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+.home-partial div.elements-list-section a.list-group-item.first {
+  border-radius: 0;
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+.home-partial div.elements-list-section a.list-group-item.last {
+  border-radius: 0;
+  border-bottom: none;
+  border-top: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+
+.home-partial div.elements-list-section a.list-group-item:hover {
+  background-color: rgb(66,139,202);
+  cursor: pointer;
+  color: white;
+}
+
+.home-partial div.elements-list-section a.list-group-item:hover h4 {
+  color: white;
+}
+
+.home-partial div.elements-list-section a.list-group-item span.delete_button {
+  color: #aaa;
+  font-weight: normal;
+  cursor: pointer;
+}
+.home-partial div.elements-list-section a.list-group-item span.delete_button:hover {
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/**
+ * Home partial: selected element box section
+ */
+.home-partial div.selected_element_box {
+  margin: 10px 30px 30px 25px;
+  padding: 10px 15px;
+  width: 472px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-y: auto;
+  background-color: #f8f8f8;
+}
+
+.home-partial div.selected_element_box h4 {
+  font-size: 105%;
+  font-weight: normal;
+}
+
+.home-partial div.selected_element_box span.delete_button {
+color: #aaa;
+font-weight: normal;
+  cursor: pointer;
+}
+.home-partial div.selected_element_box span.delete_button:hover {
+color: rgb(66,139,202);
+font-weight: bold;
+  cursor: pointer;
+}
+
+/**
+ * Home templates partial
+ */
+ 
+p#template-description {
+	white-space:pre;
+}
+
+/**
+ * Template Partial
+ */
+
+div#template_partial dt {
+  margin-top: 10px;
+  margin-bottom: 3px;
+  font-weight: normal;
+  font-size: 140%;
+}
+div#template_partial div#get-help {
+  float: right;
+  width: 375px;
+  margin-top: 50px;
+  margin-right: 25px;
+}
+div#template_partial div#get-help  div#graphic {
+  float: left;
+  margin-right: 10px;
+  color: #383;
+}
+div#template_partial div#template_editor dt.tmpl_text {
+  margin-top: 20px;
+}
+div#template_partial div#template_editor dt.tmpl_text button {
+  padding: 3px 10px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+/**
+ * Account partial.
+ */
+div#account_partial div.action {
+  float: left;
+  width: 250px;
+  font-size: 120%;
+  text-align: center;
+  margin: 15px;
+  cursor: pointer;
+}
+
+div#account_partial div.action div.disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+div#account_partial div.action img, div#account_partial div.action .glyphicon {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px;
+  background-color: white;
+  width: 180px;
+  height: 100px;
+}
+
+div#account_partial div.action .glyphicon {
+	font-size: 400%;
+	line-height: 92px;
+}
+div#account_partial div.action div.title {
+  padding: 10px 0;
+}
+
+div#account_partial div.action:hover img {
+  border: 1px solid #444;
+}
+
+div#account_partial div#call_to_action {
+  margin-top: 30px;
+  padding: 20px;
+  text-align: center;
+}
+
+/**
+ * Page loading progress bar
+ */
+
+div#account_partial_loading .loading_status {
+  margin-left: 235px;
+  width: 400px;
+}
+
+
+/**
+ * Raw data partial.
+ */
+ 
+div#raw_data_partial div.chart_holder div.title {
+  color: #888;
+  font-size: 85%
+}
+
+div#raw_data_partial_loading .loading_status {
+  margin-left: 235px;
+  width: 400px;
+}
+
+div#raw_data_partial div.account_row {
+margin-bottom: 20px;
+}
+
+div#raw_data_partial div.account_row h4 {
+color: #666;
+}
+
+div#raw_data_partial div#raw-data-main-container {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+div#raw_data_partial div#settings-side-bar, div#raw_data_partial div#raw-data {
+    border: 1px solid white;
+    float: left;
+    min-height: 450px;
+}
+div#raw_data_partial div#raw-data {
+    width: 700px;
+}
+
+/**
+ * Raw data: settings side bar
+ */
+div#raw_data_partial div#settings-side-bar {
+    width: 252px;
+}
+div#raw_data_partial div#settings-panel {
+    width: 100%;
+    min-height: 150px;
+    border-radius: 10px;
+    height: 600px;
+}
+div#raw_data_partial div#settings-panel .section {
+    padding-bottom:5px;
+}
+div#raw_data_partial div#settings-panel #action-button-section {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+div#raw_data_partial div#table-fields-panel {
+    margin-top: 20px;
+    border-radius: 10px;
+}
+div#raw_data_partial div#settings-side-bar h2{
+  color: #428bca;
+  font-size: 200%;
+}
+
+div#raw_data_partial div#settings-side-bar h3{
+  font-size: 20px;
+  color:black;
+  margin-top:0px;
+}
+
+div#raw_data_partial div#settings-side-bar div#accounts-list-small-section {
+  width: 100%;
+}
+
+div#raw_data_partial div#settings-side-bar div#account-fields-selection {
+  height: 200px;
+  overflow-y: auto; 
+}
+
+
+div#raw_data_partial div#accounts-list-small-section #filter-container {
+  width: 100%;
+  margin: 5px 0px 10px 0px;
+}
+div#raw_data_partial div#accounts-list-small-section #accounts-filter {
+  float:left;
+  padding: 5px;
+  color: black;
+  width: 170px;
+}
+div#raw_data_partial div#accounts-list-small-section #clear-filter-button {
+  font-size: 12px;
+  margin-left: 5px;
+}
+div#raw_data_partial div#accounts-list-small-section div.accounts-list-group {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: white;
+  overflow-y: auto;
+}
+
+div#raw_data_partial div#accounts-list-small-section a.list-group-item {
+  border-radius: 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+
+div#raw_data_partial div#accounts-list-small-section .list-group-item-text {
+  font-size: 12px;
+}
+div#raw_data_partial div#accounts-list-small-section a.list-group-item.first {
+  border-radius: 0;
+  border-top: none;
+  border-bottom: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+div#raw_data_partial div#accounts-list-small-section a.list-group-item.last {
+  border-radius: 0;
+  border-bottom: none;
+  border-top: 1px solid #ddd;
+  border-left: none;
+  border-right: none;
+}
+
+div#raw_data_partial div#accounts-list-small-section a.list-group-item:hover {
+  background-color: rgb(66,139,202);
+  cursor: pointer;
+  color: white;
+}
+
+div#raw_data_partial div#accounts-list-small-section a.list-group-item:hover h4 {
+  color: white;
+}
+
+div#raw_data_partial .cal-button {
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+div#raw_data_partial #invalid_date_alert {
+  padding: 5px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+div#raw_data_partial .data-table-container {
+	max-height: 600px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+div#raw_data_partial .data-fields-container .data-field-list-group {
+	float: left;
+	margin-right: 15px;
+	width: 30%;
+}
+
+div#raw_data_partial .data-fields-container {
+	margin-top: 20px;
+}
+
+div#raw_data_partial .data-fields-container h3{
+  font-size: 20px;
+  color:black;
+  margin-top:0px;
+}

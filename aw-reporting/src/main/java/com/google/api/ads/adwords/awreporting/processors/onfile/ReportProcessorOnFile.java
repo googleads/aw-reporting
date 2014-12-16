@@ -86,7 +86,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
     }
   }
 
+<<<<<<< HEAD
+  private <R extends Report> void processFiles(String userId,
+      String mccAccountId,
+=======
   private <R extends Report> void processFiles(String mccAccountId,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       Class<R> reportBeanClass,
       Collection<File> localFiles,
       ReportDefinitionDateRangeType dateRangeType,
@@ -104,7 +109,11 @@ public class ReportProcessorOnFile extends ReportProcessor {
     for (File file : localFiles) {
       LOGGER.trace(".");
       try {
+<<<<<<< HEAD
+        
+=======
 
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
         // We need to create a csvToBean and mappingStrategy for each thread
         ModifiedCsvToBean<R> csvToBean = new ModifiedCsvToBean<R>();
         MappingStrategy<R> mappingStrategy = new AnnotationBasedMappingStrategy<R>(reportBeanClass);
@@ -196,9 +205,15 @@ public class ReportProcessorOnFile extends ReportProcessor {
     } else {
       LOGGER.info("Accounts loaded from file.");
     }
+<<<<<<< HEAD
+    
+    AdWordsSessionBuilderSynchronizer sessionBuilder =
+        new AdWordsSessionBuilderSynchronizer(authenticator.authenticate(userId, mccAccountId, false));
+=======
 
     AdWordsSessionBuilderSynchronizer sessionBuilder = new AdWordsSessionBuilderSynchronizer(
         authenticator.authenticate(userId, mccAccountId, false));
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     LOGGER.info("*** Generating Reports for " + accountIdsSet.size() + " accounts ***");
 
@@ -207,6 +222,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
     Set<ReportDefinitionReportType> reports = this.csvReportEntitiesMapping.getDefinedReports();
 
     // reports
+<<<<<<< HEAD
+    for (ReportDefinitionReportType reportType : reports) {
+      if (properties.containsKey(reportType.name())) {
+        this.downloadAndProcess(userId,
+            mccAccountId,
+=======
     Set<Object> propertiesKeys = properties.keySet();
     for (Object key : propertiesKeys) {
 
@@ -214,13 +235,17 @@ public class ReportProcessorOnFile extends ReportProcessor {
       ReportDefinitionReportType reportType = this.extractReportTypeFromKey(reportDefinitionKey);
       if (reportType != null && reports.contains(reportType)) {
         this.downloadAndProcess(mccAccountId,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
             sessionBuilder,
             reportType,
             dateRangeType,
             dateStart,
             dateEnd,
             accountIdsSet,
+<<<<<<< HEAD
+=======
             reportDefinitionKey,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
             properties);
       }
     }
@@ -236,7 +261,11 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * Downloads all the files from the API and process all the rows, saving the data to the
    * configured data base.
    *
+<<<<<<< HEAD
+   * @param builder the session builder.
+=======
    * @param sessionBuilder the session builder.
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
    * @param reportType the report type.
    * @param dateRangeType the date range type.
    * @param dateStart the start date.
@@ -244,14 +273,22 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param acountIdList the account IDs.
    * @param properties the properties resource.
    */
+<<<<<<< HEAD
+  private <R extends Report> void downloadAndProcess(String userId,
+      String mccAccountId,
+=======
   private <R extends Report> void downloadAndProcess(String mccAccountId,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       ReportDefinitionReportType reportType,
       ReportDefinitionDateRangeType dateRangeType,
       String dateStart,
       String dateEnd,
       Set<Long> acountIdList,
+<<<<<<< HEAD
+=======
       String reportDefinitionKey,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       Properties properties) {
 
     // Download Reports to local files and Generate Report objects
@@ -260,6 +297,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
     Collection<File> localFiles = Lists.newArrayList();
     try {
 
+<<<<<<< HEAD
+      ReportDefinition reportDefinition =
+          getReportDefinition(reportType, dateRangeType, dateStart, dateEnd, properties);
+
+      localFiles = this.multipleClientReportDownloader.downloadReports(sessionBuilder, reportDefinition,
+          acountIdList);
+=======
       ReportDefinition reportDefinition = getReportDefinition(reportType,
           dateRangeType,
           dateStart,
@@ -269,6 +313,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
 
       localFiles = this.multipleClientReportDownloader.downloadReports(sessionBuilder,
           reportDefinition, acountIdList);
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     } catch (InterruptedException e) {
       LOGGER.error(e.getMessage());
@@ -280,7 +325,17 @@ public class ReportProcessorOnFile extends ReportProcessor {
       return;
     }
 
+<<<<<<< HEAD
+    this.processLocalFiles(userId,
+        mccAccountId,
+        reportType,
+        localFiles,
+        dateStart,
+        dateEnd,
+        dateRangeType);
+=======
     this.processLocalFiles(mccAccountId, reportType, localFiles, dateStart, dateEnd, dateRangeType);
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     this.deleteTemporaryFiles(localFiles, reportType);
   }
@@ -294,7 +349,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param dateEnd the end date.
    * @param dateRangeType the date range type.
    */
+<<<<<<< HEAD
+  private <R extends Report> void processLocalFiles(String userId,
+      String mccAccountId,
+=======
   private <R extends Report> void processLocalFiles(String mccAccountId,
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
       ReportDefinitionReportType reportType,
       Collection<File> localFiles,
       String dateStart,
@@ -306,7 +366,17 @@ public class ReportProcessorOnFile extends ReportProcessor {
     @SuppressWarnings("unchecked")
     Class<R> reportBeanClass =
         (Class<R>) this.csvReportEntitiesMapping.getReportBeanClass(reportType);
+<<<<<<< HEAD
+    this.processFiles(userId,
+        mccAccountId,
+        reportBeanClass,
+        localFiles,
+        dateRangeType,
+        dateStart,
+        dateEnd);
+=======
     this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd);
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a
 
     stopwatch.stop();
     LOGGER.info("\n* DB Process finished in " + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)

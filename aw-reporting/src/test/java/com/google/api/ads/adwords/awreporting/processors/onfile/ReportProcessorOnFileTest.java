@@ -76,9 +76,15 @@ public class ReportProcessorOnFileTest {
   
   private static final int NUMBER_OF_THREADS = 50;
   
+<<<<<<< HEAD:aw-reporting/src/test/java/com/google/api/ads/adwords/awreporting/processors/onfile/ReportProcessorOnFileTest.java
+  private static final int REPORT_TYPES_SIZE = 13;
+  
+  private static final int CALLS_TO_PERSIST_ENTITIES = 3000;
+=======
   private static final int REPORT_TYPES_SIZE = 15; // 13 plus 2 repetitions of the KEYWORD report
   
   private static final int CALLS_TO_PERSIST_ENTITIES = 6000;
+>>>>>>> 2f2a7486c98ac121ad93d5d5bb44c6f875fcbc1a:aw-reporting/src/test/java/com/google/api/ads/adwords/awreporting/processors/onfile/ReportProcessorOnFileTest.java
   
   private static final Set<Long> CIDS = Sets.newHashSet();
   

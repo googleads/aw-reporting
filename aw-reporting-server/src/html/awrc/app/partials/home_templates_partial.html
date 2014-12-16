@@ -1,0 +1,71 @@
+<div id="home_templates_partial" class="home-partial"
+  ng-show="loading_task_count == 0">
+  <h2>Report Templates</h2>
+  <div id="templates" class="block">
+    <div class="instructions">
+      <div class="instruction" style="text-align: center">
+        <button class="btn btn-primary" style="padding: 10px;"
+          id="add_template_button" ng-click="createTemplate();">
+          Create New Template</button>
+      </div>
+      <div style="clear: left"></div>
+    </div>
+    <div class="elements-list-section">
+      <input id="templates-filter" class="elements-filter" type="text" placeholder="Search for templates ..." ng-model="template_filter" />
+      <div style="clear: left"></div>
+      <div style="float: left">
+      
+      <div id="templates" class="elements-list-group list-group" ng-show="templates.length">
+        <div>
+          <div class="list-group-item hover-host"
+               ng-class="{first: $first, last: $index && $last}"
+               ng-repeat="template in matches = (templates | filter: template_filter)"
+               ng-click="editTemplate(template.templateName);">
+            <div class="show-on-hover pull-right" style="font-size: 80%">
+              <a ng-href="#/template/{{template.id}}">
+                <span title="Edit this template" style="font-size: 80%" class="glyphicon glyphicon-edit"></span>
+                <span >Edit</span>
+              </a>
+              <a ng-href="#/template/+{{template.id}}">
+                <span title="Create a new template from this one" class="glyphicon glyphicon-share"
+                      style="font-size: 80%"></span>
+                <span >Clone</span>
+              </a>
+            </div>
+            <div style="float: right">
+            </div>
+            <h4 class="list-group-item-heading">
+              {{ template.templateName }}
+              <!-- <span ng-show="!template.isPublic" style="color: #aaa; font-size: 90%"
+                    title="This is a private template only visible to you"
+                    popover-trigger="mouseenter"
+                    class="glyphicon glyphicon-user"></span>
+              <span ng-show="template.isPublic" style="color: #aaa; font-size: 90%"
+                    title="This is a public template, usable by all"
+                    popover-trigger="mouseenter"
+                    class="glyphicon glyphicon-cloud"></span> -->
+            </h4>
+            <p id="template-description" style="width: 355px"> {{ template.templateDescription }} </p>
+          </div>
+        </div>
+      </div>
+        <div id="no_accounts" ng-show="accounts.length == 0">
+          <div class="bs-callout bs-callout-danger" style="width: 400px">
+            <h4>This MCC has no accounts!!!</h4>
+          </div>
+        </div>
+      </div>
+      <div style="clear: left"></div>
+    </div>
+    <div style="clear: both; padding-bottom: 30px"></div>
+  </div>  
+</div> <!-- / home_partial -->
+
+
+<div id="home_partial_loading" class="page_loading"
+  ng-show="loading_task_count">
+  <img src="media/loader_throb.gif" border="0" /> Loading ...
+</div>
+
+
+<div style="margin: 20px"></div>

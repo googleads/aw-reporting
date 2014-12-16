@@ -1,0 +1,52 @@
+<div id="accounts-partial" class="home-partial" ng-show="loading_task_count == 0">
+  <h3> Select MCC / Account </h3>
+  <p class="text"> Missing an account? Contact your admin</p>
+  
+  <div id="mcc_list" class="block"> <!-- mcc_list -->
+    <div class="alert alert-danger" ng-show="load_mccs_error" style="width: 450px">
+      {{ load_mccs_error }}
+    </div>
+    
+    <div class="instructions">
+      <div class="instruction" style="text-align: center">
+        <div class="large-image"><span class="glyphicon glyphicon-folder-open" style="color: #428bca;"></span></div>
+      </div>
+      <div style="clear: left"></div>
+    </div>
+    
+    <div class="elements-list-section">
+      <input id="mcc-filter" class="elements-filter" type="text" placeholder="Search for an MCC ..." ng-model="mccid"/>
+    <div style="clear: left"></div>
+    <div style="float: left">
+      <div id="mccs" class="elements-list-group list-group" ng-show="mccs.length">
+        <div>
+          <a class="list-group-item"
+            ng-repeat="mcc in filtered = (mccs | filter: mccid)"
+            ng-class="{first: $first, last: $index && $last}"
+            ng-click="selectMCC(mcc.topAccountId);">
+            <h4 class="list-group-item-heading">{{ mcc.topAccountId | formatccid }}</h4>
+            <p class="list-group-item-text">{{ mcc.topAccountName ? mcc.topAccountName : "(Unknown Name)" }}</p>
+          </a>
+        </div>
+      </div>
+    
+      <div id="no_mccs" ng-show="mccs.length == 0">
+        <div class="bs-callout bs-callout-danger" style="width: 400px">
+          <h4> No MCCs available</h4>
+        </div>
+      </div>
+    </div>
+    <div style="clear: left"></div>
+    </div>
+  </div> <!-- #mcc_list -->
+  
+  <div style="clear: both; padding-bottom: 30px"></div>
+
+</div> <!-- #home_partial -->
+
+
+<div id="home_partial_loading" class="page_loading" ng-show="loading_task_count">
+  <img src="media/loader_throb.gif" border="0"/> Loading ...
+</div>
+
+<div style="margin: 20px"></div>

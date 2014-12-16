@@ -1,0 +1,69 @@
+
+<div id="template_partial" ng-show="done_loading">
+  <div style="float: right; padding: 10px;"><a href="#/templates">⇠ Go Back</a></div>
+
+  <h2> {{ page_title }} </h2>
+
+
+  <div id="template_editor" class="block" style="padding: 20px">
+
+    <div class="alert alert-danger" ng-show="load_error">
+      {{ load_error }}
+      <div class="margin: 10px 0"><a href="/">⇠ Go Back</a></div>
+    </div>
+
+    <div class="alert alert-danger" ng-show="save_error">
+      {{ save_error }}
+    </div>
+
+    <div id="get-help">
+      <div id="graphic">
+        <span class="glyphicon glyphicon-question-sign" style="font-size: 600%"></span>
+      </div>
+      <span style="font-size: 200%">Don't know what to do? Get <a href="#/template_help">help here</a>.</span>
+    </div>
+    <dl>
+      <dt> Template Name </dt>
+      <dd> <input type="text" ng-model="template.templateName" maxlength="100" style="width: 400px" placeholder="Give your template a name..."/> </dd>
+      <dt> Template Description </dt>
+      <dd>
+        <textarea placeholder="What's your template for? Report type? Best uses?"
+                  rows="5" style="width: 400px"
+                  ng-model="template.templateDescription"></textarea>
+      </dd>
+      <dt class="tmpl_text">
+        Template HTML
+          <button class="btn btn-info"
+                  onclick="document.getElementById('uptmpl').click()">Upload from File</button>
+          <input id='uptmpl'
+                 style="display: none"
+                 type="file" text="Upload Template"
+                 gae-text-file-reader="uploaded_file_content"/>
+      </dt>
+      <dd>
+        <textarea spellcheck='false' rows="10"
+                  style="width: 800px; font-family: Courier"
+                  ng-model="template.templateHtml"></textarea>
+      </dd>
+    </dl>
+
+    <p ng-show="can_save_public">
+      <input type="checkbox" ng-disabled="template_id && !based_on_existing" ng-model="template.isPublic"/>
+      <span ng-class="{ lighter: template_id && !based_on_existing }">This is a public template
+        <span popover="When creating a new template, you can mark it as visible to everybody, or just yourself"
+              popover-trigger="mouseenter"
+              class="glyphicon glyphicon-info-sign"></span>
+      </span>
+    </p>
+    <!-- On save, set all templates as public for now -->
+    <button class="btn btn-success" ng-disabled="waiting" ng-click="template.isPublic= true; saveTemplate();">Save Template</button>
+    or <a href="#/templates">Cancel</a>
+  </div>
+</div>
+
+
+<div id="template_partial_loading" class="page_loading" ng-show="!done_loading">
+  <img src="media/loader_throb.gif" border="0"/> Loading ...
+</div>
+
+
