@@ -128,6 +128,9 @@ public class ReportAccount extends ReportBase {
     if (this.getHourOfDay() != null) {
       this.id += "-" + this.getHourOfDay();
     }
+    if (this.getConversionTypeName() != null) {
+      this.id += "-" + this.getConversionTypeName();
+    }
   }
 
   public String getSearchImpressionShare() {

@@ -168,6 +168,7 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
         // Specific to Keyword Performance Report
         "CampaignId",
         "AdGroupId",
+        "AdGroupName",
         "Id",
         "Status",
         "QualityScore",

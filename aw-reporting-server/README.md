@@ -28,7 +28,7 @@ Process Kratus:
 <code>java -Xmx4G -jar aw-reporting-server.jar -processKratus -startDate YYYYMMDD -endDate YYYYMMDD -file &lt;file&gt;</code>
 
 Start Rest Server:
-<code>java -Xmx4G -jar aw-reporting-server.jar -startServer -file -file &lt;file&gt;</code>
+<code>java -Xmx4G -jar aw-reporting-server.jar -startServer -file &lt;file&gt;</code>
 
 <code>Arguments:
 
