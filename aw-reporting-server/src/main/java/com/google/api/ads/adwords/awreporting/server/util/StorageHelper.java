@@ -17,11 +17,11 @@ package com.google.api.ads.adwords.awreporting.server.util;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
-import com.google.api.ads.adwords.awreporting.model.entities.ReportAdExtension;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaignNegativeKeyword;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
+import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.api.ads.adwords.awreporting.server.entities.Account;
@@ -173,16 +173,16 @@ public class StorageHelper {
         dateStart, dateEnd);
   }
 
-  // ReportAdExtension
-  public List<ReportAdExtension> getReportAdExtensionByCampaignId(Long campaignId, Date dateStart,
+  // ReportPlaceholderFeedItem
+  public List<ReportPlaceholderFeedItem> getReportPlaceholderFeedItemByCampaignId(Long campaignId, Date dateStart,
       Date dateEnd) {
-    return entityPersister.get(ReportAdExtension.class, ReportAdExtension.CAMPAIGN_ID, campaignId,
+    return entityPersister.get(ReportPlaceholderFeedItem.class, ReportPlaceholderFeedItem.CAMPAIGN_ID, campaignId,
         Report.DAY, dateStart, dateEnd);
   }
 
-  public List<ReportAdExtension> getReportAdExtensionByAdExtensionId(Long adExtensionId, Date dateStart,
+  public List<ReportPlaceholderFeedItem> getReportPlaceholderFeedItemByFeedItemId(Long feedItemId, Date dateStart,
       Date dateEnd) {
-    return entityPersister.get(ReportAdExtension.class, ReportAdExtension.ADEXTENSION_ID, adExtensionId, Report.DAY,
+    return entityPersister.get(ReportPlaceholderFeedItem.class, ReportPlaceholderFeedItem.FEED_ITEM_ID, feedItemId, Report.DAY,
         dateStart, dateEnd);
   }
 
@@ -253,21 +253,21 @@ public class StorageHelper {
     entityPersister.createIndex(ReportAdGroup.class, indexes);
     entityPersister.createIndex(ReportAd.class, indexes);
     entityPersister.createIndex(ReportKeyword.class, indexes);
-    entityPersister.createIndex(ReportAdExtension.class, indexes);
+    entityPersister.createIndex(ReportPlaceholderFeedItem.class, indexes);
 
     entityPersister.createIndex(ReportAccount.class, Report.ACCOUNT_ID);
     entityPersister.createIndex(ReportCampaign.class, Report.ACCOUNT_ID);
     entityPersister.createIndex(ReportAdGroup.class, Report.ACCOUNT_ID);
     entityPersister.createIndex(ReportAd.class, Report.ACCOUNT_ID);
     entityPersister.createIndex(ReportKeyword.class, Report.ACCOUNT_ID);
-    entityPersister.createIndex(ReportAdExtension.class, Report.ACCOUNT_ID);
+    entityPersister.createIndex(ReportPlaceholderFeedItem.class, Report.ACCOUNT_ID);
     entityPersister.createIndex(ReportCampaignNegativeKeyword.class, Report.ACCOUNT_ID);
 
     entityPersister.createIndex(ReportCampaign.class, Report.CAMPAIGN_ID);
     entityPersister.createIndex(ReportAdGroup.class, Report.CAMPAIGN_ID);
     entityPersister.createIndex(ReportAd.class, Report.CAMPAIGN_ID);
     entityPersister.createIndex(ReportKeyword.class, Report.CAMPAIGN_ID);
-    entityPersister.createIndex(ReportAdExtension.class, Report.CAMPAIGN_ID);
+    entityPersister.createIndex(ReportPlaceholderFeedItem.class, Report.CAMPAIGN_ID);
 
     entityPersister.createIndex(ReportAdGroup.class, Report.ADGROUP_ID);
     entityPersister.createIndex(ReportAd.class, Report.ADGROUP_ID);
@@ -277,7 +277,7 @@ public class StorageHelper {
 
     entityPersister.createIndex(ReportKeyword.class, Report.KEYWORD_ID);
 
-    entityPersister.createIndex(ReportAdExtension.class, Report.ADEXTENSION_ID);
+    entityPersister.createIndex(ReportPlaceholderFeedItem.class, ReportPlaceholderFeedItem.FEED_ITEM_ID);
 
     // Create Kratu Indexes
     List<String> kratuIndexes = Lists.newArrayList();

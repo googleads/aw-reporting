@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportUrl;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -104,13 +104,11 @@ public class ReportUrlDefinitionTest extends AbstractReportDefinitionTest<Report
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -130,7 +128,10 @@ public class ReportUrlDefinitionTest extends AbstractReportDefinitionTest<Report
         "IsAutoOptimized",
         "IsBidOnPath",
         "IsPathExcluded",
-        "Url"
-        };
+        "Url",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId"
+    };
   }
 }

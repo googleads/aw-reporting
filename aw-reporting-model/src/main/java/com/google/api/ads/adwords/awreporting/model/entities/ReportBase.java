@@ -27,7 +27,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.dateranges.TodayDat
 import com.google.api.ads.adwords.awreporting.model.entities.dateranges.YesterdayDateRangeHandler;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Maps;
 
 import com.googlecode.objectify.annotation.Index;
@@ -175,35 +175,27 @@ public abstract class ReportBase extends Report {
   @MoneyField
   protected BigDecimal costPerConversionManyPerClick;
 
-  @Column(name = "VALUEPERCONVMANYPERCLICK")
-  @CsvField(value = "Value / conv.", reportField = "ValuePerConvManyPerClick")
-  protected BigDecimal valuePerConvManyPerClick;
-
   @Column(name = "VALUEPERCONVERSIONMANYPERCLICK")
-  @CsvField(value = "Value / conv", reportField = "ValuePerConversionManyPerClick")
+  @CsvField(value = "Value / conv.", reportField = "ValuePerConversionManyPerClick")
   protected BigDecimal valuePerConversionManyPerClick;
 
   // One Per Click
-  @Column(name = "CONVERSIONS")
-  @CsvField(value = "Converted clicks", reportField = "Conversions")
-  protected Long conversions = 0L;
+  @Column(name = "CONVERTEDCLICKS")
+  @CsvField(value = "Converted clicks", reportField = "ConvertedClicks")
+  protected Long convertedClicks = 0L;
 
-  @Column(name = "CONVERSIONRATE")
-  @CsvField(value = "Click conversion rate", reportField = "ConversionRate")
-  protected BigDecimal conversionRate;
+  @Column(name = "CLICKCONVERSIONRATE")
+  @CsvField(value = "Click conversion rate", reportField = "ClickConversionRate")
+  protected BigDecimal clickConversionRate;
 
-  @Column(name = "COSTPERCONVERSION")
-  @CsvField(value = "Cost / converted click", reportField = "CostPerConversion")
+  @Column(name = "COSTPERCONVERTEDCLICK")
+  @CsvField(value = "Cost / converted click", reportField = "CostPerConvertedClick")
   @MoneyField
-  protected BigDecimal costPerConversion;
+  protected BigDecimal costPerConvertedClick;
 
-  @Column(name = "VALUEPERCONV")
-  @CsvField(value = "Value / converted click", reportField = "ValuePerConv")
-  protected BigDecimal valuePerConv;
-
-  @Column(name = "VALUEPERCONVERSION")
-  @CsvField(value = "Value / converted click", reportField = "ValuePerConversion")
-  protected BigDecimal valuePerConversion;
+  @Column(name = "VALUEPERCONVERTEDCLICK")
+  @CsvField(value = "Value / converted click", reportField = "ValuePerConvertedClick")
+  protected BigDecimal valuePerConvertedClick;
 
   // General
   @Column(name = "CONVERSIONCATEGORYNAME")
@@ -536,12 +528,12 @@ public abstract class ReportBase extends Report {
   }
 
   // Conversion Columns
-  public Long getConversions() {
-    return conversions;
+  public Long getConvertedClicks() {
+    return convertedClicks;
   }
 
-  public void setConversions(Long conversions) {
-    this.conversions = conversions;
+  public void setConvertedClicks(Long convertedClicks) {
+    this.convertedClicks = convertedClicks;
   }
 
   public Long getConversionsManyPerClick() {
@@ -573,18 +565,6 @@ public abstract class ReportBase extends Report {
     this.costPerConversionManyPerClick = costPerConversionManyPerClick;
   }
 
-  public BigDecimal getValuePerConvManyPerClickBigDecimal() {
-    return valuePerConvManyPerClick;
-  }
-
-  public String getValuePerConvManyPerClick() {
-    return BigDecimalUtil.formatAsReadable(valuePerConvManyPerClick);
-  }
-
-  public void setValuePerConvManyPerClick(String valuePerConvManyPerClick) {
-    this.valuePerConvManyPerClick = BigDecimalUtil.parseFromNumberString(valuePerConvManyPerClick);
-  }
-
   public String getValuePerConversionManyPerClick() {
     return BigDecimalUtil.formatAsReadable(valuePerConversionManyPerClick);
   }
@@ -598,48 +578,36 @@ public abstract class ReportBase extends Report {
         BigDecimalUtil.parseFromNumberString(valuePerConversionManyPerClick);
   }
 
-  public String getConversionRate() {
-    return BigDecimalUtil.formatAsReadable(conversionRate);
+  public String getClickConversionRate() {
+    return BigDecimalUtil.formatAsReadable(clickConversionRate);
   }
 
-  public BigDecimal getConversionRateBigDecimal() {
-    return conversionRate;
+  public BigDecimal getClickConversionRateBigDecimal() {
+    return clickConversionRate;
   }
 
-  public void setConversionRate(String conversionRate) {
-    this.conversionRate = BigDecimalUtil.parseFromNumberString(conversionRate);
+  public void setClickConversionRate(String clickConversionRate) {
+    this.clickConversionRate = BigDecimalUtil.parseFromNumberString(clickConversionRate);
   }
 
-  public BigDecimal getCostPerConversion() {
-    return costPerConversion;
+  public BigDecimal getCostPerConvertedClick() {
+    return costPerConvertedClick;
   }
 
-  public void setCostPerConversion(BigDecimal costPerConversion) {
-    this.costPerConversion = costPerConversion;
+  public void setCostPerConvertedClick(BigDecimal costPerConvertedClick) {
+    this.costPerConvertedClick = costPerConvertedClick;
   }
 
-  public String getValuePerConv() {
-    return BigDecimalUtil.formatAsReadable(valuePerConv);
+  public String getValuePerConvertedClick() {
+    return BigDecimalUtil.formatAsReadable(valuePerConvertedClick);
   }
 
-  public BigDecimal getValuePerConvBigDecimal() {
-    return valuePerConv;
+  public BigDecimal getValuePerConvertedClickBigDecimal() {
+    return valuePerConvertedClick;
   }
 
-  public void setValuePerConv(String valuePerConv) {
-    this.valuePerConv = BigDecimalUtil.parseFromNumberString(valuePerConv);
-  }
-
-  public String getValuePerConversion() {
-    return BigDecimalUtil.formatAsReadable(valuePerConversion);
-  }
-
-  public BigDecimal getValuePerConversionBigDecimal() {
-    return valuePerConversion;
-  }
-
-  public void setValuePerConversion(String valuePerConversion) {
-    this.valuePerConversion = BigDecimalUtil.parseFromNumberString(valuePerConversion);
+  public void setValuePerConvertedClick(String valuePerConvertedClick) {
+    this.valuePerConvertedClick = BigDecimalUtil.parseFromNumberString(valuePerConvertedClick);
   }
 
   public String getConversionCategoryName() {
@@ -694,16 +662,16 @@ public abstract class ReportBase extends Report {
     result = prime * result + ((clicks == null) ? 0 : clicks.hashCode());
     result = prime * result
         + ((conversionCategoryName == null) ? 0 : conversionCategoryName.hashCode());
-    result = prime * result + ((conversionRate == null) ? 0 : conversionRate.hashCode());
+    result = prime * result + ((clickConversionRate == null) ? 0 : clickConversionRate.hashCode());
     result = prime * result
         + ((conversionRateManyPerClick == null) ? 0 : conversionRateManyPerClick.hashCode());
     result = prime * result + ((conversionTypeName == null) ? 0 : conversionTypeName.hashCode());
     result = prime * result + ((conversionValue == null) ? 0 : conversionValue.hashCode());
-    result = prime * result + ((conversions == null) ? 0 : conversions.hashCode());
+    result = prime * result + ((convertedClicks == null) ? 0 : convertedClicks.hashCode());
     result = prime * result
         + ((conversionsManyPerClick == null) ? 0 : conversionsManyPerClick.hashCode());
     result = prime * result + ((cost == null) ? 0 : cost.hashCode());
-    result = prime * result + ((costPerConversion == null) ? 0 : costPerConversion.hashCode());
+    result = prime * result + ((costPerConvertedClick == null) ? 0 : costPerConvertedClick.hashCode());
     result = prime * result
         + ((costPerConversionManyPerClick == null) ? 0 : costPerConversionManyPerClick.hashCode());
     result = prime * result + ((ctr == null) ? 0 : ctr.hashCode());
@@ -718,10 +686,7 @@ public abstract class ReportBase extends Report {
     result = prime * result + ((monthOfYear == null) ? 0 : monthOfYear.hashCode());
     result = prime * result + ((primaryCompanyName == null) ? 0 : primaryCompanyName.hashCode());
     result = prime * result + ((quarter == null) ? 0 : quarter.hashCode());
-    result = prime * result + ((valuePerConv == null) ? 0 : valuePerConv.hashCode());
-    result = prime * result
-        + ((valuePerConvManyPerClick == null) ? 0 : valuePerConvManyPerClick.hashCode());
-    result = prime * result + ((valuePerConversion == null) ? 0 : valuePerConversion.hashCode());
+    result = prime * result + ((valuePerConvertedClick == null) ? 0 : valuePerConvertedClick.hashCode());
     result = prime
         * result
         + ((valuePerConversionManyPerClick == null) ? 0 : valuePerConversionManyPerClick.hashCode());
@@ -791,10 +756,10 @@ public abstract class ReportBase extends Report {
         return false;
     } else if (!conversionCategoryName.equals(other.conversionCategoryName))
       return false;
-    if (conversionRate == null) {
-      if (other.conversionRate != null)
+    if (clickConversionRate == null) {
+      if (other.clickConversionRate != null)
         return false;
-    } else if (!conversionRate.equals(other.conversionRate))
+    } else if (!clickConversionRate.equals(other.clickConversionRate))
       return false;
     if (conversionRateManyPerClick == null) {
       if (other.conversionRateManyPerClick != null)
@@ -811,10 +776,10 @@ public abstract class ReportBase extends Report {
         return false;
     } else if (!conversionValue.equals(other.conversionValue))
       return false;
-    if (conversions == null) {
-      if (other.conversions != null)
+    if (convertedClicks == null) {
+      if (other.convertedClicks != null)
         return false;
-    } else if (!conversions.equals(other.conversions))
+    } else if (!convertedClicks.equals(other.convertedClicks))
       return false;
     if (conversionsManyPerClick == null) {
       if (other.conversionsManyPerClick != null)
@@ -826,10 +791,10 @@ public abstract class ReportBase extends Report {
         return false;
     } else if (!cost.equals(other.cost))
       return false;
-    if (costPerConversion == null) {
-      if (other.costPerConversion != null)
+    if (costPerConvertedClick == null) {
+      if (other.costPerConvertedClick != null)
         return false;
-    } else if (!costPerConversion.equals(other.costPerConversion))
+    } else if (!costPerConvertedClick.equals(other.costPerConvertedClick))
       return false;
     if (costPerConversionManyPerClick == null) {
       if (other.costPerConversionManyPerClick != null)
@@ -891,20 +856,10 @@ public abstract class ReportBase extends Report {
         return false;
     } else if (!quarter.equals(other.quarter))
       return false;
-    if (valuePerConv == null) {
-      if (other.valuePerConv != null)
+    if (valuePerConvertedClick == null) {
+      if (other.valuePerConvertedClick != null)
         return false;
-    } else if (!valuePerConv.equals(other.valuePerConv))
-      return false;
-    if (valuePerConvManyPerClick == null) {
-      if (other.valuePerConvManyPerClick != null)
-        return false;
-    } else if (!valuePerConvManyPerClick.equals(other.valuePerConvManyPerClick))
-      return false;
-    if (valuePerConversion == null) {
-      if (other.valuePerConversion != null)
-        return false;
-    } else if (!valuePerConversion.equals(other.valuePerConversion))
+    } else if (!valuePerConvertedClick.equals(other.valuePerConvertedClick))
       return false;
     if (valuePerConversionManyPerClick == null) {
       if (other.valuePerConversionManyPerClick != null)

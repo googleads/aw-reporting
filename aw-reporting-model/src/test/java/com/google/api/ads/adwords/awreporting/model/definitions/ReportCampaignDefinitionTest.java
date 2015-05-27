@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -52,7 +52,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals(1.11, first.getCost().doubleValue());
     Assert.assertEquals(5L, first.getClicks().longValue());
     Assert.assertEquals(927L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(0.54, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(1.20, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.22, first.getAvgCpc().doubleValue());
@@ -60,7 +60,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("EUR", first.getCurrencyCode());
 
     Assert.assertEquals(132449648L, first.getCampaignId().longValue());
-    Assert.assertEquals("active", first.getStatus());
+    Assert.assertEquals("active", first.getCampaignStatus());
     Assert.assertEquals(1.00, first.getBudget().doubleValue());
     Assert.assertEquals(41273L, first.getBudgetId().longValue());
     
@@ -79,7 +79,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals(0.88, last.getCost().doubleValue());
     Assert.assertEquals(6L, last.getClicks().longValue());
     Assert.assertEquals(757L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(0.79, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(1.16, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.15, last.getAvgCpc().doubleValue());
@@ -87,7 +87,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("EUR", last.getCurrencyCode());
 
     Assert.assertEquals(132449648L, last.getCampaignId().longValue());
-    Assert.assertEquals("active", last.getStatus());
+    Assert.assertEquals("active", last.getCampaignStatus());
     Assert.assertEquals(1.00, last.getBudget().doubleValue());
     Assert.assertEquals(412987L, last.getBudgetId().longValue());
 
@@ -130,6 +130,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
         "Cost",
         "Clicks",
         "Impressions",
+        "ImpressionReach",
         "Ctr",
         "AverageCpm",
         "AverageCpc",
@@ -144,16 +145,14 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
         "CostPerConversionManyPerClickSignificance",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "ConversionRateSignificance",
-        "ConversionSignificance",
-        "CostPerConversion",
-        "CostPerConversionSignificance",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "ClickConversionRateSignificance",
+        "ConvertedClicksSignificance",
+        "CostPerConvertedClick",
+        "CostPerConvertedClickSignificance",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -161,7 +160,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
         // Specific to Campaign Performance Report
         "CampaignId",
         "CampaignName",
-        "Status",
+        "CampaignStatus",
         "Amount",
         "BudgetId",
         "SearchImpressionShare",
@@ -174,7 +173,13 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
         "Labels",
         "AdvertisingChannelType",
         "AdvertisingChannelSubType",
-        // Analytics Fieds        
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "TrackingUrlTemplate",
+        "UrlCustomParameters",
+        // Analytics Fieds      
+        "AverageFrequency",  
         "AveragePageviews",
         "AverageTimeOnSite",
         "BounceRate",

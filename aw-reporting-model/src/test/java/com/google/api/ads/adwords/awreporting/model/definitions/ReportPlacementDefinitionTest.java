@@ -14,7 +14,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlacement;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -127,13 +127,11 @@ AbstractReportDefinitionTest<ReportPlacement> {
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -149,15 +147,22 @@ AbstractReportDefinitionTest<ReportPlacement> {
         "CpcBidSource",
         "CpmBidSource",
         "CriteriaDestinationUrl",
-        "DestinationUrl",
         "DisplayName",
         "Id",
         "IsNegative",
+        "IsRestrict",
         "CpcBid",
         "CpmBid",
         "PlacementUrl",
         "TargetingSetting",
-        "TotalConvValue"
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "FinalAppUrls",
+        "FinalMobileUrls",
+        "FinalUrls",
+        "TrackingUrlTemplate",
+        "UrlCustomParameters"
     };
   }
 }

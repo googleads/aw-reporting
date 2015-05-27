@@ -25,7 +25,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.server.appengine.processors.TaskProcessorOnMemory;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;
@@ -67,7 +67,7 @@ public class TaskProcessorOnMemoryTest {
   public void setUp() throws OAuthException, IOException, ValidationException,
   ReportException, ReportDownloadResponseException {
 
-    taskProcessorOnMemory = new TaskProcessorOnMemory<ReportAccount>("888", 2602198216L, "", ReportDefinitionDateRangeType.CUSTOM_DATE,
+    taskProcessorOnMemory = new TaskProcessorOnMemory<ReportAccount>("888", 2602198216L, null, ReportDefinitionDateRangeType.CUSTOM_DATE,
         "20140101", "20140131", "123", 5, ReportAccount.class);
 
     MockitoAnnotations.initMocks(this);

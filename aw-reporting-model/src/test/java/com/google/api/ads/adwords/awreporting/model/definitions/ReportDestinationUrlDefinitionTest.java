@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportDestinationUrl;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -160,13 +160,11 @@ extends AbstractReportDefinitionTest<ReportDestinationUrl> {
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -183,7 +181,10 @@ extends AbstractReportDefinitionTest<ReportDestinationUrl> {
         "CriteriaStatus",
         "CriteriaTypeName",
         "EffectiveDestinationUrl",
-        "IsNegative"
-        };
+        "IsNegative",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId"
+    };
   }
 }

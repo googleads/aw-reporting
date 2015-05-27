@@ -16,11 +16,11 @@ package com.google.api.ads.adwords.awreporting.server.kratu;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
-import com.google.api.ads.adwords.awreporting.model.entities.ReportAdExtension;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaignNegativeKeyword;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
+import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.server.entities.Account;
 import com.google.api.ads.adwords.awreporting.server.entities.Kratu;
 import com.google.api.ads.adwords.awreporting.server.util.StorageHelper;
@@ -51,9 +51,9 @@ public class KratuCompute {
   private static final String PHRASE = "Phrase";
   private static final String EXACT = "Exact";
   private static final String DISAPPROVED = "disapproved";
-  private static final String LOCATION_EXTENSION = "location extension";
-  private static final String MOBILE_EXTENSION = "mobile extension";
-  private static final String SITE_LINKS_EXTENSION = "site links extension";
+  private static final int SITE_LINKS_EXTENSION = 1;
+  private static final int CALL_EXTENSION = 2;
+  private static final int LOCATION_EXTENSION = 7;
 
   public static final BigDecimal BIGDECIMAL_100 = new BigDecimal(100);
 
@@ -201,7 +201,7 @@ public class KratuCompute {
       for (ReportAccount reportAccount : reportAccountList) {
 
         kratu.addSpend(reportAccount.getCost());
-        kratu.addConversions(reportAccount.getConversions());
+        kratu.addConversions(reportAccount.getConvertedClicks());
 
         // SEARCH_NETWORK Info
         if (reportAccount.getAdNetwork() != null
@@ -264,7 +264,7 @@ public class KratuCompute {
       // Process ReportCampaign Info
       List<ReportCampaign> reportCampaignList = storageHelper.getReportByAccountId(ReportCampaign.class, accountId, dayStart.getTime(), dayEnd.getTime());
       for (ReportCampaign reportCampaign : reportCampaignList) {
-        if (reportCampaign.getStatus().equals(ACTIVE)) {
+        if (reportCampaign.getCampaignStatus().equals(ACTIVE)) {
           kratu.addNumberOfActiveCampaigns(BigDecimal.ONE);
         }
 
@@ -277,7 +277,7 @@ public class KratuCompute {
       // Process ReportAdGroup Info
       List<ReportAdGroup> reportAdGroupList = storageHelper.getReportByAccountId(ReportAdGroup.class, accountId, dayStart.getTime(), dayEnd.getTime());
       for (ReportAdGroup reportAdGroup : reportAdGroupList) {
-        if (reportAdGroup.getStatus().equals(ENABLE)) {
+        if (reportAdGroup.getAdGroupStatus().equals(ENABLE)) {
           kratu.addNumberOfActiveAdGroups(BigDecimal.ONE);
         }
       }
@@ -366,22 +366,23 @@ public class KratuCompute {
       }
 
 
-      // Process ReportAdExtension Info
-      List<ReportAdExtension> reportAdExtensionsList = storageHelper.getReportByAccountId(ReportAdExtension.class, accountId, dayStart.getTime(), dayEnd.getTime());
-      for (ReportAdExtension reportAdExtension : reportAdExtensionsList) {
-        if (reportAdExtension.getStatus().equals(ACTIVE)) {
-          if (reportAdExtension.getAdExtensionType().equals(LOCATION_EXTENSION)) {
-            kratu.addNumberOfCampaignsWithLocationExtensionEnabled(BigDecimal.ONE);
-          }
-          if (reportAdExtension.getAdExtensionType().equals(MOBILE_EXTENSION)) {
-            kratu.addNumberOfCampaignsWithCallExtensionEnabled(BigDecimal.ONE);
-          }
-          if (reportAdExtension.getAdExtensionType().equals(SITE_LINKS_EXTENSION)) {
+      // Process ReportPlacementFeedItem Info
+      List<ReportPlaceholderFeedItem> reportPlaceholderFeedItemList = storageHelper.getReportByAccountId(ReportPlaceholderFeedItem.class, accountId, dayStart.getTime(), dayEnd.getTime());
+      for (ReportPlaceholderFeedItem reportPlaceholderFeedItem : reportPlaceholderFeedItemList) {
+        if (reportPlaceholderFeedItem.getStatus().equals(ENABLE)) {
+          switch (reportPlaceholderFeedItem.getFeedPlaceholderType()) {
+          case SITE_LINKS_EXTENSION:
             kratu.addNumberOfCampaignsWithSiteLinksEnabled(BigDecimal.ONE);
+            break;
+          case CALL_EXTENSION:
+            kratu.addNumberOfCampaignsWithCallExtensionEnabled(BigDecimal.ONE);
+            break;
+          case LOCATION_EXTENSION:
+            kratu.addNumberOfCampaignsWithLocationExtensionEnabled(BigDecimal.ONE);
+            break;
           }
         }
       }
-
 
       // Process ReportCampaignNegativeKeyword Info
       List<ReportCampaignNegativeKeyword> reportCampaignNegativeKeywordList =

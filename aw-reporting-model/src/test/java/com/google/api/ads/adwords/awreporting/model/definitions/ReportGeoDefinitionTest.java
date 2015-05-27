@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportGeo;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,11 +49,11 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals(6039084783L, first.getAdGroupId().longValue());
     Assert.assertEquals("General", first.getAdGroupName());
     Assert.assertEquals("enabled", first.getAdGroupStatus());
-    Assert.assertEquals("Unspecified", first.getCityCriteriaId());
-    Assert.assertEquals("United States", first.getCountryTerritory());
+    Assert.assertEquals(0L, first.getCityCriteriaId().longValue());
+    Assert.assertEquals(2840L, first.getCountryCriteriaId().longValue());
     Assert.assertEquals("true", first.getIsTargetable());
-    Assert.assertEquals("", first.getMetroArea());
-    Assert.assertEquals("United States", first.getMostSpecificLocation());
+    Assert.assertEquals(0L, first.getMetroCriteriaId().longValue());
+    Assert.assertEquals(2840L, first.getMostSpecificCriteriaId().longValue());
     Assert.assertEquals("Froody Rudy", first.getAccountDescriptiveName());
     Assert.assertEquals("2014-03-01", first.getMonth());
     Assert.assertEquals(0d, first.getCost().doubleValue());
@@ -64,7 +64,7 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals(0d, first.getAvgCpc().doubleValue());
     Assert.assertEquals("1.00", first.getAvgPosition());
     Assert.assertEquals("0.00", first.getConversionRateManyPerClick());
-    Assert.assertEquals("0.00", first.getConversionRate());
+    Assert.assertEquals("0.00", first.getClickConversionRate());
     Assert.assertEquals(6671111111L, first.getAccountId().longValue());
   }
 
@@ -73,11 +73,11 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals(8649799503L, last.getAdGroupId().longValue());
     Assert.assertEquals("Inventory", last.getAdGroupName());
     Assert.assertEquals("enabled", last.getAdGroupStatus());
-    Assert.assertEquals("San Diego", last.getCityCriteriaId());
-    Assert.assertEquals("United States", last.getCountryTerritory());
+    Assert.assertEquals(1014218L, last.getCityCriteriaId().longValue());
+    Assert.assertEquals(2840L, last.getCountryCriteriaId().longValue());
     Assert.assertEquals("true", last.getIsTargetable());
-    Assert.assertEquals("San Diego CA", last.getMetroArea());
-    Assert.assertEquals("92124", last.getMostSpecificLocation());
+    Assert.assertEquals(200825L, last.getMetroCriteriaId().longValue());
+    Assert.assertEquals(92124L, last.getMostSpecificCriteriaId().longValue());
     Assert.assertEquals("Froody Rudy", last.getAccountDescriptiveName());
     Assert.assertEquals("2014-03-01", last.getMonth());
     Assert.assertEquals(0d, last.getCost().doubleValue());
@@ -88,7 +88,7 @@ AbstractReportDefinitionTest<ReportGeo>{
     Assert.assertEquals(0d, last.getAvgCpc().doubleValue());
     Assert.assertEquals("1.00", last.getAvgPosition());
     Assert.assertEquals("0.00", last.getConversionRateManyPerClick());
-    Assert.assertEquals("0.00", last.getConversionRate());
+    Assert.assertEquals("0.00", last.getClickConversionRate());
     Assert.assertEquals(6671111111L, last.getAccountId().longValue());
   }
 
@@ -129,13 +129,11 @@ AbstractReportDefinitionTest<ReportGeo>{
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",

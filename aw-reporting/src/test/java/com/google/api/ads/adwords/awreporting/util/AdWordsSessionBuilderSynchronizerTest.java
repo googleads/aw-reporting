@@ -51,8 +51,6 @@ public class AdWordsSessionBuilderSynchronizerTest {
     AdWordsSession copiedSession = adWordsSessionBuilderSynchronizer.getAdWordsSessionCopy(777L);
 
     assertEquals(copiedSession.getClientCustomerId(), "777");
-    assertEquals(copiedSession.isReportMoneyInMicros(), null);
-
     assertEquals(copiedSession.getDeveloperToken(), adWordsSession.getDeveloperToken());
     assertEquals(copiedSession.getEndpoint(), adWordsSession.getEndpoint());
     assertEquals(copiedSession.getOAuth2Credential(), adWordsSession.getOAuth2Credential());

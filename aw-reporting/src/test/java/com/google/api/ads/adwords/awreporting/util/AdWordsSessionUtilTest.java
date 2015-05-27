@@ -51,7 +51,6 @@ public class AdWordsSessionUtilTest {
     assertEquals(copiedSession.getOAuth2Credential(), adWordsSession.getOAuth2Credential());
     assertEquals(copiedSession.getUserAgent(), adWordsSession.getUserAgent());
     assertEquals(copiedSession.isPartialFailure(), adWordsSession.isPartialFailure());
-    assertEquals(copiedSession.isReportMoneyInMicros(), adWordsSession.isReportMoneyInMicros());
     assertEquals(copiedSession.isValidateOnly(), adWordsSession.isValidateOnly());
   }
 }

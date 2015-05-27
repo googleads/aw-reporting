@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.awreporting.server.rest;
 
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.api.ads.adwords.awreporting.model.util.GsonUtil;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ApiException;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ApiException;
 import com.google.api.client.util.Maps;
 import com.google.gson.Gson;
 
@@ -231,7 +231,7 @@ public abstract class AbstractBaseResource extends ServerResource {
 
   protected Long getParameterAsLong(String name) {
     try {
-      // Get from Request Attibutes
+      // Get from Request Attributes
       String tempString = (String) getRequestAttributes().get(name);
       if (tempString == null) {
         // Get from Query

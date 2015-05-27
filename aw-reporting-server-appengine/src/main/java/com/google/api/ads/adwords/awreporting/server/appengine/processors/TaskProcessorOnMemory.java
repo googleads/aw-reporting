@@ -23,9 +23,10 @@ import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.model.util.CsvParserIterator;
 import com.google.api.ads.adwords.awreporting.model.util.ModifiedCsvToBean;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
-import com.google.api.ads.adwords.lib.utils.AdHocReportDownloadHelper;
-import com.google.api.ads.adwords.lib.utils.RawReportDownloadResponse;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.utils.v201502.ReportDownloader;
+import com.google.api.ads.adwords.lib.utils.ReportDownloadResponse;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;
@@ -41,7 +42,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -63,12 +63,11 @@ import java.util.zip.GZIPInputStream;
  * 
  * @param <R> type of sub Report.
  */
+
 public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
 
   private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(TaskProcessorOnMemory.class.getName());
-
-  private static final String VERSION = "v201409";
 
   private ReportDefinitionDateRangeType dateRangeType;
   private String dateStart;
@@ -78,7 +77,7 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
 
   private String userId;
   private Long accountId;
-  private String reportDefinition;
+  private ReportDefinition reportDefinition;
   private Class<R> reportBeanClass;
   
   private EntityPersister entityPersister = RestServer.getPersister();
@@ -94,7 +93,7 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
    * @throws ValidationException 
    */
   public TaskProcessorOnMemory(String userId, Long accountId, 
-      String reportDefinition, ReportDefinitionDateRangeType dateRangeType,
+      ReportDefinition reportDefinition, ReportDefinitionDateRangeType dateRangeType,
       String dateStart, String dateEnd, String mccAccountId, Integer reportRowsSetSize,
       Class<R> reportBeanClass) throws OAuthException, IOException, ValidationException {
     this.userId = userId;
@@ -205,19 +204,16 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
 
     InputStream inputStream = null;
 
-    RawReportDownloadResponse reportDownloadResponse = null;
+    ReportDownloader reportDownloader = new ReportDownloader(
+        RestServer.getAdWordsSessionBuilderSynchronizer(userId, mccAccountId).getAdWordsSessionCopy(accountId));
 
-    AdHocReportDownloadHelper adHocReportDownloadHelper = new AdHocReportDownloadHelper(
-        RestServer.getAdWordsSessionBuilderSynchronizer(userId, mccAccountId).getAdWordsSessionCopy(accountId), VERSION);
-
-    reportDownloadResponse = adHocReportDownloadHelper.downloadReport(reportDefinition);
+    ReportDownloadResponse reportDownloadResponse = reportDownloader.downloadReport(reportDefinition);
 
     if (reportDownloadResponse.getHttpStatus() == HttpURLConnection.HTTP_OK) {
       inputStream = reportDownloadResponse.getInputStream();
     } else {
       System.out.println("getHttpStatus():" + reportDownloadResponse.getHttpStatus());
-      System.out.println(
-          "getHttpResponseMessage():" + reportDownloadResponse.toString());
+      System.out.println("getAsString():" + reportDownloadResponse.getAsString());
     }
     return inputStream;
   }

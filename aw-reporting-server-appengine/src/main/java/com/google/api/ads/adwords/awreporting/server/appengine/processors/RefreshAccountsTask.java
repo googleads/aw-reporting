@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.server.appengine.RestServer;
 import com.google.api.ads.adwords.awreporting.server.appengine.exporter.ExportTaskCreator;
 import com.google.api.ads.adwords.awreporting.server.appengine.util.MccTaskCounter;
 import com.google.api.ads.adwords.awreporting.server.entities.Account;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ManagedCustomer;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomer;
 import com.google.appengine.api.taskqueue.DeferredTask;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;

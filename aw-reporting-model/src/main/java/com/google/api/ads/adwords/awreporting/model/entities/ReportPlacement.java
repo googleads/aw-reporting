@@ -21,7 +21,9 @@ import javax.persistence.Table;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 
@@ -76,10 +78,6 @@ public class ReportPlacement extends ReportBase {
   @CsvField(value = "Destination URL", reportField = "CriteriaDestinationUrl")
   private String criteriaDestinationUrl;
 
-  @Column(name = "DESTINATION_URL")
-  @CsvField(value = "Destination URL", reportField = "DestinationUrl")
-  private String destinationUrl;
-
   @Column(name = "DISPLAY_NAME", length = 2048)
   @CsvField(value = "Criteria Display Name", reportField = "DisplayName")
   private String displayName;
@@ -91,6 +89,10 @@ public class ReportPlacement extends ReportBase {
   @Column(name = "IS_NEGATIVE")
   @CsvField(value = "Is negative", reportField = "IsNegative")
   private String isNegative;
+  
+  @Column(name = "IS_RESTRICT")
+  @CsvField(value = "Is restricting", reportField = "IsRestrict")
+  private String isRestrict;
 
   @Column(name = "MAX_CPC")
   @CsvField(value = "Max. CPC", reportField = "CpcBid")
@@ -109,10 +111,39 @@ public class ReportPlacement extends ReportBase {
   @Column(name = "TARGETING_SETTING")
   @CsvField(value = "Targeting Setting", reportField = "TargetingSetting")
   private String targetingSetting;
-
-  @Column(name = "TOTAL_CONV_VALUE")
-  @CsvField(value = "Total conv. value", reportField = "TotalConvValue")
-  private Long totalConvValue;
+  
+  @Column(name = "ACTIVE_VIEW_CPM")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewCpm")
+  @MoneyField
+  private BigDecimal activeViewCpm;
+  
+  @Column(name = "ACTIVE_VIEW_IMPRESSIONS")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewImpressions")
+  private Long activeViewImpressions;
+  
+  @Column(name = "CONVERSION_TRACKER_ID")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+  
+  @Column(name = "FINAL_APP_URLS", length=2048)
+  @CsvField(value="App final URL", reportField = "FinalAppUrls")
+  private String finalAppUrls;
+  
+  @Column(name = "FINAL_MOBILE_URLS", length=2048)
+  @CsvField(value="Mobile final URL", reportField = "FinalMobileUrls")
+  private String finalMobileUrls;
+  
+  @Column(name = "FINAL_URLS", length=2048)
+  @CsvField(value="Final URL", reportField = "FinalUrls")
+  private String finalUrls;
+  
+  @Column(name = "TRACKING_URL_TEMPLATE", length=2048)
+  @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
+  private String trackingUrlTemplate;
+  
+  @Column(name = "URL_CUSTOM_PARAMETERS", length=2048)
+  @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
+  private String urlCustomParameters;
 
   /**
    * Hibernate needs an empty constructor
@@ -236,14 +267,6 @@ public class ReportPlacement extends ReportBase {
     this.criteriaDestinationUrl = criteriaDestinationUrl;
   }
 
-  public String getDestinationUrl() {
-    return destinationUrl;
-  }
-
-  public void setDestinationUrl(String destinationUrl) {
-    this.destinationUrl = destinationUrl;
-  }
-
   public String getDisplayName() {
     return displayName;
   }
@@ -266,6 +289,14 @@ public class ReportPlacement extends ReportBase {
 
   public void setIsNegative(String isNegative) {
     this.isNegative = isNegative;
+  }
+  
+  public String getIsRestrict() {
+    return isRestrict;
+  }
+  
+  public void setIsRestrict(String isRestrict) {
+    this.isRestrict = isRestrict;
   }
 
   public BigDecimal getMaxCpc() {
@@ -299,12 +330,96 @@ public class ReportPlacement extends ReportBase {
   public void setTargetingSetting(String targetingSetting) {
     this.targetingSetting = targetingSetting;
   }
-
-  public Long getTotalConvValue() {
-    return totalConvValue;
+  
+  public String getActiveViewCpm() {
+    return BigDecimalUtil.formatAsReadable(activeViewCpm);
   }
 
-  public void setTotalConvValue(Long totalConvValue) {
-    this.totalConvValue = totalConvValue;
+  public BigDecimal getActiveViewCpmBigDecimal() {
+    return activeViewCpm;
+  }
+
+  public void setActiveViewCpm(String activeViewCpm) {
+    this.activeViewCpm = BigDecimalUtil.parseFromNumberStringPercentage(activeViewCpm);
+  }
+  
+  public Long getActiveViewImpressions() {
+    return activeViewImpressions;
+  }
+  
+  public void setActiveViewImpressions(Long activeViewImpressions) {
+    this.activeViewImpressions = activeViewImpressions;
+  }
+  
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+  
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+  
+  public String getFinalAppUrls() {
+    return finalAppUrls;
+  }
+  
+  public boolean hasFinalAppUrl(String finalAppUrl) {
+    if (finalAppUrls != null && finalAppUrls.length() > 0) {
+      return Lists.newArrayList(finalAppUrls.split(";")).contains(finalAppUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setFinalAppUrls(String finalAppUrls) {
+    this.finalAppUrls = finalAppUrls;
+  }
+  
+  public String getFinalMobileUrls() {
+    return finalMobileUrls;
+  }
+  
+  public boolean hasFinalMobileUrl(String finalMobileUrl) {
+    if (finalMobileUrls != null && finalMobileUrls.length() > 0) {
+      return Lists.newArrayList(finalMobileUrls.split(";")).contains(finalMobileUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setFinalMobileUrls(String finalMobileUrls) {
+    this.finalMobileUrls = finalMobileUrls;
+  }
+  
+  public String getFinalUrls() {
+    return finalUrls;
+  }
+  
+  public boolean hasFinalUrl(String finalUrl) {
+    if (finalUrls != null && finalUrls.length() > 0) {
+      return Lists.newArrayList(finalUrls.split(";")).contains(finalUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setFinalUrls(String finalUrls) {
+    this.finalUrls = finalUrls;
+  }
+  
+  public String getTrackingUrlTemplate() {
+    return trackingUrlTemplate;
+  }
+  
+  public void setTrackingUrlTemplate(String trackingUrlTemplate) {
+    this.trackingUrlTemplate = trackingUrlTemplate;
+  }
+  
+  public String getUrlCustomParameters() {
+    return urlCustomParameters;
+  }
+  
+  public void setUrlCustomParameters(String urlCustomParameters) {
+    this.urlCustomParameters = urlCustomParameters;
   }
 }

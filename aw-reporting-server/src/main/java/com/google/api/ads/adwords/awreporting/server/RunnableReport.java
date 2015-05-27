@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.awreporting.server;
 
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.api.ads.adwords.awreporting.processors.ReportProcessor;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 
 import org.apache.log4j.Logger;
 

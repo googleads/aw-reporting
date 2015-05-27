@@ -22,7 +22,6 @@ import com.google.api.ads.adwords.awreporting.server.rest.reports.DataAvailable;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.GenerateReportsRest;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.PreviewReportRest;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.ReportAccountRest;
-import com.google.api.ads.adwords.awreporting.server.rest.reports.ReportAdExtensionRest;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.ReportAdGroupRest;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.ReportAdRest;
 import com.google.api.ads.adwords.awreporting.server.rest.reports.ReportCampaignNegativeKeywordRest;
@@ -231,16 +230,6 @@ public class RestServer extends Application {
     router.attach("/mcc/{topAccountId}/reportcampaignnegativekeyword/campaign/{campaignId}", ReportCampaignNegativeKeywordRest.class); //LIST Campaign level
     router.attach("/mcc/{topAccountId}/reportcampaignnegativekeyword/keyword/{criterionId}", ReportCampaignNegativeKeywordRest.class); //LIST Keyword level
 
-    // ReportAdExtension
-    // ?dateStart=yyyyMMdd&dateEnd=yyyyMMdd
-    // dateRangeType=DAY or dateRangeType=MONTH
-    // @offset number of results to skip [OPTIONAL]
-    // @limit number of results to return[OPTIONAL]
-    router.attach("/mcc/{topAccountId}/reportadextension", ReportAdExtensionRest.class); //LIST All
-    router.attach("/mcc/{topAccountId}/reportadextension/{accountId}", ReportAdExtensionRest.class); //LIST Account level
-    router.attach("/mcc/{topAccountId}/reportadextension/campaign/{campaignId}", ReportAdExtensionRest.class); //LIST Campaign level
-    router.attach("/mcc/{topAccountId}/reportadextension/adextension/{adExtensionId}", ReportAdExtensionRest.class); //LIST AdExtension level
-
     // ReportPlaceholderFeedItem
     // ?dateStart=yyyyMMdd&dateEnd=yyyyMMdd
     // dateRangeType=DAY or dateRangeType=MONTH
@@ -256,7 +245,7 @@ public class RestServer extends Application {
 
     /* ## HTTP method: GET
      *   Provides a list map with the minimal and maximal dates available for each Report Type
-     *   for a given topAccountId. Returns an error message if a usertoken does not exist for the account.
+     *   for a given topAccountId. Returns an error message if a user token does not exist for the account.
      * 
      *   @param (url) topAccountId The MCC CID [REQUIRED]
      *   @param (query) dateRangeType Type of available data to check ('day' or 'month') [OPTIONAL - defaults to 'month' if not provided]
@@ -338,7 +327,7 @@ public class RestServer extends Application {
     router.attach("/mcc/{topAccountId}/kratu", KratuRest.class); // List All
     router.attach("/mcc/{topAccountId}/kratu/{accountId}", KratuRest.class); // LIST Account level
 
-    // Genereate Kratus MCC level
+    // Generate Kratus MCC level
     // ?dateStart=yyyyMMdd&dateEnd=yyyyMMdd
     router.attach("/mcc/{topAccountId}/generatekratus", GenerateKratusRest.class);
 

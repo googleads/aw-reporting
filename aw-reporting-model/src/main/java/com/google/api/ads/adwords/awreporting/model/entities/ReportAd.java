@@ -16,8 +16,9 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
+import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
@@ -49,9 +50,9 @@ public class ReportAd extends ReportBase {
   private String displayUrl;
 
   @Lob
-  @Column(name = "DESTINATION_URL", length = 2048)
-  @CsvField(value = "Destination URL", reportField = "Url")
-  private String destinationUrl;
+  @Column(name = "CREATIVE_DESTINATION_URL", length = 2048)
+  @CsvField(value = "Destination URL", reportField = "CreativeDestinationUrl")
+  private String creativeDestinationUrl;
 
   @Lob
   @Column(name = "IMAGE_AD_URL", length = 2048)
@@ -86,9 +87,9 @@ public class ReportAd extends ReportBase {
   @CsvField(value = "Ad Approval Status", reportField = "CreativeApprovalStatus")
   private String creativeApprovalStatus;
 
-  @Column(name = "CONVERSIONRATESIGNIFICANCE")
-  @CsvField(value = "Click conversion rate ACE indicator", reportField = "ConversionRateSignificance")
-  private BigDecimal conversionRateSignificance;
+  @Column(name = "CLICKCONVERSIONRATESIGNIFICANCE")
+  @CsvField(value = "Click conversion rate ACE indicator", reportField = "ClickConversionRateSignificance")
+  private BigDecimal clickConversionRateSignificance;
 
   @Column(name = "CONVERSIONRATEMANYPERCLICKSIGNIFICANCE")
   @CsvField(value = "Conversion rate ACE indicator", reportField = "ConversionRateManyPerClickSignificance")
@@ -102,13 +103,13 @@ public class ReportAd extends ReportBase {
   @CsvField(value = "Cost/conversion ACE indicator", reportField = "CostPerConversionManyPerClickSignificance")
   private BigDecimal costPerConversionManyPerClickSignificance;
   
-  @Column(name = "CONVERSIONSIGNIFICANCE")
-  @CsvField(value = "Converted clicks ACE indicator", reportField = "ConversionSignificance")
-  private BigDecimal conversionSignificance;
+  @Column(name = "CONVERTEDCLICKSSIGNIFICANCE")
+  @CsvField(value = "Converted clicks ACE indicator", reportField = "ConvertedClicksSignificance")
+  private BigDecimal convertedClicksSignificance;
 
-  @Column(name = "COSTPERCONVERSIONSIGNIFICANCE")
-  @CsvField(value = "Cost/converted click ACE indicator", reportField = "CostPerConversionSignificance")
-  private BigDecimal costPerConversionSignificance;
+  @Column(name = "COSTPERCONVERTEDCLICKSIGNIFICANCE")
+  @CsvField(value = "Cost/converted click ACE indicator", reportField = "CostPerConvertedClickSignificance")
+  private BigDecimal costPerConvertedClickSignificance;
 
   @Column(name = "AVERAGE_PAGEVIEWS")
   @CsvField(value = "Pages / visit", reportField = "AveragePageviews")
@@ -143,6 +144,47 @@ public class ReportAd extends ReportBase {
   @Column(name = "CAMPAIGN_NAME", length=255)
   @CsvField(value="Campaign", reportField = "CampaignName")
   private String campaignName;
+  
+  @Column(name = "ACTIVE_VIEW_CPM")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewCpm")
+  @MoneyField
+  private BigDecimal activeViewCpm;
+  
+  @Column(name = "ACTIVE_VIEW_IMPRESSIONS")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewImpressions")
+  private Long activeViewImpressions;
+  
+  @Column(name = "CONVERSION_TRACKER_ID")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+  
+  @Column(name = "CREATIVE_FINAL_APP_URLS", length=2048)
+  @CsvField(value="App final URL", reportField = "CreativeFinalAppUrls")
+  private String creativeFinalAppUrls;
+  
+  @Column(name = "CREATIVE_FINAL_MOBILE_URLS", length=2048)
+  @CsvField(value="Mobile final URL", reportField = "CreativeFinalMobileUrls")
+  private String creativeFinalMobileUrls;
+  
+  @Column(name = "CREATIVE_FINAL_URLS", length=2048)
+  @CsvField(value="Final URL", reportField = "CreativeFinalUrls")
+  private String creativeFinalUrls;
+  
+  @Column(name = "CREATIVE_TRACKING_URL_TEMPLATE", length=2048)
+  @CsvField(value="Tracking template", reportField = "CreativeTrackingUrlTemplate")
+  private String creativeTrackingUrlTemplate;
+  
+  @Column(name = "CREATIVE_URL_CUSTOM_PARAMETERS", length=2048)
+  @CsvField(value="Custom parameter", reportField = "CreativeUrlCustomParameters")
+  private String creativeUrlCustomParameters;
+  
+  @Column(name = "KEYWORD_ID")
+  @CsvField(value="Keyword ID", reportField = "KeywordId")
+  private Long keywordId;
+  
+  @Column(name = "TRADEMARKS", length=2048)
+  @CsvField(value="Trademarks", reportField = "Trademarks")
+  private String trademarks;
 
   /**
    * Hibernate needs an empty constructor
@@ -243,13 +285,13 @@ public class ReportAd extends ReportBase {
     this.displayUrl = displayUrl;
   }
 
-  // destinationUrl
-  public String getDestinationUrl() {
-    return destinationUrl;
+  // creativeDestinationUrl
+  public String getCreativeDestinationUrl() {
+    return creativeDestinationUrl;
   }
 
-  public void setDestinationUrl(String destinationUrl) {
-    this.destinationUrl = destinationUrl;
+  public void setCreativeDestinationUrl(String creativeDestinationUrl) {
+    this.creativeDestinationUrl = creativeDestinationUrl;
   }
 
   // imageAdUrl
@@ -305,16 +347,16 @@ public class ReportAd extends ReportBase {
     this.creativeApprovalStatus = creativeApprovalStatus;
   }
   
-  public String getConversionRateSignificance() {
-    return BigDecimalUtil.formatAsReadable(conversionRateSignificance);
+  public String getClickConversionRateSignificance() {
+    return BigDecimalUtil.formatAsReadable(clickConversionRateSignificance);
   }
   
-  public BigDecimal getConversionRateSignificanceBigDecimal() {
-    return conversionRateSignificance;
+  public BigDecimal getClickConversionRateSignificanceBigDecimal() {
+    return clickConversionRateSignificance;
   }
 
-  public void setConversionRateSignificance(String conversionRateSignificance) {
-    this.conversionRateSignificance = BigDecimalUtil.parseFromNumberString(conversionRateSignificance);
+  public void setClickConversionRateSignificance(String clickConversionRateSignificance) {
+    this.clickConversionRateSignificance = BigDecimalUtil.parseFromNumberString(clickConversionRateSignificance);
   }
 
   public String getConversionRateManyPerClickSignificance() {
@@ -355,28 +397,28 @@ public class ReportAd extends ReportBase {
     this.costPerConversionManyPerClickSignificance = costPerConversionManyPerClickSignificance;
   }
 
-  public String getConversionSignificance() {
-    return BigDecimalUtil.formatAsReadable(conversionSignificance);
+  public String getConvertedClicksSignificance() {
+    return BigDecimalUtil.formatAsReadable(convertedClicksSignificance);
   }
   
-  public BigDecimal getConversionSignificanceBigDecimal() {
-    return conversionSignificance;
+  public BigDecimal getConvertedClicksSignificanceBigDecimal() {
+    return convertedClicksSignificance;
   }
 
-  public void setConversionSignificance(String conversionSignificance) {
-    this.conversionSignificance = BigDecimalUtil.parseFromNumberString(conversionSignificance);
+  public void setConvertedClicksSignificance(String convertedClicksSignificance) {
+    this.convertedClicksSignificance = BigDecimalUtil.parseFromNumberString(convertedClicksSignificance);
   }
   
-  public String getCostPerConversionSignificance() {
-    return BigDecimalUtil.formatAsReadable(costPerConversionSignificance);
+  public String getCostPerConvertedClickSignificance() {
+    return BigDecimalUtil.formatAsReadable(costPerConvertedClickSignificance);
   }
   
-  public BigDecimal getCostPerConversionSignificanceBigDecimal() {
-    return costPerConversionSignificance;
+  public BigDecimal getCostPerConvertedClickSignificanceBigDecimal() {
+    return costPerConvertedClickSignificance;
   }
 
-  public void setCostPerConversionSignificance(String costPerConversionSignificance) {
-    this.costPerConversionSignificance = BigDecimalUtil.parseFromNumberString(costPerConversionSignificance);
+  public void setCostPerConvertedClickSignificance(String costPerConvertedClickSignificance) {
+    this.costPerConvertedClickSignificance = BigDecimalUtil.parseFromNumberString(costPerConvertedClickSignificance);
   }
 
   public String getAveragePageviews() {
@@ -441,5 +483,121 @@ public class ReportAd extends ReportBase {
 
   public void setLabels(String labels) {
     this.labels = labels;
+  }
+  
+  public String getActiveViewCpm() {
+    return BigDecimalUtil.formatAsReadable(activeViewCpm);
+  }
+
+  public BigDecimal getActiveViewCpmBigDecimal() {
+    return activeViewCpm;
+  }
+
+  public void setActiveViewCpm(String activeViewCpm) {
+    this.activeViewCpm = BigDecimalUtil.parseFromNumberStringPercentage(activeViewCpm);
+  }
+  
+  public Long getActiveViewImpressions() {
+    return activeViewImpressions;
+  }
+  
+  public void setActiveViewImpressions(Long activeViewImpressions) {
+    this.activeViewImpressions = activeViewImpressions;
+  }
+  
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+  
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+  
+  public String getCreativeFinalAppUrls() {
+    return creativeFinalAppUrls;
+  }
+  
+  public boolean hasCreativeFinalAppUrl(String creativeFinalAppUrl) {
+    if (creativeFinalAppUrls != null && creativeFinalAppUrls.length() > 0) {
+      return Lists.newArrayList(creativeFinalAppUrls.split(";")).contains(creativeFinalAppUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setCreativeFinalAppUrls(String creativeFinalAppUrls) {
+    this.creativeFinalAppUrls = creativeFinalAppUrls;
+  }
+  
+  public String getCreativeFinalMobileUrls() {
+    return creativeFinalMobileUrls;
+  }
+  
+  public boolean hasCreativeFinalMobileUrl(String creativeFinalMobileUrl) {
+    if (creativeFinalMobileUrls != null && creativeFinalMobileUrls.length() > 0) {
+      return Lists.newArrayList(creativeFinalMobileUrls.split(";")).contains(creativeFinalMobileUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setCreativeFinalMobileUrls(String creativeFinalMobileUrls) {
+    this.creativeFinalMobileUrls = creativeFinalMobileUrls;
+  }
+  
+  public String getCreativeFinalUrls() {
+    return creativeFinalUrls;
+  }
+  
+  public boolean hasCreativeFinalUrl(String creativeFinalUrl) {
+    if (creativeFinalUrls != null && creativeFinalUrls.length() > 0) {
+      return Lists.newArrayList(creativeFinalUrls.split(";")).contains(creativeFinalUrl);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setCreativeFinalUrls(String creativeFinalUrls) {
+    this.creativeFinalUrls = creativeFinalUrls;
+  }
+  
+  public String getCreativeTrackingUrlTemplate() {
+    return creativeTrackingUrlTemplate;
+  }
+  
+  public void setCreativeTrackingUrlTemplate(String creativeTrackingUrlTemplate) {
+    this.creativeTrackingUrlTemplate = creativeTrackingUrlTemplate;
+  }
+  
+  public String getCreativeUrlCustomParameters() {
+    return creativeUrlCustomParameters;
+  }
+  
+  public void setCreativeUrlCustomParameters(String creativeUrlCustomParameters) {
+    this.creativeUrlCustomParameters = creativeUrlCustomParameters;
+  }
+  
+  public Long getKeywordId() {
+    return keywordId;
+  }
+  
+  public void setKeywordId(Long keywordId) {
+    this.keywordId = keywordId;
+  }
+  
+  public String getTrademarks() {
+    return trademarks;
+  }
+  
+  public boolean hasTrademark(String trademark) {
+    if (trademarks != null && trademarks.length() > 0) {
+      return Lists.newArrayList(trademarks.split(";")).contains(trademark);
+    } else {
+      return false;
+    }
+  }
+  
+  public void setTrademarks(String trademarks) {
+    this.trademarks = trademarks;
   }
 }

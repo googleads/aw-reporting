@@ -21,7 +21,7 @@ import com.google.api.ads.adwords.awreporting.server.appengine.model.UserToken;
 import com.google.api.ads.adwords.awreporting.server.appengine.processors.RefreshAccountsTask;
 import com.google.api.ads.adwords.awreporting.server.appengine.processors.ReportProcessorAppEngine;
 import com.google.api.ads.adwords.awreporting.server.rest.AbstractBaseResource;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.common.collect.Sets;
 
 import org.restlet.representation.Representation;

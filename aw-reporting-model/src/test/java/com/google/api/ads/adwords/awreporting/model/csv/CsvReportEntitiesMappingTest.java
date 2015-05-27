@@ -18,7 +18,6 @@ import com.google.api.ads.adwords.awreporting.model.csv.CsvReportEntitiesMapping
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
-import com.google.api.ads.adwords.awreporting.model.entities.ReportAdExtension;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportBudget;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
@@ -30,7 +29,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportShopping;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportUrl;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -77,9 +76,6 @@ public class CsvReportEntitiesMappingTest {
     this.assertBeanClassIsCorrectForType(ReportCampaignNegativeKeyword.class,
         ReportDefinitionReportType.CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT);
 
-    this.assertBeanClassIsCorrectForType(ReportAdExtension.class,
-        ReportDefinitionReportType.AD_EXTENSIONS_PERFORMANCE_REPORT);
-
     this.assertBeanClassIsCorrectForType(ReportBudget.class,
         ReportDefinitionReportType.BUDGET_PERFORMANCE_REPORT);
 
@@ -117,8 +113,6 @@ public class CsvReportEntitiesMappingTest {
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.KEYWORDS_PERFORMANCE_REPORT));
     Assert.assertTrue(
         reports.contains(ReportDefinitionReportType.CAMPAIGN_NEGATIVE_KEYWORDS_PERFORMANCE_REPORT));
-    Assert.assertTrue(
-        reports.contains(ReportDefinitionReportType.AD_EXTENSIONS_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.BUDGET_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.CRITERIA_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.DESTINATION_URL_REPORT));
@@ -169,13 +163,11 @@ public class CsvReportEntitiesMappingTest {
     Assert.assertTrue(propertiesToSelect.contains("ConversionsManyPerClick"));
     Assert.assertTrue(propertiesToSelect.contains("ConversionRateManyPerClick"));
     Assert.assertTrue(propertiesToSelect.contains("CostPerConversionManyPerClick"));
-    Assert.assertTrue(propertiesToSelect.contains("ValuePerConvManyPerClick"));
     Assert.assertTrue(propertiesToSelect.contains("ValuePerConversionManyPerClick"));
-    Assert.assertTrue(propertiesToSelect.contains("Conversions"));
-    Assert.assertTrue(propertiesToSelect.contains("ConversionRate"));
-    Assert.assertTrue(propertiesToSelect.contains("CostPerConversion"));
-    Assert.assertTrue(propertiesToSelect.contains("ValuePerConv"));
-    Assert.assertTrue(propertiesToSelect.contains("ValuePerConversion"));
+    Assert.assertTrue(propertiesToSelect.contains("ConvertedClicks"));
+    Assert.assertTrue(propertiesToSelect.contains("ClickConversionRate"));
+    Assert.assertTrue(propertiesToSelect.contains("CostPerConvertedClick"));
+    Assert.assertTrue(propertiesToSelect.contains("ValuePerConvertedClick"));
     Assert.assertTrue(propertiesToSelect.contains("ConversionCategoryName"));
     Assert.assertTrue(propertiesToSelect.contains("ConversionTypeName"));
     Assert.assertTrue(propertiesToSelect.contains("ConversionValue"));
@@ -189,7 +181,14 @@ public class CsvReportEntitiesMappingTest {
     Assert.assertTrue(propertiesToSelect.contains("ContentRankLostImpressionShare"));
     Assert.assertTrue(propertiesToSelect.contains("SearchExactMatchImpressionShare"));
 
-    Assert.assertEquals(46, propertiesToSelect.size());
+    Assert.assertTrue(propertiesToSelect.contains("CanManageClients"));
+    Assert.assertTrue(propertiesToSelect.contains("IsAutoTaggingEnabled"));
+    Assert.assertTrue(propertiesToSelect.contains("IsTestAccount"));
+    Assert.assertTrue(propertiesToSelect.contains("ActiveViewCpm"));
+    Assert.assertTrue(propertiesToSelect.contains("ActiveViewImpressions"));
+    Assert.assertTrue(propertiesToSelect.contains("ConversionTrackerId"));
+
+    Assert.assertEquals(50, propertiesToSelect.size());
   }
 
   /**

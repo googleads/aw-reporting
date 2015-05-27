@@ -19,7 +19,7 @@ import com.google.api.ads.adwords.awreporting.processors.ReportProcessor;
 import com.google.api.ads.adwords.awreporting.server.appengine.RestServer;
 import com.google.api.ads.adwords.awreporting.server.appengine.processors.ReportProcessorAppEngine;
 import com.google.api.ads.adwords.awreporting.server.rest.AbstractBaseResource;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 
 import org.restlet.representation.Representation;
 

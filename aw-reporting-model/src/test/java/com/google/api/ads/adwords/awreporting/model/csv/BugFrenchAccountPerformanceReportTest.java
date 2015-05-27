@@ -61,7 +61,7 @@ public class BugFrenchAccountPerformanceReportTest {
     Assert.assertEquals(6.7, reportAccount.getCost().doubleValue());
     Assert.assertEquals(4L, reportAccount.getClicks().longValue());
     Assert.assertEquals(87L, reportAccount.getImpressions().longValue());
-    Assert.assertEquals(0L, reportAccount.getConversions().longValue());
+    Assert.assertEquals(0L, reportAccount.getConvertedClicks().longValue());
     Assert.assertEquals("4.60", reportAccount.getCtr());
     Assert.assertEquals(77.01, reportAccount.getAvgCpm().doubleValue());
     Assert.assertEquals(1.68, reportAccount.getAvgCpc().doubleValue());

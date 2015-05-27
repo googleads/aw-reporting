@@ -79,7 +79,6 @@ public class AdWordsSessionUtil {
       newAdWordsSession = builder.build();
       newAdWordsSession.setPartialFailure(adWordsSession.isPartialFailure());
       newAdWordsSession.setValidateOnly(adWordsSession.isValidateOnly());
-      newAdWordsSession.setReportMoneyInMicros(adWordsSession.isReportMoneyInMicros());
       return newAdWordsSession;
     } catch (ValidationException e) {
       LOGGER.warn("Error @addUtilityUserAgent, returning unchanged AdWordsSession");

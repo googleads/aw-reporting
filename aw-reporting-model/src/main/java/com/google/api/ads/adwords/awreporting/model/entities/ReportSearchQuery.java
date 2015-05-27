@@ -2,7 +2,7 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -70,6 +70,10 @@ public class ReportSearchQuery extends ReportBase {
   @Column(name = "QUERY")
   @CsvField(value = "Search term", reportField = "Query")
   private String query;
+  
+  @Column(name = "CONVERSION_TRACKER_ID")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
 
   @Override
   public void setId() {
@@ -216,4 +220,11 @@ public class ReportSearchQuery extends ReportBase {
     this.query = query;
   }
 
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+  
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
 }

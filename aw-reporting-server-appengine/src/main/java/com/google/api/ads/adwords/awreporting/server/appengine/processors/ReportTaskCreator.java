@@ -15,8 +15,9 @@
 package com.google.api.ads.adwords.awreporting.server.appengine.processors;
 
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.appengine.api.taskqueue.DeferredTask;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -36,7 +37,7 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
   
   private String userId;
   private Collection<Long> acountIdList;
-  private String reportDefinition;
+  private ReportDefinition reportDefinition;
   private String dateStart;
   private String dateEnd;
   private String mccAccountId;
@@ -49,7 +50,7 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
     String userId,
     String mccAccountId,
     Collection<Long> acountIdList,
-    String reportDefinition,
+    ReportDefinition reportDefinition,
     String dateStart,
     String dateEnd,
     int reportRowsSetSize,

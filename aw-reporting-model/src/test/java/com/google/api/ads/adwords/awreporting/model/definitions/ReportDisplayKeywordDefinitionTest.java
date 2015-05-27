@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportDisplayKeyword;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -51,7 +51,7 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
     Assert.assertEquals(0.00, first.getCost().doubleValue());
     Assert.assertEquals(0L, first.getClicks().longValue());
     Assert.assertEquals(59L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(0.00, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.00, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.00, first.getAvgCpc().doubleValue());
@@ -60,7 +60,7 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
     Assert.assertEquals("Search IP", first.getCampaignName());
     Assert.assertEquals(11390393906L, first.getAdGroupId().longValue());
     Assert.assertEquals("Gen", first.getAdGroupName());
-    Assert.assertEquals("", first.getDestinationUrl());
+    Assert.assertEquals("", first.getCriteriaDestinationUrl());
     Assert.assertEquals(10024300L, first.getKeywordId().longValue());
     Assert.assertEquals("restaurant", first.getKeywordText());
     Assert.assertFalse(first.isNegative());
@@ -78,7 +78,7 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
     Assert.assertEquals(0.30, last.getCost().doubleValue());
     Assert.assertEquals(2L, last.getClicks().longValue());
     Assert.assertEquals(1853L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(0.11, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.16, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.15, last.getAvgCpc().doubleValue());
@@ -87,7 +87,7 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
     Assert.assertEquals("Display", last.getCampaignName());
     Assert.assertEquals(11553542546L, last.getAdGroupId().longValue());
     Assert.assertEquals("Display", last.getAdGroupName());
-    Assert.assertEquals("", last.getDestinationUrl());
+    Assert.assertEquals("", last.getCriteriaDestinationUrl());
     Assert.assertEquals(32912034877L, last.getKeywordId().longValue());
     Assert.assertEquals("restaurant italien 34", last.getKeywordText());
     Assert.assertFalse(last.isNegative());
@@ -141,13 +141,11 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -162,14 +160,21 @@ public class ReportDisplayKeywordDefinitionTest extends AbstractReportDefinition
         "CpcBidSource",
         "CpmBidSource",
         "CriteriaDestinationUrl",
-        "DestinationUrl",
         "Id",
         "IsNegative",
+        "IsRestrict",
         "KeywordText",
         "CpcBid",
         "CpmBid",
         "TargetingSetting",
-        "TotalConvValue"
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "FinalAppUrls",
+        "FinalMobileUrls",
+        "FinalUrls",
+        "TrackingUrlTemplate",
+        "UrlCustomParameters"
     };
   }
 }

@@ -67,7 +67,7 @@ public class AnnotationBasedMappingStrategyTest {
     Assert.assertEquals(9.39, reportAd.getCost().doubleValue());
     Assert.assertEquals(32L, reportAd.getClicks().longValue());
     Assert.assertEquals(1258L, reportAd.getImpressions().longValue());
-    Assert.assertEquals(0L, reportAd.getConversions().longValue());
+    Assert.assertEquals(0L, reportAd.getConvertedClicks().longValue());
     Assert.assertEquals("2.54", reportAd.getCtr());
     Assert.assertEquals(7.46, reportAd.getAvgCpm().doubleValue());
     Assert.assertEquals(0.29, reportAd.getAvgCpc().doubleValue());
@@ -85,7 +85,7 @@ public class AnnotationBasedMappingStrategyTest {
     Assert.assertEquals(1.46, reportAd.getCost().doubleValue());
     Assert.assertEquals(2L, reportAd.getClicks().longValue());
     Assert.assertEquals(58L, reportAd.getImpressions().longValue());
-    Assert.assertEquals(0L, reportAd.getConversions().longValue());
+    Assert.assertEquals(0L, reportAd.getConvertedClicks().longValue());
     Assert.assertEquals("3.45", reportAd.getCtr());
     Assert.assertEquals(25.17, reportAd.getAvgCpm().doubleValue());
     Assert.assertEquals(0.73, reportAd.getAvgCpc().doubleValue());
@@ -131,7 +131,7 @@ public class AnnotationBasedMappingStrategyTest {
     Assert.assertEquals(9.39, reportAd.getCost().doubleValue());
     Assert.assertEquals(32L, reportAd.getClicks().longValue());
     Assert.assertEquals(1258L, reportAd.getImpressions().longValue());
-    Assert.assertEquals(0L, reportAd.getConversions().longValue());
+    Assert.assertEquals(0L, reportAd.getConvertedClicks().longValue());
     Assert.assertEquals("2.54", reportAd.getCtr());
     Assert.assertEquals(7.46, reportAd.getAvgCpm().doubleValue());
     Assert.assertEquals(0.29, reportAd.getAvgCpc().doubleValue());
@@ -160,7 +160,7 @@ public class AnnotationBasedMappingStrategyTest {
     Assert.assertEquals(1.46, reportAd.getCost().doubleValue());
     Assert.assertEquals(2L, reportAd.getClicks().longValue());
     Assert.assertEquals(58L, reportAd.getImpressions().longValue());
-    Assert.assertEquals(0L, reportAd.getConversions().longValue());
+    Assert.assertEquals(0L, reportAd.getConvertedClicks().longValue());
     Assert.assertEquals("3.45", reportAd.getCtr());
     Assert.assertEquals(25.17, reportAd.getAvgCpm().doubleValue());
     Assert.assertEquals(0.73, reportAd.getAvgCpc().doubleValue());

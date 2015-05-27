@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -51,7 +51,7 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
     Assert.assertEquals(9.39, first.getCost().doubleValue());
     Assert.assertEquals(32L, first.getClicks().longValue());
     Assert.assertEquals(1258L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(2.54, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(7.46, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.29, first.getAvgCpc().doubleValue());
@@ -80,7 +80,7 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
     Assert.assertEquals(1.46, last.getCost().doubleValue());
     Assert.assertEquals(2L, last.getClicks().longValue());
     Assert.assertEquals(58L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(3.45, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(25.17, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.73, last.getAvgCpc().doubleValue());
@@ -145,16 +145,14 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
         "CostPerConversionManyPerClickSignificance",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "ConversionRateSignificance",
-        "ConversionSignificance",
-        "CostPerConversion",
-        "CostPerConversionSignificance",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "ClickConversionRateSignificance",
+        "ConvertedClicksSignificance",
+        "CostPerConvertedClick",
+        "CostPerConvertedClickSignificance",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -165,7 +163,7 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
         "Id",
         "Status",
         "DisplayUrl",
-        "Url",
+        "CreativeDestinationUrl",
         "ImageAdUrl",
         "Headline",
         "Description1",
@@ -175,6 +173,16 @@ public class ReportAdDefinitionTest extends AbstractReportDefinitionTest<ReportA
         "CampaignName",
         "AdGroupName",
         "AdType",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "CreativeFinalAppUrls",
+        "CreativeFinalMobileUrls",
+        "CreativeFinalUrls",
+        "CreativeTrackingUrlTemplate",
+        "CreativeUrlCustomParameters",
+        "KeywordId",
+        "Trademarks",
         // Analytics Fieds        
         "AveragePageviews",
         "AverageTimeOnSite",

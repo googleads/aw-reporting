@@ -16,7 +16,8 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -73,9 +74,37 @@ public class ReportPlaceholderFeedItem extends ReportBase {
   @CsvField(value = "Feed placeholder type", reportField = "PlaceholderType")
   private int feedPlaceholderType;
 
-  @Column(name = "IS_SELF_ACTION")
+  @Column(name = "IS_SELF_ACTION", length=32)
   @CsvField(value = "This extension vs. Other", reportField = "IsSelfAction")
   private String isSelfAction;
+  
+  @Column(name = "KEYWORD_ID")
+  @CsvField(value="Keyword ID", reportField = "KeywordId")
+  private Long keywordId;
+  
+  @Column(name = "KEYWORD_MATCH_TYPE", length=32)
+  @CsvField(value = "Target keyword match type", reportField = "KeywordMatchType")
+  private String keywordMatchType;
+  
+  @Column(name = "KEYWORD_TEXT", length=255)
+  @CsvField(value = "Target keyword text", reportField = "KeywordText")
+  private String keywordText;
+  
+  @Column(name = "CONVERSION_TRACKER_ID")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+  
+  @Column(name = "ATTRIBUTE_VALUES", length=2048)
+  @CsvField(value = "Attribute Values", reportField = "AttributeValues")
+  private String attributeValues;
+  
+  @Column(name = "DISAPPROVAL_SHORT_NAMES", length=2048)
+  @CsvField(value = "Disapproval reasons", reportField = "DisapprovalShortNames")
+  private String disapprovalShortNames;
+  
+  @Column(name = "URL_CUSTOM_PARAMETERS", length=2048)
+  @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
+  private String urlCustomParameters;
   
   /**
    * Hibernate needs an empty constructor
@@ -227,5 +256,77 @@ public class ReportPlaceholderFeedItem extends ReportBase {
 
   public void setIsSelfAction(String isSelfAction) {
     this.isSelfAction = isSelfAction;
+  }
+  
+  public Long getKeywordId() {
+    return keywordId;
+  }
+  
+  public void setKeywordId(Long keywordId) {
+    this.keywordId = keywordId;
+  }
+  
+  public String getKeywordMatchType() {
+    return keywordMatchType;
+  }
+  
+  public void setKeywordMatchType(String keywordMatchType) {
+    this.keywordMatchType = keywordMatchType;
+  }
+  
+  public String getKeywordText() {
+    return keywordText;
+  }
+  
+  public void setKeywordText(String keywordText) {
+    this.keywordText = keywordText;
+  }
+  
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+  
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+  
+  public String getAttributeValues() {
+    return attributeValues;
+  }
+
+  public boolean hasAttributeValue(String attributeValue) {
+    if (attributeValues != null && attributeValues.length() > 0) {
+      return Lists.newArrayList(attributeValues.split(";")).contains(attributeValue);
+    } else {
+      return false;
+    }
+  }
+
+  public void setAttributeValues(String attributeValues) {
+    this.attributeValues = attributeValues;
+  }
+  
+  public String getDisapprovalShortNames() {
+    return disapprovalShortNames;
+  }
+
+  public boolean hasDisapprovalShortNames(String disapprovalShortName) {
+    if (disapprovalShortNames != null && disapprovalShortNames.length() > 0) {
+      return Lists.newArrayList(disapprovalShortNames.split(";")).contains(disapprovalShortName);
+    } else {
+      return false;
+    }
+  }
+
+  public void setDisapprovalShortNames(String disapprovalShortNames) {
+    this.disapprovalShortNames = disapprovalShortNames;
+  }
+  
+  public String getUrlCustomParameters() {
+    return urlCustomParameters;
+  }
+  
+  public void setUrlCustomParameters(String urlCustomParameters) {
+    this.urlCustomParameters = urlCustomParameters;
   }
 }

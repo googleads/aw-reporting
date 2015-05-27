@@ -28,7 +28,7 @@ import com.google.api.ads.adwords.awreporting.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.awreporting.processors.onmemory.RunnableProcessorOnMemory;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;

@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -51,7 +51,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(2.72, first.getCost().doubleValue());
     Assert.assertEquals(6L, first.getClicks().longValue());
     Assert.assertEquals(16L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(37.50, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(170.00, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.45, first.getAvgCpc().doubleValue());
@@ -59,7 +59,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals("EUR", first.getCurrencyCode());
     Assert.assertEquals(129807304L, first.getCampaignId().longValue());
     Assert.assertEquals(7253055064L, first.getAdGroupId().longValue());
-    Assert.assertEquals("enabled", first.getStatus());
+    Assert.assertEquals("enabled", first.getAdGroupStatus());
 
   }
 
@@ -76,7 +76,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(0.60, last.getCost().doubleValue());
     Assert.assertEquals(1L, last.getClicks().longValue());
     Assert.assertEquals(72L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(1.39, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(8.33, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.60, last.getAvgCpc().doubleValue());
@@ -84,7 +84,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals("EUR", last.getCurrencyCode());
     Assert.assertEquals(129807304L, last.getCampaignId().longValue());
     Assert.assertEquals(7253055064L, last.getAdGroupId().longValue());
-    Assert.assertEquals("enabled", last.getStatus());
+    Assert.assertEquals("enabled", last.getAdGroupStatus());
 
   }
 
@@ -138,16 +138,14 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
         "CostPerConversionManyPerClickSignificance",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "ConversionRateSignificance",
-        "ConversionSignificance",
-        "CostPerConversion",
-        "CostPerConversionSignificance",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "ClickConversionRateSignificance",
+        "ConvertedClicksSignificance",
+        "CostPerConvertedClick",
+        "CostPerConvertedClickSignificance",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -156,7 +154,7 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
         "CampaignId",
         "AdGroupId",
         "AdGroupName",
-        "Status",
+        "AdGroupStatus",
         "TargetCpa",
         "SearchImpressionShare",
         "SearchRankLostImpressionShare",
@@ -164,11 +162,16 @@ public class ReportAdGroupDefinitionTest extends AbstractReportDefinitionTest<Re
         "ContentRankLostImpressionShare",
         "SearchExactMatchImpressionShare",
         "Labels",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "TrackingUrlTemplate",
+        "UrlCustomParameters",
         // Analytics Fieds        
         "AveragePageviews",
         "AverageTimeOnSite",
         "BounceRate",
-        "PercentNewVisitors"
+        "PercentNewVisitors",
     };
   }
 }

@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -52,7 +52,7 @@ public class ReportAccountDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(1.42, first.getCost().doubleValue());
     Assert.assertEquals(10L, first.getClicks().longValue());
     Assert.assertEquals(1978L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(0.51, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.72, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.14, first.getAvgCpc().doubleValue());
@@ -80,7 +80,7 @@ public class ReportAccountDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(0.75, last.getCost().doubleValue());
     Assert.assertEquals(4L, last.getClicks().longValue());
     Assert.assertEquals(2793L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(0.14, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.27, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.19, last.getAvgCpc().doubleValue());
@@ -140,13 +140,11 @@ public class ReportAccountDefinitionTest extends AbstractReportDefinitionTest<Re
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -158,8 +156,13 @@ public class ReportAccountDefinitionTest extends AbstractReportDefinitionTest<Re
         "ContentImpressionShare",
         "ContentBudgetLostImpressionShare",
         "ContentRankLostImpressionShare",
-        "SearchExactMatchImpressionShare"
+        "SearchExactMatchImpressionShare",
+        "CanManageClients",
+        "IsAutoTaggingEnabled",
+        "IsTestAccount",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId"
     };
   }
-
 }

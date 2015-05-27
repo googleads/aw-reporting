@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportSearchQuery;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -79,16 +79,15 @@ public class ReportSearchQueryDefinitionTest extends
     Assert.assertEquals("Tablets with full browsers", first.getDevice());
     Assert.assertEquals("Search Network", first.getAdNetwork());
 
-    Assert.assertEquals(0L, first.getConversions().longValue());
-    Assert.assertEquals("0.00", first.getConversionRate());
-    Assert.assertEquals(0d, first.getCostPerConversion().doubleValue());
-    Assert.assertEquals("0.00", first.getValuePerConversion());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
+    Assert.assertEquals("0.00", first.getClickConversionRate());
+    Assert.assertEquals(0d, first.getCostPerConvertedClick().doubleValue());
+    Assert.assertEquals("0.00", first.getValuePerConvertedClick());
     Assert.assertEquals(0L, first.getConversionsManyPerClick().longValue());
     Assert.assertEquals("0.00", first.getConversionRateManyPerClick());
 
     Assert.assertEquals(0d, first.getCostPerConversionManyPerClick().doubleValue());
-    
-    Assert.assertEquals("0.00", first.getValuePerConvManyPerClick());
+    Assert.assertEquals("0.00", first.getValuePerConversionManyPerClick());
     Assert.assertEquals(0L, first.getViewThroughConversions().longValue());
 
   }
@@ -132,15 +131,15 @@ public class ReportSearchQueryDefinitionTest extends
     Assert.assertEquals("Computers", last.getDevice());
     Assert.assertEquals("Search Network", last.getAdNetwork());
 
-    Assert.assertEquals(0L, last.getConversions().longValue());
-    Assert.assertEquals("0.00", last.getConversionRate());
-    Assert.assertEquals(0d, last.getCostPerConversion().doubleValue());
-    Assert.assertEquals("0.00", last.getValuePerConversion());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
+    Assert.assertEquals("0.00", last.getClickConversionRate());
+    Assert.assertEquals(0d, last.getCostPerConvertedClick().doubleValue());
+    Assert.assertEquals("0.00", last.getValuePerConvertedClick());
     Assert.assertEquals(0L, last.getConversionsManyPerClick().longValue());
     Assert.assertEquals("0.00", last.getConversionRateManyPerClick());
 
     Assert.assertEquals(0d, last.getCostPerConversionManyPerClick().doubleValue());
-    Assert.assertEquals("0.00", last.getValuePerConvManyPerClick());
+    Assert.assertEquals("0.00", last.getValuePerConversionManyPerClick());
     Assert.assertEquals(0L, last.getViewThroughConversions().longValue());
 
   }
@@ -166,8 +165,56 @@ public class ReportSearchQueryDefinitionTest extends
         // Report
         "ExternalCustomerId",
         // ReportBase
-        "AccountDescriptiveName", "AccountTimeZoneId", "CustomerDescriptiveName", "PrimaryCompanyName", "AccountCurrencyCode", "Date", "DayOfWeek", "Week", "Month", "MonthOfYear", "Quarter", "Year", "Cost", "Clicks", "Impressions", "Ctr", "AverageCpm", "AverageCpc", "AveragePosition", "Device", "ClickType", "AdNetworkType1", "AdNetworkType2", "ConversionsManyPerClick", "ConversionRateManyPerClick", "CostPerConversionManyPerClick", "ValuePerConvManyPerClick", "ValuePerConversionManyPerClick", "Conversions", "ConversionRate", "CostPerConversion", "ValuePerConv", "ValuePerConversion", "ConversionCategoryName", "ConversionTypeName", "ConversionValue", "ViewThroughConversions",
+        "AccountDescriptiveName",
+        "AccountTimeZoneId",
+        "CustomerDescriptiveName",
+        "PrimaryCompanyName",
+        "AccountCurrencyCode",
+        "Date",
+        "DayOfWeek",
+        "Week",
+        "Month",
+        "MonthOfYear",
+        "Quarter",
+        "Year",
+        "Cost",
+        "Clicks",
+        "Impressions",
+        "Ctr",
+        "AverageCpm",
+        "AverageCpc",
+        "AveragePosition",
+        "Device",
+        "ClickType",
+        "AdNetworkType1",
+        "AdNetworkType2",
+        "ConversionsManyPerClick",
+        "ConversionRateManyPerClick",
+        "CostPerConversionManyPerClick",
+        "ValuePerConversionManyPerClick",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
+        "ConversionCategoryName",
+        "ConversionTypeName",
+        "ConversionValue",
+        "ViewThroughConversions",
         // Specific to Search Query Performance Report
-        "AdFormat", "AdGroupId", "AdGroupName", "AdGroupStatus", "CampaignId", "CampaignName", "CampaignStatus", "CreativeId", "DestinationUrl", "KeywordId", "KeywordTextMatchingQuery", "MatchType", "Query"};
+        "AdFormat",
+        "AdGroupId",
+        "AdGroupName",
+        "AdGroupStatus",
+        "CampaignId",
+        "CampaignName",
+        "CampaignStatus",
+        "CreativeId",
+        "DestinationUrl",
+        "KeywordId",
+        "KeywordTextMatchingQuery",
+        "MatchType",
+        "Query",
+        "ConversionTrackerId"
+    };
   }
 }

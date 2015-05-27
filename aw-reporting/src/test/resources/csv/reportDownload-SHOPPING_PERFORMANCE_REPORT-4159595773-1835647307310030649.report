@@ -1,6 +1,6 @@
 "AwReporting-SHOPPING_PERFORMANCE_REPORT 1405001110235 (Jun 20, 2014-Jun 21, 2014)"
 Ad group ID,Ad group,Campaign ID,Campaign,Category (1st level),Country/Territory,MC Id,Day,Cost,Clicks,Impressions,CTR,Avg. CPC,Converted clicks
-12165252524,Ad Group #1,175572164,Shopping,Maison et jardin,France,100514323,2014-06-20,0.53,2,99,2.02%,0.26,0
-12165252524,Ad Group #1,175572164,Shopping,Meubles,France,100514323,2014-06-20,0.51,3,64,4.69%,0.17,0
-12165252524,Ad Group #1,175572164,Shopping,Maison et jardin,France,100514323,2014-06-21,0.00,0,31,0.00%,0.00,0
-12165252524,Ad Group #1,175572164,Shopping,Meubles,France,100514323,2014-06-21,0.00,0,19,0.00%,0.00,0
+12165252524,Ad Group #1,175572164,Shopping,Maison et jardin,2250,100514323,2014-06-20,0.53,2,99,2.02%,0.26,0
+12165252524,Ad Group #1,175572164,Shopping,Meubles,2250,100514323,2014-06-20,0.51,3,64,4.69%,0.17,0
+12165252524,Ad Group #1,175572164,Shopping,Maison et jardin,2250,100514323,2014-06-21,0.00,0,31,0.00%,0.00,0
+12165252524,Ad Group #1,175572164,Shopping,Meubles,2250,100514323,2014-06-21,0.00,0,19,0.00%,0.00,0

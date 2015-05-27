@@ -58,8 +58,8 @@ import com.google.api.ads.adwords.awreporting.processors.onmemory.RunnableProces
 import com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionDateRangeType;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;
@@ -82,7 +82,7 @@ public class ReportProcessorOnMemoryTest {
   
   private static final int NUMBER_OF_THREADS = 50;
   
-  private static final int CALLS_TO_PERSIST_ENTITIES = 14100;
+  private static final int CALLS_TO_PERSIST_ENTITIES = 13500;
 
   private Properties properties;
 
@@ -202,9 +202,6 @@ public class ReportProcessorOnMemoryTest {
     // returns the appropriate file depending on the report type
     if (reportType.equals(ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT)) {
       return "src/test/resources/csv/reportDownload-ACCOUNT_PERFORMANCE_REPORT-2602198216-1370030134500.report";
-    }
-    if (reportType.equals(ReportDefinitionReportType.AD_EXTENSIONS_PERFORMANCE_REPORT)) {
-      return "src/test/resources/csv/reportDownload-AD_EXTENSIONS_PERFORMANCE_REPORT-2602198216-1370029629538.report";
     }
     if (reportType.equals(ReportDefinitionReportType.ADGROUP_PERFORMANCE_REPORT)) {
       return "src/test/resources/csv/reportDownload-ADGROUP_PERFORMANCE_REPORT-2450945640-1370030054471.report";

@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -55,7 +55,7 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
     Assert.assertEquals(0.7,first.getCost().doubleValue());
     Assert.assertEquals(9, first.getClicks().intValue());
     Assert.assertEquals(74, first.getImpressions().intValue());
-    Assert.assertEquals(0, first.getConversions().intValue());
+    Assert.assertEquals(0, first.getConvertedClicks().intValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("12.16"),
         BigDecimalUtil.parseFromNumberString(first.getCtr()));
     Assert.assertEquals(9.46, first.getAvgCpm().doubleValue());
@@ -77,7 +77,7 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
     Assert.assertEquals(0d, last.getCost().doubleValue());
     Assert.assertEquals(0, last.getClicks().intValue());
     Assert.assertEquals(130, last.getImpressions().intValue());
-    Assert.assertEquals(0, last.getConversions().intValue());
+    Assert.assertEquals(0, last.getConvertedClicks().intValue());
     Assert.assertEquals(BigDecimalUtil.parseFromNumberString("0.0"),
         BigDecimalUtil.parseFromNumberString(last.getCtr()));
     Assert.assertEquals(0d, last.getAvgCpm().doubleValue());
@@ -125,13 +125,11 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -146,7 +144,14 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
         "FeedId",
         "FeedItemId",
         "PlaceholderType",
-        "IsSelfAction"
+        "IsSelfAction",
+        "KeywordId",
+        "KeywordMatchType",
+        "KeywordText",
+        "ConversionTrackerId",
+        "AttributeValues",
+        "DisapprovalShortNames",
+        "UrlCustomParameters"
         };
   }
 }

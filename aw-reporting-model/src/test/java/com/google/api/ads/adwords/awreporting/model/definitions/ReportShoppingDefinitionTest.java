@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportShopping;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -50,11 +50,11 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals(0.53, first.getCost().doubleValue());
     Assert.assertEquals(2L, first.getClicks().longValue());
     Assert.assertEquals(99L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(2.02, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.26, first.getAvgCpc().doubleValue());
     Assert.assertEquals(100514323L, first.getMerchantId().longValue());
-    Assert.assertEquals("France", first.getCountryCriteriaId());
+    Assert.assertEquals(2250L, first.getCountryCriteriaId().longValue());
     Assert.assertEquals("Maison et jardin", first.getCategoryL1());
 
     Assert.assertEquals(175572164L, first.getCampaignId().longValue());
@@ -74,11 +74,11 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals(0.00, last.getCost().doubleValue());
     Assert.assertEquals(0L, last.getClicks().longValue());
     Assert.assertEquals(19L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(0.00, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.00, last.getAvgCpc().doubleValue());
     Assert.assertEquals(100514323L, last.getMerchantId().longValue());
-    Assert.assertEquals("France", last.getCountryCriteriaId());
+    Assert.assertEquals(2250L, last.getCountryCriteriaId().longValue());
     Assert.assertEquals("Meubles", last.getCategoryL1());
 
     Assert.assertEquals(175572164L, last.getCampaignId().longValue());
@@ -135,13 +135,11 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
         "ConversionsManyPerClick",
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "CostPerConversion",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "CostPerConvertedClick",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -174,7 +172,8 @@ public class ReportShoppingDefinitionTest extends AbstractReportDefinitionTest<R
         "ProductTypeL4",
         "ProductTypeL5",
         "StoreId",
-        "TotalConvValue"
+        "Channel",
+        "ChannelExclusivity"
     };
   }
 }

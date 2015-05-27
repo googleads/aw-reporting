@@ -1,8 +1,8 @@
 "AwReporting-GEO_PERFORMANCE_REPORT 1234555678900 (Mar 1, 2014-Mar 31, 2014)"
 Ad group ID,Ad group,Ad group state,City,Country/Territory,Is Targetable,Metro area,Most specific location,Account,Month,Cost,Clicks,Impressions,CTR,Avg. CPM,Avg. CPC,Avg. position,Conv. rate,Click conversion rate,Customer ID
-1239084123,General,enabled,Unspecified,United States,true,,United States,Froody Rudy,2014-03-01,0.00,0,2,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
-1239084123,General,enabled,Carlsbad,United States,true,,Carlsbad,Froody Rudy,2014-03-01,0.28,2,18,11.11%,15.56,0.14,1.2,0.00%,0.00%,6671111111
-1239084123,General,enabled,Carlsbad,United States,true,,92008,Froody Rudy,2014-03-01,0.00,0,5,0.00%,0.00,0.00,1.6,0.00%,0.00%,6671130408
-1239799123,Inventory,enabled,San Diego,United States,true,San Diego CA,92123,Froody Rudy,2014-03-01,0.00,0,1,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
-1239799123,Inventory,enabled,San Diego,United States,true,San Diego CA,92124,Froody Rudy,2014-03-01,0.00,0,1,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
+1239084123,General,enabled,0,2840,true,0,2840,Froody Rudy,2014-03-01,0.00,0,2,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
+1239084123,General,enabled,1013651,2840,true,0,1013651,Froody Rudy,2014-03-01,0.28,2,18,11.11%,15.56,0.14,1.2,0.00%,0.00%,6671111111
+1239084123,General,enabled,1013651,2840,true,0,92008,Froody Rudy,2014-03-01,0.00,0,5,0.00%,0.00,0.00,1.6,0.00%,0.00%,6671130408
+1239799123,Inventory,enabled,1014218,2840,true,200825,92123,Froody Rudy,2014-03-01,0.00,0,1,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
+1239799123,Inventory,enabled,1014218,2840,true,200825,92124,Froody Rudy,2014-03-01,0.00,0,1,0.00%,0.00,0.00,1.0,0.00%,0.00%,6671111111
 Total, --, --, --, --, --, --, --, --, --,"2,469.89",869,18355,4.73%,134.56,2.84,2.5,3.38%,2.45%, --

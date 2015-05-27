@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaignLocationTarget;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -61,8 +61,8 @@ public class ReportCampaignLocationTargetDefinitionTest extends
     Assert.assertEquals(4.00, first.getAvgCpm().doubleValue());
     Assert.assertEquals(5.00, first.getAvgCpc().doubleValue());
     Assert.assertEquals("6.00", first.getAvgPosition());
-    Assert.assertEquals(2L, first.getConversions().longValue());
-    Assert.assertEquals("10.00", first.getConversionRate());
+    Assert.assertEquals(2L, first.getConvertedClicks().longValue());
+    Assert.assertEquals("10.00", first.getClickConversionRate());
 
   }
 
@@ -86,8 +86,8 @@ public class ReportCampaignLocationTargetDefinitionTest extends
     Assert.assertEquals(8.00, last.getAvgCpm().doubleValue());
     Assert.assertEquals(10.00, last.getAvgCpc().doubleValue());
     Assert.assertEquals("12.00", last.getAvgPosition());
-    Assert.assertEquals(4L, last.getConversions().longValue());
-    Assert.assertEquals("20.00", last.getConversionRate());
+    Assert.assertEquals(4L, last.getConvertedClicks().longValue());
+    Assert.assertEquals("20.00", last.getClickConversionRate());
 
   }
 
@@ -111,7 +111,7 @@ public class ReportCampaignLocationTargetDefinitionTest extends
         // Report
         "ExternalCustomerId",
         // ReportBase
-        "AccountDescriptiveName", "AccountTimeZoneId", "CustomerDescriptiveName", "PrimaryCompanyName", "AccountCurrencyCode", "Date", "DayOfWeek", "Week", "Month", "MonthOfYear", "Quarter", "Year", "Cost", "Clicks", "Impressions", "Ctr", "AverageCpm", "AverageCpc", "AveragePosition", "Device", "ClickType", "AdNetworkType1", "AdNetworkType2", "ConversionsManyPerClick", "ConversionRateManyPerClick", "CostPerConversionManyPerClick", "ValuePerConvManyPerClick", "ValuePerConversionManyPerClick", "Conversions", "ConversionRate", "CostPerConversion", "ValuePerConv", "ValuePerConversion", "ConversionCategoryName", "ConversionTypeName", "ConversionValue", "ViewThroughConversions",
+        "AccountDescriptiveName", "AccountTimeZoneId", "CustomerDescriptiveName", "PrimaryCompanyName", "AccountCurrencyCode", "Date", "DayOfWeek", "Week", "Month", "MonthOfYear", "Quarter", "Year", "Cost", "Clicks", "Impressions", "Ctr", "AverageCpm", "AverageCpc", "AveragePosition", "Device", "ClickType", "AdNetworkType1", "AdNetworkType2", "ConversionsManyPerClick", "ConversionRateManyPerClick", "CostPerConversionManyPerClick", "ValuePerConversionManyPerClick", "ConvertedClicks", "ClickConversionRate", "CostPerConvertedClick", "ValuePerConvertedClick", "ConversionCategoryName", "ConversionTypeName", "ConversionValue", "ViewThroughConversions",
         // Specific
         "Id", "BidModifier", "CampaignId", "CampaignName", "CampaignStatus", "IsNegative"};
   }

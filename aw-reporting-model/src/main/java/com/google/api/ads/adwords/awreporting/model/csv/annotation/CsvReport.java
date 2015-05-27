@@ -17,7 +17,7 @@ package com.google.api.ads.adwords.awreporting.model.csv.annotation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

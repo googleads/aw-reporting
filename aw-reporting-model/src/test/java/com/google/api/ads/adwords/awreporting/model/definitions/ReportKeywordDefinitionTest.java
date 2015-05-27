@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import junit.framework.Assert;
 
@@ -52,7 +52,7 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(0.00, first.getCost().doubleValue());
     Assert.assertEquals(0L, first.getClicks().longValue());
     Assert.assertEquals(20L, first.getImpressions().longValue());
-    Assert.assertEquals(0L, first.getConversions().longValue());
+    Assert.assertEquals(0L, first.getConvertedClicks().longValue());
     Assert.assertEquals(0.00, first.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.00, first.getAvgCpm().doubleValue());
     Assert.assertEquals(0.00, first.getAvgCpc().doubleValue());
@@ -66,7 +66,7 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(10.00, first.getQualityScoreAsBigDecimal().doubleValue());
     Assert.assertEquals("Broad", first.getKeywordMatchType());
     Assert.assertEquals("achat forêt", first.getKeywordText());
-    Assert.assertEquals("", first.getDestinationUrl());
+    Assert.assertEquals("", first.getCriteriaDestinationUrl());
     Assert.assertFalse(first.isNegative());
 
   }
@@ -84,7 +84,7 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(0.00, last.getCost().doubleValue());
     Assert.assertEquals(0L, last.getClicks().longValue());
     Assert.assertEquals(1L, last.getImpressions().longValue());
-    Assert.assertEquals(0L, last.getConversions().longValue());
+    Assert.assertEquals(0L, last.getConvertedClicks().longValue());
     Assert.assertEquals(0.00, last.getCtrBigDecimal().doubleValue());
     Assert.assertEquals(0.00, last.getAvgCpm().doubleValue());
     Assert.assertEquals(0.00, last.getAvgCpc().doubleValue());
@@ -98,7 +98,7 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
     Assert.assertEquals(10.00, last.getQualityScoreAsBigDecimal().doubleValue());
     Assert.assertEquals("Broad", last.getKeywordMatchType());
     Assert.assertEquals("propriete sologne a vendre", last.getKeywordText());
-    Assert.assertEquals("", last.getDestinationUrl());
+    Assert.assertEquals("", last.getCriteriaDestinationUrl());
     Assert.assertFalse(last.isNegative());
 
   }
@@ -153,16 +153,14 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
         "ConversionRateManyPerClick",
         "CostPerConversionManyPerClick",
         "CostPerConversionManyPerClickSignificance",
-        "ValuePerConvManyPerClick",
         "ValuePerConversionManyPerClick",
-        "Conversions",
-        "ConversionRate",
-        "ConversionRateSignificance",
-        "ConversionSignificance",
-        "CostPerConversion",
-        "CostPerConversionSignificance",
-        "ValuePerConv",
-        "ValuePerConversion",
+        "ConvertedClicks",
+        "ClickConversionRate",
+        "ClickConversionRateSignificance",
+        "ConvertedClicksSignificance",
+        "CostPerConvertedClick",
+        "CostPerConvertedClickSignificance",
+        "ValuePerConvertedClick",
         "ConversionCategoryName",
         "ConversionTypeName",
         "ConversionValue",
@@ -170,15 +168,15 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
         // Specific to Keyword Performance Report
         "CampaignId",
         "AdGroupId",
-        "AdGroupName",
         "Id",
         "Status",
         "QualityScore",
         "KeywordMatchType",
         "KeywordText",
-        "DestinationUrl",
+        "CriteriaDestinationUrl",
         "IsNegative",
         "CampaignName",
+        "AdGroupName",
         "CpcBid",
         "CpmBid",
         "SearchImpressionShare",
@@ -187,6 +185,14 @@ public class ReportKeywordDefinitionTest extends AbstractReportDefinitionTest<Re
         "Labels",
         "FirstPageCpc",
         "TopOfPageCpc",
+        "ActiveViewCpm",
+        "ActiveViewImpressions",
+        "ConversionTrackerId",
+        "FinalAppUrls",
+        "FinalMobileUrls",
+        "FinalUrls",
+        "TrackingUrlTemplate",
+        "UrlCustomParameters",
         // Analytics Fieds        
         "AveragePageviews",
         "AverageTimeOnSite",

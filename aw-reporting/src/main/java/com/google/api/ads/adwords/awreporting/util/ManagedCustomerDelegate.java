@@ -15,12 +15,12 @@
 package com.google.api.ads.adwords.awreporting.util;
 
 import com.google.api.ads.adwords.jaxws.factory.AdWordsServices;
-import com.google.api.ads.adwords.jaxws.v201409.cm.Paging;
-import com.google.api.ads.adwords.jaxws.v201409.cm.Selector;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ApiException;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ManagedCustomer;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ManagedCustomerPage;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ManagedCustomerServiceInterface;
+import com.google.api.ads.adwords.jaxws.v201502.cm.Paging;
+import com.google.api.ads.adwords.jaxws.v201502.cm.Selector;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ApiException;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomer;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomerPage;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomerServiceInterface;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.common.collect.Lists;
 
@@ -110,7 +110,7 @@ public class ManagedCustomerDelegate {
       e.printStackTrace();
       throw new ApiException(
           "Error on managedCustomerService.get(selector), probably an AuthenticationError: " + e.getMessage(),
-          new com.google.api.ads.adwords.jaxws.v201409.cm.ApiException());
+          new com.google.api.ads.adwords.jaxws.v201502.cm.ApiException());
     }
     return accountList;
   }

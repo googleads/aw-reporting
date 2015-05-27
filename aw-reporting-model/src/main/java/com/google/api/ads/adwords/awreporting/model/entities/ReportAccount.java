@@ -16,8 +16,9 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
+import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -67,7 +68,32 @@ public class ReportAccount extends ReportBase {
   @Column(name = "HOUR_OF_DAY")
   @CsvField(value = "Hour of day", reportField = "HourOfDay")
   private Long hourOfDay;
+  
+  @Column(name = "CAN_MANAGE_CLIENTS")
+  @CsvField(value = "Can manage clients", reportField = "CanManageClients")
+  private String canManageClients;
 
+  @Column(name = "IS_AUTO_TAGGING_ENABLED")
+  @CsvField(value = "Auto tagging enabled", reportField = "IsAutoTaggingEnabled")
+  private String isAutoTaggingEnabled;
+  
+  @Column(name = "IS_TEST_ACCOUNT")
+  @CsvField(value = "Test account", reportField = "IsTestAccount")
+  private String isTestAccount;
+  
+  @Column(name = "ACTIVE_VIEW_CPM")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewCpm")
+  @MoneyField
+  private BigDecimal activeViewCpm;
+  
+  @Column(name = "ACTIVE_VIEW_IMPRESSIONS")
+  @CsvField(value = "Active View avg. CPM", reportField = "ActiveViewImpressions")
+  private Long activeViewImpressions;
+  
+  @Column(name = "CONVERSION_TRACKER_ID")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+  
   /**
    * Hibernate needs an empty constructor
    */
@@ -197,5 +223,57 @@ public class ReportAccount extends ReportBase {
   
   public void setHourOfDay(Long hourOfDay) {
     this.hourOfDay = hourOfDay;
+  }
+  
+  public String getCanManageClients() {
+    return canManageClients;
+  }
+  
+  public void setCanManageClients(String canManageClients) {
+    this.canManageClients = canManageClients;
+  }
+  
+  public String getIsAutoTaggingEnabled() {
+    return isAutoTaggingEnabled;
+  }
+  
+  public void setIsAutoTaggingEnabled(String isAutoTaggingEnabled) {
+    this.isAutoTaggingEnabled = isAutoTaggingEnabled;
+  }
+  
+  public String getIsTestAccount() {
+    return isTestAccount;
+  }
+  
+  public void setIsTestAccount(String isTestAccount) {
+    this.isTestAccount = isTestAccount;
+  }
+  
+  public String getActiveViewCpm() {
+    return BigDecimalUtil.formatAsReadable(activeViewCpm);
+  }
+
+  public BigDecimal getActiveViewCpmBigDecimal() {
+    return activeViewCpm;
+  }
+
+  public void setActiveViewCpm(String activeViewCpm) {
+    this.activeViewCpm = BigDecimalUtil.parseFromNumberStringPercentage(activeViewCpm);
+  }
+  
+  public Long getActiveViewImpressions() {
+    return activeViewImpressions;
+  }
+  
+  public void setActiveViewImpressions(Long activeViewImpressions) {
+    this.activeViewImpressions = activeViewImpressions;
+  }
+  
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+  
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
   }
 }

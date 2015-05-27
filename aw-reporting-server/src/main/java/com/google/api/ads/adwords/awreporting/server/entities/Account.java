@@ -15,8 +15,8 @@
 package com.google.api.ads.adwords.awreporting.server.entities;
 
 import com.google.api.ads.adwords.awreporting.model.persistence.mongodb.MongoEntity;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.Customer;
-import com.google.api.ads.adwords.jaxws.v201409.mcm.ManagedCustomer;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.Customer;
+import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomer;
 import com.google.common.collect.Lists;
 
 import com.googlecode.objectify.annotation.Index;

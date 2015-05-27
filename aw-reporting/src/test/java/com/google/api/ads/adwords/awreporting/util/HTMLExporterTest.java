@@ -20,7 +20,7 @@ import com.google.api.ads.adwords.awreporting.exporter.reportwriter.ReportWriter
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.api.client.util.Maps;
 
 import com.lowagie.text.DocumentException;
@@ -100,7 +100,7 @@ public class HTMLExporterTest {
     reportPHFI.setClicks((long) 33);
     reportPHFI.setImpressions((long) 333);
     reportPHFI.setStatus("ACTIVE");
-    reportPHFI.setConversionRate("1.5");
+    reportPHFI.setClickConversionRate("1.5");
     reportPHFI.setConversionRateManyPerClick("3.3");
     return reportPHFI;
   }

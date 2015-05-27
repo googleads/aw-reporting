@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.lib.jaxb.v201409.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 
 /**
  * Specific Report class for ShoppingPerformanceReports
@@ -77,9 +77,9 @@ public class ReportShopping extends ReportBase {
   @CsvField(value = "Category (5th level)", reportField = "CategoryL5")
   private String categoryL5;
 
-  @Column(name = "COUNTRY_CRITERIA_ID", length = 255)
+  @Column(name = "COUNTRY_CRITERIA_ID")
   @CsvField(value = "Country/Territory", reportField = "CountryCriteriaId")
-  private String countryCriteriaId;
+  private Long countryCriteriaId;
 
   @Column(name = "CUSTOM_ATTRIBUTE_0", length = 255)
   @CsvField(value = "Custom label 0", reportField = "CustomAttribute0")
@@ -139,11 +139,15 @@ public class ReportShopping extends ReportBase {
   
   @Column(name = "STORE_ID")
   @CsvField(value = "Store Id", reportField = "StoreId")
-  protected Long storeId;
-
-  @Column(name = "TOTAL_CONV_VALUE")
-  @CsvField(value = "Total conv. value", reportField = "TotalConvValue")
-  private Long totalConvValue;
+  private Long storeId;
+  
+  @Column(name = "CHANNEL")
+  @CsvField(value = "Channel", reportField = "Channel")
+  private String channel;
+  
+  @Column(name = "CHANNEL_EXCLUSIVITY")
+  @CsvField(value = "Channel Exclusivity", reportField = "ChannelExclusivity")
+  private String channelExclusivity;
 
   /**
    * Hibernate needs an empty constructor
@@ -275,11 +279,11 @@ public class ReportShopping extends ReportBase {
     this.categoryL5 = categoryL5;
   }
   
-  public String getCountryCriteriaId() {
+  public Long getCountryCriteriaId() {
     return countryCriteriaId;
   }
   
-  public void setCountryCriteriaId(String countryCriteriaId) {
+  public void setCountryCriteriaId(Long countryCriteriaId) {
     this.countryCriteriaId = countryCriteriaId;
   }
   
@@ -403,12 +407,20 @@ public class ReportShopping extends ReportBase {
   public void setStoreId(Long storeId) {
     this.storeId = storeId;
   }
-
-  public Long getTotalConvValue() {
-    return totalConvValue;
+  
+  public String getChannel() {
+    return channel;
   }
-
-  public void setTotalConvValue(Long totalConvValue) {
-    this.totalConvValue = totalConvValue;
+  
+  public void setChannel(String channel) {
+    this.channel = channel;
+  }
+  
+  public String getChannelExclusivity() {
+    return channelExclusivity;
+  }
+  
+  public void setChannelExclusivity(String channelExclusivity) {
+    this.channelExclusivity = channelExclusivity;
   }
 }

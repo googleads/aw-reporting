@@ -21,10 +21,10 @@ import static org.mockito.Mockito.verify;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
-import com.google.api.ads.adwords.awreporting.model.entities.ReportAdExtension;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaign;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
+import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.api.ads.adwords.awreporting.server.entities.Account;
 import com.google.api.ads.adwords.awreporting.server.entities.Kratu;
@@ -204,7 +204,7 @@ public class KratuComputeTest {
         if (invocation.getArguments()[0].equals(ReportAccount.class)) {
           ReportAccount reportAccount =  new ReportAccount();
           reportAccount.setCost(new BigDecimal(9.99));
-          reportAccount.setConversions(100L);
+          reportAccount.setConvertedClicks(100L);
           return ImmutableList.of(reportAccount);
         } else {
           return Lists.newArrayList();
@@ -375,7 +375,7 @@ public class KratuComputeTest {
     assertEquals(classes.get(2), ReportAdGroup.class);
     assertEquals(classes.get(3), ReportAd.class);
     assertEquals(classes.get(4), ReportKeyword.class);
-    assertEquals(classes.get(5), ReportAdExtension.class);
+    assertEquals(classes.get(5), ReportPlaceholderFeedItem.class);
     
     List<Long> accountIds = accountIdCaptor.getAllValues();
     assertEquals(accountIds.get(0), new Long(777));
