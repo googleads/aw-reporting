@@ -1,0 +1,26 @@
+{
+  "Alerts": [
+    {
+      "Name": "Accounts with low impressions",
+      "ReportQuery": {
+        "ReportType": "ACCOUNT_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Impressions,Clicks,ConvertedClicks,Cost",
+        "TimeRange": "YESTERDAY"
+      },
+      "Rule": {
+        "RuleClass": "AddAccountManagerRule",
+        "AlertMessage": "Customer \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has low impressions ({Impressions})."
+      },
+      "Actions": [
+        {
+          "ActionClass": "SimpleConsoleWriter"
+        },
+        {
+          "ActionClass": "EmailSender",
+          "Subject": "Low impression accounts",
+          "CC": "abc@example.com,xyz@example.com"
+        }
+      ]
+    }
+  ]
+}

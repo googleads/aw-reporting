@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+  ">
+
+  <context:component-scan
+    base-package="com.google.api.ads.adwords.awreporting.alerting.processor" />
+
+  <context:component-scan
+    base-package="com.google.api.ads.adwords.awreporting.authentication" />
+
+  <bean id="awReportProperties"
+    class="com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer">
+  </bean>
+
+  <bean init-method="initializeExecutorService"
+    class="com.google.api.ads.adwords.awreporting.alerting.downloader.MultipleClientReportDownloader"
+    id="multipleClientReportDownloader">
+    <property name="numThreads" value="${aw.report.alerting.downloader.num.threads}" />
+    <property name="retriesCount" value="${aw.report.alerting.downloader.retries.count}" />
+    <property name="backoffInterval" value="${aw.report.alerting.downloader.backoff.interval}" />
+    <property name="bufferSize" value="${aw.report.alerting.downloader.buffer.size}" />
+  </bean>
+
+</beans>
