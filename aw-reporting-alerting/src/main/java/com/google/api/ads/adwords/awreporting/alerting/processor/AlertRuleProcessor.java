@@ -1,4 +1,4 @@
-package com.google.api.ads.adwords.awreporting.alerting.rule;
+package com.google.api.ads.adwords.awreporting.alerting.processor;
 
 import java.util.Iterator;
 import java.util.List;
@@ -8,12 +8,12 @@ import java.util.regex.Pattern;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
+import com.google.api.ads.adwords.awreporting.alerting.rule.AlertRule;
+import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 public class AlertRuleProcessor {
-  private final static String RULE_CLASS_TAG = "RuleClass";
-  private final static String MESSAGE_TAG = "AlertMessage";
   private final static String MESSAGE_REGEX = "\\{\\w+\\}";
   private final static Pattern messagePattern = Pattern.compile(MESSAGE_REGEX);
   
@@ -22,7 +22,7 @@ public class AlertRuleProcessor {
   private AlertRule rule;
   
   public AlertRuleProcessor(JsonObject config) {
-    messageTemplate = config.get(MESSAGE_TAG).getAsString();
+    messageTemplate = config.get(ConfigTags.Rule.ALERT_MESSAGE).getAsString();
     messageMatcher = messagePattern.matcher(messageTemplate);
     
     rule = getRuleObject(config);
@@ -32,7 +32,7 @@ public class AlertRuleProcessor {
   }
   
   private AlertRule getRuleObject(JsonObject config) {
-    String className = config.get(RULE_CLASS_TAG).getAsString();
+    String className = config.get(ConfigTags.Rule.RULE_CLASS).getAsString();
     if (!className.contains(".")) {
       className = "com.google.api.ads.adwords.awreporting.alerting.rule." + className;
     }
@@ -79,7 +79,7 @@ public class AlertRuleProcessor {
   }
   
   private void generateAlertMessages(ReportData report) {
-    report.addNewField(MESSAGE_TAG);
+    report.addNewField(ConfigTags.Rule.ALERT_MESSAGE);
 
     // replace all {...} placeholders to the values for each entry
     for (List<String> entry : report.getEntries()) {

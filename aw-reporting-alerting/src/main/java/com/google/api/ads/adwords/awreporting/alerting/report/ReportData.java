@@ -8,36 +8,42 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
-import com.google.api.ads.adwords.awreporting.alerting.csv.ReportMappingStrategy;
+import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 
-public class ReportData {
-  // Field -> index mapping
-  private Map<String, Integer> mapping;
-  
+public class ReportData {  
   // use List instead of native array[], since report data will be enriched
   private List<String> header;
   private List<List<String>> entries;
-
-  //private List<List<String>> entries = Collections.synchronizedList(new ArrayList<List<String>>());
-  // needs synchronized(entries) on iterate, not on add/delete
+  // Field -> index mapping
+  private Map<String, Integer> mapping;
+  private String alertName;
+  private ReportDefinitionReportType reportType;
   
-  public ReportData(String[] headerArray, List<String[]> entriesArray, ReportMappingStrategy fieldsMapping) {
-    int columns = headerArray.length;
+  public ReportData(String[] headerArray,
+      List<String[]> entriesArray,
+      Map<String, String> fieldsMapping,
+      String alertName,
+      ReportDefinitionReportType reportType) {
+    final int columns = headerArray.length;
     header = new ArrayList<String>(columns);
-    mapping = new HashMap<String, Integer>(columns);
     
-    for (int i = 0; i < columns; ++i) {
-      String fieldName = fieldsMapping.getFieldName(headerArray[i]);
-      header.add(fieldName);
-      this.mapping.put(fieldName, Integer.valueOf(i));
-    }
-    
-    int rows = entriesArray.size();
+    final int rows = entriesArray.size();
     entries = new ArrayList<List<String>>(rows);
     for (int i = 0; i < rows; ++i) {
       // need to create a new ArrayList object which is extendible
       entries.add(new ArrayList<String>(Arrays.asList(entriesArray.get(i))));
     }
+    
+    mapping = new HashMap<String, Integer>(columns);
+    for (int i = 0; i < columns; ++i) {
+      String fieldName = fieldsMapping.get(headerArray[i]);
+      assert (null != fieldName);
+      header.add(fieldName);
+      this.mapping.put(fieldName, Integer.valueOf(i));
+    }
+    
+    this.alertName = alertName;
+    this.reportType = reportType;
   }
   
   public List<String> getHeader() {
@@ -70,12 +76,22 @@ public class ReportData {
     }
   }
   
+  public String getAlertName() {
+    return alertName;
+  }
+  
+  public ReportDefinitionReportType getReportType() {
+    return reportType;
+  }
+  
   public void print() {
+    System.out.println(reportType.value() + " for alert \"" + alertName + "\":");
     System.out.println("Header:");
     System.out.println(StringUtils.arrayToCommaDelimitedString(header.toArray()));
     System.out.println("Data:");
     for (List<String> entry : entries) {
       System.out.println(StringUtils.arrayToCommaDelimitedString(entry.toArray()));
     }
+    System.out.println();
   }
 }

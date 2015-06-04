@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.ProxySelector;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
@@ -31,23 +30,14 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
-import com.google.api.ads.adwords.awreporting.AwReporting;
-import com.google.api.ads.adwords.awreporting.authentication.Authenticator;
-import com.google.api.ads.adwords.awreporting.exporter.ReportExporterLocal;
 import com.google.api.ads.adwords.awreporting.alerting.processor.ReportProcessor;
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
-import com.google.api.ads.adwords.awreporting.util.DataBaseType;
 import com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
-import com.google.api.ads.adwords.awreporting.util.ProcessorType;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 /**
  * Main class that executes the alerts processing logic delegating to the {@link ReportProcessor}.
@@ -154,8 +144,7 @@ public class AwReportingAlerting {
 
     } catch (ParseException e) {
       errors = true;
-      System.err.println(
-          "Error parsing the values for the command line options: " + e.getMessage());
+      System.err.println("Error parsing the values for the command line options: " + e.getMessage());
     } catch (Exception e) {
       errors = true;
       LOGGER.error("Unexpected error accessing the API: " + e.getMessage());
@@ -204,26 +193,6 @@ public class AwReportingAlerting {
     return appCtx.getBean(ReportProcessor.class);
   }
   
-  /**
-   * Creates the {@link ReportExporterLocal} autowiring all the dependencies.
-   *
-   * @return the {@code ReportExporter} with all the dependencies properly injected.
-   */
-  private static ReportExporterLocal createReportExporter() {
-
-    return appCtx.getBean(ReportExporterLocal.class);
-  }
-  
-  /**
-   * Creates the {@link Authenticator} autowiring all the dependencies.
-   *
-   * @return the {@code Authenticator} with all the dependencies properly injected.
-   */
-  private static Authenticator createAuthenticator() {
-
-    return appCtx.getBean(Authenticator.class);
-  }
-
   /**
    * Creates the command line options.
    *

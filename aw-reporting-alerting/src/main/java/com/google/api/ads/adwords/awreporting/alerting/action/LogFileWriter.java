@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
+import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
 /*
@@ -21,8 +22,8 @@ import com.google.gson.JsonObject;
 
 public class LogFileWriter implements AlertAction {
   private static String LOG_FILE_PATHNAME_TAG = "LogFilePathname";
-  private static String APPEND_MODE_TAG = "AppendMode";
-  private static int LINES_TO_FLUSH = 10;  // do flush for every 10 written lines
+  private static String APPEND_MODE_TAG       = "AppendMode";
+  private static int LINES_TO_FLUSH = 100;  // Flush buffer after this number of lines
   
   private BufferedWriter writer;
   private int nonflushedLines;
@@ -56,7 +57,7 @@ public class LogFileWriter implements AlertAction {
   @Override
   public void processReportEntry(ReportEntry entry) {
     try {
-      writer.write(entry.getFieldValue(AlertAction.ALERT_MESSAGE_TAG));
+      writer.write(entry.getFieldValue(ConfigTags.Rule.ALERT_MESSAGE));
       writer.newLine();
       if (nonflushedLines++ >= LINES_TO_FLUSH) {
         writer.flush();

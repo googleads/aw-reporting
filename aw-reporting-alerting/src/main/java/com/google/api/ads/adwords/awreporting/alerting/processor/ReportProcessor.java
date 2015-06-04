@@ -19,10 +19,6 @@ import com.google.api.ads.adwords.awreporting.model.csv.CsvReportEntitiesMapping
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.util.CustomerDelegate;
 import com.google.api.ads.adwords.awreporting.util.ManagedCustomerDelegate;
-import com.google.api.ads.adwords.jaxws.factory.AdWordsServices;
-import com.google.api.ads.adwords.jaxws.v201502.cm.ApiException_Exception;
-import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionField;
-import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionServiceInterface;
 import com.google.api.ads.adwords.jaxws.v201502.mcm.ApiException;
 import com.google.api.ads.adwords.jaxws.v201502.mcm.Customer;
 import com.google.api.ads.adwords.jaxws.v201502.mcm.ManagedCustomer;
@@ -32,7 +28,6 @@ import com.google.api.ads.adwords.lib.jaxb.v201502.DateRange;
 import com.google.api.ads.adwords.lib.jaxb.v201502.DownloadFormat;
 import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
 import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
-//import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.api.ads.adwords.lib.jaxb.v201502.Selector;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;

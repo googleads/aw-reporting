@@ -99,9 +99,10 @@ public class EmailSender implements AlertAction {
   }
 
   private static String NEWLINE = System.getProperty("line.separator");
-  private static String FROM = "aw-report-alerting@example.com";
+  private static String FROM        = "aw-report-alerting@example.com";
+  
   private static String SUBJECT_TAG = "Subject";
-  private static String CC_TAG = "CC";
+  private static String CC_TAG      = "CC";
   
   // Each email for one receiver (account manager)
   private Map<String, AlertEmail> emailsMap;

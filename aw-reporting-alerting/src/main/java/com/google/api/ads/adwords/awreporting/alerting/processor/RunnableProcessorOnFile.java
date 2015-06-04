@@ -15,32 +15,19 @@
 package com.google.api.ads.adwords.awreporting.alerting.processor;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.log4j.Logger;
 
 import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.bean.MappingStrategy;
 
-import com.google.api.ads.adwords.awreporting.alerting.csv.ReportMappingStrategy;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
-import com.google.api.ads.adwords.awreporting.alerting.rule.AlertRule;
-import com.google.api.ads.adwords.awreporting.alerting.rule.AlertRuleProcessor;
-import com.google.api.ads.adwords.awreporting.model.csv.AwReportCsvReader;
-import com.google.api.ads.adwords.awreporting.model.entities.Report;
-import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
-import com.google.api.ads.adwords.awreporting.model.util.CsvParserIterator;
-import com.google.api.ads.adwords.awreporting.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
-import com.google.common.collect.Lists;
+import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 import com.google.gson.JsonObject;
 
 /**
@@ -68,7 +55,9 @@ public class RunnableProcessorOnFile implements Runnable {
 
   private File file;
   private JsonObject ruleConfig;
-  private ReportMappingStrategy mapping;
+  private Map<String, String> mapping;
+  private String alertName;
+  private ReportDefinitionReportType reportType;
   private List<ReportData> outputReports;
 
   private Exception error = null;
@@ -82,11 +71,15 @@ public class RunnableProcessorOnFile implements Runnable {
    */
   public RunnableProcessorOnFile(File file,
       JsonObject ruleConfig,
-      ReportMappingStrategy mapping,
+      Map<String, String> mapping,
+      String alertName,
+      ReportDefinitionReportType reportType,
       List<ReportData> outputReports) {
     this.file = file;
     this.ruleConfig = ruleConfig;
     this.mapping = mapping;
+    this.alertName = alertName;
+    this.reportType = reportType;
     this.outputReports = outputReports;
   }
 
@@ -109,7 +102,7 @@ public class RunnableProcessorOnFile implements Runnable {
       CSVReader csvReader = new CSVReader(new FileReader(file));
 
       LOGGER.debug("Starting parse of report rows...");
-      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), mapping);
+      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), mapping, alertName, reportType);
       
       AlertRuleProcessor ruleProcessor = new AlertRuleProcessor(ruleConfig);
       ruleProcessor.processReport(report);

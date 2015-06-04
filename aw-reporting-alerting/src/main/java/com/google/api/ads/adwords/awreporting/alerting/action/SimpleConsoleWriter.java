@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
+import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
 public class SimpleConsoleWriter implements AlertAction {
@@ -22,7 +23,7 @@ public class SimpleConsoleWriter implements AlertAction {
   
   @Override
   public void processReportEntry(ReportEntry entry) {
-    System.out.println(entry.getFieldValue(AlertAction.ALERT_MESSAGE_TAG));
+    System.out.println(entry.getFieldValue(ConfigTags.Rule.ALERT_MESSAGE));
   }
 
   @Override

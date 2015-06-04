@@ -1,26 +1,24 @@
 package com.google.api.ads.adwords.awreporting.alerting.report;
 
+import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
-public class ReportQuery {
-  private static String REPORT_TYPE_TAG = "ReportType";
-  private static String FIELDS_TAG = "Fields";
-  private static String PREDICATE_TAG = "Predicate";
-  private static String TIME_RANGE_TAG = "TimeRange";
-  
+public class ReportQuery {  
   private String reportType;
   private String fields;
   private String predicate;  // optional
   private String timeRange;  // optional
   
   public ReportQuery(JsonObject config) {
-    reportType = config.get(REPORT_TYPE_TAG).getAsString();
-    fields = config.get(FIELDS_TAG).getAsString();
-    if (config.has(PREDICATE_TAG)) {
-      predicate = config.get(PREDICATE_TAG).getAsString();
+    reportType = config.get(ConfigTags.ReportQuery.REPORT_TYPE).getAsString();
+    fields = config.get(ConfigTags.ReportQuery.FIELDS).getAsString();
+    
+    if (config.has(ConfigTags.ReportQuery.PREDICATE)) {
+      predicate = config.get(ConfigTags.ReportQuery.PREDICATE).getAsString();
     }
-    if (config.has(TIME_RANGE_TAG)) {
-      timeRange = config.get(TIME_RANGE_TAG).getAsString();
+    
+    if (config.has(ConfigTags.ReportQuery.TIME_RANGE)) {
+      timeRange = config.get(ConfigTags.ReportQuery.TIME_RANGE).getAsString();
     }
   }
   

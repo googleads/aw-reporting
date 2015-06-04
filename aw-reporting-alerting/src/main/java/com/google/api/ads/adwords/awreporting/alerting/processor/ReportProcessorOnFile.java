@@ -15,26 +15,17 @@
 package com.google.api.ads.adwords.awreporting.alerting.processor;
 
 import com.google.api.ads.adwords.awreporting.alerting.downloader.MultipleClientReportDownloader;
-import com.google.api.ads.adwords.awreporting.model.csv.AnnotationBasedMappingStrategy;
-import com.google.api.ads.adwords.awreporting.model.entities.Report;
-import com.google.api.ads.adwords.awreporting.model.util.ModifiedCsvToBean;
 import com.google.api.ads.adwords.awreporting.alerting.processor.ReportProcessor;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
-import com.google.api.ads.adwords.awreporting.alerting.rule.AlertRule;
-import com.google.api.ads.adwords.awreporting.alerting.rule.AlertRuleProcessor;
 import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
-import com.google.api.ads.adwords.awreporting.alerting.action.AlertActionProcessor;
-import com.google.api.ads.adwords.awreporting.alerting.csv.ReportMappingStrategy;
+import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.api.ads.adwords.jaxws.factory.AdWordsServices;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionField;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionServiceInterface;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.client.reporting.ReportingConfiguration;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
-//import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
@@ -49,8 +40,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import au.com.bytecode.opencsv.bean.MappingStrategy;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,9 +52,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -88,7 +75,9 @@ public class ReportProcessorOnFile extends ReportProcessor {
 
   private MultipleClientReportDownloader multipleClientReportDownloader;
   
-  private Map<ReportDefinitionReportType, ReportMappingStrategy> reportsMapping = new HashMap<ReportDefinitionReportType, ReportMappingStrategy>();
+  // Global fields mapping for each report type
+  private static Map<ReportDefinitionReportType, Map<String, String>> reportFieldsMappings = 
+      new HashMap<ReportDefinitionReportType, Map<String, String>>();
 
   /**
    * Constructor.
@@ -152,13 +141,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
     
     Stopwatch stopwatch = Stopwatch.createStarted();
     
-    JsonArray alerts = alertsConfig.getAsJsonArray("Alerts");
+    JsonArray alerts = alertsConfig.getAsJsonArray(ConfigTags.ALERTS);
     Iterator<JsonElement> iter = alerts.iterator();
     int count = 0;
     while (iter.hasNext()) {
       count++;
       JsonObject curAlertConfig = iter.next().getAsJsonObject();
-      this.processAlert(mccAccountId, accountIds, sessionBuilder, curAlertConfig, count);
+      this.processAlerts(mccAccountId, accountIds, sessionBuilder, curAlertConfig, count);
     }
     
     this.multipleClientReportDownloader.finalizeExecutorService();
@@ -168,41 +157,40 @@ public class ReportProcessorOnFile extends ReportProcessor {
         + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000) + " seconds ***\n");
   }
   
-  private void processAlert(String mccAccountId,
+  private void processAlerts(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       JsonObject alertConfig,
       int count) throws Exception {
-    String alertName = alertConfig.get("Name").getAsString();
+    String alertName = alertConfig.get(ConfigTags.ALERT_NAME).getAsString();
     LOGGER.info("*** Generating alert #" + count + "(name: \"" + alertName + "\") for " + accountIds.size() + " accounts ***");
 
-    JsonObject reportQueryConfig = alertConfig.getAsJsonObject("ReportQuery");
-    JsonObject ruleConfig = alertConfig.getAsJsonObject("Rule");
-    JsonArray actionsConfig = alertConfig.getAsJsonArray("Actions");
+    JsonObject reportQueryConfig = alertConfig.getAsJsonObject(ConfigTags.REPORT_QUERY);
+    JsonObject ruleConfig = alertConfig.getAsJsonObject(ConfigTags.RULE);
+    JsonArray actionsConfig = alertConfig.getAsJsonArray(ConfigTags.ACTIONS);
     
     ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
     ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());    
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
     
-    ReportMappingStrategy mapping = reportsMapping.get(reportType);
+    Map<String, String> mapping = reportFieldsMappings.get(reportType);
     if (null == mapping) {
       AdWordsSession session = authenticator.authenticate(null, mccAccountId, false).build();
       List<ReportDefinitionField> reportDefinitionFields = 
           new AdWordsServices().get(session, ReportDefinitionServiceInterface.class).getReportFields(reportType);
       
-      mapping = new ReportMappingStrategy(reportType);
+      mapping = new HashMap<String, String>(reportDefinitionFields.size());
       for (ReportDefinitionField field : reportDefinitionFields) {
-        mapping.addMapping(field.getDisplayFieldName(), field.getFieldName());
+        mapping.put(field.getDisplayFieldName(), field.getFieldName());
       }
-      reportsMapping.put(reportType, mapping);
+      reportFieldsMappings.put(reportType, mapping);
     }
     
-    processFiles(mccAccountId, files, mapping, ruleConfig, actionsConfig);
+    processFiles(files, mapping, alertName, reportType, ruleConfig, actionsConfig);
     
     this.deleteTemporaryFiles(files, reportType);
   }
   
-  //cz
   private Collection<File> downloadReports(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
@@ -224,9 +212,10 @@ public class ReportProcessorOnFile extends ReportProcessor {
   }
   
   // cz
-  private void processFiles(String mccAccountId,
-      Collection<File> files,
-      ReportMappingStrategy mapping,
+  private void processFiles(Collection<File> files,
+      Map<String, String> mapping,
+      String alertName,
+      ReportDefinitionReportType reportType,
       JsonObject ruleConfig,
       JsonArray actionsConfig) {
 
@@ -238,12 +227,15 @@ public class ReportProcessorOnFile extends ReportProcessor {
     final CountDownLatch latch = new CountDownLatch(files.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
     
+    // List of reports with thread synchronization
     final List<ReportData> reports = Collections.synchronizedList(new ArrayList<ReportData>());
     for (File file : files) {
       try {
         RunnableProcessorOnFile runnableProcessor = new RunnableProcessorOnFile(file,
             ruleConfig,
             mapping,
+            alertName,
+            reportType,
             reports);
         
         // apply action on each ReportData
@@ -271,7 +263,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
       System.out.println();
     }
 
-    AlertActionProcessor actionProcessor = new AlertActionProcessor(actionsConfig);
+    AlertActionsProcessor actionProcessor = new AlertActionsProcessor(actionsConfig);
     actionProcessor.processReports(reports);
     
     executorService.shutdown();

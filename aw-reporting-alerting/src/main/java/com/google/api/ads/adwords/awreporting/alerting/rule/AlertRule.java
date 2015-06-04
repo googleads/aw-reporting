@@ -1,10 +1,8 @@
 package com.google.api.ads.adwords.awreporting.alerting.rule;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
-import com.google.gson.JsonObject;
 
 public interface AlertRule {
   // All implementations must have a constructor with a JsonObject parameter
