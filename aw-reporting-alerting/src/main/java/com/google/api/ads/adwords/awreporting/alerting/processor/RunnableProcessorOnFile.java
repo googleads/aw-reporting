@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2015 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,6 @@ import au.com.bytecode.opencsv.CSVReader;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
-import com.google.gson.JsonObject;
 
 /**
  * This {@link Runnable} implements the core logic to download the report file
@@ -54,10 +53,11 @@ public class RunnableProcessorOnFile implements Runnable {
   private CountDownLatch latch;
 
   private File file;
-  private JsonObject ruleConfig;
   private Map<String, String> mapping;
   private String alertName;
   private ReportDefinitionReportType reportType;
+  private AlertRulesProcessor rulesProcessor;
+  private String alertMessage;
   private List<ReportData> outputReports;
 
   private Exception error = null;
@@ -70,16 +70,18 @@ public class RunnableProcessorOnFile implements Runnable {
    * @param mappingStrategy
    */
   public RunnableProcessorOnFile(File file,
-      JsonObject ruleConfig,
       Map<String, String> mapping,
       String alertName,
       ReportDefinitionReportType reportType,
+      AlertRulesProcessor rulesProcessor,
+      String alertMessage,
       List<ReportData> outputReports) {
     this.file = file;
-    this.ruleConfig = ruleConfig;
     this.mapping = mapping;
     this.alertName = alertName;
     this.reportType = reportType;
+    this.rulesProcessor = rulesProcessor;
+    this.alertMessage = alertMessage;
     this.outputReports = outputReports;
   }
 
@@ -101,11 +103,13 @@ public class RunnableProcessorOnFile implements Runnable {
       LOGGER.debug("Creating CsvReader for file: " + file.getAbsolutePath());
       CSVReader csvReader = new CSVReader(new FileReader(file));
 
-      LOGGER.debug("Starting parse of report rows...");
+      LOGGER.debug("Starting processing rules of report...");
       ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), mapping, alertName, reportType);
       
-      AlertRuleProcessor ruleProcessor = new AlertRuleProcessor(ruleConfig);
-      ruleProcessor.processReport(report);
+      rulesProcessor.processReport(report);
+      AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
+      messageProcessor.processReport(report);
+      
       outputReports.add(report);
       
       LOGGER.debug("... success.");

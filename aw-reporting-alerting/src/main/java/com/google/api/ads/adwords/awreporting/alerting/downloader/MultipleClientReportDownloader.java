@@ -1,4 +1,4 @@
-// Copyright 2011 Google Inc. All Rights Reserved.
+// Copyright 2015 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ package com.google.api.ads.adwords.awreporting.alerting.downloader;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
 import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;
 
@@ -69,46 +68,12 @@ public class MultipleClientReportDownloader {
    * Downloads the specified report for all specified CIDs. Prints out list of failed CIDs. Returns
    * List<File> for all successful downloads.
    *
-   * @param reportDefinition Report to download.
+   * @param reportQuery Report to download.
    * @param cids CIDs to download the report for.
    * @return Collection of File objects reports have been downloaded to.
    * @throws InterruptedException error trying to stop downloader thread.
    * @throws ValidationException 
-   */
-  public Collection<File> downloadReports(final AdWordsSessionBuilderSynchronizer sessionBuilder,
-      final ReportDefinition reportDefinition, final Set<Long> accountIds) throws InterruptedException, ValidationException {
-
-    final Collection<Long> failed = new ConcurrentSkipListSet<Long>();
-    final Collection<File> results = new ConcurrentSkipListSet<File>();
-
-    // We use a Latch so the main thread knows when all the worker threads are complete.
-    final CountDownLatch latch = new CountDownLatch(accountIds.size());
-
-    Stopwatch stopwatch = Stopwatch.createStarted();
-
-    for (final Long accountId : accountIds) {
-      
-      // We create a copy of the AdWordsSession specific for the Account
-      AdWordsSession adWordsSession = sessionBuilder.getAdWordsSessionCopy(accountId);
-      
-      RunnableDownloader downloader = new RunnableDownloader(this.retriesCount,
-          this.backoffInterval,
-          this.bufferSize,
-          accountId,
-          reportDefinition,
-          adWordsSession,
-          results);
-      downloader.setFailed(failed);
-      executeRunnableDownloader(downloader, latch);
-    }
-
-    latch.await();
-    stopwatch.stop();
-    return this.printResultsAndReturn(
-        results, stopwatch.elapsed(TimeUnit.MILLISECONDS), failed, accountIds);
-  }
-  
-  // TODO (cz): return tuple<File, AccountId, ReportType>
+   */  
   public Collection<File> downloadReports(final AdWordsSessionBuilderSynchronizer sessionBuilder,
       final ReportQuery reportQuery,
       final Set<Long> accountIds) throws InterruptedException, ValidationException {

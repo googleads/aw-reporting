@@ -7,14 +7,39 @@
         "Fields": "ExternalCustomerId,AccountDescriptiveName,Impressions,Clicks,ConvertedClicks,Cost",
         "TimeRange": "YESTERDAY"
       },
-      "Rule": {
-        "RuleClass": "AddAccountManagerRule",
-        "AlertMessage": "Customer \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has low impressions ({Impressions})."
-      },
+      "Rules": [
+        {
+          "RuleClass": "AddAccountManagerRule"
+        },
+        {
+          "RuleClass": "DummyAlertRule"
+        }
+      ],
+      "AlertMessage": "Customer \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has low impressions ({Impressions}).",
       "Actions": [
         {
           "ActionClass": "SimpleConsoleWriter"
         },
+        {
+          "ActionClass": "LogFileWriter",
+          "LogFilePathname": "/tmp/aw-reporting-alerting-sample-results.log"
+        }
+      ]
+    },
+    {
+      "Name": "Accounts with low impressions 2",
+      "ReportQuery": {
+        "ReportType": "ACCOUNT_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Impressions,Clicks,ConvertedClicks,Cost",
+        "TimeRange": "YESTERDAY"
+      },
+      "Rules": [
+        {
+          "RuleClass": "AddAccountManagerRule"
+        }
+      ],
+      "AlertMessage": "Customer \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has low impressions ({Impressions}).",
+      "Actions": [
         {
           "ActionClass": "EmailSender",
           "Subject": "Low impression accounts",

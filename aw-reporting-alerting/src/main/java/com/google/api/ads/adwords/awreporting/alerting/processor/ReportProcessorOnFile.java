@@ -1,4 +1,4 @@
-// Copyright 2012 Google Inc. All Rights Reserved.
+// Copyright 2015 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -141,13 +140,10 @@ public class ReportProcessorOnFile extends ReportProcessor {
     
     Stopwatch stopwatch = Stopwatch.createStarted();
     
-    JsonArray alerts = alertsConfig.getAsJsonArray(ConfigTags.ALERTS);
-    Iterator<JsonElement> iter = alerts.iterator();
     int count = 0;
-    while (iter.hasNext()) {
+    for (JsonElement alertConfig : alertsConfig.getAsJsonArray(ConfigTags.ALERTS)) {
       count++;
-      JsonObject curAlertConfig = iter.next().getAsJsonObject();
-      this.processAlerts(mccAccountId, accountIds, sessionBuilder, curAlertConfig, count);
+      this.processAlerts(mccAccountId, accountIds, sessionBuilder, alertConfig.getAsJsonObject(), count);
     }
     
     this.multipleClientReportDownloader.finalizeExecutorService();
@@ -166,13 +162,15 @@ public class ReportProcessorOnFile extends ReportProcessor {
     LOGGER.info("*** Generating alert #" + count + "(name: \"" + alertName + "\") for " + accountIds.size() + " accounts ***");
 
     JsonObject reportQueryConfig = alertConfig.getAsJsonObject(ConfigTags.REPORT_QUERY);
-    JsonObject ruleConfig = alertConfig.getAsJsonObject(ConfigTags.RULE);
+    JsonArray rulesConfig = alertConfig.getAsJsonArray(ConfigTags.RULES);
     JsonArray actionsConfig = alertConfig.getAsJsonArray(ConfigTags.ACTIONS);
+    String alertMessage = alertConfig.get(ConfigTags.ALERT_MESSAGE).getAsString();
     
     ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
-    ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());    
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
-    
+
+    // Get the fields mapping of this report type
+    ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
     Map<String, String> mapping = reportFieldsMappings.get(reportType);
     if (null == mapping) {
       AdWordsSession session = authenticator.authenticate(null, mccAccountId, false).build();
@@ -186,7 +184,9 @@ public class ReportProcessorOnFile extends ReportProcessor {
       reportFieldsMappings.put(reportType, mapping);
     }
     
-    processFiles(files, mapping, alertName, reportType, ruleConfig, actionsConfig);
+    // Construct a shared AlertRulesProcessor to process rules in multiple download threads
+    AlertRulesProcessor rulesProcessor = new AlertRulesProcessor(rulesConfig);
+    processFiles(files, mapping, alertName, reportType, rulesProcessor, alertMessage, actionsConfig);
     
     this.deleteTemporaryFiles(files, reportType);
   }
@@ -211,12 +211,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
     return localFiles;
   }
   
-  // cz
   private void processFiles(Collection<File> files,
       Map<String, String> mapping,
       String alertName,
       ReportDefinitionReportType reportType,
-      JsonObject ruleConfig,
+      AlertRulesProcessor rulesProcessor,
+      String alertMessage,
       JsonArray actionsConfig) {
 
     // Processing Report Local Files
@@ -232,10 +232,11 @@ public class ReportProcessorOnFile extends ReportProcessor {
     for (File file : files) {
       try {
         RunnableProcessorOnFile runnableProcessor = new RunnableProcessorOnFile(file,
-            ruleConfig,
             mapping,
             alertName,
             reportType,
+            rulesProcessor,
+            alertMessage,
             reports);
         
         // apply action on each ReportData
@@ -254,8 +255,9 @@ public class ReportProcessorOnFile extends ReportProcessor {
       LOGGER.error(e.getMessage());
       e.printStackTrace();
     }
+    executorService.shutdown();
     
-    // debug: print reports
+    // Debug: print reports
     int count = 1;
     for (ReportData report : reports) {
       System.out.println("===== Report #" + count++ + " =====");
@@ -263,10 +265,9 @@ public class ReportProcessorOnFile extends ReportProcessor {
       System.out.println();
     }
 
-    AlertActionsProcessor actionProcessor = new AlertActionsProcessor(actionsConfig);
-    actionProcessor.processReports(reports);
+    AlertActionsProcessor actionsProcessor = new AlertActionsProcessor(actionsConfig);
+    actionsProcessor.processReports(reports);
     
-    executorService.shutdown();
     stopwatch.stop();
     LOGGER.info("*** Finished processing all reports in "
         + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000) + " seconds ***\n");

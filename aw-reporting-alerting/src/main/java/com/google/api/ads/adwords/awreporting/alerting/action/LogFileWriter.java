@@ -1,3 +1,17 @@
+// Copyright 2015 Google Inc. All Rights Reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.google.api.ads.adwords.awreporting.alerting.action;
 
 import java.io.BufferedWriter;
@@ -22,15 +36,19 @@ import com.google.gson.JsonObject;
 
 public class LogFileWriter implements AlertAction {
   private static String LOG_FILE_PATHNAME_TAG = "LogFilePathname";
-  private static String APPEND_MODE_TAG       = "AppendMode";
+  private static String APPEND_MODE_TAG       = "AppendMode";  // optional
   private static int LINES_TO_FLUSH = 100;  // Flush buffer after this number of lines
   
+  private String filePathname;
   private BufferedWriter writer;
   private int nonflushedLines;
 
   public LogFileWriter(JsonObject config) {
-    String filePathname = config.get(LOG_FILE_PATHNAME_TAG).getAsString();
-    boolean appendMode = config.get(APPEND_MODE_TAG).getAsBoolean();
+    filePathname = config.get(LOG_FILE_PATHNAME_TAG).getAsString();
+    boolean appendMode = true;
+    if (config.has(APPEND_MODE_TAG)) {
+        appendMode = config.get(APPEND_MODE_TAG).getAsBoolean();
+    }
     
     try {
       writer = new BufferedWriter(new FileWriter(filePathname, appendMode));
@@ -42,6 +60,8 @@ public class LogFileWriter implements AlertAction {
 
   @Override
   public void initializeAction() {
+    System.out.println("Start generating alerts into log file: " + filePathname);
+        
     Date now = new Date();
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
     try {
@@ -57,7 +77,7 @@ public class LogFileWriter implements AlertAction {
   @Override
   public void processReportEntry(ReportEntry entry) {
     try {
-      writer.write(entry.getFieldValue(ConfigTags.Rule.ALERT_MESSAGE));
+      writer.write(entry.getFieldValue(ConfigTags.ALERT_MESSAGE));
       writer.newLine();
       if (nonflushedLines++ >= LINES_TO_FLUSH) {
         writer.flush();
@@ -79,5 +99,8 @@ public class LogFileWriter implements AlertAction {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    
+    System.out.println("Finish generating alerts into log file: " + filePathname);
+    System.out.println();
   }
 }

@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2015 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilde
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.jaxb.v201502.DownloadFormat;
-import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinition;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponse;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
 import com.google.api.ads.adwords.lib.utils.ReportException;
@@ -69,35 +68,6 @@ public class RunnableDownloader implements Runnable {
 
   private Collection<Long> failed;
   private CountDownLatch latch;
-
-  /**
-   * C'tor.
-   *
-   * @param retriesCount the number of retries if an error occur.
-   * @param backoffInterval the time to backoff if an error occur to prevent QPS limits.
-   * @param bufferSize the size of the buffer used to flush files to the FS.
-   * @param cid the costumer ID.
-   * @param reportDefinition the report to be downloaded.
-   * @param sessionBuilder the builder for the session.
-   * @param results the list of results.
-   */
-  public RunnableDownloader(int retriesCount,
-      int backoffInterval,
-      int bufferSize,
-      Long cid,
-      ReportDefinition reportDefinition,
-      AdWordsSession adWordsSession,
-      Collection<File> results) {
-    super();
-    this.retriesCount = retriesCount;
-    this.backoffInterval = backoffInterval;
-    this.bufferSize = bufferSize;
-    this.cid = cid;
-    this.reportQuery = null;
-    this.adWordsSession = adWordsSession;
-    this.adWordsSession.setClientCustomerId(String.valueOf(cid));
-    this.results = results;
-  }
   
   public RunnableDownloader(int retriesCount,
       int backoffInterval,
@@ -113,7 +83,7 @@ public class RunnableDownloader implements Runnable {
     this.cid = cid;
     this.reportQuery = reportQuery;
     this.adWordsSession = adWordsSession;
-    this.adWordsSession.setClientCustomerId(String.valueOf(cid));
+    //this.adWordsSession.setClientCustomerId(String.valueOf(cid));
     this.results = results;
   }
 
