@@ -17,12 +17,22 @@ package com.google.api.ads.adwords.awreporting.alerting.report;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
+/**
+ * Generator of AWQL report query.
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class ReportQuery {  
   private String reportType;
   private String fields;
   private String predicate;  // optional
   private String timeRange;  // optional
   
+  /**
+   * Constructor
+   * 
+   * @param config the JSON configuration of the report query
+   */
   public ReportQuery(JsonObject config) {
     reportType = config.get(ConfigTags.ReportQuery.REPORT_TYPE).getAsString();
     fields = config.get(ConfigTags.ReportQuery.FIELDS).getAsString();
@@ -40,6 +50,11 @@ public class ReportQuery {
     return reportType;
   }
   
+  /**
+   * Generates AWQL report query.
+   * 
+   * @return AWQL report query string.
+   */
   public String generateAWQL() {
     String query = "SELECT " + fields + " FROM " + reportType;
     if (predicate != null) {

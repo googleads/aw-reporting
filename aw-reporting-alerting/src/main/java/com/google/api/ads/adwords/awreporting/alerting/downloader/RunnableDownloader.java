@@ -15,7 +15,6 @@
 package com.google.api.ads.adwords.awreporting.alerting.downloader;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
-import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.jaxb.v201502.DownloadFormat;
@@ -42,14 +41,10 @@ import java.util.concurrent.CountDownLatch;
 /**
  * This {@link Runnable} implements the core logic to download the report file from the AdWords API.
  *
- * The {@link Collection}s passed to this runner are considered to be synchronized and thread safe.
+ * The {@link Collection} passed to this runner is considered to be synchronized and thread safe.
  * This class has no blocking logic when adding elements to the collections.
  *
- * Also the {@link AdWordsSessionBuilderSynchronizer} is kept by the client class, and should handle
- * all the concurrent threads.
- *
- * @author gustavomoreira@google.com (Gustavo Moreira)
- * @author jtoledo@google.com (Julian Toledo)
+ * @author zhuoc@google.com (Zhuo Chen)
  */
 public class RunnableDownloader implements Runnable {
 
@@ -69,6 +64,17 @@ public class RunnableDownloader implements Runnable {
   private Collection<Long> failed;
   private CountDownLatch latch;
   
+  /**
+   * C'tor.
+   *
+   * @param retriesCount number of retries.
+   * @param backoffInterval the interval time between retries.
+   * @param bufferSize the buffer size for file copying.
+   * @param cid the account ID.
+   * @param reportQuery the AWQL query to download report.
+   * @param adWordsSession the AdWords session used for downloading report.
+   * @param reulsts the thread-safe list of downloaded files.
+   */
   public RunnableDownloader(int retriesCount,
       int backoffInterval,
       int bufferSize,
@@ -91,9 +97,9 @@ public class RunnableDownloader implements Runnable {
    * Executes the API call to download the report that was given when this {@code Runnable} was
    * created.
    *
-   *  The download blocks this thread until it is finished, and also does the file copying.
+   * The download blocks this thread until it is finished, and also does the file copying.
    *
-   *  There is also a retry logic implemented by this method, where the times retried depends on the
+   * There is also a retry logic implemented by this method, where the times retried depends on the
    * value given in the constructor.
    *
    * @see java.lang.Runnable#run()
@@ -190,7 +196,7 @@ public class RunnableDownloader implements Runnable {
   }
 
   /**
-   * @param reportFile the report file.
+   * @param reportFile the downloaded report file.
    */
   private void handleReportFileResult(File reportFile) {
 

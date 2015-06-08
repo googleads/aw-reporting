@@ -16,12 +16,32 @@ package com.google.api.ads.adwords.awreporting.alerting.action;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
 
-public interface AlertAction {  
-  // All implementations must have a constructor with a JsonObject parameter
+/**
+ * This is the interface that every alert action should implement.
+ * 
+ * Important notes:
+ * 1. All implementations MUST have a constructor with a JsonObject parameter, otherwise it will fail to load.
+ * 2. All implementations MUST NOT modify ReportEntry object in processReportEntry().
+ *    
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
+public interface AlertAction {
   
-  // Process each report entry, it could perform the action here; or record some info
-  // and perform some aggregated action in finalizeAction().
+  /**
+   * Perform initialization action before processing any report entry.
+   */
   public void initializeAction();
+  
+  /**
+   * Process a report entry. It could either perform some action here, or record some info
+   * and perform some aggregated action in {@link #finalizeAction()} method.
+   * 
+   * @param entry the report entry to process.
+   */
   public void processReportEntry(ReportEntry entry);
+  
+  /**
+   * Perform finalization action after processing all report entries.
+   */
   public void finalizeAction();
 }

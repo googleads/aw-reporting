@@ -39,8 +39,7 @@ import java.util.concurrent.TimeUnit;
  * necessary to call {@code finalizeExecutorService} after all the downloads are done, and the
  * downloader will not be used again.
  *
- * @author gustavomoreira@google.com (Gustavo Moreira)
- * @author jtoledo@google.com (Julian Toledo)
+ * @author zhuoc@google.com (Zhuo Chen)
  */
 public class MultipleClientReportDownloader {
 
@@ -68,11 +67,12 @@ public class MultipleClientReportDownloader {
    * Downloads the specified report for all specified CIDs. Prints out list of failed CIDs. Returns
    * List<File> for all successful downloads.
    *
+   * @param sessionBuilder the session builder to build AdWords session for each account.
    * @param reportQuery Report to download.
-   * @param cids CIDs to download the report for.
+   * @param accountIds CIDs to download the report for.
    * @return Collection of File objects reports have been downloaded to.
    * @throws InterruptedException error trying to stop downloader thread.
-   * @throws ValidationException 
+   * @throws ValidationException.
    */  
   public Collection<File> downloadReports(final AdWordsSessionBuilderSynchronizer sessionBuilder,
       final ReportQuery reportQuery,
@@ -99,7 +99,8 @@ public class MultipleClientReportDownloader {
           adWordsSession,
           results);
       downloader.setFailed(failed);
-      executeRunnableDownloader(downloader, latch);
+      downloader.setLatch(latch);
+      this.executorService.execute(downloader);
     }
 
     latch.await();
@@ -108,17 +109,10 @@ public class MultipleClientReportDownloader {
         results, stopwatch.elapsed(TimeUnit.MILLISECONDS), failed, accountIds);
   }
 
-
-  protected void executeRunnableDownloader(
-      RunnableDownloader runnableDownloader, CountDownLatch latch) {
-    runnableDownloader.setLatch(latch);
-    this.executorService.execute(runnableDownloader);
-  }
-
   /**
-   * Prints the results and return the list.
+   * Prints the results and return the file list.
    *
-   * @param results the list of results.
+   * @param results the list of downloaded file results.
    * @param elapsedTime the elapsed time.
    * @param failed the list of failures.
    * @param cids the account cids.
@@ -135,19 +129,19 @@ public class MultipleClientReportDownloader {
   }
 
   /**
-   * Finalizes the {@code ExecutorService}.
-   */
-  public void finalizeExecutorService() {
-    executorService.shutdown();
-  }
-
-  /**
    * Creates the {@code ExecutorService} to run the concurrent threads.
    */
   public void initializeExecutorService() {
     // The ExecutorService will process all Runnables passed to it via .execute in
     // the order they are received with up to numThreads processing concurrently.
     this.executorService = Executors.newFixedThreadPool(this.numThreads);
+  }
+
+  /**
+   * Finalizes the {@code ExecutorService}.
+   */
+  public void finalizeExecutorService() {
+    executorService.shutdown();
   }
 
   /**

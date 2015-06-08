@@ -22,12 +22,29 @@ import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
+/**
+ * An alert action implementation that writes alert messages in console.
+ * Note that it must provide a constructor that takes a JsonObject parameter, and must not modify report entries.
+ * 
+ * The JSON config should look like:
+ * {
+ *   "RuleClass": "SimpleConsoleWriter"
+ * }
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class SimpleConsoleWriter implements AlertAction {
 
+  /**
+   * Constructor
+   * @param config the JsonObject for the alert action configuration.
+   */
   public SimpleConsoleWriter(JsonObject config) {
-    // Do nothing
   }
 
+  /**
+   * Initialization action: print some header lines.
+   */
   @Override
   public void initializeAction() {
     Date now = new Date();
@@ -35,11 +52,19 @@ public class SimpleConsoleWriter implements AlertAction {
     System.out.println("Alerts generated at " + dateFormat.format(now) + ":");
   }
   
+  /**
+   * Process a report entry, and write its alert message in console.
+   * 
+   * @param entry the report entry to process.
+   */
   @Override
   public void processReportEntry(ReportEntry entry) {
     System.out.println(entry.getFieldValue(ConfigTags.ALERT_MESSAGE));
   }
 
+  /**
+   * Finalization action: print some foot lines.
+   */
   @Override
   public void finalizeAction() {
     System.out.println();

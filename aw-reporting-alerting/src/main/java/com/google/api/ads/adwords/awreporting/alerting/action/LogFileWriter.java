@@ -25,15 +25,19 @@ import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.gson.JsonObject;
 
-/*
- Config:
-  {
-    "ActionClass": "LogFileWriter",
-    "LogFilePathname": "/tmp/xyz.log",
-    "AppendMode": "true"
-  }
+/**
+ * An alert action implementation that writes alert messages in the specified log file.
+ * Note that it must provide a constructor that takes a JsonObject parameter, and must not modify report entries.
+ * 
+ * The JSON config should look like:
+ * {
+ *   "ActionClass": "LogFileWriter",
+ *   "LogFilePathname": "/tmp/xyz.log",
+ *   "AppendMode": "true"
+ * }
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
  */
-
 public class LogFileWriter implements AlertAction {
   private static String LOG_FILE_PATHNAME_TAG = "LogFilePathname";
   private static String APPEND_MODE_TAG       = "AppendMode";  // optional
@@ -43,6 +47,10 @@ public class LogFileWriter implements AlertAction {
   private BufferedWriter writer;
   private int nonflushedLines;
 
+  /**
+   * Constructor
+   * @param config the JsonObject for the alert action configuration.
+   */
   public LogFileWriter(JsonObject config) {
     filePathname = config.get(LOG_FILE_PATHNAME_TAG).getAsString();
     boolean appendMode = true;
@@ -58,6 +66,9 @@ public class LogFileWriter implements AlertAction {
     nonflushedLines = 0;
   }
 
+  /**
+   * Initialization action: print some header lines.
+   */
   @Override
   public void initializeAction() {
     System.out.println("Start generating alerts into log file: " + filePathname);
@@ -74,6 +85,11 @@ public class LogFileWriter implements AlertAction {
     }
   }
 
+  /**
+   * Process a report entry, and write its alert message in the log file.
+   * 
+   * @param entry the report entry to process.
+   */
   @Override
   public void processReportEntry(ReportEntry entry) {
     try {
@@ -88,6 +104,9 @@ public class LogFileWriter implements AlertAction {
     }
   }
 
+  /**
+   * Finalization action: print some foot lines.
+   */
   @Override
   public void finalizeAction() {
     try {

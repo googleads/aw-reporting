@@ -14,6 +14,12 @@
 
 package com.google.api.ads.adwords.awreporting.alerting.util;
 
+/**
+ * Helper class that defines the tags in JSON alerts configuration.
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ *
+ */
 public final class ConfigTags {
   public static final String ALERTS          = "Alerts";
   public static final String ALERT_NAME      = "Name";
@@ -22,6 +28,7 @@ public final class ConfigTags {
   public static final String ALERT_MESSAGE   = "AlertMessage";
   public static final String ACTIONS         = "Actions";
   
+  // For "ReportQuery" segment.
   public static final class ReportQuery {
     public static final String REPORT_TYPE   = "ReportType";
     public static final String FIELDS        = "Fields";
@@ -29,10 +36,12 @@ public final class ConfigTags {
     public static final String TIME_RANGE    = "TimeRange";
   }
   
+  //For "Rules" segment.
   public static final class Rule {
     public static final String RULE_CLASS    = "RuleClass";
   }
   
+  //For "Actions" segment.
   public static final class Actions {
     public static final String ACTION_CLASS  = "ActionClass";
   }

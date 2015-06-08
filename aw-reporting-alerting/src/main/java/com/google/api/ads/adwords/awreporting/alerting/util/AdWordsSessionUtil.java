@@ -30,8 +30,9 @@ import org.slf4j.LoggerFactory;
 /**
 * Helper class to copy the {@link AdWordsSession}.
 *
-* @author jtoledo@google.com (Julian Toledo)
+* @author zhuoc@google.com (Zhuo Chen)
 */
+// TODO: use the one in aw-reporting module after extension
 public class AdWordsSessionUtil {
 
 private static final Logger LOGGER = LoggerFactory.getLogger(AdWordsSessionUtil.class);

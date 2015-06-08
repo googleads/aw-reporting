@@ -32,11 +32,24 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+/**
+ * Alert actions processor is responsible for processing the list of alert actions on all ReportData objects.
+ * It will spawn a thread for each alert action, which runs on all ReportData objects because some times it
+ * need to get aggregate stats from all reports.
+ * The list of ReportData is shared among multiple threads, so it MUST NOT alter any ReportData object.
+ *
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class AlertActionsProcessor {  
   private static final Logger LOGGER = Logger.getLogger(AlertActionsProcessor.class);
 
   private List<AlertAction> actions;
   
+  /**
+   * Constructor.
+   *
+   * @param configs the JSON array of alert actions configurations
+   */
   public AlertActionsProcessor(JsonArray configs) {
     actions = new ArrayList<AlertAction>(configs.size());
     for (JsonElement config : configs) {
@@ -48,6 +61,11 @@ public class AlertActionsProcessor {
     }
   }
   
+  /**
+   * Construct the AlertAction object according to the JSON configuration
+   *
+   * @param config the JSON configuration of the alert action
+   */
   private AlertAction getActionObject(JsonObject config) {
     String className = config.get(ConfigTags.Actions.ACTION_CLASS).getAsString();
     if (!className.contains(".")) {
@@ -68,6 +86,11 @@ public class AlertActionsProcessor {
     return action;
   }
   
+  /**
+   * Process the ReportData with the list of alert actions.
+   *
+   * @param report the ReportData to run each alert action against.
+   */
   public void processReports(List<ReportData> reports) {
     // Create one thread for each AlertAction, and process all reports
     Stopwatch stopwatch = Stopwatch.createStarted();

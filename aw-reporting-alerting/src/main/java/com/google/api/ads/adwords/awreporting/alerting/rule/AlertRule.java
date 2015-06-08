@@ -18,18 +18,35 @@ import java.util.List;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
 
+/**
+ * This is the interface that every alert rule should implement.
+ * 
+ * Important notes:
+ * 1. All implementations MUST have a constructor with a JsonObject parameter, otherwise it will fail to load.
+ * 2. All implementations MUST be stateless, as the instance will be shared among multiple threads.
+ *    That is, the subclasses either have no member fields, or the member fields are immutable.
+ *    
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public interface AlertRule {
-  // All implementations must have a constructor with a JsonObject parameter
   
-  // All implementations must be stateless, as the instance will be shared among downloading threads.
-  // That is, the subclasses either have no member fields, or the member fields are immutable.
-  
-  // Names of new fields to extend
+  /**
+   * Return new column names that the alert rule will extend in the report.
+   */
   public List<String> newReportHeaderFields();
   
-  // Append new fields in the report entry
+  /**
+   * Append new field values into the report entry.
+   * 
+   * @param entry the report entry to append new field values.
+   */
   public void appendReportEntryFields(ReportEntry entry);
   
-  // Whether a report entry should be filtered from final resulting alerts
+  /**
+   * Check whether a report entry should be removed from result alerts.
+   * 
+   * @param entry the report entry to check.
+   * @return whether this report entry should be removed from result alerts.
+   */
   public boolean shouldRemoveReportEntry(ReportEntry entry);
 }

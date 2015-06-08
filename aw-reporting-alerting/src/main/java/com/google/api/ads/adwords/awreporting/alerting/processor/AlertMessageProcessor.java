@@ -21,18 +21,34 @@ import java.util.regex.Pattern;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 
+/**
+ * Alert message processor is responsible for processing the alert message template from alert config,
+ * and replace the placeholds with corresponding field values for each report entry.
+ *
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class AlertMessageProcessor {
   private final static String MESSAGE_REGEX = "\\{\\w+\\}";
   private final static Pattern messagePattern = Pattern.compile(MESSAGE_REGEX);
   
   private Matcher messageMatcher;
   
+  /**
+   * Constructor.
+   *
+   * @param alertMessageTemplate the alert message template from the alert configuration.
+   */
   public AlertMessageProcessor(String alertMessageTemplate) {
     messageMatcher = messagePattern.matcher(alertMessageTemplate);
   }
   
+  /**
+   * Process the report to add the alert message column
+   *
+   * @param report the ReportData to process (for each entry, add alert message column).
+   */
   public void processReport(ReportData report) {
-    report.addNewField(ConfigTags.ALERT_MESSAGE);
+    report.appendNewField(ConfigTags.ALERT_MESSAGE);
 
     // replace all {...} placeholders to the values for each entry
     for (List<String> entry : report.getEntries()) {

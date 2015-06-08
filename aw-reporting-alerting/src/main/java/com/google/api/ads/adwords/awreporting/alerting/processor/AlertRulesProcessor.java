@@ -28,9 +28,20 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
+/**
+ * Alert rules processor is responsible for processing the list of alert rules on this ReportData.
+ * It is shared among all the ReportDatas in multiple threads, so it MUST be a stateless class.
+ *
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class AlertRulesProcessor {
   private List<AlertRule> rules;
   
+  /**
+   * Constructor.
+   *
+   * @param configs the JSON array of alert rules configurations
+   */
   public AlertRulesProcessor(JsonArray configs) {
     rules = new ArrayList<AlertRule>(configs.size());
     for (JsonElement config : configs) {
@@ -42,6 +53,11 @@ public class AlertRulesProcessor {
     }
   }
   
+  /**
+   * Construct the AlertRule object according to the JSON configuration
+   *
+   * @param config the JSON configuration of the alert rule
+   */
   private AlertRule getRuleObject(JsonObject config) {
     String className = config.get(ConfigTags.Rule.RULE_CLASS).getAsString();
     if (!className.contains(".")) {
@@ -62,11 +78,17 @@ public class AlertRulesProcessor {
     return rule;
   }
   
+  /**
+   * Extend ReportData (add more columns) using the specified alert rule
+   *
+   * @param rule the AlertRule to use
+   * @param report the ReportData to extend
+   */
   private void extendReportData(AlertRule rule, ReportData report) {
     List<String> reportHeaderFields = rule.newReportHeaderFields();
     if (null != reportHeaderFields) {
       for (String newHeaderField : reportHeaderFields) {
-        report.addNewField(newHeaderField);
+        report.appendNewField(newHeaderField);
       }
     }
     
@@ -77,7 +99,12 @@ public class AlertRulesProcessor {
     }
   }
   
-  
+  /**
+   * Filter unwanted ReportData entries using the specified alert rule
+   *
+   * @param rule the AlertRule to use
+   * @param report the ReportData to filter
+   */
   private void filterReportData(AlertRule rule, ReportData report) {
     final Map<String, Integer> mapping = report.getMapping();
     for (Iterator<List<String>> iter = report.getEntries().iterator(); iter.hasNext(); ) {
@@ -89,6 +116,11 @@ public class AlertRulesProcessor {
     }
   }
   
+  /**
+   * Process the ReportData with the list of alert rules
+   *
+   * @param report the ReportData to process (extend data and filter entries)
+   */
   public void processReport(ReportData report) {
     // The execution is in the same thread
     for (AlertRule rule : rules) {

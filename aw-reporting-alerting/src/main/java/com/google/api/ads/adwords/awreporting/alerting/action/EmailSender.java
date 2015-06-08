@@ -26,17 +26,24 @@ import java.util.Map;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportEntry;
 import com.google.gson.JsonObject;
 
-/*
-Config:
-  {
-    "ActionClass": "EmailSender",
-    "Subject": "Low impression accounts",
-    "CC": "abc@example.com,xyz@example.com"
-  }
-*/
-
+/**
+ * An alert action implementation that creates alert emails, one for each account manager.
+ * Note that it must provide a constructor that takes a JsonObject parameter, and must not modify report entries.
+ * 
+ * The JSON config should look like:
+ * {
+ *   "ActionClass": "EmailSender",
+ *   "Subject": "Low impression accounts",
+ *   "CC": "abc@example.com,xyz@example.com"
+ * }
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class EmailSender implements AlertAction {
   
+  /**
+   * Helper inner class for alert email
+   */
   class AlertEmail {
     
     public String to;
@@ -47,6 +54,11 @@ public class EmailSender implements AlertAction {
       this.alertsMap = new HashMap<String, List<String>>();
     }
     
+    /**
+     * Add alert message to the corresponding alert email
+     * @param accountId the account ID.
+     * @param alertMessage the alert message.
+     */
     public void addAlert(String accountId, String alertMessage) {
       List<String> alerts = alertsMap.get(accountId);
       if (null == alerts) {
@@ -57,10 +69,13 @@ public class EmailSender implements AlertAction {
       alerts.add(alertMessage);
     }
     
-    public boolean shouldFireAlert() {
-      return !alertsMap.isEmpty();
-    }
-    
+    /**
+     * For demonstration, just prints out the email properly.
+     * @param subject email subject.
+     * @param from sender address.
+     * @param ccList list of cc addresses.
+     * @return formatted string of email printout.
+     */
     public String print(String subject, String from, List<String> ccList) {
       StringBuffer sb = new StringBuffer();
       sb.append("===== Alert email starts =====");
@@ -123,6 +138,10 @@ public class EmailSender implements AlertAction {
   private String subject;
   private List<String> ccList;
   
+  /**
+   * Constructor
+   * @param config the JsonObject for the alert action configuration.
+   */
   public EmailSender(JsonObject config) {
     subject = config.get(SUBJECT_TAG).getAsString();
     ccList = null;
@@ -133,11 +152,18 @@ public class EmailSender implements AlertAction {
     emailsMap = new HashMap<String, AlertEmail>();
   }
 
+  /**
+   * Initialization action: nothing to do.
+   */
   @Override
   public void initializeAction() {
-    // Nothing to do
   }
 
+  /**
+   * Process a report entry, and put the alert message in the corresponding alert email object.
+   * 
+   * @param entry the report entry to process.
+   */
   @Override
   public void processReportEntry(ReportEntry entry) {
     String to = entry.getFieldValue("AccountManagerEmail");
@@ -152,14 +178,15 @@ public class EmailSender implements AlertAction {
     email.addAlert(accountId, alertMessage);
   }
 
+  /**
+   * Finalization action: print out the alert emails.
+   */
   @Override
   public void finalizeAction() {
     StringBuffer sb = new StringBuffer();
     if (!emailsMap.isEmpty()) {
       for (AlertEmail email : emailsMap.values()) {
-        if (email.shouldFireAlert()) {
-          sb.append(email.print(subject, FROM, ccList));
-        }
+        sb.append(email.print(subject, FROM, ccList));
       }
     }
 

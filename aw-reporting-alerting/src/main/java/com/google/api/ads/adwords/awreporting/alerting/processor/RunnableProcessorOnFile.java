@@ -16,7 +16,6 @@ package com.google.api.ads.adwords.awreporting.alerting.processor;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -26,25 +25,18 @@ import org.apache.log4j.Logger;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
-import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 
 /**
  * This {@link Runnable} implements the core logic to download the report file
- * from the AdWords API.
+ * from AdWords API (using AWQL), and apply alert rules on them.
  *
- * The {@link Collection}s passed to this runner are considered to be synchronized and thread safe.
- * This class has no blocking logic when adding elements to the collections.
+ * The {@link List} passed to this runner is considered to be synchronized and thread safe.
+ * This class has no blocking logic when adding elements to the list.
  *
- * Also the {@link AdWordsSessionBuilderSynchronizer} is kept by the client class, and should
- * handle all the concurrent threads.
+ * Parse the CSV file for the report type into ReportData, and apply alert rules on it.
  *
- * Parse the rows in the CSV file for the report type, and persists the beans into the data base.
- *
- * @author gustavomoreira@google.com (Gustavo Moreira)
- * @author jtoledo@google.com (Julian Toledo)
- * 
- * @param <R> type of sub Report.
+ * @author zhuoc@google.com (Zhuo Chen)
  */
 public class RunnableProcessorOnFile implements Runnable {
 
@@ -65,9 +57,13 @@ public class RunnableProcessorOnFile implements Runnable {
   /**
    * C'tor.
    *
-   * @param file the CSV file.
-   * @param csvToBean the {@code CsvToBean}
-   * @param mappingStrategy
+   * @param file the CSV file of the report type.
+   * @param mapping the fields mapping for this report type.
+   * @param alertName the name of current alert.
+   * @param reportType the type of current report.
+   * @param rulesProcessor the processor of current alert rules.
+   * @param alertMessage the current alert message template.
+   * @param outputReports the thread-safe list of generated ReportData
    */
   public RunnableProcessorOnFile(File file,
       Map<String, String> mapping,
@@ -86,13 +82,10 @@ public class RunnableProcessorOnFile implements Runnable {
   }
 
   /**
-   * Executes the API call to download the report that was given when this {@code Runnable} was
-   * created.
+   * Executes the API call to process the report that was given when this {@code Runnable} was
+   * created, and apply alert rules on it.
    *
-   *  The download blocks this thread until it is finished, and also does the file copying.
-   *
-   *  There is also a retry logic implemented by this method, where the times retried depends on the
-   * value given in the constructor.
+   * The processing blocks this thread until it is finished, and also does the alert rules execution.
    *
    * @see java.lang.Runnable#run()
    */
@@ -103,13 +96,18 @@ public class RunnableProcessorOnFile implements Runnable {
       LOGGER.debug("Creating CsvReader for file: " + file.getAbsolutePath());
       CSVReader csvReader = new CSVReader(new FileReader(file));
 
+      // Parse the CSV file into report
       LOGGER.debug("Starting processing rules of report...");
       ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), mapping, alertName, reportType);
       
+      // Apply alert rules on the report
       rulesProcessor.processReport(report);
+      
+      // Apply alert message template on each report entry
       AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
       messageProcessor.processReport(report);
       
+      // Add the report into result list (thread-safe)
       outputReports.add(report);
       
       LOGGER.debug("... success.");
@@ -134,6 +132,9 @@ public class RunnableProcessorOnFile implements Runnable {
     this.latch = latch;
   }
 
+  /**
+   * @return error during processing this report
+   */
   public Exception getError() {
     return error;
   }

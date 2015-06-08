@@ -17,15 +17,32 @@ package com.google.api.ads.adwords.awreporting.alerting.report;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Report entry corresponding to each row of the report.
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class ReportEntry {
   private List<String> entry;
   private Map<String, Integer> mapping;
   
+  /**
+   * Constructor
+   * 
+   * @param entry the list of field values.
+   * @param mapping the "field name" -> index mapping.
+   */
   public ReportEntry(List<String> entry, Map<String, Integer> mapping) {
     this.entry = entry;
     this.mapping = mapping;
   }
   
+  /**
+   * Get the value of the specified field name
+   * 
+   * @param fieldName the field name
+   * @return value of the specified field name, null if that field is not in report.
+   */
   public String getFieldValue(String fieldName) {
     if (mapping.containsKey(fieldName)) {
       return entry.get(mapping.get(fieldName).intValue());
@@ -33,11 +50,21 @@ public class ReportEntry {
     return null;
   }
   
-  public void addFieldValue(String fieldValue) {
+  /**
+   * Append value of a new field. Caller should add the column header beforehand.
+   * 
+   * @param fieldValue the field value to append.
+   */
+  public void appendFieldValue(String fieldValue) {
     entry.add(fieldValue);
   }
   
-  public void addFieldValues(List<String> fieldValues) {
+  /**
+   * Append values of new fields. Caller should add the column headers beforehand.
+   * 
+   * @param fieldValues the field values to append.
+   */
+  public void appendFieldValues(List<String> fieldValues) {
     entry.addAll(fieldValues);
   }
 }

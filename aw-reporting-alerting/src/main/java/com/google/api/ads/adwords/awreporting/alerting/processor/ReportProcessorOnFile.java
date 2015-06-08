@@ -58,11 +58,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Main reporting processor responsible for downloading and saving the files to the file system. The
- * persistence of the parsed beans is delegated to the configured persister.
+ * Main reporting processor responsible for downloading report files to the file system, parsing them
+ * into ReportData objects, applying alert rules and running alert actions.
  *
- * @author jtoledo@google.com (Julian Toledo)
- * @author gustavomoreira@google.com (Gustavo Moreira)
+ * @author zhuoc@google.com (Zhuo Chen)
  */
 @Component
 @Qualifier("reportProcessorOnFile")
@@ -74,24 +73,19 @@ public class ReportProcessorOnFile extends ReportProcessor {
 
   private MultipleClientReportDownloader multipleClientReportDownloader;
   
-  // Global fields mapping for each report type
+  // Global fields mapping (displayFiledName -> filedName) for each report type
   private static Map<ReportDefinitionReportType, Map<String, String>> reportFieldsMappings = 
       new HashMap<ReportDefinitionReportType, Map<String, String>>();
 
   /**
    * Constructor.
    *
-   * @param reportRowsSetSize the size of the set parsed before send to the DB
    * @param numberOfReportProcessors the number of numberOfReportProcessors threads to be run
    */
   @Autowired
   public ReportProcessorOnFile(
-      @Value(value = "${aw.report.processor.rows.size:}") Integer reportRowsSetSize,
       @Value(value = "${aw.report.processor.threads:}") Integer numberOfReportProcessors) {
 
-    if (reportRowsSetSize != null && reportRowsSetSize > 0) {
-      this.reportRowsSetSize = reportRowsSetSize;
-    }
     if (numberOfReportProcessors != null && numberOfReportProcessors > 0) {
       this.numberOfReportProcessors = numberOfReportProcessors;
     }
@@ -125,11 +119,20 @@ public class ReportProcessorOnFile extends ReportProcessor {
     }
   }
   
+  /**
+   * Generate all the alerts for the given account IDs under the MCC.
+   *
+   * @param mccAccountId the MCC account ID.
+   * @param accountIdsSet the account IDs.
+   * @param alertsConfig the JSON config of the alerts.
+   * @throws Exception error reaching the API.
+   */
   @Override
   public void generateAlertsForMCC(String mccAccountId,
       Set<Long>accountIds,
       JsonObject alertsConfig) throws Exception
   {
+    // For easy processing, skip report header and summary (but keep column names).
     ReportingConfiguration reportingConfig = new ReportingConfiguration.Builder()
         .skipReportHeader(true)
         .skipReportSummary(true)
@@ -143,7 +146,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     int count = 0;
     for (JsonElement alertConfig : alertsConfig.getAsJsonArray(ConfigTags.ALERTS)) {
       count++;
-      this.processAlerts(mccAccountId, accountIds, sessionBuilder, alertConfig.getAsJsonObject(), count);
+      this.processAlertForMCC(mccAccountId, accountIds, sessionBuilder, alertConfig.getAsJsonObject(), count);
     }
     
     this.multipleClientReportDownloader.finalizeExecutorService();
@@ -153,7 +156,17 @@ public class ReportProcessorOnFile extends ReportProcessor {
         + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000) + " seconds ***\n");
   }
   
-  private void processAlerts(String mccAccountId,
+  /**
+   * Process one alert for the given account IDs under the MCC.
+   *
+   * @param mccAccountId the MCC account ID.
+   * @param accountIdsSet the account IDs.
+   * @param sessionBuilder the session builder to build AdWords session for each account.
+   * @param alertsConfig the JSON config of one alert.
+   * @param count the sequence number of current alert.
+   * @throws Exception error reaching the API.
+   */
+  private void processAlertForMCC(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       JsonObject alertConfig,
@@ -166,6 +179,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     JsonArray actionsConfig = alertConfig.getAsJsonArray(ConfigTags.ACTIONS);
     String alertMessage = alertConfig.get(ConfigTags.ALERT_MESSAGE).getAsString();
     
+    // Generate AWQL report query and download reports for all accounts under MCC.
     ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
 
@@ -186,15 +200,27 @@ public class ReportProcessorOnFile extends ReportProcessor {
     
     // Construct a shared AlertRulesProcessor to process rules in multiple download threads
     AlertRulesProcessor rulesProcessor = new AlertRulesProcessor(rulesConfig);
+    
+    // Process the downloaded report files.
     processFiles(files, mapping, alertName, reportType, rulesProcessor, alertMessage, actionsConfig);
     
+    // Delete the temporary report files.
     this.deleteTemporaryFiles(files, reportType);
   }
   
+  /**
+   * Download report files for the given account IDs under the MCC.
+   *
+   * @param mccAccountId the MCC account ID.
+   * @param accountIdsSet the account IDs.
+   * @param sessionBuilder the session builder to build AdWords session for each account.
+   * @param reportQuery the AWQL report query.
+   */
   private Collection<File> downloadReports(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       ReportQuery reportQuery) {
+    
     // Download Reports to local files
     LOGGER.info(" Downloading " + reportQuery.getReportType() + "reports...");
     Collection<File> localFiles = Lists.newArrayList();
@@ -211,6 +237,18 @@ public class ReportProcessorOnFile extends ReportProcessor {
     return localFiles;
   }
   
+  /**
+   * Process report files for the given account IDs under the MCC.
+   *
+   * @param files the downloaded report files.
+   * @param mapping the fields mapping for this report type.
+   * @param alertName the name of current alert.
+   * @param reportType the type of current report.
+   * @param rulesProcessor the processor of current alert rules.
+   * @param alertMessage the current alert message template.
+   * @param actionsConfig the JSON config of current alert actions.
+   */
+
   private void processFiles(Collection<File> files,
       Map<String, String> mapping,
       String alertName,
@@ -227,7 +265,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     final CountDownLatch latch = new CountDownLatch(files.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
     
-    // List of reports with thread synchronization
+    // Process report files in multiple threads.
     final List<ReportData> reports = Collections.synchronizedList(new ArrayList<ReportData>());
     for (File file : files) {
       try {
@@ -239,10 +277,8 @@ public class ReportProcessorOnFile extends ReportProcessor {
             alertMessage,
             reports);
         
-        // apply action on each ReportData
         runnableProcessor.setLatch(latch);
         executorService.execute(runnableProcessor);
-
       } catch (Exception e) {
         LOGGER.error("Ignoring file (Error when processing): " + file.getAbsolutePath());
         e.printStackTrace();
@@ -265,8 +301,9 @@ public class ReportProcessorOnFile extends ReportProcessor {
       System.out.println();
     }
 
+    // Run alert actions on report data, and make sure not to modify them
     AlertActionsProcessor actionsProcessor = new AlertActionsProcessor(actionsConfig);
-    actionsProcessor.processReports(reports);
+    actionsProcessor.processReports(Collections.unmodifiableList(reports));
     
     stopwatch.stop();
     LOGGER.info("*** Finished processing all reports in "
@@ -287,7 +324,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     for (File file : localFiles) {
       file.delete();
     }
-    LOGGER.info("\n ** Finished: " + reportType.name() + " **");
+    LOGGER.info("** Deleted temporary reoprt files of : " + reportType.name() + " **");
   }
 
   /**

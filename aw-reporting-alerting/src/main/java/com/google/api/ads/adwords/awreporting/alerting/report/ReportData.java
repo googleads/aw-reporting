@@ -24,15 +24,31 @@ import org.springframework.util.StringUtils;
 
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 
+/**
+ * Report data corresponding to a downloaded report for one account.
+ * 
+ * @author zhuoc@google.com (Zhuo Chen)
+ */
 public class ReportData {  
   // use List instead of native array[], since report data will be enriched
   private List<String> header;
   private List<List<String>> entries;
+  
   // Field -> index mapping
   private Map<String, Integer> mapping;
+  
   private String alertName;
   private ReportDefinitionReportType reportType;
   
+  /**
+   * Constructor.
+   *
+   * @param headerArray the array of report headers.
+   * @param entriesArray the 2-dimensional array of report entries.
+   * @param fieldsMapping the "display field name" -> "field name" mapping of this report type.
+   * @param alertName the name of the alert used to download this report.
+   * @param reportType the type of this report.
+   */
   public ReportData(String[] headerArray,
       List<String[]> entriesArray,
       Map<String, String> fieldsMapping,
@@ -68,6 +84,12 @@ public class ReportData {
     return entries;
   }
   
+  /**
+   * Get the i-th entry of this report.
+   * 
+   * @param index the index of the returning entry
+   * @return the i-th entry of this report.
+   */
   public List<String> getEntry(int index) {
     return entries.get(index);
   }
@@ -76,11 +98,21 @@ public class ReportData {
     return mapping;
   }
   
+  /**
+   * Get the column index of the specified column name
+   * @param columnName the column name
+   * @return the index of the specified column
+   */
   public int getFieldIndex(String columnName) {
     return mapping.get(columnName).intValue();
   }
   
-  public void addNewField(String fieldName) {
+  /**
+   * Append a new column in the report.
+   * 
+   * @param fieldName the name of the new field.
+   */
+  public void appendNewField(String fieldName) {
     assert(mapping.size() == header.size());
     
     if (!mapping.containsKey(fieldName)) {
@@ -98,6 +130,9 @@ public class ReportData {
     return reportType;
   }
   
+  /**
+   * Print the content of the report. This is for debugging purpose.
+   */
   public void print() {
     System.out.println(reportType.value() + " for alert \"" + alertName + "\":");
     System.out.println("Header:");

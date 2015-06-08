@@ -22,8 +22,9 @@ import com.google.api.ads.common.lib.exception.ValidationException;
  *
  * It is just a wrapper around the session builder, to make that there just one request per time.
  *
- * @author gustavomoreira@google.com (Gustavo Moreira)
+ * @author zhuoc@google.com (Zhuo Chen)
  */
+// TODO: use the one in aw-reporting module after extension.
 public class AdWordsSessionBuilderSynchronizer {
 
   private final AdWordsSession.Builder builder;

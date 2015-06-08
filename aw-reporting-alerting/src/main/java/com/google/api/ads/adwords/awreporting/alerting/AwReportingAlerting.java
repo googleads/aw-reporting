@@ -59,7 +59,7 @@ import com.google.gson.JsonParser;
  * This class holds a Spring application context that manages the creation of all the beans needed.
  * No configuration is done in this class.
  *
- *  Credentials and properties are pulled from the ~/aw-report-alerting-sample.properties.properties file or
+ *  Credentials and properties are pulled from the ~/aw-report-alerting-sample.properties file or
  * -file <file> provided.
  *
  * See README for more info.
