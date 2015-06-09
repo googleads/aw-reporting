@@ -73,7 +73,7 @@ public class RunnableProcessorOnMemoryTest {
   ArgumentCaptor<List<? extends Report>> reportEntitiesCaptor;
 
   @Before
-  public void setUp() throws OAuthException, IOException, ValidationException,
+  public void setUp() throws IOException, ValidationException,
   ReportException, ReportDownloadResponseException {
 
     ModifiedCsvToBean<ReportAccount> csvToBean = new ModifiedCsvToBean<ReportAccount>();

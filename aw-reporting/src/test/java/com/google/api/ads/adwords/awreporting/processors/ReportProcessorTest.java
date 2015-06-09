@@ -125,7 +125,7 @@ public class ReportProcessorTest {
     when(mockedEntitiesPersister.listMonthReports((Class<ReportAccount>) anyObject(), anyLong(),
         any(DateTime.class), any(DateTime.class))).thenReturn(listAccounts);
 
-    when(reportProcessor.retrieveAccountIds(anyString(), anyString())).thenReturn(accountIds);
+    when(reportProcessor.retrieveAccountIds(anyString())).thenReturn(accountIds);
   }
 
   @Test

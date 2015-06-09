@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springframework.version>3.2.2.RELEASE</springframework.version>
     <google-client.version>1.17.0-rc</google-client.version>
-    <com.google.api-ads.version>1.38.0</com.google.api-ads.version>
+    <com.google.api-ads.version>2.0.0</com.google.api-ads.version>
     <hibernate.maven.plugin.version>3.6.10.Final</hibernate.maven.plugin.version>
   </properties>
 

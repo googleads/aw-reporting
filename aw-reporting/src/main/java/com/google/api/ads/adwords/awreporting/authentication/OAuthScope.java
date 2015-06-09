@@ -31,14 +31,14 @@ public class OAuthScope {
 
   private static String SCOPE_DRIVE = "https://www.googleapis.com/auth/drive.file";
   
-  public enum SCOPE_TYPE { ADWORDS, DRIVE };
+  public enum SCOPE_TYPE { ADWORDS, DRIVE }
   
   
   /**
    * Convenience method to provide a comma separated scope list 
    * consisting of the services provided in the {@link SCOPE_TYPE}s.
    * @param scopeTypes
-   * @return
+   * @return scopes in csv format
    */
   public static String getScopeCsv(SCOPE_TYPE... scopeTypes) {
     List<String> scope = getScopeList(scopeTypes);
@@ -50,7 +50,7 @@ public class OAuthScope {
    * in the {@link SCOPE_TYPE}s.
    * consisting of the services provided in the {@link SCOPE_TYPE}s.
    * @param scopeTypes
-   * @return
+   * @return list of scopes
    */
   public static List<String> getScopeList(SCOPE_TYPE... scopeTypes) {
     List<String> scope = new ArrayList<String>();

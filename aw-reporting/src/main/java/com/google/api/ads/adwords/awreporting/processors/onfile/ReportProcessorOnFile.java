@@ -179,8 +179,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @throws Exception error reaching the API.
    */
   @Override
-  public void generateReportsForMCC(String userId,
-      String mccAccountId,
+  public void generateReportsForMCC(String mccAccountId,
       ReportDefinitionDateRangeType dateRangeType,
       String dateStart,
       String dateEnd,
@@ -192,13 +191,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
     LOGGER.info("*** Retrieving account IDs ***");
 
     if (accountIdsSet == null || accountIdsSet.size() == 0) {
-      accountIdsSet = this.retrieveAccountIds(userId, mccAccountId);
+      accountIdsSet = this.retrieveAccountIds(mccAccountId);
     } else {
       LOGGER.info("Accounts loaded from file.");
     }
 
     AdWordsSessionBuilderSynchronizer sessionBuilder = new AdWordsSessionBuilderSynchronizer(
-        authenticator.authenticate(userId, mccAccountId, false));
+        authenticator.authenticate(mccAccountId, false));
 
     LOGGER.info("*** Generating Reports for " + accountIdsSet.size() + " accounts ***");
 

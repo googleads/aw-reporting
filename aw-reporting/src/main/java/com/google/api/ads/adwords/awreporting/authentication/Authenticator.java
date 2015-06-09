@@ -40,8 +40,8 @@ public interface Authenticator {
    * @throws OAuthException
    *             error on the OAuth process
    */
-  public AdWordsSession.Builder authenticate(String userId, String mccAccountId, boolean force)
-      throws OAuthException, IOException;
+  public AdWordsSession.Builder authenticate(String mccAccountId, boolean force)
+      throws OAuthException;
 
   /**
    * Obtains an OAuth {@link Credential} configured for AwReporting by doing the OAuth dance.
@@ -57,6 +57,7 @@ public interface Authenticator {
    * @throws OAuthException
    *    If an error is encountered when trying to obtain a token.
    */
-  public Credential getOAuth2Credential(String userId, String mccAccountId, boolean force) throws OAuthException;
+  public Credential getOAuth2Credential(String mccAccountId, boolean force)
+      throws OAuthException;
 
 }

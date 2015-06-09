@@ -172,12 +172,12 @@ public class AwReporting {
 
         // Export Reports
         ReportExporterLocal reportExporter = createReportExporter();
-        reportExporter.exportReports(createAuthenticator().getOAuth2Credential(null, mccAccountId,
+        reportExporter.exportReports(createAuthenticator().getOAuth2Credential(mccAccountId,
             false),
             mccAccountId,
             cmdLine.getOptionValue("startDate"),
             cmdLine.getOptionValue("endDate"),
-            processor.retrieveAccountIds(null, mccAccountId),
+            processor.retrieveAccountIds(mccAccountId),
             properties,
             htmlTemplateFile,
             outputDirectory,
@@ -217,8 +217,7 @@ public class AwReporting {
           LOGGER.info(
               "Starting report download for dateStart: " + dateStart + " and dateEnd: " + dateEnd);
 
-          processor.generateReportsForMCC(null,
-              mccAccountId,
+          processor.generateReportsForMCC(mccAccountId,
               ReportDefinitionDateRangeType.CUSTOM_DATE,
               dateStart,
               dateEnd,
@@ -234,8 +233,7 @@ public class AwReporting {
 
         LOGGER.info("Starting report download for dateRange: " + dateRangeType.name());
 
-        processor.generateReportsForMCC(null,
-            mccAccountId,
+        processor.generateReportsForMCC(mccAccountId,
             dateRangeType,
             null,
             null,

@@ -89,7 +89,6 @@ public class RunnableProcessorOnMemory<R extends Report> implements Runnable {
    * @param reportDefinition
    * @param csvToBean the {@code CsvToBean}
    * @param mappingStrategy
-   * @param file the CSV file.
    * @param dateRangeType
    * @param dateStart
    * @param dateEnd

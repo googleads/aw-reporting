@@ -60,10 +60,7 @@ import com.google.api.ads.adwords.awreporting.util.FileUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType;
 import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionReportType;
-import com.google.api.ads.adwords.lib.utils.ReportDownloadResponseException;
-import com.google.api.ads.adwords.lib.utils.ReportException;
 import com.google.api.ads.common.lib.exception.OAuthException;
-import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
@@ -109,8 +106,7 @@ public class ReportProcessorOnMemoryTest {
 
   @SuppressWarnings("unchecked")
   @Before
-  public void setUp() throws InterruptedException, IOException, OAuthException,
-  ValidationException, ReportException, ReportDownloadResponseException {
+  public void setUp() throws IOException, OAuthException {
 
     for (int i = 1; i <= NUMBER_OF_ACCOUNTS; i++) {
       CIDS.add(Long.valueOf(i));
@@ -150,7 +146,7 @@ public class ReportProcessorOnMemoryTest {
             .withOAuth2Credential( new GoogleCredential.Builder().build());
 
     doReturn(builder).when(authenticator)
-        .authenticate(Mockito.anyString(), Mockito.anyString(), Mockito.anyBoolean());
+        .authenticate(Mockito.anyString(), Mockito.anyBoolean());
 
     // Modifying ReportProcessorOnMemory to use the Mocked objects and avoid calling the real API 
     doAnswer(new Answer<RunnableProcessorOnMemory<Report>>() {
@@ -181,7 +177,7 @@ public class ReportProcessorOnMemoryTest {
   @Test
   public void testGenerateReportsForMCC() throws Exception {
 
-    reportProcessorOnMemory.generateReportsForMCC(null, "123",
+    reportProcessorOnMemory.generateReportsForMCC("123",
         ReportDefinitionDateRangeType.CUSTOM_DATE, "20130101", "20130131", CIDS, properties, null, null);
 
     verify(mockedEntitiesPersister, times(CALLS_TO_PERSIST_ENTITIES)).persistReportEntities(

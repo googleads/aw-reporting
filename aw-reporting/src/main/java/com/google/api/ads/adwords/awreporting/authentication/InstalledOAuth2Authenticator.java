@@ -83,18 +83,18 @@ public class InstalledOAuth2Authenticator implements Authenticator {
   /* (non-Javadoc)
    * @see com.google.api.ads.adwords.awreporting.authentication.Authenticator#authenticate(java.lang.String, boolean)
    */
-  public AdWordsSession.Builder authenticate(String userId, String mccAccountId, boolean force)
+  @Override
+  public AdWordsSession.Builder authenticate(String mccAccountId, boolean force)
       throws OAuthException {
 
     return new AdWordsSession.Builder()
-      .withOAuth2Credential(getOAuth2Credential(null, mccAccountId, force))
+      .withOAuth2Credential(getOAuth2Credential(mccAccountId, force))
       .withUserAgent(USER_AGENT)
       .withClientCustomerId(mccAccountId)
       .withDeveloperToken(this.developerToken);
   }
 
-  public AdWordsSession.Builder authenticate(String userId, String mccAccountId, Credential credential)
-      throws OAuthException {
+  public AdWordsSession.Builder authenticate(String mccAccountId, Credential credential) {
 
     return new AdWordsSession.Builder()
       .withOAuth2Credential(credential)
@@ -109,8 +109,6 @@ public class InstalledOAuth2Authenticator implements Authenticator {
    * @param authToken
    *            the last authentication token
    * @return the new {@link Credential}
-   * @throws OAuthException
-   *             error creating the credentials
    */
   private Credential buildOAuth2Credentials(String authToken) {
 
@@ -132,7 +130,8 @@ public class InstalledOAuth2Authenticator implements Authenticator {
    *         configuration.
    * @throws OAuthException If an error is encountered when trying to obtain a token.
    */
-  public Credential getOAuth2Credential(String userId, String mccAccountId, boolean force)
+  @Override
+  public Credential getOAuth2Credential(String mccAccountId, boolean force)
       throws OAuthException {
 
     Credential credential = null;
@@ -166,7 +165,7 @@ public class InstalledOAuth2Authenticator implements Authenticator {
           // Try to get the MCC Company Name and DescriptiveName
           String name = "";
           try {
-            AdWordsSession adWordsSession = authenticate(null, mccAccountId, credential).build();
+            AdWordsSession adWordsSession = authenticate(mccAccountId, credential).build();
             CustomerDelegate customerDelegate = new CustomerDelegate(adWordsSession);          
             Customer customer = customerDelegate.getCustomer();
             name = customer.getCompanyName() + " (" + customer.getDescriptiveName() + ")";

@@ -145,14 +145,13 @@ public class ReportProcessorOnFileTest {
     // Mocking the Authentication because in OAuth2 we are force to call buildOAuth2Credentials
     AdWordsSession.Builder builder = new AdWordsSession.Builder().withClientCustomerId("1");
     Mockito.doReturn(builder).when(authenticator)
-        .authenticate(Mockito.anyString(), Mockito.anyString(), Mockito.anyBoolean());
+        .authenticate(Mockito.anyString(), Mockito.anyBoolean());
   }
 
   @Test
   public void testGenerateReportsForMCC() throws Exception {
 
-    reportProcessorOnFile.generateReportsForMCC(null,
-        "123",
+    reportProcessorOnFile.generateReportsForMCC("123",
         ReportDefinitionDateRangeType.CUSTOM_DATE,
         "20130101",
         "20130131",
