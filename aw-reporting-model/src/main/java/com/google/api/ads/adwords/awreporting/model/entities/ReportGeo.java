@@ -63,7 +63,7 @@ public class ReportGeo extends ReportBase {
 
   @Column(name = "CITY_CRITERIA_ID")
   @CsvField(value = "City", reportField = "CityCriteriaId")
-  private Long cityCriteriaId;
+  private String cityCriteriaId;
 
   @Column(name = "CONVERSION_TRACKER_ID", length = 64)
   @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
@@ -71,7 +71,7 @@ public class ReportGeo extends ReportBase {
 
   @Column(name = "COUNTRY_CRITERIA_ID")
   @CsvField(value = "Country/Territory", reportField = "CountryCriteriaId")
-  private Long countryCriteriaId;
+  private String countryCriteriaId;
 
   @Column(name = "IS_TARGETING_LOCATION")
   @CsvField(value = "Is Targetable", reportField = "IsTargetingLocation")
@@ -83,15 +83,15 @@ public class ReportGeo extends ReportBase {
 
   @Column(name = "METRO_CRITERIA_ID")
   @CsvField(value = "Metro area", reportField = "MetroCriteriaId")
-  private Long metroCriteriaId;
+  private String metroCriteriaId;
 
   @Column(name = "MOST_SPECIFIC_CRITERIA_ID")
   @CsvField(value = "Most specific location", reportField = "MostSpecificCriteriaId")
-  private Long mostSpecificCriteriaId;
+  private String mostSpecificCriteriaId;
 
   @Column(name = "REGION_CRITERIA_ID")
   @CsvField(value = "Region", reportField = "RegionCriteriaId")
-  private Long regionCriteriaId;
+  private String regionCriteriaId;
 
   /**
    * Hibernate needs an empty constructor
@@ -115,30 +115,20 @@ public class ReportGeo extends ReportBase {
     this.id += setIdDates();
 
     // Geo Ids
-    if (this.getCountryCriteriaId() != null) {
+    if (this.getCountryCriteriaId() != null && !isEmptyValue(this.getCountryCriteriaId())) {
       this.id += "-" + this.getCountryCriteriaId().toString();
-    } else {
-      this.id += "-";
     }
-    if (this.getRegionCriteriaId() != null) {
+    if (this.getRegionCriteriaId() != null && !isEmptyValue(this.getRegionCriteriaId())) {
       this.id += "-" + this.getRegionCriteriaId().toString();
-    } else {
-      this.id += "-";
     }
-    if (this.getMetroCriteriaId() != null) {
+    if (this.getMetroCriteriaId() != null && !isEmptyValue(this.getMetroCriteriaId())) {
       this.id += "-" + this.getMetroCriteriaId().toString();
-    } else {
-      this.id += "-";
     }
-    if (this.getCityCriteriaId() != null) {
+    if (this.getCityCriteriaId() != null && !isEmptyValue(this.getCityCriteriaId())) {
       this.id += "-" + this.getCityCriteriaId().toString();
-    } else {
-      this.id += "-";
     }
-    if (this.getMostSpecificCriteriaId() != null) {
+    if (this.getMostSpecificCriteriaId() != null && !isEmptyValue(this.getMostSpecificCriteriaId())) {
       this.id += "-" + this.getMostSpecificCriteriaId().toString();
-    } else {
-      this.id += "-";
     }
 
     // Adding extra fields for unique ID
@@ -164,27 +154,27 @@ public class ReportGeo extends ReportBase {
     this.adFormat = adFormat;
   }
 
-  public Long getRegionCriteriaId() {
+  public String getRegionCriteriaId() {
     return regionCriteriaId;
   }
 
-  public void setRegionCriteriaId(Long regionCriteriaId) {
+  public void setRegionCriteriaId(String regionCriteriaId) {
     this.regionCriteriaId = regionCriteriaId;
   }
 
-  public Long getMostSpecificCriteriaId() {
+  public String getMostSpecificCriteriaId() {
     return mostSpecificCriteriaId;
   }
 
-  public void setMostSpecificCriteriaId(Long mostSpecificCriteriaId) {
+  public void setMostSpecificCriteriaId(String mostSpecificCriteriaId) {
     this.mostSpecificCriteriaId = mostSpecificCriteriaId;
   }
 
-  public Long getMetroCriteriaId() {
+  public String getMetroCriteriaId() {
     return metroCriteriaId;
   }
 
-  public void setMetroCriteriaId(Long metroCriteriaId) {
+  public void setMetroCriteriaId(String metroCriteriaId) {
     this.metroCriteriaId = metroCriteriaId;
   }
 
@@ -228,11 +218,11 @@ public class ReportGeo extends ReportBase {
     this.isTargetable = isTargetable;
   }
 
-  public Long getCountryCriteriaId() {
+  public String getCountryCriteriaId() {
     return countryCriteriaId;
   }
 
-  public void setCountryCriteriaId(Long countryCriteriaId) {
+  public void setCountryCriteriaId(String countryCriteriaId) {
     this.countryCriteriaId = countryCriteriaId;
   }
 
@@ -244,11 +234,11 @@ public class ReportGeo extends ReportBase {
     this.conversionTrackerId = conversionTrackerId;
   }
 
-  public Long getCityCriteriaId() {
+  public String getCityCriteriaId() {
     return cityCriteriaId;
   }
 
-  public void setCityCriteriaId(Long cityCriteriaId) {
+  public void setCityCriteriaId(String cityCriteriaId) {
     this.cityCriteriaId = cityCriteriaId;
   }
 

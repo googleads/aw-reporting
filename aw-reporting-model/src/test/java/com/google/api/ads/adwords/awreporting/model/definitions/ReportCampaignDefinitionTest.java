@@ -60,7 +60,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("EUR", first.getCurrencyCode());
 
     Assert.assertEquals(132449648L, first.getCampaignId().longValue());
-    Assert.assertEquals("active", first.getCampaignStatus());
+    Assert.assertEquals("enabled", first.getCampaignStatus());
     Assert.assertEquals(1.00, first.getBudget().doubleValue());
     Assert.assertEquals(41273L, first.getBudgetId().longValue());
     
@@ -87,7 +87,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("EUR", last.getCurrencyCode());
 
     Assert.assertEquals(132449648L, last.getCampaignId().longValue());
-    Assert.assertEquals("active", last.getCampaignStatus());
+    Assert.assertEquals("enabled", last.getCampaignStatus());
     Assert.assertEquals(1.00, last.getBudget().doubleValue());
     Assert.assertEquals(412987L, last.getBudgetId().longValue());
 

@@ -55,6 +55,9 @@ public class CsvReportEntitiesMapping {
   private final Map<ReportDefinitionReportType, Class<? extends Report>> reportDefinitionMap =
       new HashMap<ReportDefinitionReportType, Class<? extends Report>>();
 
+  private final Map<String, Class<? extends Report>> experimentalReportsDefinitionMap =
+      new HashMap<String, Class<? extends Report>>();
+
   private final Map<ReportDefinitionReportType, List<String>> reportProperties =
       new HashMap<ReportDefinitionReportType, List<String>>();
 
@@ -94,15 +97,20 @@ public class CsvReportEntitiesMapping {
 
     for (Class<? extends Report> reportBeanClass : reportBeans) {
       CsvReport csvReport = reportBeanClass.getAnnotation(CsvReport.class);
-      this.reportDefinitionMap.put(csvReport.value(), reportBeanClass);
 
-      Set<String> propertyExclusions = new HashSet<String>();
-      String[] reportExclusionsArray = csvReport.reportExclusions();
-      propertyExclusions.addAll(Arrays.asList(reportExclusionsArray));
+      if (csvReport.value().equals(ReportDefinitionReportType.UNKNOWN)) {
+        this.experimentalReportsDefinitionMap.put(csvReport.fileOnlyReportType(), reportBeanClass);
+      } else {
+        this.reportDefinitionMap.put(csvReport.value(), reportBeanClass);
 
-      List<String> propertiesToSelect =
-          this.findReportPropertiesToSelect(reportBeanClass, propertyExclusions);
-      this.reportProperties.put(csvReport.value(), propertiesToSelect);
+        Set<String> propertyExclusions = new HashSet<String>();
+        String[] reportExclusionsArray = csvReport.reportExclusions();
+        propertyExclusions.addAll(Arrays.asList(reportExclusionsArray));
+
+        List<String> propertiesToSelect =
+            this.findReportPropertiesToSelect(reportBeanClass, propertyExclusions);
+        this.reportProperties.put(csvReport.value(), propertiesToSelect);
+      }
     }
   }
 
@@ -128,6 +136,18 @@ public class CsvReportEntitiesMapping {
   }
 
   /**
+   * Retrieves the bean class that maps the report data in the CSV file, and it's in the
+   * experimental set.
+   *
+   * @param reportTypeName the name of the report that is in the experimental set.
+   * @return the class of the bean that represents the report data.
+   */
+  public Class<? extends Report> getExperimentalReportBeanClass(String reportTypeName) {
+
+    return this.experimentalReportsDefinitionMap.get(reportTypeName);
+  }
+
+  /**
    * Retrieves the properties that should be selected in the report.
    *
    * @param reportType the report type.
@@ -145,8 +165,8 @@ public class CsvReportEntitiesMapping {
    * @param propertyExclusions the properties that must not be added to the report.
    * @return the list of properties to be part of the report
    */
-  private List<String> findReportPropertiesToSelect(
-      Class<? extends Report> reportBeanClass, Set<String> propertyExclusions) {
+  private List<String> findReportPropertiesToSelect(Class<? extends Report> reportBeanClass,
+      Set<String> propertyExclusions) {
 
     List<String> propertiesToSelect = new ArrayList<String>();
 
@@ -167,8 +187,8 @@ public class CsvReportEntitiesMapping {
    * @param currentClass the actual class
    * @param propertyExclusions the properties that must not be added to the report.
    */
-  private void addAllMappedSelectionProperties(
-      List<String> propertiesToSelect, Class<?> currentClass, Set<String> propertyExclusions) {
+  private void addAllMappedSelectionProperties(List<String> propertiesToSelect,
+      Class<?> currentClass, Set<String> propertyExclusions) {
 
     Field[] declaredFields = currentClass.getDeclaredFields();
     for (int i = 0; i < declaredFields.length; i++) {
@@ -185,8 +205,8 @@ public class CsvReportEntitiesMapping {
    * @param field the field
    * @param propertyExclusions the properties that must not be added to the report.
    */
-  private void addPropertyNameIfAnnotationPresent(
-      List<String> propertiesToSelect, Field field, Set<String> propertyExclusions) {
+  private void addPropertyNameIfAnnotationPresent(List<String> propertiesToSelect, Field field,
+      Set<String> propertyExclusions) {
 
     if (field.isAnnotationPresent(CsvField.class)) {
       CsvField reportFieldAnnotation = field.getAnnotation(CsvField.class);
@@ -205,8 +225,8 @@ public class CsvReportEntitiesMapping {
    * @param basePackage the package to be scanned.
    * @return the list of classes that match the requirements to be a report bean.
    */
-  private List<Class<? extends Report>> findReportBeans(String basePackage)
-      throws IOException, ClassNotFoundException {
+  private List<Class<? extends Report>> findReportBeans(String basePackage) throws IOException,
+      ClassNotFoundException {
 
     ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
     MetadataReaderFactory metadataReaderFactory =

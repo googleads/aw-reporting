@@ -17,6 +17,7 @@ package com.google.api.ads.adwords.awreporting;
 import com.google.api.ads.adwords.awreporting.authentication.Authenticator;
 import com.google.api.ads.adwords.awreporting.exporter.ReportExporterLocal;
 import com.google.api.ads.adwords.awreporting.processors.ReportProcessor;
+import com.google.api.ads.adwords.awreporting.processors.onfile.ReportProcessorOnFile;
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
 import com.google.api.ads.adwords.awreporting.util.DataBaseType;
 import com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer;
@@ -50,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ProxySelector;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
@@ -58,7 +60,7 @@ import java.util.Set;
 /**
  * Main class that executes the report processing logic delegating to the {@link ReportProcessor}.
  *
- * This class holds a Spring application context that manages the creation of all the beans needed.
+ *  This class holds a Spring application context that manages the creation of all the beans needed.
  * No configuration is done in this class.
  *
  *  Credentials and properties are pulled from the ~/aw-report-sample.properties.properties file or
@@ -77,7 +79,7 @@ public class AwReporting {
    * The DB type key specified in the properties file.
    */
   private static final String AW_REPORT_MODEL_DB_TYPE = "aw.report.model.db.type";
-  
+
   /**
    * The Processor type key specified in the properties file.
    */
@@ -131,13 +133,24 @@ public class AwReporting {
         addAccountsFromFile(accountIdsSet, accountsFileName);
       }
 
-      Properties properties = initApplicationContextAndProperties(propertiesPath);
+      boolean forceOnFileProcessor = false;
+      if (cmdLine.hasOption("onFileReport")) {
+        if (!cmdLine.hasOption("csvReportFile") || !cmdLine.hasOption("startDate")
+            || !cmdLine.hasOption("endDate")) {
+          LOGGER.error("Missing one or more of the required options: "
+              + "'csvReportFile', 'startDate' or 'endDate'");
+          System.exit(0);
+        }
+        forceOnFileProcessor = true;
+      }
+      Properties properties =
+          initApplicationContextAndProperties(propertiesPath, forceOnFileProcessor);
 
       LOGGER.debug("Creating ReportProcessor bean...");
       ReportProcessor processor = createReportProcessor();
       LOGGER.debug("... success.");
 
-      String mccAccountId = properties.getProperty("mccAccountId").replaceAll("-", "");;
+      String mccAccountId = properties.getProperty("mccAccountId").replaceAll("-", "");
 
       if (cmdLine.hasOption("generatePdf")) {
 
@@ -156,16 +169,19 @@ public class AwReporting {
 
         LOGGER.debug("Html template file to be used: " + htmlTemplateFile);
         LOGGER.debug("Output directory for PDF: " + outputDirectory);
-        
+
         // Export Reports
         ReportExporterLocal reportExporter = createReportExporter();
-        reportExporter.exportReports(
-            createAuthenticator().getOAuth2Credential(null, mccAccountId, false),
-            mccAccountId, cmdLine.getOptionValue("startDate"),
+        reportExporter.exportReports(createAuthenticator().getOAuth2Credential(null, mccAccountId,
+            false),
+            mccAccountId,
+            cmdLine.getOptionValue("startDate"),
             cmdLine.getOptionValue("endDate"),
             processor.retrieveAccountIds(null, mccAccountId),
-            properties, htmlTemplateFile,
-            outputDirectory, sumAdExtensions);
+            properties,
+            htmlTemplateFile,
+            outputDirectory,
+            sumAdExtensions);
 
       } else if (cmdLine.hasOption("startDate") && cmdLine.hasOption("endDate")) {
         // Generate Reports
@@ -173,12 +189,44 @@ public class AwReporting {
         String dateStart = cmdLine.getOptionValue("startDate");
         String dateEnd = cmdLine.getOptionValue("endDate");
 
-        LOGGER.info(
-            "Starting report download for dateStart: " + dateStart + " and dateEnd: " + dateEnd);
+        if (cmdLine.hasOption("onFileReport")) {
 
-        processor.generateReportsForMCC(null, mccAccountId, ReportDefinitionDateRangeType.CUSTOM_DATE, dateStart,
-            dateEnd, accountIdsSet, properties, null, null);
+          String reportTypeName = cmdLine.getOptionValue("onFileReport");
+          String csvReportFile = cmdLine.getOptionValue("csvReportFile");
 
+          File csvFile = new File(csvReportFile);
+          if (!csvFile.exists()) {
+            LOGGER.error("Could not find CSV file: " + csvReportFile);
+            System.exit(0);
+          }
+
+          ReportProcessorOnFile onFileProcessor = (ReportProcessorOnFile) processor;
+          List<File> localFiles = new ArrayList<File>();
+          localFiles.add(csvFile);
+
+          LOGGER.info("Starting report processing for dateStart: " + dateStart + " and dateEnd: "
+              + dateEnd);
+          onFileProcessor.processLocalFiles(mccAccountId,
+              reportTypeName,
+              localFiles,
+              dateStart,
+              dateEnd,
+              ReportDefinitionDateRangeType.CUSTOM_DATE);
+
+        } else {
+          LOGGER.info(
+              "Starting report download for dateStart: " + dateStart + " and dateEnd: " + dateEnd);
+
+          processor.generateReportsForMCC(null,
+              mccAccountId,
+              ReportDefinitionDateRangeType.CUSTOM_DATE,
+              dateStart,
+              dateEnd,
+              accountIdsSet,
+              properties,
+              null,
+              null);
+        }
       } else if (cmdLine.hasOption("dateRange")) {
 
         ReportDefinitionDateRangeType dateRangeType =
@@ -186,7 +234,15 @@ public class AwReporting {
 
         LOGGER.info("Starting report download for dateRange: " + dateRangeType.name());
 
-        processor.generateReportsForMCC(null, mccAccountId, dateRangeType, null, null, accountIdsSet, properties, null, null);
+        processor.generateReportsForMCC(null,
+            mccAccountId,
+            dateRangeType,
+            null,
+            null,
+            accountIdsSet,
+            properties,
+            null,
+            null);
 
       } else {
         errors = true;
@@ -199,7 +255,7 @@ public class AwReporting {
       if (e.getMessage().contains("Insufficient Permission")) {
         LOGGER.error("Insufficient Permission error accessing the API" + e.getMessage());
       } else {
-        LOGGER.error("File not found: " + e.getMessage());  
+        LOGGER.error("File not found: " + e.getMessage());
       }
 
     } catch (ParseException e) {
@@ -263,7 +319,7 @@ public class AwReporting {
 
     return appCtx.getBean(ReportExporterLocal.class);
   }
-  
+
   /**
    * Creates the {@link Authenticator} autowiring all the dependencies.
    *
@@ -336,7 +392,7 @@ public class AwReporting {
         + "for AdExtension reporting in HTML/PDF reports.");
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("sumAdExtensions"));
-    
+
     OptionBuilder.withArgName("debug");
     OptionBuilder.hasArg(false);
     OptionBuilder.withDescription("Will display all the debug information. "
@@ -344,6 +400,22 @@ public class AwReporting {
         + "all the information will be displayed on the console as well");
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("debug"));
+
+    OptionBuilder.withArgName("onFileReport");
+    OptionBuilder.hasArg(true);
+    OptionBuilder.withDescription("This is an experimental argument, where you can specify "
+        + "the report type, and the processor will read the data directly from the CSV file "
+        + "passed on the 'csvReportFile' argument. It's mandatory to pass the 'csvReportFile' "
+        + "argument if you pass this argument.");
+    OptionBuilder.isRequired(false);
+    options.addOption(OptionBuilder.create("onFileReport"));
+
+    OptionBuilder.withArgName("csvReportFile");
+    OptionBuilder.hasArg(true);
+    OptionBuilder.withDescription("This is the path to the CSV report file that will be used to "
+        + "import data directly into AwReporting.");
+    OptionBuilder.isRequired(false);
+    options.addOption(OptionBuilder.create("csvReportFile"));
 
     return options;
   }
@@ -359,13 +431,10 @@ public class AwReporting {
     System.out.println();
     HelpFormatter formatter = new HelpFormatter();
     formatter.setWidth(120);
-    formatter
-        .printHelp(
-            " java -Xmx1G -jar aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD "
-                + "-file <file>\n java -Xmx1G -jar aw-reporting.jar "
-                + "-generatePdf <htmlTemplateFile> <outputDirectory> -sumAdExtensions "
-                + "-startDate YYYYMMDD -endDate YYYYMMDD -file <file>",
-            "\nArguments:", options, "");
+    formatter.printHelp(" java -Xmx1G -jar aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD "
+        + "-file <file>\n java -Xmx1G -jar aw-reporting.jar "
+        + "-generatePdf <htmlTemplateFile> <outputDirectory> -sumAdExtensions "
+        + "-startDate YYYYMMDD -endDate YYYYMMDD -file <file>", "\nArguments:", options, "");
     System.out.println();
   }
 
@@ -434,11 +503,12 @@ public class AwReporting {
    * specified path.
    *
    * @param propertiesPath the path to the file.
+   * @param forceOnFileProcessor true if the processor will be created to run "on file"
    * @return the resource loaded from the properties file.
    * @throws IOException error opening the properties file.
    */
-  private static Properties initApplicationContextAndProperties(String propertiesPath)
-      throws IOException {
+  private static Properties initApplicationContextAndProperties(String propertiesPath,
+      boolean forceOnFileProcessor) throws IOException {
 
     Resource resource = new ClassPathResource(propertiesPath);
     if (!resource.exists()) {
@@ -447,10 +517,10 @@ public class AwReporting {
     LOGGER.trace("Innitializing Spring application context.");
     DynamicPropertyPlaceholderConfigurer.setDynamicResource(resource);
     Properties properties = PropertiesLoaderUtils.loadProperties(resource);
-    
+
     // Selecting the XMLs to choose the Spring Beans to load.
     List<String> listOfClassPathXml = Lists.newArrayList();
-   
+
     // Choose the DB type to use based properties file
     String dbType = (String) properties.get(AW_REPORT_MODEL_DB_TYPE);
     if (dbType != null && dbType.equals(DataBaseType.MONGODB.name())) {
@@ -460,12 +530,13 @@ public class AwReporting {
       LOGGER.info("Using SQL DB configuration properties.");
       LOGGER.warn("Updating database schema, this could take a few minutes ...");
       listOfClassPathXml.add("classpath:aw-report-sql-beans.xml");
-      LOGGER.warn("Done."); 
+      LOGGER.warn("Done.");
     }
-    
+
     // Choose the Processor type to use based properties file
     String processorType = (String) properties.get(AW_REPORT_PROCESSOR_TYPE);
-    if (processorType != null && processorType.equals(ProcessorType.ONMEMORY.name())) {
+    if (processorType != null && processorType.equals(ProcessorType.ONMEMORY.name())
+        && !forceOnFileProcessor) {
       LOGGER.info("Using ONMEMORY Processor.");
       listOfClassPathXml.add("classpath:aw-report-processor-beans-onmemory.xml");
     } else {
@@ -473,8 +544,9 @@ public class AwReporting {
       listOfClassPathXml.add("classpath:aw-report-processor-beans-onfile.xml");
     }
 
-    appCtx = new ClassPathXmlApplicationContext(listOfClassPathXml.toArray(new String[listOfClassPathXml.size()]));    
-    
+    appCtx = new ClassPathXmlApplicationContext(
+        listOfClassPathXml.toArray(new String[listOfClassPathXml.size()]));
+
     return properties;
   }
 }

@@ -46,7 +46,7 @@ public class KratuCompute {
   private static final String DISPLAY_NETWORK = "Display Network";
   private static final String SEARCH_NETWORK = "Search Network";
   private static final String ACTIVE = "active";
-  private static final String ENABLE = "enabled";
+  private static final String ENABLED = "enabled";
   private static final String BROAD = "Broad";
   private static final String PHRASE = "Phrase";
   private static final String EXACT = "Exact";
@@ -264,7 +264,7 @@ public class KratuCompute {
       // Process ReportCampaign Info
       List<ReportCampaign> reportCampaignList = storageHelper.getReportByAccountId(ReportCampaign.class, accountId, dayStart.getTime(), dayEnd.getTime());
       for (ReportCampaign reportCampaign : reportCampaignList) {
-        if (reportCampaign.getCampaignStatus().equals(ACTIVE)) {
+        if (reportCampaign.getCampaignStatus().equals(ENABLED)) {
           kratu.addNumberOfActiveCampaigns(BigDecimal.ONE);
         }
 
@@ -277,7 +277,7 @@ public class KratuCompute {
       // Process ReportAdGroup Info
       List<ReportAdGroup> reportAdGroupList = storageHelper.getReportByAccountId(ReportAdGroup.class, accountId, dayStart.getTime(), dayEnd.getTime());
       for (ReportAdGroup reportAdGroup : reportAdGroupList) {
-        if (reportAdGroup.getAdGroupStatus().equals(ENABLE)) {
+        if (reportAdGroup.getAdGroupStatus().equals(ENABLED)) {
           kratu.addNumberOfActiveAdGroups(BigDecimal.ONE);
         }
       }
@@ -288,7 +288,7 @@ public class KratuCompute {
       Map<Long, Integer> activeAdsPerAdGroup = new HashMap<Long, Integer>();
 
       for (ReportAd reportAd : reportAdList) {
-        if (reportAd.getAdState().equals(ENABLE)) {
+        if (reportAd.getAdState().equals(ENABLED)) {
           kratu.addNumberOfActiveAds(BigDecimal.ONE);
           // Counting the activeAdsPerAdGroup
           if (activeAdsPerAdGroup.containsKey(reportAd.getAdGroupId())) {
@@ -320,7 +320,7 @@ public class KratuCompute {
       BigDecimal totalPositions = BigDecimal.ZERO;
       BigDecimal totalWeight = BigDecimal.ZERO;
       for (ReportKeyword reportKeyword : reportKeywordList) {
-        if (reportKeyword.getStatus().equals(ENABLE)) {
+        if (reportKeyword.getStatus().equals(ENABLED)) {
           if (!reportKeyword.isNegative()) {
             kratu.addNumberOfPositiveActiveKeywords(BigDecimal.ONE);
 
@@ -369,7 +369,7 @@ public class KratuCompute {
       // Process ReportPlacementFeedItem Info
       List<ReportPlaceholderFeedItem> reportPlaceholderFeedItemList = storageHelper.getReportByAccountId(ReportPlaceholderFeedItem.class, accountId, dayStart.getTime(), dayEnd.getTime());
       for (ReportPlaceholderFeedItem reportPlaceholderFeedItem : reportPlaceholderFeedItemList) {
-        if (reportPlaceholderFeedItem.getStatus().equals(ENABLE)) {
+        if (reportPlaceholderFeedItem.getStatus().equals(ENABLED)) {
           switch (reportPlaceholderFeedItem.getFeedPlaceholderType()) {
           case SITE_LINKS_EXTENSION:
             kratu.addNumberOfCampaignsWithSiteLinksEnabled(BigDecimal.ONE);

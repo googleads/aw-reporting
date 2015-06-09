@@ -52,4 +52,12 @@ public @interface CsvReport {
    */
   String[] reportExclusions() default {};
 
+  /**
+   * This is an experimental attribute used to add the support for reports not yet available in the
+   * API. In order to use it, you have to set the report type as {@code UNKNOWN}.
+   *
+   * @return the name of this report that will be available only via CSV files. It has to be unique.
+   */
+  String fileOnlyReportType() default "";
+
 }

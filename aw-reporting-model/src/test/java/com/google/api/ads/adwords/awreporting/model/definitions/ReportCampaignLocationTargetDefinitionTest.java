@@ -48,7 +48,7 @@ public class ReportCampaignLocationTargetDefinitionTest extends
   @Override
   protected void testFirstEntry(ReportCampaignLocationTarget first) {
 
-    Assert.assertEquals(10L, first.getLocationId().longValue());
+    Assert.assertEquals("10", first.getLocationId());
     Assert.assertEquals("2.00", first.getBidModifier());
     Assert.assertEquals(20L, first.getCampaignId().longValue());
     Assert.assertEquals("campaign", first.getCampaignName());
@@ -73,7 +73,7 @@ public class ReportCampaignLocationTargetDefinitionTest extends
   @Override
   protected void testLastEntry(ReportCampaignLocationTarget last) {
 
-    Assert.assertEquals(20L, last.getLocationId().longValue());
+    Assert.assertEquals("20", last.getLocationId());
     Assert.assertEquals("4.00", last.getBidModifier());
     Assert.assertEquals(40L, last.getCampaignId().longValue());
     Assert.assertEquals("campaign", last.getCampaignName());

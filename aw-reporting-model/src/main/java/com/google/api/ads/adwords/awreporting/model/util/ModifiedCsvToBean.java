@@ -99,6 +99,9 @@ public class ModifiedCsvToBean<T> extends CsvToBean<T> implements Serializable{
         PropertyDescriptor prop = mapper.findDescriptor(col);
         if (null != prop) {
           String value = this.trimIfPossible(line[col], prop);
+          if (Number.class.isAssignableFrom(prop.getPropertyType())) {
+            value = value.replaceAll("-", "");
+          }
           Object obj = this.convertValue(value, prop);
 
           // Convert Money values to regular Decimals by dividing by a Million

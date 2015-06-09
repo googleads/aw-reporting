@@ -38,7 +38,7 @@ public class ReportCampaignLocationTarget extends ReportBase {
 
   @Column(name = "ID")
   @CsvField(value = "Location", reportField = "Id")
-  private Long locationId;
+  private String locationId;
 
   @Column(name = "BID_MODIFIER")
   @CsvField(value = "Bid adj.", reportField = "BidModifier")
@@ -79,7 +79,7 @@ public class ReportCampaignLocationTarget extends ReportBase {
     if (this.getCampaignId() != null) {
       this.id += "-" + this.getCampaignId();
     }
-    if (this.getLocationId() != null) {
+    if (this.getLocationId() != null && !isEmptyValue(this.getLocationId())) {
       this.id += "-" + this.getLocationId();
     }
     if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
@@ -140,11 +140,11 @@ public class ReportCampaignLocationTarget extends ReportBase {
     this.isNegative = isNegative;
   }
 
-  public Long getLocationId() {
+  public String getLocationId() {
     return locationId;
   }
 
-  public void setLocationId(Long locationId) {
+  public void setLocationId(String locationId) {
     this.locationId = locationId;
   }
 

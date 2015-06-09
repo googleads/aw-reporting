@@ -249,4 +249,11 @@ public abstract class AbstractReportDefinitionTest<T extends Report> {
       }
     }
   }
+
+  /**
+   * @return the csvReportEntitiesMapping
+   */
+  protected CsvReportEntitiesMapping getCsvReportEntitiesMapping() {
+    return csvReportEntitiesMapping;
+  }
 }

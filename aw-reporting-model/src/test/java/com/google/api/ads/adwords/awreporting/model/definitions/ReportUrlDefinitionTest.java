@@ -48,21 +48,6 @@ public class ReportUrlDefinitionTest extends AbstractReportDefinitionTest<Report
 
     Assert.assertEquals(6421165252L, first.getAdGroupId().longValue());
     Assert.assertEquals(9572882832L, first.getAccountId().longValue());
-
-    // Assert.assertEquals("2013-05-01", first.getDay());
-    // Assert.assertEquals("9.39", first.getCost());
-    // Assert.assertEquals(32L, first.getClicks().longValue());
-    // Assert.assertEquals(1258L, first.getImpressions().longValue());
-    // Assert.assertEquals(0L, first.getConversions().longValue());
-    // Assert.assertEquals("2.54", first.getCtr());
-    // Assert.assertEquals("7.46", first.getAvgCpm());
-    // Assert.assertEquals("0.29", first.getAvgCpc());
-    // Assert.assertEquals("2.12", first.getAvgPosition());
-    // Assert.assertEquals("EUR", first.getCurrencyCode());
-    //
-    // Assert.assertEquals(132958027L, first.getCampaignId().longValue());
-    // Assert.assertEquals(6113972227L, first.getAdGroupId().longValue());
-
   }
 
   /**
@@ -74,20 +59,6 @@ public class ReportUrlDefinitionTest extends AbstractReportDefinitionTest<Report
   protected void testLastEntry(ReportUrl last) {
 
     Assert.assertEquals(9572882832L, last.getAccountId().longValue());
-    // Assert.assertEquals("2013-05-10", last.getDay());
-    // Assert.assertEquals("1.46", last.getCost());
-    // Assert.assertEquals(2L, last.getClicks().longValue());
-    // Assert.assertEquals(58L, last.getImpressions().longValue());
-    // Assert.assertEquals(0L, last.getConversions().longValue());
-    // Assert.assertEquals("3.45", last.getCtr());
-    // Assert.assertEquals("25.17", last.getAvgCpm());
-    // Assert.assertEquals("0.73", last.getAvgCpc());
-    // Assert.assertEquals("3.29", last.getAvgPosition());
-    // Assert.assertEquals("EUR", last.getCurrencyCode());
-    //
-    // Assert.assertEquals(132958027L, last.getCampaignId().longValue());
-    // Assert.assertEquals(6114146707L, last.getAdGroupId().longValue());
-
   }
 
   /**

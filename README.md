@@ -114,31 +114,48 @@ Note: aw-reporting.jar is in the aw-reporting/aw-reporting/target/ directory.
 
 <code>Arguments:
 
-   -accountIdsFile &lt;file&gt;           Defines a file that contains all the account IDs, one per line, to be used
-                                          instead of getting the accounts from the API. The list can contain all the accounts,
-                                          or just a specific set of accounts
+   -accountIdsFile &lt;file&gt;
+                              Defines a file that contains all the account IDs, one per line, to be used
+                              instead of getting the accounts from the API. The list can contain all the accounts,
+                              or just a specific set of accounts
 
-   -dateRange <DateRangeType>             ReportDefinitionDateRangeType.
+   -csvReportFile
+                              Specifies the CSV data file to be used when importing data from a local file. In order to use
+                              this feature, you must pass the report type in the "-onFileReport" property.
 
-   -debug     Will display all the debug information. If the option 'verbose' is
-              activated, all the information will be displayed on the console as
-              well
+   -dateRange <DateRangeType>
+                              ReportDefinitionDateRangeType.
 
-   -endDate &lt;YYYMMDD&gt;      End date for CUSTOM_DATE Reports (YYYYMMDD)
+   -debug
+                              Will display all the debug information. If the option 'verbose' is
+                              activated, all the information will be displayed on the console as
+                              well
 
-   -file &lt;file&gt;            aw-report-sample.properties file.
+   -endDate &lt;YYYMMDD&gt;
+                              End date for CUSTOM_DATE Reports (YYYYMMDD)
 
-   -generatePdf &lt;htmlTemplateFile&gt; &lt;outputDirectory&gt;
-                           
+   -file &lt;file&gt;
+                              aw-report-sample.properties file.
+
+   -generatePdf &lt;htmlTemplateFile&gt; &lt;outputDirectory&
                            Generate Monthly Account Reports for all Accounts in PDF
-   
                            NOTE: For PDF use aw-report-sample-for-pdf.properties instead, the fields need to be different.
 
-   -help                   Print this message.
+   -help
+                              Print this message.
 
-   -startDate &lt;YYYYMMDD&gt;   Start date for CUSTOM_DATE Reports (YYYYMMDD).
+   -onFileReport
+                              Especifies a report type (it has to be know by AwReporting model), and it will look for the data
+                              in the file passed in the property "csvReportFile". If you use this property, it's mandatory
+                              to specify a CSV file with "-csvReportFile". The CSV file has to follow the same formatt as the
+                              one downloaded from the API: the first line contains the name of the report; second line must
+                              contain the column headers; following lines must contain the data.  
 
-   -verbose                The application will print all the tracing on the console
+   -startDate &lt;YYYYMMDD&gt;
+                              Start date for CUSTOM_DATE Reports (YYYYMMDD).
+
+   -verbose
+                              The application will print all the tracing on the console
 
 </code>
 </pre>
@@ -211,6 +228,45 @@ Provides the logic (API services, downloader and processors)
 * **API Services:** Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is on charge of getting all the account ids in the MCC tree.
 
 * **AwReporting main:** The AwReporting main class is on charge of printing the help information, the properties file example and of passing the command line parameters to the processor for execution.
+
+## Offline Data Import
+
+In order to support some report types that are not yet available in the API, but are available in the AdWords Interface, we introduced the feature of importing data to the database directly from CSV files that were downloaded from the interface.
+
+The offline data import works just as the online mode (where the data is downloaded from the API), but skips the download step. All the field mappings and report types supported are still the same, but keep in mind that most of the entity IDs are not available in the reports downloaded from the interface.
+
+**IMPORTANT NOTE:** Before importing the CSV with AwReporting, you must edit the file and make sure that it's in the same format as the CSV file downloaded from the API:
+* First line must contain the name or description of the report;
+* Second line must contain the column names/headers;
+* Following lines must contain the data.
+
+Usually when you download a report from the interface, the CSV file will contain some additional lines in the beginning of the file. You have to remove those lines before importing it into AwReporting.
+
+To use the offline import data, you just need to specify in the command line the report type that you will import, and the local file that you will use as an addition to the other arguments:
+
+```
+$ java -Xmx1G -jar aw-reporting/target/aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD \
+-file aw-reporting/src/main/resources/aw-report-sample.properties \
+-onFileReport CAMPAIGN_PERFORMANCE_REPORT -csvReportFile <CSV FILE LOCATION>
+```
+
+**IMPORTANT NOTE:** The dates specified are very import, because they will be used to populate the database following the same formatt as the data downloaded from the API. Date periods *are not supported*.
+
+## **Experimental:** Video Campaign Performance report
+
+With the offline data import feature available, we added the Video Campaign Performance Report to AwReporting model. This means that it's now possible to download the Video Performance reports from the interface, import it into AwReporting and make the data available in the database.
+
+This report still an experiment, and we want to hear more feedback from users in order to further improve this, and make sure that this is in fact a necessity.
+
+To import video campaign performance reports in AwReport, just run the following command:
+
+```
+$ java -Xmx1G -jar aw-reporting/target/aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD \
+-file aw-reporting/src/main/resources/aw-report-sample.properties \
+-onFileReport VIDEO_CAMPAIGN_REPORT -csvReportFile <CSV FILE LOCATION>
+```
+
+**IMPORTANT NOTE:** The API *does not support* video campaign reports. This is a work around to import video campaign reports into the database, facilitating the usage of the data in your applications.
 
 ## PDF Generation
 

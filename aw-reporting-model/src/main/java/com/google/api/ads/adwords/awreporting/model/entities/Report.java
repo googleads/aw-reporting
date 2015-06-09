@@ -53,6 +53,8 @@ public abstract class Report implements MongoEntity {
   public static final String DATE_END = "dateEnd";
   public static final String DAY = "day";
 
+  private static final String EMPTY_VALUE = "--";
+
   @Id
   @com.googlecode.objectify.annotation.Id
   @Column(name = "ROW_ID")
@@ -106,6 +108,11 @@ public abstract class Report implements MongoEntity {
 
   public String getId() {
     return id;
+  }
+  
+  protected boolean isEmptyValue(String value) {
+    // Assumption: id string is not null
+    return value.trim().equals(Report.EMPTY_VALUE);
   }
 
   public Long getPartnerId() {

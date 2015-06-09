@@ -38,20 +38,19 @@ import com.google.api.ads.adwords.lib.jaxb.v201502.ReportDefinitionDateRangeType
 import com.google.common.collect.Lists;
 
 /**
- * This {@link Runnable} implements the core logic to download the report file
- * from the AdWords API.
+ * This {@link Runnable} implements the core logic to download the report file from the AdWords API.
  *
  * The {@link Collection}s passed to this runner are considered to be synchronized and thread safe.
  * This class has no blocking logic when adding elements to the collections.
  *
- * Also the {@link AdWordsSessionBuilderSynchronizer} is kept by the client class, and should
- * handle all the concurrent threads.
+ * Also the {@link AdWordsSessionBuilderSynchronizer} is kept by the client class, and should handle
+ * all the concurrent threads.
  *
  * Parse the rows in the CSV file for the report type, and persists the beans into the data base.
  *
  * @author gustavomoreira@google.com (Gustavo Moreira)
  * @author jtoledo@google.com (Julian Toledo)
- * 
+ *
  * @param <R> type of sub Report.
  */
 public class RunnableProcessorOnFile<R extends Report> implements Runnable {
@@ -79,9 +78,14 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
    * @param csvToBean the {@code CsvToBean}
    * @param mappingStrategy
    */
-  public RunnableProcessorOnFile(File file, ModifiedCsvToBean<R> csvToBean,
-      MappingStrategy<R> mappingStrategy, ReportDefinitionDateRangeType dateRangeType,
-      String dateStart, String dateEnd, String mccAccountId, EntityPersister entityPersister,
+  public RunnableProcessorOnFile(File file,
+      ModifiedCsvToBean<R> csvToBean,
+      MappingStrategy<R> mappingStrategy,
+      ReportDefinitionDateRangeType dateRangeType,
+      String dateStart,
+      String dateEnd,
+      String mccAccountId,
+      EntityPersister entityPersister,
       Integer reportRowsSetSize) {
     this.file = file;
     this.csvToBean = csvToBean;
@@ -166,13 +170,16 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
    * @throws UnsupportedEncodingException should not happen.
    * @throws FileNotFoundException in case the file has been deleted before the reading.
    */
-  private CSVReader createCsvReader(File file)
-      throws UnsupportedEncodingException, FileNotFoundException {
+  private CSVReader createCsvReader(File file) throws UnsupportedEncodingException,
+      FileNotFoundException {
 
-    LOGGER.debug("Creating AwReportCsvReader for file: " + file.getAbsolutePath() + ".gunzip");
+    String fileAbsolutePath = file.getAbsolutePath();
+    if (new File(fileAbsolutePath + ".gunzip").exists()) {
+      fileAbsolutePath = fileAbsolutePath + ".gunzip";
+    }
+    LOGGER.debug("Creating AwReportCsvReader for file: " + fileAbsolutePath);
     return new AwReportCsvReader(
-        new InputStreamReader(new FileInputStream(file.getAbsolutePath() + ".gunzip"), "UTF-8"),
-        ',', '\"', 1);
+        new InputStreamReader(new FileInputStream(fileAbsolutePath), "UTF-8"), ',', '\"', 1);
   }
 
   /**
@@ -187,8 +194,7 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
   }
 
   /**
-   * @param entityPersister
-   *            the entityPersister to set
+   * @param entityPersister the entityPersister to set
    */
   public void setPersister(EntityPersister entityPersister) {
     this.entityPersister = entityPersister;

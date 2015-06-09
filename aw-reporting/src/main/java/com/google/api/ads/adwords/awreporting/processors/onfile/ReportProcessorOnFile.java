@@ -314,6 +314,44 @@ public class ReportProcessorOnFile extends ReportProcessor {
   }
 
   /**
+   * Process the local files delegating the call to the concrete implementation.
+   *
+   * @param reportTypeName the report type name as String.
+   * @param localFiles the local files.
+   * @param dateStart the start date.
+   * @param dateEnd the end date.
+   * @param dateRangeType the date range type.
+   */
+  @SuppressWarnings("unchecked")
+  public <R extends Report> void processLocalFiles(String mccAccountId,
+      String reportTypeName,
+      Collection<File> localFiles,
+      String dateStart,
+      String dateEnd,
+      ReportDefinitionDateRangeType dateRangeType) {
+
+    Stopwatch stopwatch = Stopwatch.createStarted();
+
+    Class<R> reportBeanClass;
+    try {
+      ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportTypeName);
+      reportBeanClass = (Class<R>) this.csvReportEntitiesMapping.getReportBeanClass(reportType);
+    } catch (IllegalArgumentException e) {
+      reportBeanClass =
+          (Class<R>) this.csvReportEntitiesMapping.getExperimentalReportBeanClass(reportTypeName);
+    }
+    if (reportBeanClass == null) {
+      throw new IllegalArgumentException("Report type not found: " + reportTypeName);
+    }
+
+    this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd);
+
+    stopwatch.stop();
+    LOGGER.info("\n* DB Process finished in " + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)
+        + " seconds ***");
+  }
+
+  /**
    * Deletes the local files used as temporary containers.
    *
    * @param localFiles the list of local files.
