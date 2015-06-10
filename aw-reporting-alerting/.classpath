@@ -32,10 +32,11 @@
 	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava-jdk5/16.0-rc1/guava-jdk5-16.0-rc1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar"/>
 	<classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/api-ads/adwords-appengine/1.38.0/adwords-appengine-1.38.0.jar"/>
-	<classpathentry kind="var" path="M2_REPO/com/google/api-ads/ads-lib/1.38.0/ads-lib-1.38.0.jar">
+	<classpathentry kind="var" path="M2_REPO/com/google/api-ads/adwords-appengine/2.0.0/adwords-appengine-2.0.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/api-ads/ads-lib-appengine/2.0.0/ads-lib-appengine-2.0.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/api-ads/ads-lib/2.0.0/ads-lib-2.0.0.jar">
 		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/Users/zhuoc/.m2/repository/com/google/api-ads/ads-lib/1.38.0/ads-lib-1.38.0-javadoc.jar!/"/>
+			<attribute name="javadoc_location" value="jar:file:/Users/zhuoc/.m2/repository/com/google/api-ads/ads-lib-2.0.0/ads-lib-2.0.0-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/google/http-client/google-http-client/1.17.0-rc/google-http-client-1.17.0-rc.jar"/>

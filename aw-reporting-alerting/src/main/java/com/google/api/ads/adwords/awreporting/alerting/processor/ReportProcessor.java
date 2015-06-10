@@ -69,7 +69,7 @@ public abstract class ReportProcessor {
 
       LOGGER.info("Account IDs being recovered from the API. This may take a while...");
       accountIdsSet = new ManagedCustomerDelegate(
-          authenticator.authenticate(null, mccAccountId, false).build()).getAccountIds();
+          authenticator.authenticate(mccAccountId, false).build()).getAccountIds();
 
     } catch (ApiException e) {
       if (e.getMessage().contains("AuthenticationError")) {
@@ -78,7 +78,7 @@ public abstract class ReportProcessor {
         LOGGER.info("AuthenticationError, Getting a new Token...");
         LOGGER.info("Account IDs being recovered from the API. This may take a while...");
         accountIdsSet = new ManagedCustomerDelegate(
-            authenticator.authenticate(null, mccAccountId, true).build()).getAccountIds();
+            authenticator.authenticate(mccAccountId, true).build()).getAccountIds();
 
       } else {
         LOGGER.error("API error: " + e.getMessage());

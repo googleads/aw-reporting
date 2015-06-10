@@ -15,7 +15,7 @@
 package com.google.api.ads.adwords.awreporting.alerting.downloader;
 
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
-import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
+import com.google.api.ads.adwords.awreporting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;

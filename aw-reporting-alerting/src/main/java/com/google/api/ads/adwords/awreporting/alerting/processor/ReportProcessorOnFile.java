@@ -18,8 +18,8 @@ import com.google.api.ads.adwords.awreporting.alerting.downloader.MultipleClient
 import com.google.api.ads.adwords.awreporting.alerting.processor.ReportProcessor;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
-import com.google.api.ads.adwords.awreporting.alerting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
+import com.google.api.ads.adwords.awreporting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.jaxws.factory.AdWordsServices;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionField;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
@@ -137,7 +137,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
         .skipReportHeader(true)
         .skipReportSummary(true)
         .build();
-    AdWordsSession.Builder builder = authenticator.authenticate(null, mccAccountId, false)
+    AdWordsSession.Builder builder = authenticator.authenticate(mccAccountId, false)
         .withReportingConfiguration(reportingConfig);
     AdWordsSessionBuilderSynchronizer sessionBuilder = new AdWordsSessionBuilderSynchronizer(builder);
     
@@ -187,7 +187,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
     Map<String, String> mapping = reportFieldsMappings.get(reportType);
     if (null == mapping) {
-      AdWordsSession session = authenticator.authenticate(null, mccAccountId, false).build();
+      AdWordsSession session = authenticator.authenticate(mccAccountId, false).build();
       List<ReportDefinitionField> reportDefinitionFields = 
           new AdWordsServices().get(session, ReportDefinitionServiceInterface.class).getReportFields(reportType);
       
