@@ -14,15 +14,8 @@
 
   package com.google.api.ads.adwords.awreporting.exporter;
 
-  import com.google.api.ads.adwords.awreporting.exporter.reportwriter.FileSystemReportWriter;
-  import com.google.api.ads.adwords.awreporting.exporter.reportwriter.GoogleDriveReportWriter;
-  import com.google.api.ads.adwords.awreporting.exporter.reportwriter.MemoryReportWriter;
-  import com.google.api.ads.adwords.awreporting.exporter.reportwriter.ReportWriterType;
-  import com.google.api.ads.adwords.awreporting.exporter.reportwriter.ReportWriter.ReportFileType;
   import com.google.api.ads.adwords.awreporting.model.csv.CsvReportEntitiesMapping;
-  import com.google.api.ads.adwords.awreporting.model.entities.NameImprClicks;
   import com.google.api.ads.adwords.awreporting.model.entities.Report;
-  import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
   import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
   import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
   import com.google.api.ads.adwords.awreporting.util.TemplateStringsUtil;
@@ -43,12 +36,9 @@
   import java.io.IOException;
   import java.io.InputStream;
   import java.io.InputStreamReader;
-  import java.util.ArrayList;
-  import java.util.Arrays;
   import java.util.HashMap;
   import java.util.List;
   import java.util.Map;
-  import java.util.Map.Entry;
   import java.util.Properties;
   import java.util.Set;
 
