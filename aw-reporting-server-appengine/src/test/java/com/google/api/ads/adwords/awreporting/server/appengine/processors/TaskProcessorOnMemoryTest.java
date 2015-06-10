@@ -67,7 +67,7 @@ public class TaskProcessorOnMemoryTest {
   public void setUp() throws OAuthException, IOException, ValidationException,
   ReportException, ReportDownloadResponseException {
 
-    taskProcessorOnMemory = new TaskProcessorOnMemory<ReportAccount>("888", 2602198216L, null, ReportDefinitionDateRangeType.CUSTOM_DATE,
+    taskProcessorOnMemory = new TaskProcessorOnMemory<ReportAccount>(2602198216L, null, ReportDefinitionDateRangeType.CUSTOM_DATE,
         "20140101", "20140131", "123", 5, ReportAccount.class);
 
     MockitoAnnotations.initMocks(this);

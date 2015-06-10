@@ -35,7 +35,6 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
   private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(ReportTaskCreator.class.getName());
   
-  private String userId;
   private Collection<Long> acountIdList;
   private ReportDefinition reportDefinition;
   private String dateStart;
@@ -47,7 +46,6 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
   private Class<R> reportBeanClass;
   
   public ReportTaskCreator(
-    String userId,
     String mccAccountId,
     Collection<Long> acountIdList,
     ReportDefinition reportDefinition,
@@ -58,7 +56,6 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
     ReportDefinitionDateRangeType dateRangeType,
     Class<R> reportBeanClass) {
 
-    this.userId = userId;
     this.acountIdList = acountIdList;
     this.reportDefinition = reportDefinition;
     this.dateStart = dateStart;
@@ -81,7 +78,7 @@ public class ReportTaskCreator<R extends Report> implements DeferredTask {
         LOGGER.info("Task for account: " + accountId + reportType.name());
 
         QueueFactory.getQueue("reports").add(TaskOptions.Builder.withPayload(
-            new TaskProcessorOnMemory<R>(userId, accountId, reportDefinition, dateRangeType,
+            new TaskProcessorOnMemory<R>(accountId, reportDefinition, dateRangeType,
                 dateStart, dateEnd, mccAccountId, reportRowsSetSize, reportBeanClass)));
 
       } catch (Exception e) {

@@ -75,7 +75,6 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
   private String mccAccountId;
   private int reportRowsSetSize;
 
-  private String userId;
   private Long accountId;
   private ReportDefinition reportDefinition;
   private Class<R> reportBeanClass;
@@ -92,11 +91,10 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
    * @throws OAuthException 
    * @throws ValidationException 
    */
-  public TaskProcessorOnMemory(String userId, Long accountId, 
+  public TaskProcessorOnMemory(Long accountId, 
       ReportDefinition reportDefinition, ReportDefinitionDateRangeType dateRangeType,
       String dateStart, String dateEnd, String mccAccountId, Integer reportRowsSetSize,
       Class<R> reportBeanClass) throws OAuthException, IOException, ValidationException {
-    this.userId = userId;
     this.accountId = accountId;
     this.reportDefinition = reportDefinition;
     this.dateRangeType = dateRangeType;
@@ -205,7 +203,7 @@ public class TaskProcessorOnMemory<R extends Report> implements DeferredTask {
     InputStream inputStream = null;
 
     ReportDownloader reportDownloader = new ReportDownloader(
-        RestServer.getAdWordsSessionBuilderSynchronizer(userId, mccAccountId).getAdWordsSessionCopy(accountId));
+        RestServer.getAdWordsSessionBuilderSynchronizer(mccAccountId).getAdWordsSessionCopy(accountId));
 
     ReportDownloadResponse reportDownloadResponse = reportDownloader.downloadReport(reportDefinition);
 

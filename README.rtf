@@ -31,7 +31,7 @@
 \pard\tx220\tx720\pardeftab720\li720\fi-720\sl500\sa300
 \ls1\ilvl0\cf2 {\listtext	\'95	}You can use this project to generate reports for all the AdWords accounts managed by an MCC.\
 {\listtext	\'95	}15 common reports are included in the reference implementation. You can easily follow the code examples to implement more.\
-{\listtext	\'95	}Reports are stored in your 
+{\listtext	\'95	}Reports are stored in your
 \b relational database
 \b0 , so you can integrate them with your existing systems.\
 \pard\pardeftab720\sl800
@@ -84,12 +84,12 @@
 \cf2 Configure AwReporting\
 \pard\pardeftab720\sl500\sa300
 
-\b0\fs30 \cf2 Now we'll create a properties file to specify your MCC, developer token, OAuth, and database credentials.\
+\b0\fs30 \cf2 Now we'll create a properties file to specify your MCC, developer token, OAuth and database credentials.\
 \pard\pardeftab720\sl500\sa300
 
 \f1\fs24 \cf2 \cb4 $ vi ../aw-reporting/src/main/resources/aw-report-sample.properties
 \f0\fs30 \cb1 \
-Fill in the following fields with your MCC acount ID, and developer token.\
+Fill in the following fields with your MCC account ID and developer token.\
 \pard\pardeftab720\sl500\sa300
 \cf5 mccAccountId=\
 \pard\pardeftab720\sl500
@@ -97,7 +97,8 @@ Fill in the following fields with your MCC acount ID, and developer token.\
 \pard\pardeftab720\sl500\sa300
 \cf2 Fill in your OAuth credentials. If you need to create them, visit: {\field{\*\fldinst{HYPERLINK "https://code.google.com/apis/console#access"}}{\fldrslt \cf3 https://code.google.com/apis/console#access}}\
 \pard\pardeftab720\sl500\sa300
-\cf5 clientId=\
+\cf0 Note that you don't have to enter RefreshToken as AwReporting takes care of getting a new one when it runs for the first time.\cf5 \
+clientId=\
 \pard\pardeftab720\sl500
 \cf5 clientSecret=\
 \pard\pardeftab720\sl500\sa300
@@ -105,7 +106,7 @@ Fill in the following fields with your MCC acount ID, and developer token.\
 \pard\pardeftab720\sl500
 \cf5 aw.report.processor.rows.size=1000\
 \pard\pardeftab720\sl500\sa300
-\cf2 Fill in the following number to set the number of threads for the CSV processing and DB insertion.\
+\cf2 Fill in the following to set the number of threads for the CSV processing and DB insertion.\
 \pard\pardeftab720\sl500
 \cf5 aw.report.processor.threads=4\
 \pard\pardeftab720\sl500\sa300
@@ -115,24 +116,21 @@ Fill in the following fields with your MCC acount ID, and developer token.\
 aw.report.model.db.sql.username=reportuser\
 \pard\pardeftab720\sl500
 \cf5 aw.report.model.db.sql.password=SOME_PASSWORD\
-\pard\pardeftab720\sl600
-
-\b\fs36 \cf3 \
 \pard\pardeftab720\sl600\sa300
-\cf2 Import the project into Eclipse (optional)\
+
+\b\fs36 \cf2 \
+Run the project and verify it's working\
 \pard\pardeftab720\sl500\sa300
 
-\b0\fs30 \cf2 To import the project into Eclipse, first import the model:\
-\pard\pardeftab720\sl500\sa300
-\cf5 File -> Import -> General -> Existing projects into workspace.\
+\b0\fs30 \cf2 It's possible to run the project using either Eclipse or the command line. If using Eclipse, open and run:\
 \pard\pardeftab720\sl500
-\cf5 aw-reporting/aw-report-model\
+\cf5 aw-reporting/src/main/java/com/google/api/ads/adwords/jaxws/extensions/AwReporting.java\
 \pard\pardeftab720\sl500\sa300
-\cf2 Next import the database code:\
-\pard\pardeftab720\sl500\sa300
-\cf5 File -> Import -> General -> Existing projects into workspace.\
+\cf2 Be sure to specify the properties file you edited above on the command line.\
+As it's running, the project will provide status messages about the reports it's downloading on the command line.\
+Check your database when the run finishes to be sure it's been populated with the reporting data, e.g.:\
 \pard\pardeftab720\sl500
-\cf5 aw-reporting/aw-reporting\
+\cf5 SELECT * FROM AWReports.AW_ReportAd limit 1;\
 \pard\pardeftab720\sl600
 
 \b\fs36 \cf3 \
@@ -187,32 +185,36 @@ aw.report.model.db.sql.username=reportuser\
 \pard\pardeftab720\sl380
 
 \fs26 \cf2 \
-\pard\pardeftab720\sl600
-
-\f0\b\fs36 \cf3 \cb1 \
-\pard\pardeftab720\sl600\sa300
-\cf2 Run the project and verify it's working\
-\pard\pardeftab720\sl500\sa300
-
-\b0\fs30 \cf2 It's possible to run the project using either Eclipse or the command line. If using Eclipse, open and run:\
-\pard\pardeftab720\sl500
-\cf5 aw-reporting/src/main/java/com/google/api/ads/adwords/jaxws/extensions/AwReporting.java\
-\pard\pardeftab720\sl500\sa300
-\cf2 Be sure to specify the properties file you edited above on the command line.\
-As it's running, the project will provide status messages about the reports it's downloading on the command line.\
-Check your database when the run finishes to be sure it's been populated with the reporting data, e.g.:\
-\pard\pardeftab720\sl500
-\cf5 SELECT * FROM AWReports.AW_ReportAd limit 1;\
 \pard\pardeftab720\sl800
 
-\b\fs48 \cf3 \
-\pard\pardeftab720\sl800\sa300
-\cf2 Details about the code\
+\f0\b\fs48 \cf3 \cb1 \
+\pard\pardeftab720\sl600\sa300
+
+\fs36 \cf2 Import the project into Eclipse (optional)\
 \pard\pardeftab720\sl500\sa300
 
-\b0\fs30 \cf2 For better organization and encapsulation, the project groups the reporting workflow into two parts: 
+\b0\fs30 \cf2 To import the project into Eclipse, first import the model:\
+\pard\pardeftab720\sl500\sa300
+\cf5 File -> Import -> General -> Existing projects into workspace.\
+\pard\pardeftab720\sl500
+\cf5 aw-reporting/aw-report-model\
+\pard\pardeftab720\sl500\sa300
+\cf2 Next import the database code:\
+\pard\pardeftab720\sl500\sa300
+\cf5 File -> Import -> General -> Existing projects into workspace.\
+\pard\pardeftab720\sl500
+\cf5 aw-reporting/aw-reporting\
+\pard\pardeftab720\sl600
+
+\b\fs36 \cf3 \
+\pard\pardeftab720\sl800\sa300
+
+\fs48 \cf2 Details about the code\
+\pard\pardeftab720\sl500\sa300
+
+\b0\fs30 \cf2 For better organization and encapsulation, the project groups the reporting workflow into two parts:
 \b Aw-Report-Model
-\b0  for the logic (API services, downloader and processors) and 
+\b0  for the logic (API services, downloader and processors) and
 \b Aw-Reporting
 \b0  for persistence, entities and the CSV mapping to AdWords information.\
 \pard\pardeftab720\sl600
@@ -231,16 +233,16 @@ Check your database when the run finishes to be sure it's been populated with th
 \b {\listtext	\'95	}CSV:
 \b0  The CSV classes use the OpenCSV library to convert CSV files into Java beans using annotations. The package also contains two new annotations to define the Report Definition Type and the mapping between java field, report\'92s Column Name and Display Name headers. For example:\
 \pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sl500\sa300
-\ls2\ilvl1\cf2 {\listtext	
-\f2 \uc0\u9702 
-\f0 	}Annotation 
+\ls2\ilvl1\cf2 {\listtext
+\f2 \uc0\u9702
+\f0 	}Annotation
 \b @CsvReport
 \b0  at the Report class level, for example for ReportAccount:
 \f1\fs24 \cb4 @CsvReport(value= ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT) public class ReportAccount extends Report \{...
 \f0\fs30 \cb1 \
-{\listtext	
-\f2 \uc0\u9702 
-\f0 	}Annotation 
+{\listtext
+\f2 \uc0\u9702
+\f0 	}Annotation
 \b @CsvField
 \b0  at the java field level, for example for avgCpm:
 \f1\fs24 \cb4 @CsvField (value = "Avg. CPM", reportField = "AverageCpm") public BigDecimal avgCpm;
@@ -260,16 +262,16 @@ Check your database when the run finishes to be sure it's been populated with th
 \pard\tx220\tx720\pardeftab720\li720\fi-720\sl500\sa300
 \ls3\ilvl0
 \b \cf2 {\listtext	\'95	}Downloader:
-\b0  Based on MultipleClientReportDownloader java example (it uses the Library ReportDownloader) the Downloader is on charge of downloading all the report files using multiple threads.\
+\b0  Based on MultipleClientReportDownloader java example (it uses the Library ReportDownloader) the Downloader is in charge of downloading all the report files using multiple threads.\
 \ls3\ilvl0
 \b {\listtext	\'95	}Processors:
-\b0  The ReportProcessor is the class with the main logic, it is responsible for calling the downloader, use the CVS classes for the parsing and call the Persistence helpers for the storage. This class can be replace by a custom processor by changing the bean component in the projects xml configuration files.\
+\b0  The ReportProcessor is the class with the main logic, it is responsible for calling the downloader, use the CSV classes for the parsing and call the Persistence helpers for the storage. This class can be replaced by a custom processor by changing the bean component in the projects xml configuration files.\
 \ls3\ilvl0
 \b {\listtext	\'95	}API Services:
-\b0  Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is on charge of getting all the account ids in the MCC tree.\
+\b0  Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is in charge of getting all the account ids in the MCC tree.\
 \ls3\ilvl0
 \b {\listtext	\'95	}AwReporting main:
-\b0  The AwReporting main class is on charge of printing the help information, the properties file example and of passing the command line parameters to the processor for execution.\
+\b0  The AwReporting main class is in charge of printing the help information, of the properties file example and of passing the command line parameters to the processor for execution.\
 \pard\pardeftab720\sl800
 
 \b\fs48 \cf3 \
@@ -278,7 +280,7 @@ Check your database when the run finishes to be sure it's been populated with th
 \pard\pardeftab720\sl500\sa300
 
 \b0\fs30 \cf2 PDF generation works monthly and also needs the use of a HTML template like ACCOUNT_PERFORMANCE_REPORT.tmpl\
-First run the the date range without the -generatePdf to download the data needed to generate them.\
+First run the date range without the -generatePdf to download the data needed to generate them.\
 Here's an example properties file for PDF generation:\
 \pard\pardeftab720\sl500
 \cf5 aw-report-sample-for-pdf.properties\
@@ -289,12 +291,12 @@ Here's an example properties file for PDF generation:\
 \cf2 Fine print\
 \pard\pardeftab720\sl500\sa300
 
-\b0\fs30 \cf2 Pull requests are very much appreciated. Please sign the {\field{\*\fldinst{HYPERLINK "http://code.google.com/legal/individual-cla-v1.0.html"}}{\fldrslt \cf3 Google Code contributor license agreement}} (There is a convenient online form) before submitting.\
+\b0\fs30 \cf2 Pull requests are very much appreciated. Please sign the {\field{\*\fldinst{HYPERLINK "http://code.google.com/legal/individual-cla-v1.0.html"}}{\fldrslt \cf3 Google Individual Contributor License Agreement}} (There is a convenient online form) before submitting.\
 \pard\pardeftab720\sl500
 
 \i\b\fs28 \cf2 Authors\
 \pard\pardeftab720\sl500
-{\field{\*\fldinst{HYPERLINK "https://plus.google.com/+JulianCToledo/"}}{\fldrslt 
+{\field{\*\fldinst{HYPERLINK "https://plus.google.com/+JulianCToledo/"}}{\fldrslt
 \i0\b0\fs30 \cf3 Julian Toledo (Google Inc.)}}
 \i0\b0\fs30 \
 \pard\pardeftab720\sl500

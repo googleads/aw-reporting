@@ -143,12 +143,12 @@ public class RestServer extends com.google.api.ads.adwords.awreporting.server.re
   private static final HashMap<AdWordsSessionBuilderSynchronizer, AdWordsSessionBuilderSynchronizer>
     adWordsSessionBuilderSynchronizerMap = Maps.newHashMap();
 
-  public static synchronized AdWordsSessionBuilderSynchronizer getAdWordsSessionBuilderSynchronizer(String userId, String mccAccountId) throws OAuthException, IOException {
+  public static synchronized AdWordsSessionBuilderSynchronizer getAdWordsSessionBuilderSynchronizer(String mccAccountId) throws OAuthException, IOException {
     AdWordsSessionBuilderSynchronizer adWordsSessionBuilderSynchronizer = adWordsSessionBuilderSynchronizerMap.get(mccAccountId);
     if (adWordsSessionBuilderSynchronizer == null) {
       synchronized (RestServer.class) {
         if (adWordsSessionBuilderSynchronizer == null) {
-          adWordsSessionBuilderSynchronizer = new AdWordsSessionBuilderSynchronizer(getAuthenticator().authenticate(userId, mccAccountId, false));
+          adWordsSessionBuilderSynchronizer = new AdWordsSessionBuilderSynchronizer(getAuthenticator().authenticate(mccAccountId, false));
         }
       }
     }

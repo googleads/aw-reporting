@@ -87,7 +87,7 @@ public class KratuProcessor {
       try {
 
         LOGGER.info("Fetching data for accounts on the accountIdsFile from the API");
-        accounts = Account.fromCustomerList(reportProcessor.getAccountsInfo(null, String.valueOf(topAccountId), accountIdsSet), topAccountId);
+        accounts = Account.fromCustomerList(reportProcessor.getAccountsInfo(String.valueOf(topAccountId), accountIdsSet), topAccountId);
         storageHelper.getEntityPersister().save(accounts);
 
       } catch (Exception e) {
@@ -109,7 +109,7 @@ public class KratuProcessor {
     System.out.println("Updating Accounts from server... (may take long)");
     try {
 
-      accounts = Account.fromManagedCustomerList(reportProcessor.getAccounts(null, String.valueOf(topAccountId)), topAccountId);
+      accounts = Account.fromManagedCustomerList(reportProcessor.getAccounts(String.valueOf(topAccountId)), topAccountId);
       storageHelper.getEntityPersister().save(accounts);
 
     } catch (Exception e) {

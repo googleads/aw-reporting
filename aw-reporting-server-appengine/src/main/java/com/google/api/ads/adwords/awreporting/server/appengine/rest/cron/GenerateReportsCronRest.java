@@ -54,12 +54,11 @@ public class GenerateReportsCronRest extends AbstractBaseResource {
       for (UserToken token : userTokens) {
 
         Long tokenTopAccountId = token.getTopAccountId();
-        String tokenUserId = token.getUserId();
 
         if (topAccountIds.add(tokenTopAccountId)) {
 
           LOGGER.info(" Refresh Accounts for MCC for " + tokenTopAccountId);
-          RefreshAccountsTask.createRefreshAccountsTask(tokenUserId, String.valueOf(tokenTopAccountId));
+          RefreshAccountsTask.createRefreshAccountsTask(String.valueOf(tokenTopAccountId));
 
           LOGGER.info(" Generate Report Task for MCC for " + tokenTopAccountId);
           System.out.println(" Generate Report Task for MCC for " + tokenTopAccountId);
@@ -68,7 +67,7 @@ public class GenerateReportsCronRest extends AbstractBaseResource {
           String dateStart = DateUtil.formatYearMonthDayNoDash(DateUtil.firstDayPreviousMonth());
           String dateEnd = DateUtil.formatYearMonthDayNoDash(DateUtil.lastDayPreviousMonth());
 
-          reportProcessorAppEngine.generateReportsForMCC(tokenUserId, String.valueOf(tokenTopAccountId),
+          reportProcessorAppEngine.generateReportsForMCC(String.valueOf(tokenTopAccountId),
               ReportDefinitionDateRangeType.CUSTOM_DATE, dateStart, dateEnd, null, properties, null, null);
         }
         result = "OK";

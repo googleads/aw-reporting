@@ -41,7 +41,6 @@ public class ExportTask implements DeferredTask {
   private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(ExportTaskCreator.class.getName());
 
-  private String userId;
   private String mccAccountId;
   private String dateStart;
   private String dateEnd;
@@ -51,10 +50,9 @@ public class ExportTask implements DeferredTask {
   private File outputDirectory;
   private boolean sumAdExtensions;
 
-  public ExportTask(final String userId, final String mccAccountId, final String dateStart,
+  public ExportTask(final String mccAccountId, final String dateStart,
       final String dateEnd, final Long accountId, final Properties properties,
       final Long htmlTemplateId, final File outputDirectory, final Boolean sumAdExtensions) {
-    this.userId = userId;
     this.mccAccountId = mccAccountId;
     this.dateStart = dateStart;
     this.dateEnd = dateEnd;
@@ -73,7 +71,7 @@ public class ExportTask implements DeferredTask {
 
     try {
 
-      Credential credential = RestServer.getAuthenticator().getOAuth2Credential(userId, mccAccountId, false);
+      Credential credential = RestServer.getAuthenticator().getOAuth2Credential(mccAccountId, false);
       
       List<HtmlTemplate> templatesList = RestServer.getPersister().get(HtmlTemplate.class, "id", htmlTemplateId);
       

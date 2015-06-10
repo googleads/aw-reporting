@@ -134,7 +134,7 @@ public class ExportReportsRest extends AbstractBaseResource {
             accountIds.add(Long.valueOf(account.getId()));
           }
 
-          reportExporterAppEngine.exportReports(userId, String.valueOf(topAccountId), dateStart, dateEnd,
+          reportExporterAppEngine.exportReports(String.valueOf(topAccountId), dateStart, dateEnd,
               accountIds, properties, templateId, outputDirectory, sumAdExtensions);
           
           // Hard coded Drive URL pending Drive bug fix.
@@ -151,7 +151,7 @@ public class ExportReportsRest extends AbstractBaseResource {
               " using templateId: #" + templateId + ". Report date range: " +
               dateStart + " - " + dateEnd);
 
-          reportExporterAppEngine.exportReports(userId, String.valueOf(topAccountId), dateStart, dateEnd,
+          reportExporterAppEngine.exportReports(String.valueOf(topAccountId), dateStart, dateEnd,
               Sets.newHashSet(accountId), properties, templateId, outputDirectory, sumAdExtensions);
 
           return createJsonResult("OK");

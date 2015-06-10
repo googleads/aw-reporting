@@ -42,7 +42,6 @@ public class GenerateReportsRest extends AbstractBaseResource {
       Long topAccountId = getParameterAsLong("topAccountId");
       Date dateStart = getParameterAsDate("dateStart");
       Date dateEnd = getParameterAsDate("dateEnd");
-      String userId = RestServer.getWebAuthenticator().getCurrentUser();
 
       if (topAccountId != null && dateStart != null && dateEnd != null) { // Generate Report Task for MCC
 
@@ -52,7 +51,7 @@ public class GenerateReportsRest extends AbstractBaseResource {
 
         ReportProcessorAppEngine reportProcessorAppEngine = createReportProcessor();
 
-        reportProcessorAppEngine.generateReportsForMCC(userId, String.valueOf(topAccountId),
+        reportProcessorAppEngine.generateReportsForMCC(String.valueOf(topAccountId),
             ReportDefinitionDateRangeType.CUSTOM_DATE, DateUtil.formatYearMonthDayNoDash(dateStart),
             DateUtil.formatYearMonthDayNoDash(dateEnd), null, properties, null, null);
 

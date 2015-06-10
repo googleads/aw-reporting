@@ -34,7 +34,6 @@ public class ExportTaskCreator implements DeferredTask, Serializable {
   private static final long serialVersionUID = 1L;
   private static final Logger LOGGER = Logger.getLogger(ExportTaskCreator.class.getName());
 
-  private String userId;
   private String mccAccountId;
   private Collection<Long> accountIdList;
   private String dateStart;
@@ -45,7 +44,6 @@ public class ExportTaskCreator implements DeferredTask, Serializable {
   private Boolean sumAdExtensions;
 
   public ExportTaskCreator(
-      String userId,
       String mccAccountId,
       Collection<Long> accountIdList,
       String dateStart,
@@ -54,7 +52,6 @@ public class ExportTaskCreator implements DeferredTask, Serializable {
       Long htmlTemplateId,
       File outputDirectory,
       Boolean sumAdExtensions) {
-    this.userId = userId;
     this.mccAccountId = mccAccountId;
     this.accountIdList = accountIdList;
     this.dateStart = dateStart;
@@ -73,7 +70,7 @@ public class ExportTaskCreator implements DeferredTask, Serializable {
       try {
         LOGGER.info("Exporting HTML report for account: " + accountId);
         QueueFactory.getQueue("pdfs").add(TaskOptions.Builder.withPayload(
-            new ExportTask(userId, mccAccountId, dateStart, dateEnd, accountId, properties, htmlTemplateId,
+            new ExportTask(mccAccountId, dateStart, dateEnd, accountId, properties, htmlTemplateId,
                 outputDirectory, sumAdExtensions)));
       } catch (Exception e) {
         LOGGER.severe("Ignoring account (Error when processing): " + accountId);

@@ -43,11 +43,11 @@ You will need Java, Maven and MySQL installed before configuring the project.
 
 ### Configure AwReporting 
 
-Now we'll create a properties file to specify your MCC, developer token, OAuth, and database credentials.
+Now we'll create a properties file to specify your MCC, developer token, OAuth and database credentials.
 
 <code>$ vi aw-reporting/src/main/resources/aw-report-sample.properties</code>
 
-Fill in the following fields with your MCC acount ID, and developer token.
+Fill in the following fields with your MCC account ID and developer token.
 
 >mccAccountId=
 
@@ -55,7 +55,7 @@ Fill in the following fields with your MCC acount ID, and developer token.
 
 Fill in your OAuth credentials. If you need to create them, visit: <a href>https://code.google.com/apis/console#access</a>
 
-Note that you don't have enter RefreshToken as AwReporting takes care of getting new one when it when run for the first time.
+Note that you don't have to enter RefreshToken as AwReporting takes care of getting a new one when it runs for the first time.
 
 >clientId=
 
@@ -66,7 +66,7 @@ The bigger the number, the bigger the memory usage, but also might give an impro
 
 >aw.report.processor.rows.size=1000
 
-Fill in the following number to set the number of threads for the CSV processing and DB insertion.
+Fill in the following to set the number of threads for the CSV processing and DB insertion.
 
 >aw.report.processor.threads=4
 
@@ -80,7 +80,7 @@ Fill in the following with your database connection.
 
 ### Run the project and verify it's working 
 
-Now, you are ready to run AwReporting with following command.
+Now, you are ready to run AwReporting with the following command.
 
 ```
 $ java -Xmx1G -jar aw-reporting/target/aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD \
@@ -198,7 +198,7 @@ For better organization and encapsulation, the project groups the reporting work
 
 
 ### Aw-Report-Model
-Provides all the necessary classes to persist data and the entities’ mapping  to AdWords report data.
+Provides all the necessary classes to persist data and the entities’ mapping to AdWords report data.
 
 * **Entities:** these POJOs define all the available fields for each report kind as java fields, by using annotations. The Entities contain the information to link the java fields to the report fields definition, the csv display name header fields and the datastore fields.
 
@@ -221,13 +221,13 @@ ReportEntitiesPersister is the interface for the report entities storage, we hav
 ### Aw-Reporting
 Provides the logic (API services, downloader and processors) 
 
-* **Downloader:** Based on MultipleClientReportDownloader java example (it uses the Library ReportDownloader) the Downloader is on charge of downloading all the report files using multiple threads.
+* **Downloader:** Based on MultipleClientReportDownloader java example (it uses the Library ReportDownloader) the Downloader is in charge of downloading all the report files using multiple threads.
 
-* **Processors:** The ReportProcessor is the class with the main logic, it is responsible for calling the downloader, use the CVS classes for the parsing and call the Persistence helpers for the storage. This class can be replace by a custom processor by changing the bean component in the projects xml configuration files.
+* **Processors:** The ReportProcessor is the class with the main logic, it is responsible for calling the downloader, use the CSV classes for the parsing and call the Persistence helpers for the storage. This class can be replaced by a custom processor by changing the bean component in the projects xml configuration files.
 
-* **API Services:** Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is on charge of getting all the account ids in the MCC tree.
+* **API Services:** Beside the report Downloader calls to AdHoc Reports, the ManagedCustomerDelegate is the only class talking to the AdWords API, it is in charge of getting all the account ids in the MCC tree.
 
-* **AwReporting main:** The AwReporting main class is on charge of printing the help information, the properties file example and of passing the command line parameters to the processor for execution.
+* **AwReporting main:** The AwReporting main class is in charge of printing the help information, of the properties file example and of passing the command line parameters to the processor for execution.
 
 ## Offline Data Import
 
@@ -272,14 +272,14 @@ $ java -Xmx1G -jar aw-reporting/target/aw-reporting.jar -startDate YYYYMMDD -end
 
 PDF generation works monthly and also needs the use of a HTML template like ACCOUNT\_PERFORMANCE\_REPORT.tmpl
 
-First run the the date range without the -generatePdf to download the data needed to generate them.
+First run the date range without the -generatePdf to download the data needed to generate them.
 
 Here's an example properties file for PDF generation:
 
 > aw-report-sample-for-pdf.properties
 
 ### Fine print
-Pull requests are very much appreciated. Please sign the [Google Code contributor license agreement](http://code.google.com/legal/individual-cla-v1.0.html) (There is a convenient online form) before submitting.
+Pull requests are very much appreciated. Please sign the [Google Individual Contributor License Agreement](http://code.google.com/legal/individual-cla-v1.0.html) (There is a convenient online form) before submitting.
 
 <dl>
   <dt>Authors</dt><dd><a href="https://plus.google.com/+JulianCToledo/">Julian Toledo (Google Inc.)

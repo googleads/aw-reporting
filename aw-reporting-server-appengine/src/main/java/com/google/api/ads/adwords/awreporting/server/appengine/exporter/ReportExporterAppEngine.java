@@ -69,13 +69,13 @@ public class ReportExporterAppEngine extends ServerReportExporter implements Ser
    * Creates the tasks that write export the Drive Doc reports.
    * @return the URL of the top level drive folder that will contain the reports
    */
-  public void exportReports(final String userId, final String mccAccountId,
+  public void exportReports(final String mccAccountId,
       final String dateStart, final String dateEnd, final Set<Long> accountIds, final Properties properties,
       final Long htmlTemplateId, final File outputDirectory, final Boolean sumAdExtensions) 
           throws IOException, OAuthException, DocumentException {
 
     // Create the folder before creating the threads if it does not exist.
-    Credential credential = RestServer.getAuthenticator().getOAuth2Credential(userId, mccAccountId, false);
+    Credential credential = RestServer.getAuthenticator().getOAuth2Credential(mccAccountId, false);
 
     GoogleDriveService.getGoogleDriveService(credential).getReportsFolder(mccAccountId).getWebContentLink();
 
@@ -88,7 +88,6 @@ public class ReportExporterAppEngine extends ServerReportExporter implements Ser
       // Partition needs to be serializable
       QueueFactory.getDefaultQueue().add(TaskOptions.Builder.withPayload(
           new ExportTaskCreator(
-              userId,
               mccAccountId,
               Lists.newArrayList(partition),
               dateStart,

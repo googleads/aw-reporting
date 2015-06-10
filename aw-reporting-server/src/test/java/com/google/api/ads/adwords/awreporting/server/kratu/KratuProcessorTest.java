@@ -79,7 +79,7 @@ public class KratuProcessorTest {
     customer2.setCustomerId(2L);
     List<Customer> customers = ImmutableList.of(customer1, customer2);
     when(mockedReportProcessor.getAccountsInfo(
-        Mockito.anyString(), Mockito.anyString(), Mockito.anySetOf(Long.class))).thenReturn(customers);
+        Mockito.anyString(), Mockito.anySetOf(Long.class))).thenReturn(customers);
   }
 
   @Test

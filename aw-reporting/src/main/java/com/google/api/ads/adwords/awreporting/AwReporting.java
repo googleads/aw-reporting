@@ -71,7 +71,7 @@ import java.util.Set;
  * @author jtoledo@google.com (Julian Toledo)
  * @author gustavomoreira@google.com (Gustavo Moreira)
  */
-public class AwReporting {
+ public class AwReporting{
 
   private static final Logger LOGGER = Logger.getLogger(AwReporting.class);
 
@@ -152,38 +152,8 @@ public class AwReporting {
 
       String mccAccountId = properties.getProperty("mccAccountId").replaceAll("-", "");
 
-      if (cmdLine.hasOption("generatePdf")) {
-
-        LOGGER.debug("GeneratePDF option detected.");
-
-        // Get HTML template and output directory
-        String[] pdfFiles = cmdLine.getOptionValues("generatePdf");
-        File htmlTemplateFile = new File(pdfFiles[0]);
-        File outputDirectory = new File(pdfFiles[1]);
-        boolean sumAdExtensions = false;
-
-        if (cmdLine.hasOption("sumAdExtensions")) {
-          LOGGER.debug("sumAdExtensions option detected.");
-          sumAdExtensions = true;
-        }
-
-        LOGGER.debug("Html template file to be used: " + htmlTemplateFile);
-        LOGGER.debug("Output directory for PDF: " + outputDirectory);
-
-        // Export Reports
-        ReportExporterLocal reportExporter = createReportExporter();
-        reportExporter.exportReports(createAuthenticator().getOAuth2Credential(mccAccountId,
-            false),
-            mccAccountId,
-            cmdLine.getOptionValue("startDate"),
-            cmdLine.getOptionValue("endDate"),
-            processor.retrieveAccountIds(mccAccountId),
-            properties,
-            htmlTemplateFile,
-            outputDirectory,
-            sumAdExtensions);
-
-      } else if (cmdLine.hasOption("startDate") && cmdLine.hasOption("endDate")) {
+     
+       if (cmdLine.hasOption("startDate") && cmdLine.hasOption("endDate")) {
         // Generate Reports
 
         String dateStart = cmdLine.getOptionValue("startDate");
@@ -309,16 +279,6 @@ public class AwReporting {
   }
 
   /**
-   * Creates the {@link ReportExporterLocal} autowiring all the dependencies.
-   *
-   * @return the {@code ReportExporter} with all the dependencies properly injected.
-   */
-  private static ReportExporterLocal createReportExporter() {
-
-    return appCtx.getBean(ReportExporterLocal.class);
-  }
-
-  /**
    * Creates the {@link Authenticator} autowiring all the dependencies.
    *
    * @return the {@code Authenticator} with all the dependencies properly injected.
@@ -363,14 +323,6 @@ public class AwReporting {
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("dateRange"));
 
-    OptionBuilder.withArgName("htmlTemplateFile> <outputDirectory");
-    OptionBuilder.withValueSeparator(' ');
-    OptionBuilder.hasArgs(2);
-    OptionBuilder.withDescription("Generate Monthly Account Reports for all Accounts in PDF\n"
-        + "NOTE: For PDF use aw-report-sample-for-pdf.properties instead, "
-        + "the fields need to be different.");
-    options.addOption(OptionBuilder.create("generatePdf"));
-
     OptionBuilder.withArgName("accountIdsFile");
     OptionBuilder.hasArg(true);
     OptionBuilder.withDescription(
@@ -383,13 +335,6 @@ public class AwReporting {
     OptionBuilder.withDescription("The application will print all the tracing on the console");
     OptionBuilder.isRequired(false);
     options.addOption(OptionBuilder.create("verbose"));
-
-    OptionBuilder.withArgName("sumAdExtensions");
-    OptionBuilder.hasArg(false);
-    OptionBuilder.withDescription("The application will include calculated sums"
-        + "for AdExtension reporting in HTML/PDF reports.");
-    OptionBuilder.isRequired(false);
-    options.addOption(OptionBuilder.create("sumAdExtensions"));
 
     OptionBuilder.withArgName("debug");
     OptionBuilder.hasArg(false);
@@ -431,7 +376,6 @@ public class AwReporting {
     formatter.setWidth(120);
     formatter.printHelp(" java -Xmx1G -jar aw-reporting.jar -startDate YYYYMMDD -endDate YYYYMMDD "
         + "-file <file>\n java -Xmx1G -jar aw-reporting.jar "
-        + "-generatePdf <htmlTemplateFile> <outputDirectory> -sumAdExtensions "
         + "-startDate YYYYMMDD -endDate YYYYMMDD -file <file>", "\nArguments:", options, "");
     System.out.println();
   }

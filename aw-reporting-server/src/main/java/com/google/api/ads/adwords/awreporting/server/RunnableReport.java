@@ -52,7 +52,7 @@ public class RunnableReport implements Runnable {
       
       LOGGER.debug("Creating ReportProcessor bean...");
 
-      processor.generateReportsForMCC(null, String.valueOf(topAccountId), ReportDefinitionDateRangeType.CUSTOM_DATE,
+      processor.generateReportsForMCC(String.valueOf(topAccountId), ReportDefinitionDateRangeType.CUSTOM_DATE,
           DateUtil.formatYearMonthDayNoDash(dateStart), DateUtil.formatYearMonthDayNoDash(dateEnd), null, properties, null, null);
 
     } catch (Exception e) {
