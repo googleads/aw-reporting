@@ -30,7 +30,7 @@ import com.google.gson.JsonParseException;
 
 /**
  * Alert rules processor is responsible for processing the list of alert rules on this ReportData.
- * It is shared among all the ReportDatas in multiple threads, so it MUST be a stateless class.
+ * It MUST be stateless, as the instance will be shared among multiple threads.
  *
  * @author zhuoc@google.com (Zhuo Chen)
  */
