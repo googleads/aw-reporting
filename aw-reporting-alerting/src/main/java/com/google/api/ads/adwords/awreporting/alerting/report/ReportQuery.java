@@ -25,8 +25,8 @@ import com.google.gson.JsonObject;
 public class ReportQuery {  
   private String reportType;
   private String fields;
-  private String predicate;  // optional
-  private String timeRange;  // optional
+  private String conditions;  // optional
+  private String timeRange;   // optional
   
   /**
    * Constructor
@@ -37,8 +37,8 @@ public class ReportQuery {
     reportType = config.get(ConfigTags.ReportQuery.REPORT_TYPE).getAsString();
     fields = config.get(ConfigTags.ReportQuery.FIELDS).getAsString();
     
-    if (config.has(ConfigTags.ReportQuery.PREDICATE)) {
-      predicate = config.get(ConfigTags.ReportQuery.PREDICATE).getAsString();
+    if (config.has(ConfigTags.ReportQuery.CONDITIONS)) {
+      conditions = config.get(ConfigTags.ReportQuery.CONDITIONS).getAsString();
     }
     
     if (config.has(ConfigTags.ReportQuery.TIME_RANGE)) {
@@ -57,8 +57,8 @@ public class ReportQuery {
    */
   public String generateAWQL() {
     String query = "SELECT " + fields + " FROM " + reportType;
-    if (predicate != null) {
-      query += " WHERE " + predicate;
+    if (conditions != null) {
+      query += " WHERE " + conditions;
     }
     if (timeRange != null) {
       query += " DURING " + timeRange;

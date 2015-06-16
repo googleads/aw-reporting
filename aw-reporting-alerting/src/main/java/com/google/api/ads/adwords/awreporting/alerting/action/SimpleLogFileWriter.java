@@ -31,14 +31,14 @@ import com.google.gson.JsonObject;
  * 
  * The JSON config should look like:
  * {
- *   "ActionClass": "LogFileWriter",
+ *   "ActionClass": "SimpleLogFileWriter",
  *   "LogFilePathname": "/tmp/xyz.log",
  *   "AppendMode": "true"
  * }
  * 
  * @author zhuoc@google.com (Zhuo Chen)
  */
-public class LogFileWriter implements AlertAction {
+public class SimpleLogFileWriter implements AlertAction {
   private static String LOG_FILE_PATHNAME_TAG = "LogFilePathname";
   private static String APPEND_MODE_TAG       = "AppendMode";  // optional
   private static int LINES_TO_FLUSH = 100;  // Flush buffer after this number of lines
@@ -51,7 +51,7 @@ public class LogFileWriter implements AlertAction {
    * Constructor
    * @param config the JsonObject for the alert action configuration.
    */
-  public LogFileWriter(JsonObject config) {
+  public SimpleLogFileWriter(JsonObject config) {
     filePathname = config.get(LOG_FILE_PATHNAME_TAG).getAsString();
     boolean appendMode = true;
     if (config.has(APPEND_MODE_TAG)) {

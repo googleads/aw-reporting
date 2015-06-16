@@ -45,7 +45,7 @@ public class RunnableProcessorOnFile implements Runnable {
   private CountDownLatch latch;
 
   private File file;
-  private Map<String, String> mapping;
+  private Map<String, String> filedsMapping;
   private String alertName;
   private ReportDefinitionReportType reportType;
   private AlertRulesProcessor rulesProcessor;
@@ -58,7 +58,7 @@ public class RunnableProcessorOnFile implements Runnable {
    * C'tor.
    *
    * @param file the CSV file of the report type.
-   * @param mapping the fields mapping for this report type.
+   * @param filedsMapping the fields mapping for this report type.
    * @param alertName the name of current alert.
    * @param reportType the type of current report.
    * @param rulesProcessor the processor of current alert rules.
@@ -66,14 +66,14 @@ public class RunnableProcessorOnFile implements Runnable {
    * @param outputReports the thread-safe list of generated ReportData
    */
   public RunnableProcessorOnFile(File file,
-      Map<String, String> mapping,
+      Map<String, String> filedsMapping,
       String alertName,
       ReportDefinitionReportType reportType,
       AlertRulesProcessor rulesProcessor,
       String alertMessage,
       List<ReportData> outputReports) {
     this.file = file;
-    this.mapping = mapping;
+    this.filedsMapping = filedsMapping;
     this.alertName = alertName;
     this.reportType = reportType;
     this.rulesProcessor = rulesProcessor;
@@ -98,10 +98,12 @@ public class RunnableProcessorOnFile implements Runnable {
 
       // Parse the CSV file into report
       LOGGER.debug("Starting processing rules of report...");
-      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), mapping, alertName, reportType);
+      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), filedsMapping, alertName, reportType);
       
       // Apply alert rules on the report
-      rulesProcessor.processReport(report);
+      if (null != rulesProcessor) {
+        rulesProcessor.processReport(report);
+      }
       
       // Apply alert message template on each report entry
       AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);

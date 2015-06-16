@@ -69,7 +69,7 @@ public class RunnableAlertActionProcessor implements Runnable {
       // Run alert action on each report
       action.initializeAction();
       for (ReportData report : reports) {
-        final Map<String, Integer> mapping = report.getMapping();
+        final Map<String, Integer> mapping = report.getIndiceMapping();
         for (List<String> entry : report.getEntries()) {
           final ReportEntry curEntry = new ReportEntry(entry, mapping);
           action.processReportEntry(curEntry);

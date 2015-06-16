@@ -32,7 +32,7 @@ public final class ConfigTags {
   public static final class ReportQuery {
     public static final String REPORT_TYPE   = "ReportType";
     public static final String FIELDS        = "Fields";
-    public static final String PREDICATE     = "Predicate";
+    public static final String CONDITIONS    = "Conditions";
     public static final String TIME_RANGE    = "TimeRange";
   }
   

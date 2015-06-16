@@ -34,8 +34,8 @@ public class ReportData {
   private List<String> header;
   private List<List<String>> entries;
   
-  // Field -> index mapping
-  private Map<String, Integer> mapping;
+  // Field name -> index mapping
+  private Map<String, Integer> indiceMapping;
   
   private String alertName;
   private ReportDefinitionReportType reportType;
@@ -64,12 +64,12 @@ public class ReportData {
       entries.add(new ArrayList<String>(Arrays.asList(entriesArray.get(i))));
     }
     
-    mapping = new HashMap<String, Integer>(columns);
+    indiceMapping = new HashMap<String, Integer>(columns);
     for (int i = 0; i < columns; ++i) {
       String fieldName = fieldsMapping.get(headerArray[i]);
       assert (null != fieldName);
       header.add(fieldName);
-      this.mapping.put(fieldName, Integer.valueOf(i));
+      this.indiceMapping.put(fieldName, Integer.valueOf(i));
     }
     
     this.alertName = alertName;
@@ -94,8 +94,8 @@ public class ReportData {
     return entries.get(index);
   }
   
-  public Map<String, Integer> getMapping() {
-    return mapping;
+  public Map<String, Integer> getIndiceMapping() {
+    return indiceMapping;
   }
   
   /**
@@ -104,7 +104,7 @@ public class ReportData {
    * @return the index of the specified column
    */
   public int getFieldIndex(String columnName) {
-    return mapping.get(columnName).intValue();
+    return indiceMapping.get(columnName).intValue();
   }
   
   /**
@@ -113,12 +113,12 @@ public class ReportData {
    * @param fieldName the name of the new field.
    */
   public void appendNewField(String fieldName) {
-    assert(mapping.size() == header.size());
+    assert(indiceMapping.size() == header.size());
     
-    if (!mapping.containsKey(fieldName)) {
+    if (!indiceMapping.containsKey(fieldName)) {
       int newIndex = header.size();
       header.add(fieldName);
-      mapping.put(fieldName, Integer.valueOf(newIndex));
+      indiceMapping.put(fieldName, Integer.valueOf(newIndex));
     }
   }
   

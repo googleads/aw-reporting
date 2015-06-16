@@ -32,14 +32,14 @@ import com.google.gson.JsonObject;
  * 
  * The JSON config should look like:
  * {
- *   "ActionClass": "EmailSender",
+ *   "ActionClass": "PerAccountManagerEmailSender",
  *   "Subject": "Low impression accounts",
  *   "CC": "abc@example.com,xyz@example.com"
  * }
  * 
  * @author zhuoc@google.com (Zhuo Chen)
  */
-public class EmailSender implements AlertAction {
+public class PerAccountManagerEmailSender implements AlertAction {
   
   /**
    * Helper inner class for alert email
@@ -142,7 +142,7 @@ public class EmailSender implements AlertAction {
    * Constructor
    * @param config the JsonObject for the alert action configuration.
    */
-  public EmailSender(JsonObject config) {
+  public PerAccountManagerEmailSender(JsonObject config) {
     subject = config.get(SUBJECT_TAG).getAsString();
     ccList = null;
     if (config.has(CC_TAG)) {

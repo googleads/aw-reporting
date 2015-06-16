@@ -40,7 +40,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -175,34 +177,53 @@ public class ReportProcessorOnFile extends ReportProcessor {
     LOGGER.info("*** Generating alert #" + count + "(name: \"" + alertName + "\") for " + accountIds.size() + " accounts ***");
 
     JsonObject reportQueryConfig = alertConfig.getAsJsonObject(ConfigTags.REPORT_QUERY);
-    JsonArray rulesConfig = alertConfig.getAsJsonArray(ConfigTags.RULES);
+    JsonArray rulesConfig = alertConfig.getAsJsonArray(ConfigTags.RULES);  // optional
     JsonArray actionsConfig = alertConfig.getAsJsonArray(ConfigTags.ACTIONS);
     String alertMessage = alertConfig.get(ConfigTags.ALERT_MESSAGE).getAsString();
     
     // Generate AWQL report query and download reports for all accounts under MCC.
     ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
+    
+    // For debugging / verbose output
+    System.out.println("*** Downloaded report files:");
+    int seq = 1;
+    String line;
+    for (File file : files) {
+      System.out.println("===== Report file #" + seq++ + " =====");
+      BufferedReader reader = new BufferedReader(new FileReader(file));
+      while((line = reader.readLine()) != null)
+      {
+          System.out.println(line);
+      }
+      reader.close();
+      System.out.println();
+    }
 
     // Get the fields mapping of this report type
     ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
-    Map<String, String> mapping = reportFieldsMappings.get(reportType);
-    if (null == mapping) {
+    Map<String, String> fieldsMapping = reportFieldsMappings.get(reportType);
+    if (null == fieldsMapping) {
       AdWordsSession session = authenticator.authenticate(mccAccountId, false).build();
       List<ReportDefinitionField> reportDefinitionFields = 
           new AdWordsServices().get(session, ReportDefinitionServiceInterface.class).getReportFields(reportType);
       
-      mapping = new HashMap<String, String>(reportDefinitionFields.size());
+      fieldsMapping = new HashMap<String, String>(reportDefinitionFields.size());
       for (ReportDefinitionField field : reportDefinitionFields) {
-        mapping.put(field.getDisplayFieldName(), field.getFieldName());
+        fieldsMapping.put(field.getDisplayFieldName(), field.getFieldName());
       }
-      reportFieldsMappings.put(reportType, mapping);
+      reportFieldsMappings.put(reportType, fieldsMapping);
     }
     
     // Construct a shared AlertRulesProcessor to process rules in multiple download threads
-    AlertRulesProcessor rulesProcessor = new AlertRulesProcessor(rulesConfig);
+    // Note that alert rules are optional!
+    AlertRulesProcessor rulesProcessor = null;
+    if (null != rulesConfig) {
+      rulesProcessor = new AlertRulesProcessor(rulesConfig);
+    }
     
     // Process the downloaded report files.
-    processFiles(files, mapping, alertName, reportType, rulesProcessor, alertMessage, actionsConfig);
+    processFiles(files, fieldsMapping, alertName, reportType, rulesProcessor, alertMessage, actionsConfig);
     
     // Delete the temporary report files.
     this.deleteTemporaryFiles(files, reportType);
@@ -250,7 +271,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
    */
 
   private void processFiles(Collection<File> files,
-      Map<String, String> mapping,
+      Map<String, String> fieldsMapping,
       String alertName,
       ReportDefinitionReportType reportType,
       AlertRulesProcessor rulesProcessor,
@@ -270,7 +291,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     for (File file : files) {
       try {
         RunnableProcessorOnFile runnableProcessor = new RunnableProcessorOnFile(file,
-            mapping,
+            fieldsMapping,
             alertName,
             reportType,
             rulesProcessor,
@@ -293,10 +314,11 @@ public class ReportProcessorOnFile extends ReportProcessor {
     }
     executorService.shutdown();
     
-    // Debug: print reports
-    int count = 1;
+    // For debugging / verbose output
+    System.out.println("*** Reports after processing alert rules and messages:");
+    int seq = 1;
     for (ReportData report : reports) {
-      System.out.println("===== Report #" + count++ + " =====");
+      System.out.println("===== Report #" + seq++ + " =====");
       report.print();
       System.out.println();
     }

@@ -28,12 +28,12 @@ import com.google.gson.JsonObject;
  * 
  * The JSON config should look like:
  * {
- *   "RuleClass": "AddAccountManagerRule"
+ *   "RuleClass": "AddAccountManager"
  * }
  * 
  * @author zhuoc@google.com (Zhuo Chen)
  */
-public class AddAccountManagerRule implements AlertRule {
+public class AddAccountManager implements AlertRule {
   
   /**
    * Helper inner class for account manager
@@ -55,7 +55,7 @@ public class AddAccountManagerRule implements AlertRule {
    * 
    * @param config the JsonObject for the alert rule configuration.
    */
-  public AddAccountManagerRule(JsonObject config) {
+  public AddAccountManager(JsonObject config) {
     // add sample account managers
     accountManagers = new ArrayList<AccountManager>();
     accountManagers.add(new AccountManager("Josh G.", "josh@example.com"));
@@ -64,7 +64,8 @@ public class AddAccountManagerRule implements AlertRule {
   
   /**
    * Get account manager of the specified account.
-   * For demonstration only, it just randomly choose an account manager.
+   * 
+   * As a demonstration, it just randomly choose an account manager.
    * 
    * @param accountId the account ID.
    * @return the account manager of the specified account ID.
@@ -105,5 +106,4 @@ public class AddAccountManagerRule implements AlertRule {
   public boolean shouldRemoveReportEntry(ReportEntry entry) {
     return false;
   }
-
 }

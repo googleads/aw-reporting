@@ -31,6 +31,7 @@ import com.google.gson.JsonParseException;
 /**
  * Alert rules processor is responsible for processing the list of alert rules on this ReportData.
  * It MUST be stateless, as the instance will be shared among multiple threads.
+ * It is optional, it won't be instantiated if there's no "Rules" config for alert.
  *
  * @author zhuoc@google.com (Zhuo Chen)
  */
@@ -92,7 +93,7 @@ public class AlertRulesProcessor {
       }
     }
     
-    final Map<String, Integer> mapping = report.getMapping();
+    final Map<String, Integer> mapping = report.getIndiceMapping();
     for (List<String> entry : report.getEntries()) {
       ReportEntry curEntry = new ReportEntry(entry, mapping);
       rule.appendReportEntryFields(curEntry);
@@ -106,7 +107,7 @@ public class AlertRulesProcessor {
    * @param report the ReportData to filter
    */
   private void filterReportData(AlertRule rule, ReportData report) {
-    final Map<String, Integer> mapping = report.getMapping();
+    final Map<String, Integer> mapping = report.getIndiceMapping();
     for (Iterator<List<String>> iter = report.getEntries().iterator(); iter.hasNext(); ) {
       List<String> entry = iter.next();
       ReportEntry curEntry = new ReportEntry(entry, mapping);
