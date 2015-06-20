@@ -118,31 +118,18 @@
       <version>${google-client.version}</version>
     </dependency>
 
-    <!-- DB Support dependencies -->
-    <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.6</version>
-    </dependency>
-
-    <dependency>
-      <groupId>net.sourceforge.jtds</groupId>
-      <artifactId>jtds</artifactId>
-      <version>1.3.0</version>
-    </dependency>
-
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.2.4</version>
     </dependency>
-
+    
     <dependency>
       <groupId>net.sf.opencsv</groupId>
       <artifactId>opencsv</artifactId>
       <version>2.3</version>
     </dependency>
-
+    
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava-jdk5</artifactId>
@@ -216,13 +203,6 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
       <version>${springframework.version}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.3.172</version>
       <scope>test</scope>
     </dependency>
     
