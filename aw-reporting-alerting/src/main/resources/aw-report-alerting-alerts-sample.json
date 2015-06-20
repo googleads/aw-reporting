@@ -65,9 +65,11 @@
           "ActionClass": "SimpleConsoleWriter"
         },
         {
-          "ActionClass": "PerAccountManagerEmailSender",
-          "Subject": "Low impression accounts",
-          "CC": "abc@example.com,xyz@example.com"
+          "ActionClass": "SQLDBPersister",
+          "DB_driver": "com.mysql.jdbc.Driver",
+          "DB_url": "jdbc:mysql://127.0.0.1:3306/AWReportingAlerts?rewriteBatchedStatements=true&characterEncoding=utf-8",
+          "DB_username": "reportuser",
+          "DB_password": "1234"
         }
       ]
     }

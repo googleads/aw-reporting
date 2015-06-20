@@ -19,6 +19,7 @@ import com.google.gson.JsonObject;
 
 /**
  * Generator of AWQL report query.
+ * Refer to AWQL guide for more info: https://developers.google.com/adwords/api/docs/guides/awql
  * 
  * @author zhuoc@google.com (Zhuo Chen)
  */

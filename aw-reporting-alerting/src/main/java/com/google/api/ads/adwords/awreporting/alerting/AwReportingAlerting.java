@@ -345,7 +345,7 @@ public class AwReportingAlerting {
    
     LOGGER.info("Using SQL DB configuration properties.");
     LOGGER.warn("Updating database schema, this could take a few minutes ...");
-    listOfClassPathXml.add("classpath:aw-report-sql-beans.xml");
+    listOfClassPathXml.add("classpath:aw-report-alerting-sql-beans.xml");
     LOGGER.warn("Done."); 
     
     LOGGER.info("Using ONFILE Processor.");

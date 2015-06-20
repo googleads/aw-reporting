@@ -50,19 +50,16 @@ public class SimpleLogFileWriter implements AlertAction {
   /**
    * Constructor
    * @param config the JsonObject for the alert action configuration.
+   * @throws IOException 
    */
-  public SimpleLogFileWriter(JsonObject config) {
+  public SimpleLogFileWriter(JsonObject config) throws IOException {
     filePathname = config.get(LOG_FILE_PATHNAME_TAG).getAsString();
     boolean appendMode = true;
     if (config.has(APPEND_MODE_TAG)) {
         appendMode = config.get(APPEND_MODE_TAG).getAsBoolean();
     }
     
-    try {
-      writer = new BufferedWriter(new FileWriter(filePathname, appendMode));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    writer = new BufferedWriter(new FileWriter(filePathname, appendMode));
     nonflushedLines = 0;
   }
 
@@ -113,8 +110,7 @@ public class SimpleLogFileWriter implements AlertAction {
       writer.write("===== End of this run =====");
       writer.newLine();
       writer.newLine();
-      writer.newLine();
-      writer.close();
+      writer.close();   // will flush unwritten lines
     } catch (IOException e) {
       e.printStackTrace();
     }
