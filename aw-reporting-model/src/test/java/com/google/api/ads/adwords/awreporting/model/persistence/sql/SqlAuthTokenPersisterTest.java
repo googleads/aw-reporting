@@ -14,7 +14,7 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.sql;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister;
 
 import org.junit.Test;

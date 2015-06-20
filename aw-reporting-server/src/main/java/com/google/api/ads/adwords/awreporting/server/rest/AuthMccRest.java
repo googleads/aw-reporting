@@ -14,7 +14,7 @@
 
 package com.google.api.ads.adwords.awreporting.server.rest;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.gson.Gson;
 
 import org.restlet.representation.Representation;

@@ -14,7 +14,7 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 
 /**
  * The persister interface for the authorization token.

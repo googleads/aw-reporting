@@ -14,7 +14,7 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.sql;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister;
 
 import org.hibernate.Session;
@@ -46,7 +46,7 @@ public class SqlAuthTokenPersister implements AuthTokenPersister {
   /**
    * @see com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister#
    *      persistAuthToken(
-   *      com.google.api.ads.adwords.awreporting.model.entities.AuthMcc)
+   *      com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc)
    */
   @Override
   @Transactional
