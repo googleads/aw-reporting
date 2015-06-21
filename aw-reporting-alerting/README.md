@@ -29,16 +29,17 @@ This project needs aw-report-model and aw-reporting jars.
 ### Configure AwReportingAlerting
 
 <code> vi aw-reporting-alerting/src/main/resources/aw-report-alerting-sample.properties</code>
-
-Fill in the MCC account ID, developer token, client ID and client secret, as well as database url and credentials.
+ 
+ - Fill in the MCC account ID, developer token, client ID and client secret, as well as database url and credentials.
 
 <code> vi aw-reporting-alerting/src/main/resources/aw-report-alerting-alerts-sample.json</code>
 
-This is the JSON configuration of the alerts that you want to run. It's referred from the .properties file in the same folder.
+ - This is the JSON configuration of the alerts that you want to run. It's referred from the .properties file in the same folder.
 
 ## Run the project
 
 <pre>
+<code>
 java -Xmx4G -jar aw-reporting-alerting.jar -file &lt;file&gt; -verbose
 
 Arguments:
@@ -50,6 +51,7 @@ Arguments:
  -file &lt;file&gt;            The properties file (refer to ./aw-report-alertingsample.properties as an example)
 
  -verbose                The application will print all the tracing on the console
+</code>
 </pre>
 
 ## Implement custom alert rules
