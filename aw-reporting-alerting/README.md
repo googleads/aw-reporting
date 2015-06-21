@@ -1,84 +1,117 @@
 # AwReporting Alerting Framework
 
-## TO BE CHANGED
-
 ## Overview
 
-AwReporting Server is an AdWords account portfolio analysis tool, it analyzes more than 30 key signals to discover and prioritize opportunities for optimizations across large sets of AdWords accounts for all of our managed customers using as a Frontend UI the open source Kratu Project. It offers a Rest backend for the Kratu project over MongoDB/MySql and it reuses the project AwReporting.
-
+AwReporting Alerting is an alerting framework based on AdWords reports downloaded by AwReporting, with defined interfaces for alert rules and actions, where user can easily implement customized logic to plug in. This tool can be used by novice users (simple alerts through configuration) as well as more advanced users (custom alerts through interface plugging).
 
 ## Quick Start 
 
 ### Prerequisites
 
-AwReporting Server can be compiled using Maven by executing the following on the command line: 
+You will need Java, Maven and MySQL installed before configuring the project.
+
+### Build the project using Maven
+
+AwReporting Alerting can be compiled using Maven by executing the following on the command line: 
 
 <code>$ mvn compile dependency:copy-dependencies package</code>
 
-The project also needs aw-report-model and aw-reporting jars.
+This project needs aw-report-model and aw-reporting jars.
 
+### Configure your MySQL database
 
-## Usage
+<code>CREATE DATABASE AWReportingAlerts DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;</code>
+
+<code>CREATE USER 'reportuser'@'localhost' IDENTIFIED BY 'SOME_PASSWORD';</code>
+
+<code>GRANT ALL PRIVILEGES ON AWReportingAlerts.* TO 'reportuser'@'localhost' WITH GRANT OPTION;</code>
+
+### Configure AwReportingAlerting
+
+<code> vi aw-reporting-alerting/src/main/resources/aw-report-alerting-sample.properties</code>
+
+Fill in the MCC account ID, developer token, client ID and client secret, as well as database url and credentials.
+
+<code> vi aw-reporting-alerting/src/main/resources/aw-report-alerting-alerts-sample.json</code>
+
+This is the JSON configuration of the alerts that you want to run. It's referred from the .properties file in the same folder.
+
+## Run the project
 
 <pre>
+java -Xmx4G -jar aw-reporting-alerting.jar -file &lt;file&gt; -verbose
 
-Download Reports:
-<code>java -Xmx4G -jar aw-reporting-server.jar -startDate YYYYMMDD -endDate YYYYMMDD -file &lt;file&gt;</code>
- 
-Process Kratus:
-<code>java -Xmx4G -jar aw-reporting-server.jar -processKratus -startDate YYYYMMDD -endDate YYYYMMDD -file &lt;file&gt;</code>
+Arguments:
 
-Start Rest Server:
-<code>java -Xmx4G -jar aw-reporting-server.jar -startServer -file &lt;file&gt;</code>
+ -accountIdsFile &lt;file&gt;  Consider ONLY the account IDs specified on the file to run the report
 
-<code>Arguments:
+ -debug                  Display all the debug information. If the option 'verbose' is activated, all the information will be displayed on the console as well
 
- -accountIdsFile <accountIdsFile>     Consider ONLY the account IDs specified on the file to run the report
+ -file &lt;file&gt;            The properties file (refer to ./aw-report-alertingsample.properties as an example)
 
- -dateRange <DateRangeType>     ReportDefinitionDateRangeType
-
- -debug     Will display all the debug information. If the option 'verbose' is activated, all
-            the information will be displayed on the console as well
-
- -endDate &lt;YYYMMDD&gt;     End date for CUSTOM_DATE Reports (YYYYMMDD)
-
- -file <file>     aw-report-sample.properties file (./aw-report-sample.properties by default if not provided)
-
- -help     print this message
-
- -processKratus     Process Kratus processes the 7 reports peraccount and creates a daily Kratu
-
- -startDate &lt;YYYMMDD&gt;     Start date for CUSTOM_DATE Reports (YYYYMMDD)
-
- -startServer     Starts the Rest Server. No dates required
-
- -verbose     The application will print all the tracing on the console
-</code>
+ -verbose                The application will print all the tracing on the console
 </pre>
 
-## Server
+## Implement custom alert rules
 
-Index web page, with more information:
-  http://localhost:8081/index.html
+Alert rules are responsible for:
 
-Kratu Report:
-  http://localhost:8081/kratureport/index.html?dateStart=20130101&dateEnd=20130331
+ - Defining a list of field names to extend in the report
+ - Determining a list of field values to extend for each report entry
+ - Determining whether each report entry should be skipped from result alerts
 
-Genereate Reports:
-  http://localhost:8081/generatereports/?dateStart=20130101&dateEnd=20130331
+Custom alert rules should derive from com.google.api.ads.adwords.awreporting.alerting.rule.AlertRule, and:
 
-Genereate Kratus:
-  http://localhost:8081/generatekratus/?dateStart=20130101&dateEnd=20130331
+ - All AlertRule implementations MUST have a constructor with a JsonObject parameter, otherwise it will fail to load.
+ - All AlertRule implementations MUST be stateless, since the same instance will be shared among multiple threads.
 
-## DB Indexes for better performance
-Now the project creates the indexes if they do not exists when the server starts, you may want to drop the old indexes if you created them by hand.
+## Implement custom alert actions
+
+Alert actions are responsible for processing each report entry, and:
+
+ - Performing some action immediately, or
+ - Recording some info and performing aggregated action at the end
+
+Custom alert actions should derive from com.google.api.ads.adwords.awreporting.alerting.action.AlertAction, and:
+
+ - All AlertAction implementations MUST NOT modify report entries (since an report entry may be processed by multiple alert actions). All the modifications should be done by AlertRules.
+
+## Plug custom alert rules and alert actions
+
+Just edit the JSON configuration file:
+
+ - Under <code>"Rules"</code>, put class name of the custom alert rule in <code>"RuleClass"</code> field, along with other parameters that will be passed to the custom alert rule's constructor. For example
+ <pre>
+	"Rules": [
+	  {
+	    "RuleClass": "AddAccountManager"
+	  },
+	  {
+	    "RuleClass": "AddAccountMonthlyBudget"
+	  }
+	]
+ </pre>
+
+ - Under <code>"Actions"</code>, put class name of the custom alert rule in <code>"ActionClass"</code> field, along with other parameters that will be passed to the custom alert rule's constructor. For example
+ <pre>
+	"Actions": [
+	  {
+	    "ActionClass": "SimpleConsoleWriter"
+	  },
+	  {
+	    "ActionClass": "PerAccountManagerEmailSender",
+	    "Subject": "Low impression accounts",
+	    "CC": "abc@example.com,xyz@example.com"
+	  }
+	]
+ </pre>
 
 ### Fine print
 Pull requests are very much appreciated. Please sign the [Google Code contributor license agreement](http://code.google.com/legal/individual-cla-v1.0.html) (There is a convenient online form) before submitting.
 
 <dl>
-  <dt>Authors</dt><dd><a href="https://plus.google.com/+JulianCToledo/">Julian Toledo (Google Inc.)</a></dd>
-  <dt>Copyright</dt><dd>Copyright © 2013 Google, Inc.</dd>
+  <dt>Authors</dt><dd><a href="https://plus.google.com/+ZhuoChenGoogle/">Zhuo Chen (Google Inc.)</a></dd>
+  <dt>Copyright</dt><dd>Copyright © 2015 Google, Inc.</dd>
   <dt>License</dt><dd>Apache 2.0</dd>
   <dt>Limitations</dt><dd>This is example software, use with caution under your own risk.</dd>
 </dl>
