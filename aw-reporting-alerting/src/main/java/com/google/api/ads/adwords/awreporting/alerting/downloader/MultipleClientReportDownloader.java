@@ -22,7 +22,10 @@ import com.google.common.base.Stopwatch;
 
 import org.apache.log4j.Logger;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -104,8 +107,9 @@ public class MultipleClientReportDownloader {
 
     latch.await();
     stopwatch.stop();
-    return this.printResultsAndReturn(
-        results, stopwatch.elapsed(TimeUnit.MILLISECONDS), failed, accountIds);
+    
+    printResults(stopwatch.elapsed(TimeUnit.MILLISECONDS), accountIds, results, failed);
+    return results;
   }
   
   protected void executeRunnableDownloader(
@@ -115,22 +119,45 @@ public class MultipleClientReportDownloader {
   }
 
   /**
-   * Prints the results and return the file list.
+   * Prints the download results
    *
-   * @param results the list of downloaded file results.
    * @param elapsedTime the elapsed time.
-   * @param failed the list of failures.
    * @param cids the account cids.
-   * @return the list of downloaded files.
+   * @param results the downloaded files
+   * @param failed the list of failures.
    */
-  private Collection<File> printResultsAndReturn(final Collection<File> results, long elapsedTime,
-      final Collection<Long> failed, final Set<Long> cids) {
-    LOGGER.info("\n Downloaded reports for " + cids.size() + " accounts in " + (elapsedTime / 1000)
-        + " s. " + failed.size() + " failures:\n");
-    for (Long failure : failed) {
-      LOGGER.error(failure);
+  private void printResults(long elapsedTime, final Set<Long> cids,
+      final Collection<File> results, final Collection<Long> failed) {
+    
+    LOGGER.info("Downloaded reports for " + cids.size() + " accounts in " + (elapsedTime / 1000) + "s. " +
+        results.size() + "successes, " + failed.size() + " failures.");
+
+    if (!results.isEmpty()) {
+      LOGGER.debug("*** Downloaded report files:");
+      try {
+        int seq = 1;
+        String line;
+        for (File file : results) {
+          LOGGER.debug("===== Report file #" + seq++ + " =====");
+          BufferedReader reader = new BufferedReader(new FileReader(file));
+          while((line = reader.readLine()) != null)
+          {
+            LOGGER.debug(line);
+          }
+          reader.close();
+        }
+      }
+      catch (IOException e) {
+        e.printStackTrace();
+      }
     }
-    return results;
+    
+    if (!failed.isEmpty()) {
+      LOGGER.error("*** Account IDs of download failures: ");
+      for (Long failure : failed) {
+        LOGGER.error(failure);
+      }
+    }
   }
 
   /**

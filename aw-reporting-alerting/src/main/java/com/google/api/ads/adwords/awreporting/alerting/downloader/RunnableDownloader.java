@@ -210,6 +210,7 @@ public class RunnableDownloader implements Runnable {
         reportFile.delete();
       } catch (IOException e) {
         LOGGER.info("Ignoring file (Error when UnZipping): " + reportFile.getAbsolutePath());
+        gUnzipFile.delete();
       }
     }
   }

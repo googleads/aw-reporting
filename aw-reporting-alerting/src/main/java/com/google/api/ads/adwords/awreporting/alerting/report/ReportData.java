@@ -131,16 +131,17 @@ public class ReportData {
   }
   
   /**
-   * Print the content of the report. This is for debugging purpose.
+   * Returns string representation of the report. This is for debugging purpose.
    */
-  public void print() {
-    System.out.println(reportType.value() + " for alert \"" + alertName + "\":");
-    System.out.println("Header:");
-    System.out.println(StringUtils.arrayToCommaDelimitedString(header.toArray()));
-    System.out.println("Data:");
+  public String toString() {
+    StringBuffer buffer = new StringBuffer();
+    buffer.append(reportType.value() + " for alert \"" + alertName + "\":");
+    buffer.append("Header:");
+    buffer.append(StringUtils.arrayToCommaDelimitedString(header.toArray()));
+    buffer.append("Data:");
     for (List<String> entry : entries) {
-      System.out.println(StringUtils.arrayToCommaDelimitedString(entry.toArray()));
+      buffer.append(StringUtils.arrayToCommaDelimitedString(entry.toArray()));
     }
-    System.out.println();
+    return buffer.toString();
   }
 }

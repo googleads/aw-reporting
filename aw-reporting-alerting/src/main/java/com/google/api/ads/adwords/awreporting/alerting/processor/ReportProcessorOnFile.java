@@ -40,9 +40,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -184,21 +182,6 @@ public class ReportProcessorOnFile extends ReportProcessor {
     // Generate AWQL report query and download reports for all accounts under MCC.
     ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
-    
-    // For debugging / verbose output
-    System.out.println("*** Downloaded report files:");
-    int seq = 1;
-    String line;
-    for (File file : files) {
-      System.out.println("===== Report file #" + seq++ + " =====");
-      BufferedReader reader = new BufferedReader(new FileReader(file));
-      while((line = reader.readLine()) != null)
-      {
-          System.out.println(line);
-      }
-      reader.close();
-      System.out.println();
-    }
 
     // Get the fields mapping of this report type
     ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
@@ -315,12 +298,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
     executorService.shutdown();
     
     // For debugging / verbose output
-    System.out.println("*** Reports after processing alert rules and messages:");
-    int seq = 1;
-    for (ReportData report : reports) {
-      System.out.println("===== Report #" + seq++ + " =====");
-      report.print();
-      System.out.println();
+    if (!reports.isEmpty()) {
+      LOGGER.debug("*** Reports after processing alert rules and messages:");
+      int seq = 1;
+      for (ReportData report : reports) {
+        LOGGER.debug("===== Report #" + seq++ + " =====");
+        LOGGER.debug(report.toString());
+      }
     }
 
     // Run alert actions on report data, and make sure not to modify them
