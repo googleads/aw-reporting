@@ -67,7 +67,7 @@ public class AlertRulesProcessor {
     
     AlertRule rule = null;
     try {
-      Object obj = Class.forName(className).getDeclaredConstructor(new Class[] {JsonObject.class}).newInstance(config);
+      Object obj = Class.forName(className).getConstructor(new Class[] {JsonObject.class}).newInstance(config);
       if (obj instanceof AlertRule) {
         rule = (AlertRule)obj;
       }

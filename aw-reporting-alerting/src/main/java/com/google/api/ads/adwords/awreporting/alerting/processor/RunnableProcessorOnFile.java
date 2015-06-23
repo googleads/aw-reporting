@@ -45,7 +45,7 @@ public class RunnableProcessorOnFile implements Runnable {
   private CountDownLatch latch;
 
   private File file;
-  private Map<String, String> filedsMapping;
+  private Map<String, String> fieldsMapping;
   private String alertName;
   private ReportDefinitionReportType reportType;
   private AlertRulesProcessor rulesProcessor;
@@ -66,14 +66,14 @@ public class RunnableProcessorOnFile implements Runnable {
    * @param outputReports the thread-safe list of generated ReportData
    */
   public RunnableProcessorOnFile(File file,
-      Map<String, String> filedsMapping,
+      Map<String, String> fieldsMapping,
       String alertName,
       ReportDefinitionReportType reportType,
       AlertRulesProcessor rulesProcessor,
       String alertMessage,
       List<ReportData> outputReports) {
     this.file = file;
-    this.filedsMapping = filedsMapping;
+    this.fieldsMapping = fieldsMapping;
     this.alertName = alertName;
     this.reportType = reportType;
     this.rulesProcessor = rulesProcessor;
@@ -98,7 +98,7 @@ public class RunnableProcessorOnFile implements Runnable {
 
       // Parse the CSV file into report
       LOGGER.debug("Starting processing rules of report...");
-      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), filedsMapping, alertName, reportType);
+      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), fieldsMapping, alertName, reportType);
       
       // Apply alert rules on the report
       if (null != rulesProcessor) {

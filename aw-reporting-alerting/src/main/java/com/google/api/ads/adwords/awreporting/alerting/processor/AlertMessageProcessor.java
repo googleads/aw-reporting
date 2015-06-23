@@ -68,7 +68,7 @@ public class AlertMessageProcessor {
           throw new IllegalArgumentException("Placeholder value is not available in downloaded report " + curMatch);
         }
         
-        int index = report.getIndiceMapping().get(fieldName).intValue();
+        int index = report.getFieldIndex(fieldName);
         messageMatcher.appendReplacement(sb, entry.get(index));
       }
       messageMatcher.appendTail(sb);

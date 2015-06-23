@@ -99,14 +99,19 @@ public class MultipleClientReportDownloader {
           adWordsSession,
           results);
       downloader.setFailed(failed);
-      downloader.setLatch(latch);
-      this.executorService.execute(downloader);
+      executeRunnableDownloader(downloader, latch);
     }
 
     latch.await();
     stopwatch.stop();
     return this.printResultsAndReturn(
         results, stopwatch.elapsed(TimeUnit.MILLISECONDS), failed, accountIds);
+  }
+  
+  protected void executeRunnableDownloader(
+      RunnableDownloader runnableDownloader, CountDownLatch latch) {
+    runnableDownloader.setLatch(latch);
+    this.executorService.execute(runnableDownloader);
   }
 
   /**

@@ -74,7 +74,7 @@ public class AlertActionsProcessor {
     
     AlertAction action = null;
     try {
-      Object obj = Class.forName(className).getDeclaredConstructor(new Class[] {JsonObject.class}).newInstance(config);
+      Object obj = Class.forName(className).getConstructor(new Class[] {JsonObject.class}).newInstance(config);
       if (obj instanceof AlertAction) {
         action = (AlertAction)obj;
       }

@@ -39,7 +39,6 @@ This project needs aw-report-model and aw-reporting jars.
 ## Run the project
 
 <pre>
-<code>
 java -Xmx4G -jar aw-reporting-alerting.jar -file &lt;file&gt; -verbose
 
 Arguments:
@@ -51,7 +50,6 @@ Arguments:
  -file &lt;file&gt;            The properties file (refer to ./aw-report-alertingsample.properties as an example)
 
  -verbose                The application will print all the tracing on the console
-</code>
 </pre>
 
 ## Implement custom alert rules
