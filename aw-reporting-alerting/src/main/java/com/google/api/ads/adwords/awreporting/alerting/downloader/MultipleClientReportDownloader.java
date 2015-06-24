@@ -94,7 +94,7 @@ public class MultipleClientReportDownloader {
       // We create a copy of the AdWordsSession specific for the Account
       AdWordsSession adWordsSession = sessionBuilder.getAdWordsSessionCopy(accountId);
       
-      RunnableDownloader downloader = new RunnableDownloader(this.retriesCount,
+      RunnableReportDownloader downloader = new RunnableReportDownloader(this.retriesCount,
           this.backoffInterval,
           this.bufferSize,
           accountId,
@@ -113,7 +113,7 @@ public class MultipleClientReportDownloader {
   }
   
   protected void executeRunnableDownloader(
-      RunnableDownloader runnableDownloader, CountDownLatch latch) {
+      RunnableReportDownloader runnableDownloader, CountDownLatch latch) {
     runnableDownloader.setLatch(latch);
     this.executorService.execute(runnableDownloader);
   }

@@ -26,5 +26,10 @@
     <property name="backoffInterval" value="${aw.report.alerting.downloader.backoff.interval}" />
     <property name="bufferSize" value="${aw.report.alerting.downloader.buffer.size}" />
   </bean>
-
+  
+  <bean id="reportDefinitionDownloader"
+    class="com.google.api.ads.adwords.awreporting.alerting.downloader.ReportDefinitionDownloader">
+    <property name="retriesCount" value="${aw.report.alerting.downloader.retries.count}" />
+    <property name="backoffInterval" value="${aw.report.alerting.downloader.backoff.interval}" />
+  </bean>
 </beans>

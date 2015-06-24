@@ -27,37 +27,38 @@ import com.google.gson.JsonObject;
 * Test case for the {@link AlertAction} classes.
 */
 public class AlertActionsTest {
-
-final static String alertActionInterfaceName = "com.google.api.ads.adwords.awreporting.alerting.action.AlertAction";
-
-final static String[] alertActionClassNames = {
-    "com.google.api.ads.adwords.awreporting.alerting.action.SimpleConsoleWriter",
-    "com.google.api.ads.adwords.awreporting.alerting.action.SimpleLogFileWriter",
-    "com.google.api.ads.adwords.awreporting.alerting.action.PerAccountManagerEmailSender",
-    "com.google.api.ads.adwords.awreporting.alerting.action.SQLDBPersister"
-};
-
-/**
-* Test each alert action implementation adheres to the interface definition
-*/
-@Test
-public void testAlertActionImplementations()  {
-  try {
-    Class<?> alertRuleInterface = Class.forName(alertActionInterfaceName);
-    
-    for (String alertRuleClassName : alertActionClassNames) {
-      // Check that the alert rule class implements AlertRule interface
-      Class<?> alertRuleClass = Class.forName(alertRuleClassName);
-      Class<?>[] interfaces = alertRuleClass.getInterfaces();
-      assertTrue(Arrays.asList(interfaces).contains(alertRuleInterface));
+  
+  final static String alertActionInterfaceName = "com.google.api.ads.adwords.awreporting.alerting.action.AlertAction";
+  
+  final static String[] alertActionClassNames = {
+      "com.google.api.ads.adwords.awreporting.alerting.action.DummyAlertAction",
+      "com.google.api.ads.adwords.awreporting.alerting.action.SimpleConsoleWriter",
+      "com.google.api.ads.adwords.awreporting.alerting.action.SimpleLogFileWriter",
+      "com.google.api.ads.adwords.awreporting.alerting.action.PerAccountManagerEmailSender",
+      "com.google.api.ads.adwords.awreporting.alerting.action.SQLDBPersister"
+  };
+  
+  /**
+  * Test each alert action implementation adheres to the interface definition
+  */
+  @Test
+  public void testAlertActionImplementations()  {
+    try {
+      Class<?> alertRuleInterface = Class.forName(alertActionInterfaceName);
       
-      // Check that the alert rule class has a construction with JsonObject argument
-      alertRuleClass.getConstructor(new Class[] {JsonObject.class});
+      for (String alertRuleClassName : alertActionClassNames) {
+        // Check that the alert rule class implements AlertRule interface
+        Class<?> alertRuleClass = Class.forName(alertRuleClassName);
+        Class<?>[] interfaces = alertRuleClass.getInterfaces();
+        assertTrue(Arrays.asList(interfaces).contains(alertRuleInterface));
+        
+        // Check that the alert rule class has a construction with JsonObject argument
+        alertRuleClass.getConstructor(new Class[] {JsonObject.class});
+      }
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      fail("Unexpected exception thrown");
     }
   }
-  catch (Exception e) {
-    e.printStackTrace();
-    fail("Unexpected exception thrown");
-  }
-}
 }

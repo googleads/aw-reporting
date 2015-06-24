@@ -16,17 +16,14 @@ package com.google.api.ads.adwords.awreporting.alerting.report;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import au.com.bytecode.opencsv.CSVReader;
 
+import com.google.api.ads.adwords.awreporting.alerting.util.TestEntitiesGenerator;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
 
 import org.junit.Test;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
 * Test case for the {@link ReportData} class.
@@ -37,26 +34,9 @@ public class ReportDataTest {
   * Test the CSV file loading into ReportData object
   */
   @Test
-  public void testLoadReportDataFromCsv()  {
+  public void testLoadReportData()  {
     try {
-      // Load test CSV file
-      String fileName = "src/test/resources/csv/reportDownload-ACCOUNT_PERFORMANCE_REPORT-2602198216-1370030134500.report";
-      CSVReader csvReader = new CSVReader(new FileReader(fileName));
-      
-      // Set up fields mapping
-      Map<String, String> fieldsMapping = new HashMap<String, String>();
-      fieldsMapping.put("Account", "AccountDescriptiveName");
-      fieldsMapping.put("Clicks", "Clicks");
-      fieldsMapping.put("Cost", "Cost");
-      fieldsMapping.put("Converted clicks", "ConvertedClicks");
-      fieldsMapping.put("CTR", "Ctr");
-      fieldsMapping.put("Day", "Date");
-      fieldsMapping.put("Customer ID", "ExternalCustomerId");
-      fieldsMapping.put("Impressions", "Impressions");
-    
-      // Parse the CSV file into report
-      ReportData report = new ReportData(csvReader.readNext(), csvReader.readAll(), fieldsMapping,
-                                         "Test alert", ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT);
+      ReportData report = TestEntitiesGenerator.getTestReportData();
       
       assertEquals(report.getAlertName(), "Test alert");
       assertEquals(report.getReportType(), ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT);
@@ -88,7 +68,7 @@ public class ReportDataTest {
       assertEquals(firstEntry.get(iExternalCustomerId),     "1232198123");
       assertEquals(firstEntry.get(iDate),                   "2013-05-01");
       assertEquals(firstEntry.get(iAccountDescriptiveName), "Le Test");
-      assertEquals(firstEntry.get(iCost),                   "1.42");
+      assertEquals(firstEntry.get(iCost),                   "1420000");
       assertEquals(firstEntry.get(iClicks),                 "10");
       assertEquals(firstEntry.get(iImpressions),            "1978");
       assertEquals(firstEntry.get(iConvertedClicks),        "0");
@@ -99,13 +79,11 @@ public class ReportDataTest {
       assertEquals(lastEntry.get(iExternalCustomerId),     "1232198123");
       assertEquals(lastEntry.get(iDate),                   "2013-05-10");
       assertEquals(lastEntry.get(iAccountDescriptiveName), "Le Test");
-      assertEquals(lastEntry.get(iCost),                   "0.75");
+      assertEquals(lastEntry.get(iCost),                   "750000");
       assertEquals(lastEntry.get(iClicks),                 "4");
       assertEquals(lastEntry.get(iImpressions),            "2793");
       assertEquals(lastEntry.get(iConvertedClicks),        "0");
       assertEquals(lastEntry.get(iCtr),                    "0.14%");
-      
-      csvReader.close();
     }
     catch (IOException e) {
       e.printStackTrace();

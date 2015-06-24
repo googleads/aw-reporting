@@ -59,7 +59,7 @@ public class AlertRulesProcessor {
    *
    * @param config the JSON configuration of the alert rule
    */
-  private AlertRule getRuleObject(JsonObject config) {
+  protected AlertRule getRuleObject(JsonObject config) {
     String className = config.get(ConfigTags.Rule.RULE_CLASS).getAsString();
     if (!className.contains(".")) {
       className = "com.google.api.ads.adwords.awreporting.alerting.rule." + className;
@@ -85,7 +85,7 @@ public class AlertRulesProcessor {
    * @param rule the AlertRule to use
    * @param report the ReportData to extend
    */
-  private void extendReportData(AlertRule rule, ReportData report) {
+  protected void extendReportData(AlertRule rule, ReportData report) {
     List<String> reportHeaderFields = rule.newReportHeaderFields();
     if (null != reportHeaderFields) {
       for (String newHeaderField : reportHeaderFields) {
@@ -106,7 +106,7 @@ public class AlertRulesProcessor {
    * @param rule the AlertRule to use
    * @param report the ReportData to filter
    */
-  private void filterReportData(AlertRule rule, ReportData report) {
+  protected void filterReportData(AlertRule rule, ReportData report) {
     final Map<String, Integer> mapping = report.getIndiceMapping();
     for (Iterator<List<String>> iter = report.getEntries().iterator(); iter.hasNext(); ) {
       List<String> entry = iter.next();
@@ -128,5 +128,16 @@ public class AlertRulesProcessor {
       extendReportData(rule, report);
       filterReportData(rule, report);
     }
-  };
+  }
+  
+  public int getRulesCount() {
+    return rules.size();
+  }
+  
+  /**
+   * For Mockito testing
+   */
+  protected void setAlertRules(List<AlertRule> rules) {
+    this.rules = rules;
+  }
 }

@@ -42,7 +42,7 @@ public final class ConfigTags {
   }
   
   //For "Actions" segment.
-  public static final class Actions {
+  public static final class Action {
     public static final String ACTION_CLASS  = "ActionClass";
   }
 }

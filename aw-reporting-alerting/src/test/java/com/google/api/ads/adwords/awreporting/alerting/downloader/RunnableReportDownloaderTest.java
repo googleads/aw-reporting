@@ -40,16 +40,15 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Test case for the {@link RunnableDownloader} class.
+ * Test case for the {@link RunnableReportDownloader} class.
  */
-public class RunnableDownloaderTest {
+public class RunnableReportDownloaderTest {
 
   @Spy
-  private RunnableDownloader mockedRunnableDownloader;
+  private RunnableReportDownloader mockedRunnableDownloader;
 
   @Before
   public void setUp() throws ValidationException {
-    
     JsonObject jsonConfig = TestEntitiesGenerator.getTestReportQueryConfig();
     ReportQuery reportQuery = new ReportQuery(jsonConfig);
     
@@ -57,7 +56,7 @@ public class RunnableDownloaderTest {
     Collection<File> results = Lists.newArrayList();
 
     mockedRunnableDownloader =
-        new RunnableDownloader(5, 0, 10, 1L, reportQuery, adWordsSession, results);
+        new RunnableReportDownloader(5, 0, 10, 1L, reportQuery, adWordsSession, results);
 
     MockitoAnnotations.initMocks(this);
   }
@@ -69,7 +68,6 @@ public class RunnableDownloaderTest {
       ReportException,
       ReportDownloadResponseException,
       IOException {
-
     doReturn(new File("")).when(mockedRunnableDownloader).downloadFileToFileSystem();
 
     mockedRunnableDownloader.run();
@@ -106,8 +104,8 @@ public class RunnableDownloaderTest {
       ReportException,
       ReportDownloadResponseException,
       IOException {
-
-    DetailedReportDownloadResponseException ex = new DetailedReportDownloadResponseException(404, "Testing");
+    DetailedReportDownloadResponseException ex =
+        new DetailedReportDownloadResponseException(404, "Testing");
     ex.setType("DetailedReportDownloadResponseException");
     ex.setTrigger("UnitTest non-Retryable Server Error");
     doThrow(ex).when(mockedRunnableDownloader).downloadFileToFileSystem();

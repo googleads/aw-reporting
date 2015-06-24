@@ -46,9 +46,9 @@ import java.util.concurrent.CountDownLatch;
  *
  * @author zhuoc@google.com (Zhuo Chen)
  */
-public class RunnableDownloader implements Runnable {
+public class RunnableReportDownloader implements Runnable {
 
-  private static final Logger LOGGER = Logger.getLogger(RunnableDownloader.class);
+  private static final Logger LOGGER = Logger.getLogger(RunnableReportDownloader.class);
   
   private final AdWordsSession adWordsSession;
 
@@ -75,7 +75,7 @@ public class RunnableDownloader implements Runnable {
    * @param adWordsSession the AdWords session used for downloading report.
    * @param reulsts the thread-safe list of downloaded files.
    */
-  public RunnableDownloader(int retriesCount,
+  public RunnableReportDownloader(int retriesCount,
       int backoffInterval,
       int bufferSize,
       Long cid,
@@ -105,7 +105,6 @@ public class RunnableDownloader implements Runnable {
    */
   @Override
   public void run() {
-
     try {
       File reportFile = null;
       for (int i = 1; i <= this.retriesCount; i++) {
@@ -149,7 +148,6 @@ public class RunnableDownloader implements Runnable {
           break;
         }
       }
-
     } finally {
       if (this.latch != null) {
         this.latch.countDown();
@@ -233,7 +231,6 @@ public class RunnableDownloader implements Runnable {
    * @throws IOException error handling file.
    */
   private void copy(InputStream from, OutputStream to) throws IOException {
-
     int r;
     byte[] buf = new byte[this.bufferSize];
     while ((r = from.read(buf)) != -1) {

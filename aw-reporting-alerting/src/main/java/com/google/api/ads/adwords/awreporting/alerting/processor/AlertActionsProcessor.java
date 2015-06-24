@@ -66,8 +66,8 @@ public class AlertActionsProcessor {
    *
    * @param config the JSON configuration of the alert action
    */
-  private AlertAction getActionObject(JsonObject config) {
-    String className = config.get(ConfigTags.Actions.ACTION_CLASS).getAsString();
+  protected AlertAction getActionObject(JsonObject config) {
+    String className = config.get(ConfigTags.Action.ACTION_CLASS).getAsString();
     if (!className.contains(".")) {
       className = "com.google.api.ads.adwords.awreporting.alerting.action." + className;
     }
@@ -116,5 +116,9 @@ public class AlertActionsProcessor {
     
     LOGGER.info("*** Processed " + actions.size() + " actions on " + reports.size() + " reports in "
         + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000) + " seconds.");
+  }
+  
+  public int getActionsSize() {
+    return actions.size();
   }
 }

@@ -48,6 +48,7 @@ import com.google.api.ads.adwords.awreporting.alerting.processor.ReportProcessor
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
 import com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.adwords.awreporting.util.FileUtil;
+import com.google.api.ads.adwords.jaxws.v201502.cm.ApiException_Exception;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Sets;
 import com.google.gson.JsonObject;
@@ -159,7 +160,11 @@ public class AwReportingAlerting {
     } catch (ParseException e) {
       errors = true;
       System.err.println("Error parsing the values for the command line options: " + e.getMessage());
-    } catch (Exception e) {
+    } catch (ApiException_Exception e) {
+      errors = true;
+      System.err.println("Error executing AdWords API (probably on ReportDefinitionService)");
+    }
+    catch (Exception e) {
       errors = true;
       LOGGER.error("Unexpected error accessing the API: " + e.getMessage());
       e.printStackTrace();

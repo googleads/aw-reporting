@@ -38,9 +38,9 @@ import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
  *
  * @author zhuoc@google.com (Zhuo Chen)
  */
-public class RunnableProcessorOnFile implements Runnable {
+public class RunnableReportProcessorOnFile implements Runnable {
 
-  private static final Logger LOGGER = Logger.getLogger(RunnableProcessorOnFile.class);
+  private static final Logger LOGGER = Logger.getLogger(RunnableReportProcessorOnFile.class);
 
   private CountDownLatch latch;
 
@@ -49,7 +49,7 @@ public class RunnableProcessorOnFile implements Runnable {
   private String alertName;
   private ReportDefinitionReportType reportType;
   private AlertRulesProcessor rulesProcessor;
-  private String alertMessage;
+  private AlertMessageProcessor messageProcessor;
   private List<ReportData> outputReports;
 
   private Exception error = null;
@@ -65,19 +65,19 @@ public class RunnableProcessorOnFile implements Runnable {
    * @param alertMessage the current alert message template.
    * @param outputReports the thread-safe list of generated ReportData
    */
-  public RunnableProcessorOnFile(File file,
+  public RunnableReportProcessorOnFile(File file,
       Map<String, String> fieldsMapping,
       String alertName,
       ReportDefinitionReportType reportType,
       AlertRulesProcessor rulesProcessor,
-      String alertMessage,
+      AlertMessageProcessor messageProcessor,
       List<ReportData> outputReports) {
     this.file = file;
     this.fieldsMapping = fieldsMapping;
     this.alertName = alertName;
     this.reportType = reportType;
     this.rulesProcessor = rulesProcessor;
-    this.alertMessage = alertMessage;
+    this.messageProcessor = messageProcessor;
     this.outputReports = outputReports;
   }
 
@@ -106,7 +106,6 @@ public class RunnableProcessorOnFile implements Runnable {
       }
       
       // Apply alert message template on each report entry
-      AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
       messageProcessor.processReport(report);
       
       // Add the report into result list (thread-safe)

@@ -19,7 +19,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.google.api.ads.adwords.awreporting.alerting.downloader.MultipleClientReportDownloader;
-import com.google.api.ads.adwords.awreporting.alerting.downloader.RunnableDownloader;
+import com.google.api.ads.adwords.awreporting.alerting.downloader.RunnableReportDownloader;
 import com.google.api.ads.adwords.awreporting.alerting.util.TestEntitiesGenerator;
 import com.google.api.ads.adwords.awreporting.util.AdWordsSessionBuilderSynchronizer;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
@@ -42,43 +42,44 @@ import java.util.concurrent.CountDownLatch;
 * Test case for the {@code MultipleClientReportDownloader} class
 */
 public class MultipleClientReportDownloaderTest {
-
-@Spy
-private MultipleClientReportDownloader mockedMultipleClientReportDownloader;
-
-@Before
-public void setUp() {
- mockedMultipleClientReportDownloader = new MultipleClientReportDownloader();
- MockitoAnnotations.initMocks(this);
-}
-
-/**
-* Tests the downloadReports(...).
-* @throws ValidationException 
-*
-*/
-@Test
-public void testDownloadReports() throws InterruptedException, ValidationException {
- Mockito.doAnswer(new Answer<Void>() {
-   @Override
-   public Void answer(InvocationOnMock invocation) throws Throwable {
-     ((CountDownLatch) invocation.getArguments()[1]).countDown();
-     return null;
-   }
- }).when(mockedMultipleClientReportDownloader).executeRunnableDownloader(
-     Mockito.<RunnableDownloader>anyObject(), Mockito.<CountDownLatch>anyObject());
-
- AdWordsSession.Builder builder = TestEntitiesGenerator.getTestAdWordsSessionBuilder();
- AdWordsSessionBuilderSynchronizer adWordsSessionBuilderSynchronizer = new AdWordsSessionBuilderSynchronizer(builder);
- 
- Set<Long> cids = ImmutableSet.of(1L, 2L, 3L, 4L, 5L);
- mockedMultipleClientReportDownloader.downloadReports(adWordsSessionBuilderSynchronizer, null, cids);
-
- ArgumentCaptor<CountDownLatch> argument = ArgumentCaptor.forClass(CountDownLatch.class);
-
- verify(mockedMultipleClientReportDownloader, times(5))
-     .executeRunnableDownloader(Mockito.<RunnableDownloader>anyObject(), argument.capture());
-
- assertEquals(argument.getValue().getCount(), 0);
-}
+  
+  @Spy
+  private MultipleClientReportDownloader mockedMultipleClientReportDownloader;
+  
+  @Before
+  public void setUp() {
+   mockedMultipleClientReportDownloader = new MultipleClientReportDownloader();
+   
+   MockitoAnnotations.initMocks(this);
+  }
+  
+  /**
+  * Tests the downloadReports(...).
+  * @throws ValidationException 
+  *
+  */
+  @Test
+  public void testDownloadReports() throws InterruptedException, ValidationException {
+   Mockito.doAnswer(new Answer<Void>() {
+     @Override
+     public Void answer(InvocationOnMock invocation) throws Throwable {
+       ((CountDownLatch) invocation.getArguments()[1]).countDown();
+       return null;
+     }
+   }).when(mockedMultipleClientReportDownloader).executeRunnableDownloader(
+       Mockito.<RunnableReportDownloader>anyObject(), Mockito.<CountDownLatch>anyObject());
+  
+   AdWordsSession.Builder builder = TestEntitiesGenerator.getTestAdWordsSessionBuilder();
+   AdWordsSessionBuilderSynchronizer adWordsSessionBuilderSynchronizer = new AdWordsSessionBuilderSynchronizer(builder);
+   
+   Set<Long> cids = ImmutableSet.of(1L, 2L, 3L, 4L, 5L);
+   mockedMultipleClientReportDownloader.downloadReports(adWordsSessionBuilderSynchronizer, null, cids);
+  
+   ArgumentCaptor<CountDownLatch> argument = ArgumentCaptor.forClass(CountDownLatch.class);
+  
+   verify(mockedMultipleClientReportDownloader, times(5))
+       .executeRunnableDownloader(Mockito.<RunnableReportDownloader>anyObject(), argument.capture());
+  
+   assertEquals(argument.getValue().getCount(), 0);
+  }
 }

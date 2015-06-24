@@ -15,17 +15,17 @@
 package com.google.api.ads.adwords.awreporting.alerting.processor;
 
 import com.google.api.ads.adwords.awreporting.alerting.downloader.MultipleClientReportDownloader;
+import com.google.api.ads.adwords.awreporting.alerting.downloader.ReportDefinitionDownloader;
 import com.google.api.ads.adwords.awreporting.alerting.processor.ReportProcessor;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportData;
 import com.google.api.ads.adwords.awreporting.alerting.report.ReportQuery;
 import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
 import com.google.api.ads.adwords.awreporting.util.AdWordsSessionBuilderSynchronizer;
-import com.google.api.ads.adwords.jaxws.factory.AdWordsServices;
-import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionField;
+import com.google.api.ads.adwords.jaxws.v201502.cm.ApiException_Exception;
 import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionReportType;
-import com.google.api.ads.adwords.jaxws.v201502.cm.ReportDefinitionServiceInterface;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.client.reporting.ReportingConfiguration;
+import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
@@ -48,7 +48,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -73,9 +72,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
 
   private MultipleClientReportDownloader multipleClientReportDownloader;
   
-  // Global fields mapping (displayFiledName -> filedName) for each report type
-  private static Map<ReportDefinitionReportType, Map<String, String>> reportFieldsMappings = 
-      new HashMap<ReportDefinitionReportType, Map<String, String>>();
+  private ReportDefinitionDownloader reportDefinitionDownloader;
 
   /**
    * Constructor.
@@ -125,13 +122,17 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param mccAccountId the MCC account ID.
    * @param accountIdsSet the account IDs.
    * @param alertsConfig the JSON config of the alerts.
-   * @throws Exception error reaching the API.
+   * @throws OAuthException 
+   * @throws ApiException_Exception 
+   * @throws ValidationException 
    */
   @Override
   public void generateAlertsForMCC(String mccAccountId,
       Set<Long>accountIds,
-      JsonObject alertsConfig) throws Exception
-  {
+      JsonObject alertsConfig) throws OAuthException, ValidationException, ApiException_Exception {
+    
+    Stopwatch stopwatch = Stopwatch.createStarted();
+
     // For easy processing, skip report header and summary (but keep column names).
     ReportingConfiguration reportingConfig = new ReportingConfiguration.Builder()
         .skipReportHeader(true)
@@ -141,7 +142,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
         .withReportingConfiguration(reportingConfig);
     AdWordsSessionBuilderSynchronizer sessionBuilder = new AdWordsSessionBuilderSynchronizer(builder);
     
-    Stopwatch stopwatch = Stopwatch.createStarted();
+    reportDefinitionDownloader.initialize(builder.build());
     
     int count = 0;
     for (JsonElement alertConfig : alertsConfig.getAsJsonArray(ConfigTags.ALERTS)) {
@@ -164,13 +165,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param sessionBuilder the session builder to build AdWords session for each account.
    * @param alertsConfig the JSON config of one alert.
    * @param count the sequence number of current alert.
-   * @throws Exception error reaching the API.
+   * @throws ApiException_Exception 
    */
   private void processAlertForMCC(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       JsonObject alertConfig,
-      int count) throws Exception {
+      int count) throws ApiException_Exception  {
     String alertName = alertConfig.get(ConfigTags.ALERT_NAME).getAsString();
     LOGGER.info("*** Generating alert #" + count + "(name: \"" + alertName + "\") for " + accountIds.size() + " accounts ***");
 
@@ -178,26 +179,15 @@ public class ReportProcessorOnFile extends ReportProcessor {
     JsonArray rulesConfig = alertConfig.getAsJsonArray(ConfigTags.RULES);  // optional
     JsonArray actionsConfig = alertConfig.getAsJsonArray(ConfigTags.ACTIONS);
     String alertMessage = alertConfig.get(ConfigTags.ALERT_MESSAGE).getAsString();
+   
+    // Get the fields mapping of this report type
+    ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
+    ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
+    Map<String, String> fieldsMapping = reportDefinitionDownloader.getFieldsMapping(reportType);
     
     // Generate AWQL report query and download reports for all accounts under MCC.
-    ReportQuery reportQuery = new ReportQuery(reportQueryConfig);
     Collection<File> files = this.downloadReports(mccAccountId, accountIds, sessionBuilder, reportQuery);
 
-    // Get the fields mapping of this report type
-    ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportQuery.getReportType());
-    Map<String, String> fieldsMapping = reportFieldsMappings.get(reportType);
-    if (null == fieldsMapping) {
-      AdWordsSession session = authenticator.authenticate(mccAccountId, false).build();
-      List<ReportDefinitionField> reportDefinitionFields = 
-          new AdWordsServices().get(session, ReportDefinitionServiceInterface.class).getReportFields(reportType);
-      
-      fieldsMapping = new HashMap<String, String>(reportDefinitionFields.size());
-      for (ReportDefinitionField field : reportDefinitionFields) {
-        fieldsMapping.put(field.getDisplayFieldName(), field.getFieldName());
-      }
-      reportFieldsMappings.put(reportType, fieldsMapping);
-    }
-    
     // Construct a shared AlertRulesProcessor to process rules in multiple download threads
     // Note that alert rules are optional!
     AlertRulesProcessor rulesProcessor = null;
@@ -253,7 +243,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param actionsConfig the JSON config of current alert actions.
    */
 
-  private void processFiles(Collection<File> files,
+  protected void processFiles(Collection<File> files,
       Map<String, String> fieldsMapping,
       String alertName,
       ReportDefinitionReportType reportType,
@@ -269,16 +259,18 @@ public class ReportProcessorOnFile extends ReportProcessor {
     final CountDownLatch latch = new CountDownLatch(files.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
     
-    // Process report files in multiple threads.
+    // Process report files in multiple threads, not that AlertMessageProcess is not thread-safe
+    // so we need to create one for each thread.
+    AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
     final List<ReportData> reports = Collections.synchronizedList(new ArrayList<ReportData>());
     for (File file : files) {
       try {
-        RunnableProcessorOnFile runnableProcessor = new RunnableProcessorOnFile(file,
+        RunnableReportProcessorOnFile runnableProcessor = new RunnableReportProcessorOnFile(file,
             fieldsMapping,
             alertName,
             reportType,
             rulesProcessor,
-            alertMessage,
+            messageProcessor,
             reports);
         
         runnableProcessor.setLatch(latch);
@@ -307,7 +299,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
       }
     }
 
-    // Run alert actions on report data, and make sure not to modify them
+    // Run alert actions (one action per thread) on report data, and make sure not to modify them
     AlertActionsProcessor actionsProcessor = new AlertActionsProcessor(actionsConfig);
     actionsProcessor.processReports(Collections.unmodifiableList(reports));
     
@@ -340,5 +332,14 @@ public class ReportProcessorOnFile extends ReportProcessor {
   public void setMultipleClientReportDownloader(
       MultipleClientReportDownloader multipleClientReportDownloader) {
     this.multipleClientReportDownloader = multipleClientReportDownloader;
+  }
+  
+  /**
+   * @param reportDefinitionDownloader the reportDefinitionDownloader to set
+   */
+  @Autowired
+  public void setReportDefinitionDownloader(
+      ReportDefinitionDownloader reportDefinitionDownloader) {
+    this.reportDefinitionDownloader = reportDefinitionDownloader;
   }
 }
