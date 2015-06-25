@@ -1,0 +1,54 @@
+{
+  "Alerts": [
+    {
+      "Name": "Accounts stats 1",
+      "ReportQuery": {
+        "ReportType": "ACCOUNT_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Cost",
+        "TimeRange": "THIS_MONTH"
+      },
+      "Rules": [
+        {
+          "RuleClass": "DummyAlertRule"
+        },
+        {
+          "RuleClass": "DummyAlertRule"
+        }
+      ],
+      "AlertMessage": "Account \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has {Impressions} impressions and {Clicks} clicks.",
+      "Actions": [
+        {
+          "ActionClass": "DummyAlertAction"
+        },
+        {
+          "ActionClass": "DummyAlertAction"
+        }
+      ]
+    },
+    {
+      "Name": "Accounts stats 2",
+      "ReportQuery": {
+        "ReportType": "ACCOUNT_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Cost",
+        "TimeRange": "THIS_MONTH"
+      },
+      "Rules": [
+        {
+          "RuleClass": "DummyAlertRule"
+        },
+        {
+          "RuleClass": "DummyAlertRule"
+        }
+      ],
+      "AlertMessage": "Account \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has {Impressions} impressions and {Clicks} clicks.",
+      "Actions": [
+        {
+          "ActionClass": "DummyAlertAction"
+        },
+        {
+          "ActionClass": "DummyAlertAction"
+        }
+      ]
+    }
+  ]
+}
