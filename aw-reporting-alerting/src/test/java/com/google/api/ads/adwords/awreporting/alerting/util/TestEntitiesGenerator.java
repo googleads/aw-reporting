@@ -33,7 +33,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 /**
-* Generate test entities for other test cases
+* Generate test entities for various test cases
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class TestEntitiesGenerator {
 

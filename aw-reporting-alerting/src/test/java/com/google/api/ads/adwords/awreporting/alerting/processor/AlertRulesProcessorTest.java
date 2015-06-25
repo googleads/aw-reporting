@@ -39,6 +39,8 @@ import org.mockito.Spy;
 
 /**
 * Test case for the {@link AlertRulesProcessor} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class AlertRulesProcessorTest {
   

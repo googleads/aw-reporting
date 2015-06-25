@@ -25,6 +25,8 @@ import org.junit.Test;
 
 /**
 * Test case for the {@link AlertActionsProcessor} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class AlertActionsProcessorTest {
   

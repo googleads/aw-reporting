@@ -27,6 +27,8 @@ import java.util.List;
 
 /**
 * Test case for the {@link ReportData} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class ReportDataTest {
 

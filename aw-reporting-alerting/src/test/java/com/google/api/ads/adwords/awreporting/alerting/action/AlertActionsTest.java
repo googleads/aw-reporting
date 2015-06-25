@@ -25,6 +25,8 @@ import com.google.gson.JsonObject;
 
 /**
 * Test case for the {@link AlertAction} classes.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class AlertActionsTest {
   

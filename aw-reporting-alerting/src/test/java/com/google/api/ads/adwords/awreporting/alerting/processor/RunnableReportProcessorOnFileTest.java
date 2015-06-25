@@ -34,6 +34,8 @@ import java.util.List;
 
 /**
 * Test case for the {@link RunnableReportProcessorOnFile} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class RunnableReportProcessorOnFileTest {
   private File file = new File(TestEntitiesGenerator.getTestReportFilePath());

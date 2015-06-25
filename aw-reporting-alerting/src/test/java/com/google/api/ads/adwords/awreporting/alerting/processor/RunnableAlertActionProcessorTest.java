@@ -34,6 +34,8 @@ import java.util.List;
 
 /**
 * Test case for the {@link RunnableAlertActionProcessor} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class RunnableAlertActionProcessorTest {
   

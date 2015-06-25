@@ -39,7 +39,9 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 /**
-* Test case for the {@code MultipleClientReportDownloader} class
+* Test case for the {@link MultipleClientReportDownloader} class
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class MultipleClientReportDownloaderTest {
   

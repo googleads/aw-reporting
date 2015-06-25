@@ -23,6 +23,8 @@ import org.junit.Test;
 
 /**
 * Test case for the {@link ReportQuery} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class ReportQueryTest {
 

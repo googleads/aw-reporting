@@ -41,6 +41,8 @@ import java.util.Collection;
 
 /**
  * Test case for the {@link RunnableReportDownloader} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
  */
 public class RunnableReportDownloaderTest {
 

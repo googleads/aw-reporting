@@ -28,6 +28,8 @@ import org.mockito.Spy;
 
 /**
 * Test case for the {@link AlertMessageProcessor} class.
+* 
+ * @author zhuoc@google.com (Zhuo Chen)
 */
 public class AlertMessageProcessorTest {
   
