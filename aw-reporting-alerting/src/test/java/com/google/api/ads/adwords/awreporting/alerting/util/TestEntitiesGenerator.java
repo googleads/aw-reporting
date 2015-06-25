@@ -82,6 +82,10 @@ public class TestEntitiesGenerator {
     return "src/test/resources/csv/reportDownload-ACCOUNT_PERFORMANCE_REPORT-2602198216-1370030134500.report";
   }
   
+  public static String getTestAlertsConfigFilePath() {
+    return "src/test/resources/aw-report-alerting-alerts-test.json";
+  }
+  
   /**
    * Test report headers: ExternalCustomerId, Date, AccountDescriptiveName, Cost, Clicks, Impressions, ConvertedClicks, Ctr
    * Test report entries: 7

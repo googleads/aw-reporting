@@ -49,7 +49,6 @@ public class RunnableReportProcessorOnFile implements Runnable {
   private String alertName;
   private ReportDefinitionReportType reportType;
   private AlertRulesProcessor rulesProcessor;
-  private AlertMessageProcessor messageProcessor;
   private List<ReportData> outputReports;
 
   private Exception error = null;
@@ -70,14 +69,12 @@ public class RunnableReportProcessorOnFile implements Runnable {
       String alertName,
       ReportDefinitionReportType reportType,
       AlertRulesProcessor rulesProcessor,
-      AlertMessageProcessor messageProcessor,
       List<ReportData> outputReports) {
     this.file = file;
     this.fieldsMapping = fieldsMapping;
     this.alertName = alertName;
     this.reportType = reportType;
     this.rulesProcessor = rulesProcessor;
-    this.messageProcessor = messageProcessor;
     this.outputReports = outputReports;
   }
 
@@ -104,9 +101,6 @@ public class RunnableReportProcessorOnFile implements Runnable {
       if (null != rulesProcessor) {
         rulesProcessor.processReport(report);
       }
-      
-      // Apply alert message template on each report entry
-      messageProcessor.processReport(report);
       
       // Add the report into result list (thread-safe)
       outputReports.add(report);

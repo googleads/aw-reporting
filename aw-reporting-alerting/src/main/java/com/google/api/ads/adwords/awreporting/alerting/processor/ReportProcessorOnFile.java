@@ -142,7 +142,8 @@ public class ReportProcessorOnFile extends ReportProcessor {
         .withReportingConfiguration(reportingConfig);
     AdWordsSessionBuilderSynchronizer sessionBuilder = new AdWordsSessionBuilderSynchronizer(builder);
     
-    reportDefinitionDownloader.initialize(builder.build());
+    // Initialize reportDefinitionDownloader
+    initReportDefinitionDownloader(builder);
     
     int count = 0;
     for (JsonElement alertConfig : alertsConfig.getAsJsonArray(ConfigTags.ALERTS)) {
@@ -167,7 +168,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
    * @param count the sequence number of current alert.
    * @throws ApiException_Exception 
    */
-  private void processAlertForMCC(String mccAccountId,
+  protected void processAlertForMCC(String mccAccountId,
       Set<Long> accountIds,
       AdWordsSessionBuilderSynchronizer sessionBuilder,
       JsonObject alertConfig,
@@ -259,9 +260,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
     final CountDownLatch latch = new CountDownLatch(files.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
     
-    // Process report files in multiple threads, not that AlertMessageProcess is not thread-safe
-    // so we need to create one for each thread.
-    AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
+    // Process report files in multiple threads
     final List<ReportData> reports = Collections.synchronizedList(new ArrayList<ReportData>());
     for (File file : files) {
       try {
@@ -270,7 +269,6 @@ public class ReportProcessorOnFile extends ReportProcessor {
             alertName,
             reportType,
             rulesProcessor,
-            messageProcessor,
             reports);
         
         runnableProcessor.setLatch(latch);
@@ -289,11 +287,13 @@ public class ReportProcessorOnFile extends ReportProcessor {
     }
     executorService.shutdown();
     
-    // For debugging / verbose output
+    // Apply alert message template on each report
     if (!reports.isEmpty()) {
+      AlertMessageProcessor messageProcessor = new AlertMessageProcessor(alertMessage);
       LOGGER.debug("*** Reports after processing alert rules and messages:");
       int seq = 1;
       for (ReportData report : reports) {
+        messageProcessor.processReport(report);
         LOGGER.debug("===== Report #" + seq++ + " =====");
         LOGGER.debug(report.toString());
       }
@@ -341,5 +341,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
   public void setReportDefinitionDownloader(
       ReportDefinitionDownloader reportDefinitionDownloader) {
     this.reportDefinitionDownloader = reportDefinitionDownloader;
+  }
+  
+  /**
+   * Initialize reportDefinitionDownloader. Separating this method for Mockito test 
+   */
+  protected void initReportDefinitionDownloader(AdWordsSession.Builder builder) throws ValidationException {
+    reportDefinitionDownloader.initialize(builder.build());
   }
 }

@@ -45,9 +45,6 @@ public class RunnableReportProcessorOnFileTest {
   @Mock
   private AlertRulesProcessor mockedAlertRulesProcessor;
   
-  @Mock
-  private AlertMessageProcessor mockedAlertMessageProcessor;
-  
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -58,7 +55,6 @@ public class RunnableReportProcessorOnFileTest {
             "Test alert",
             ReportDefinitionReportType.ACCOUNT_PERFORMANCE_REPORT,
             mockedAlertRulesProcessor,
-            mockedAlertMessageProcessor,
             outputReports));
   }
   
@@ -69,9 +65,6 @@ public class RunnableReportProcessorOnFileTest {
     
     // AlertRulesProcessor should process report once
     verify(mockedAlertRulesProcessor, times(1)).processReport(Mockito.<ReportData>anyObject());
-    
-    // AlertMessageProcessor should process report once
-    verify(mockedAlertMessageProcessor, times(1)).processReport(Mockito.<ReportData>anyObject());
     
     assertEquals(outputReports.size(), 1);
   }

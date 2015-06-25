@@ -25,7 +25,7 @@ import com.google.api.ads.adwords.awreporting.alerting.util.ConfigTags;
  * Alert message processor is responsible for reading the alert message template from alert config,
  * and replace the placeholders with corresponding field values for each report entry.
  * 
- * Note this class is NOT stateless, so its same instance instance cannot be shared among multiple threads.
+ * Note this class is NOT stateless, so one instance instance cannot be shared among multiple threads.
  *
  * @author zhuoc@google.com (Zhuo Chen)
  */
