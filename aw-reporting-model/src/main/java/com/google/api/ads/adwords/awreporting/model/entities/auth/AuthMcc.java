@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.api.ads.adwords.awreporting.model.entities;
+package com.google.api.ads.adwords.awreporting.model.entities.auth;
 
 import com.google.api.ads.adwords.awreporting.model.persistence.mongodb.MongoEntity;
 

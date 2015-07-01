@@ -49,8 +49,8 @@ import com.google.api.ads.adwords.awreporting.authentication.InstalledOAuth2Auth
 import com.google.api.ads.adwords.awreporting.downloader.MultipleClientReportDownloader;
 import com.google.api.ads.adwords.awreporting.exporter.reportwriter.ReportWriterType;
 import com.google.api.ads.adwords.awreporting.model.csv.CsvReportEntitiesMapping;
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.processors.onfile.ReportProcessorOnFile;

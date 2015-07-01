@@ -14,7 +14,6 @@
 
 package com.google.api.ads.adwords.awreporting.server.appengine;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAd;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAdGroup;
@@ -26,6 +25,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.ReportDestinationUr
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeyword;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportUrl;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.server.appengine.authentication.AppEngineOAuth2Authenticator;
 import com.google.api.ads.adwords.awreporting.server.appengine.model.UserToken;
@@ -50,7 +50,6 @@ import com.google.api.ads.adwords.awreporting.util.AdWordsSessionBuilderSynchron
 import com.google.api.ads.adwords.awreporting.util.DynamicPropertyPlaceholderConfigurer;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.client.util.Maps;
-
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.impl.translate.opt.BigDecimalLongTranslatorFactory;
 

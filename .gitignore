@@ -45,6 +45,14 @@ aw-reporting-server-appengine/.project
 aw-reporting-server-appengine/.settings/
 
 
+aw-reporting-alerting/target/*
+
+aw-reporting-alerting/.classpath
+
+aw-reporting-alerting/.project
+
+aw-reporting-alerting/.settings/
+
 *.DS_Store
 
 

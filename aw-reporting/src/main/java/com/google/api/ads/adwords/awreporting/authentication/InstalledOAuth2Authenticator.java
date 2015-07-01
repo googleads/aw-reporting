@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.google.api.ads.adwords.awreporting.authentication.OAuthScope.SCOPE_TYPE;
 import com.google.api.ads.adwords.awreporting.exporter.reportwriter.ReportWriterType;
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.awreporting.util.CustomerDelegate;
 import com.google.api.ads.adwords.jaxws.v201502.mcm.ApiException;

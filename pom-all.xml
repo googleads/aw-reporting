@@ -13,6 +13,7 @@
     <module>aw-reporting-model</module>
     <module>aw-reporting</module>
     <module>aw-reporting-server</module>
+    <module>aw-reporting-alerting</module>
   </modules>
 
   <reporting>

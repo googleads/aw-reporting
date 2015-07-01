@@ -1,0 +1,77 @@
+{
+  "Alerts": [
+    {
+      "Name": "Underperformed keywords (high impressions low ctr) of yesterday",
+      "ReportQuery": {
+        "ReportType": "KEYWORDS_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Id,KeywordText,Impressions,Ctr",
+        "Conditions": "Impressions > 100 AND Ctr < 0.05",
+        "TimeRange": "YESTERDAY"
+      },
+      "AlertMessage": "Keyword \"{PlacementUrl}\" (ID \"{Id}\") has bad performance (impressions: {Impressions}, ctr: {Ctr}).",
+      "Actions": [
+        {
+          "ActionClass": "SimpleConsoleWriter"
+        },
+        {
+          "ActionClass": "SimpleLogFileWriter",
+          "LogFilePathname": "/tmp/aw-reporting-alerting-sample-results.log"
+        }
+      ]
+    },
+    {
+      "Name": "Campaigns with low impressions in last 7 days",
+      "ReportQuery": {
+        "ReportType": "CAMPAIGN_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,CampaignId,CampaignName,Impressions,Clicks,ConvertedClicks,Cost",
+        "Conditions": "Impressions < 1000",
+        "TimeRange": "LAST_7_DAYS"
+      },
+      "Rules": [
+        {
+          "RuleClass": "AddAccountManager"
+        }
+      ],
+      "AlertMessage": "Campaign \"{CampaignName}\" (ID \"{CampaignId}\") has low impressions ({Impressions}) in past 7 days!",
+      "Actions": [
+        {
+          "ActionClass": "SimpleConsoleWriter"
+        },
+        {
+          "ActionClass": "PerAccountManagerEmailSender",
+          "Subject": "Low impression accounts",
+          "CC": "abc@example.com,xyz@example.com"
+        }
+      ]
+    },
+    {
+      "Name": "Accounts with low budget utilization in this month",
+      "ReportQuery": {
+        "ReportType": "ACCOUNT_PERFORMANCE_REPORT",
+        "Fields": "ExternalCustomerId,AccountDescriptiveName,Cost",
+        "TimeRange": "THIS_MONTH"
+      },
+      "Rules": [
+        {
+          "RuleClass": "AddAccountManager"
+        },
+        {
+          "RuleClass": "AddAccountMonthlyBudget"
+        }
+      ],
+      "AlertMessage": "Account \"{AccountDescriptiveName}\" (ID \"{ExternalCustomerId}\") has low budget utilization in this month (Monthly budget: {AccountMonthlyBudget}, Cost till now: {Cost}).",
+      "Actions": [
+        {
+          "ActionClass": "SimpleConsoleWriter"
+        },
+        {
+          "ActionClass": "SQLDBPersister",
+          "DB_driver": "com.mysql.jdbc.Driver",
+          "DB_url": "jdbc:mysql://127.0.0.1:3306/AWReportingAlerts?rewriteBatchedStatements=true&characterEncoding=utf-8",
+          "DB_username": "reportuser",
+          "DB_password": "1234"
+        }
+      ]
+    }
+  ]
+}

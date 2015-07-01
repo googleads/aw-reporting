@@ -14,7 +14,7 @@
 
 package com.google.api.ads.adwords.awreporting.server.appengine.persistence.objectify;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 
@@ -53,7 +53,7 @@ public class ObjectifyAuthTokenPersister implements AuthTokenPersister, Serializ
   /**
    * @see com.google.api.ads.adwords.awreporting.model.persistence.AuthTokenPersister#
    *      persistAuthToken(
-   *      com.google.api.ads.adwords.awreporting.model.entities.AuthMcc)
+   *      com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc)
    */
   @Override
   public void persistAuthToken(AuthMcc authToken) {

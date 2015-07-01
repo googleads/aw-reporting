@@ -14,10 +14,10 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.sql;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportAccount;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportBase;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.common.collect.Lists;

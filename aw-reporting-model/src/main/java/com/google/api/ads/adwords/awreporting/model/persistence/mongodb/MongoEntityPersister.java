@@ -14,15 +14,14 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.mongodb;
 
-import com.google.api.ads.adwords.awreporting.model.entities.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportBase;
+import com.google.api.ads.adwords.awreporting.model.entities.auth.AuthMcc;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.model.util.DateUtil;
 import com.google.api.ads.adwords.awreporting.model.util.GsonUtil;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
-
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
