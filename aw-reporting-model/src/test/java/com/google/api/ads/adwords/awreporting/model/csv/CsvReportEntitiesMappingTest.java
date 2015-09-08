@@ -25,6 +25,7 @@ import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaignNegat
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCriteria;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportDestinationUrl;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportDisplayKeyword;
+import com.google.api.ads.adwords.awreporting.model.entities.ReportFinalUrl;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportKeywords;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportPlaceholderFeedItem;
 import com.google.api.ads.adwords.awreporting.model.entities.ReportShopping;
@@ -84,6 +85,9 @@ public class CsvReportEntitiesMappingTest {
 
     this.assertBeanClassIsCorrectForType(ReportDestinationUrl.class,
         ReportDefinitionReportType.DESTINATION_URL_REPORT);
+    
+    this.assertBeanClassIsCorrectForType(ReportFinalUrl.class,
+        ReportDefinitionReportType.FINAL_URL_REPORT);
 
     this.assertBeanClassIsCorrectForType(ReportPlaceholderFeedItem.class,
         ReportDefinitionReportType.PLACEHOLDER_FEED_ITEM_REPORT);
@@ -116,6 +120,7 @@ public class CsvReportEntitiesMappingTest {
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.BUDGET_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.CRITERIA_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.DESTINATION_URL_REPORT));
+    Assert.assertTrue(reports.contains(ReportDefinitionReportType.FINAL_URL_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.PLACEHOLDER_FEED_ITEM_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.URL_PERFORMANCE_REPORT));
     Assert.assertTrue(reports.contains(ReportDefinitionReportType.DISPLAY_KEYWORD_PERFORMANCE_REPORT));
@@ -187,8 +192,9 @@ public class CsvReportEntitiesMappingTest {
     Assert.assertTrue(propertiesToSelect.contains("ActiveViewCpm"));
     Assert.assertTrue(propertiesToSelect.contains("ActiveViewImpressions"));
     Assert.assertTrue(propertiesToSelect.contains("ConversionTrackerId"));
+    Assert.assertTrue(propertiesToSelect.contains("Slot"));
 
-    Assert.assertEquals(50, propertiesToSelect.size());
+    Assert.assertEquals(51, propertiesToSelect.size());
   }
 
   /**

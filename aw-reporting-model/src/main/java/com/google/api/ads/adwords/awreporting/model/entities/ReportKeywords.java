@@ -204,6 +204,10 @@ public class ReportKeywords extends ReportBase {
   @Column(name = "GMAIL_SECONDARY_CLICKS")
   @CsvField(value = "Gmail clicks to website", reportField = "GmailSecondaryClicks")
   private Long gmailSecondaryClicks;
+  
+  @Column(name = "SLOT")
+  @CsvField(value = "Top vs. Other", reportField = "Slot")
+  private String slot;
 
   /**
    * Hibernate needs an empty constructor
@@ -673,5 +677,13 @@ public class ReportKeywords extends ReportBase {
   
   public void setGmailSecondaryClicks(Long gmailSecondaryClicks) {
     this.gmailSecondaryClicks = gmailSecondaryClicks;
+  }
+  
+  public String getSlot() {
+    return slot;
+  }
+
+  public void setSlot(String slot) {
+    this.slot = slot;
   }
 }

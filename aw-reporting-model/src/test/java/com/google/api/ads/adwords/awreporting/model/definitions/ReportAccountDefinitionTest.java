@@ -162,7 +162,8 @@ public class ReportAccountDefinitionTest extends AbstractReportDefinitionTest<Re
         "IsTestAccount",
         "ActiveViewCpm",
         "ActiveViewImpressions",
-        "ConversionTrackerId"
+        "ConversionTrackerId",
+        "Slot"
     };
   }
 }

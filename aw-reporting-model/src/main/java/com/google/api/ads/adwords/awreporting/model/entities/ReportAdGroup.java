@@ -162,6 +162,10 @@ public class ReportAdGroup extends ReportBase {
   @Column(name = "GMAIL_SECONDARY_CLICKS")
   @CsvField(value = "Gmail clicks to website", reportField = "GmailSecondaryClicks")
   private Long gmailSecondaryClicks;
+  
+  @Column(name = "SLOT")
+  @CsvField(value = "Top vs. Other", reportField = "Slot")
+  private String slot;
 
   /**
    * Hibernate needs an empty constructor
@@ -198,6 +202,9 @@ public class ReportAdGroup extends ReportBase {
     }
     if (this.getHourOfDay() != null) {
       this.id += "-" + this.getHourOfDay();
+    }
+    if (this.getSlot() != null && this.getSlot().length() > 0) {
+      this.id += "-" + this.getSlot();
     }
   }
 
@@ -517,5 +524,13 @@ public class ReportAdGroup extends ReportBase {
 
   public void setTargetCpa(BigDecimal targetCpa) {
     this.targetCpa = targetCpa;
+  }
+
+  public String getSlot() {
+    return slot;
+  }
+
+  public void setSlot(String slot) {
+    this.slot = slot;
   }
 }

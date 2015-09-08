@@ -200,7 +200,8 @@ public class ReportKeywordsDefinitionTest extends AbstractReportDefinitionTest<R
         "PercentNewVisitors",
         "GmailForwards",
         "GmailSaves",
-        "GmailSecondaryClicks"
+        "GmailSecondaryClicks",
+        "Slot"
     };
   }
 }

@@ -63,7 +63,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("enabled", first.getCampaignStatus());
     Assert.assertEquals(1.00, first.getBudget().doubleValue());
     Assert.assertEquals(41273L, first.getBudgetId().longValue());
-    
+    Assert.assertEquals("Google search: Other", first.getSlot());
   }
 
   /**
@@ -90,7 +90,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
     Assert.assertEquals("enabled", last.getCampaignStatus());
     Assert.assertEquals(1.00, last.getBudget().doubleValue());
     Assert.assertEquals(412987L, last.getBudgetId().longValue());
-
+    Assert.assertEquals("Google search: Top", last.getSlot());
   }
 
   /**
@@ -178,6 +178,7 @@ public class ReportCampaignDefinitionTest extends AbstractReportDefinitionTest<R
         "ConversionTrackerId",
         "TrackingUrlTemplate",
         "UrlCustomParameters",
+        "Slot",
         // Analytics Fieds      
         "AverageFrequency",  
         "AveragePageviews",

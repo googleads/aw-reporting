@@ -153,7 +153,8 @@ AbstractReportDefinitionTest<ReportPlaceholderFeedItem> {
         "ConversionTrackerId",
         "AttributeValues",
         "DisapprovalShortNames",
-        "UrlCustomParameters"
+        "UrlCustomParameters",
+        "Slot"
         };
   }
 }

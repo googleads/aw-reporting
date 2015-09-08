@@ -187,7 +187,8 @@ extends AbstractReportDefinitionTest<ReportDestinationUrl> {
         "ConversionTrackerId",
         "GmailForwards",
         "GmailSaves",
-        "GmailSecondaryClicks"
+        "GmailSecondaryClicks",
+        "Slot"
     };
   }
 }

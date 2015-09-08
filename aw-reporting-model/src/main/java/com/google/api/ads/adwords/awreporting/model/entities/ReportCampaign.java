@@ -198,6 +198,10 @@ public class ReportCampaign extends ReportBase {
   @Column(name = "END_DATE")
   @CsvField(value = "End date", reportField = "EndDate")
   protected Date endDate;
+  
+  @Column(name = "SLOT")
+  @CsvField(value = "Top vs. Other", reportField = "Slot")
+  private String slot;
 
   /**
    * Hibernate needs an empty constructor
@@ -233,6 +237,9 @@ public class ReportCampaign extends ReportBase {
     }
     if (this.getHourOfDay() != null) {
       this.id += "-" + this.getHourOfDay();
+    }
+    if (this.getSlot() != null && this.getSlot().length() > 0) {
+      this.id += "-" + this.getSlot();
     }
   }
 
@@ -608,6 +615,14 @@ public class ReportCampaign extends ReportBase {
   
   public void setGmailSecondaryClicks(Long gmailSecondaryClicks) {
     this.gmailSecondaryClicks = gmailSecondaryClicks;
+  }
+  
+  public String getSlot() {
+    return slot;
+  }
+
+  public void setSlot(String slot) {
+    this.slot = slot;
   }
   
   public String getStartDate() {

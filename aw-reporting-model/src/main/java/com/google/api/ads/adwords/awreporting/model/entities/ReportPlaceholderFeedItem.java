@@ -114,6 +114,10 @@ public class ReportPlaceholderFeedItem extends ReportBase {
   @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
   private String urlCustomParameters;
   
+  @Column(name = "SLOT")
+  @CsvField(value = "Top vs. Other", reportField = "Slot")
+  private String slot;
+  
   /**
    * Hibernate needs an empty constructor
    */
@@ -179,6 +183,9 @@ public class ReportPlaceholderFeedItem extends ReportBase {
       this.id += this.getIsSelfAction();
     } else {
         this.id += "null";
+    }
+    if (this.getSlot() != null && this.getSlot().length() > 0) {
+      this.id += "-" + this.getSlot();
     }
   }
 
@@ -352,5 +359,13 @@ public class ReportPlaceholderFeedItem extends ReportBase {
   
   public void setUrlCustomParameters(String urlCustomParameters) {
     this.urlCustomParameters = urlCustomParameters;
+  }
+  
+  public String getSlot() {
+    return slot;
+  }
+
+  public void setSlot(String slot) {
+    this.slot = slot;
   }
 }

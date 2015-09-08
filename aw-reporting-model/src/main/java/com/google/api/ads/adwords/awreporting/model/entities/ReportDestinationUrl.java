@@ -110,6 +110,10 @@ public class ReportDestinationUrl extends ReportBase {
   @Column(name = "GMAIL_SECONDARY_CLICKS")
   @CsvField(value = "Gmail clicks to website", reportField = "GmailSecondaryClicks")
   private Long gmailSecondaryClicks;
+  
+  @Column(name = "SLOT")
+  @CsvField(value = "Top vs. Other", reportField = "Slot")
+  private String slot;
 
   /**
    * Hibernate needs an empty constructor
@@ -158,6 +162,9 @@ public class ReportDestinationUrl extends ReportBase {
     }
     if (this.getClickType() != null && this.getClickType().length() > 0) {
       this.id += "-" + this.getClickType();
+    }
+    if (this.getSlot() != null && this.getSlot().length() > 0) {
+      this.id += "-" + this.getSlot();
     }
   }
 
@@ -307,5 +314,13 @@ public class ReportDestinationUrl extends ReportBase {
   
   public void setGmailSecondaryClicks(Long gmailSecondaryClicks) {
     this.gmailSecondaryClicks = gmailSecondaryClicks;
+  }
+  
+  public String getSlot() {
+    return slot;
+  }
+
+  public void setSlot(String slot) {
+    this.slot = slot;
   }
 }
