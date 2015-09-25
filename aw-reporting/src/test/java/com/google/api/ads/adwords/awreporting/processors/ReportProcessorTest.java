@@ -76,6 +76,9 @@ public class ReportProcessorTest {
 
   private static final Set<Long> accountIds =
       ImmutableSet.of(1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L, 10L);
+  
+  private static final List<String> segmentedFields =
+      ImmutableList.of("AdNetworkType1", "AdNetworkType2", "ClickType", "ConversionCategoryName");
 
   private final ReportAccount reportAccount = new ReportAccount();
   private final List<ReportAccount> listAccounts = ImmutableList.of(reportAccount);
@@ -126,6 +129,8 @@ public class ReportProcessorTest {
         any(DateTime.class), any(DateTime.class))).thenReturn(listAccounts);
 
     when(reportProcessor.retrieveAccountIds(anyString())).thenReturn(accountIds);
+    
+    when(reportProcessor.retrieveSegmentedFields(anyString(), anyString())).thenReturn(segmentedFields);
   }
 
   @Test

@@ -166,6 +166,10 @@ public abstract class AbstractReportDefinitionTest<T extends Report> {
 
     Assert.assertTrue(parsedBeans.size() > 1);
 
+    for (T report : parsedBeans){
+      report.setSegmentedFields(this.retrieveSegmentedProperties());
+    }
+
     this.persister.persistReportEntities(parsedBeans);
 
     List<T> listedReports = this.persister.listReports(this.reportBeanClass);
@@ -205,6 +209,11 @@ public abstract class AbstractReportDefinitionTest<T extends Report> {
    * @return the properties that must be selected by the report definition.
    */
   protected abstract String[] retrievePropertiesToBeSelected();
+
+  /**
+   * @return the properties that are segmented
+   */
+  protected abstract List<String> retrieveSegmentedProperties();
 
   /**
    * Comparator to organize the retrieved data from DB.

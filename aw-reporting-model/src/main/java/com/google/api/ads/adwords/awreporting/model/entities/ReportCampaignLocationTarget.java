@@ -82,18 +82,7 @@ public class ReportCampaignLocationTarget extends ReportBase {
     if (this.getLocationId() != null && !isEmptyValue(this.getLocationId())) {
       this.id += "-" + this.getLocationId();
     }
-    if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
-      this.id += "-" + this.getAdNetwork();
-    }
-    if (this.getAdNetworkPartners() != null && this.getAdNetworkPartners().length() > 0) {
-      this.id += "-" + this.getAdNetworkPartners();
-    }
-    if (this.getDevice() != null && this.getDevice().length() > 0) {
-      this.id += "-" + this.getDevice();
-    }
-    if (this.getClickType() != null && this.getClickType().length() > 0) {
-      this.id += "-" + this.getClickType();
-    }
+    this.id += getSegmentedId();
   }
 
   public Long getCampaignId() {

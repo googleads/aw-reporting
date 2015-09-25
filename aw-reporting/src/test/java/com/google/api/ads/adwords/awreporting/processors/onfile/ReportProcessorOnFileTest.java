@@ -62,6 +62,7 @@ import com.google.api.ads.adwords.lib.jaxb.v201506.ReportDefinitionDateRangeType
 import com.google.api.ads.adwords.lib.jaxb.v201506.ReportDefinitionReportType;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -106,7 +107,7 @@ public class ReportProcessorOnFileTest {
   ArgumentCaptor<List<? extends Report>> reportEntitiesCaptor;
 
   @Before
-  public void setUp() throws InterruptedException, IOException, OAuthException, ValidationException {
+  public void setUp() throws InterruptedException, IOException, OAuthException, ValidationException, Exception {
 
     for (int i = 1; i <= NUMBER_OF_ACCOUNTS; i++) {
       CIDS.add(Long.valueOf(i));
@@ -120,7 +121,7 @@ public class ReportProcessorOnFileTest {
     reportProcessorOnFile = new ReportProcessorOnFile(10, NUMBER_OF_THREADS);
     authenticator = new InstalledOAuth2Authenticator("DevToken", "ClientId", "ClientSecret",
         ReportWriterType.FileSystemWriter);
-
+    
     MockitoAnnotations.initMocks(this);
 
     when(mockedAuthTokenPersister.getAuthToken(Mockito.anyString())).thenReturn(
@@ -146,6 +147,9 @@ public class ReportProcessorOnFileTest {
     AdWordsSession.Builder builder = new AdWordsSession.Builder().withClientCustomerId("1");
     Mockito.doReturn(builder).when(authenticator)
         .authenticate(Mockito.anyString(), Mockito.anyBoolean());
+    
+    mockDownloadSegmentedFields();
+
   }
 
   @Test
@@ -260,6 +264,17 @@ public class ReportProcessorOnFileTest {
     }).when(mockedMultipleClientReportDownloader).downloadReports(
         Mockito.<AdWordsSessionBuilderSynchronizer>anyObject(), Mockito.<ReportDefinition>anyObject(),
         Mockito.<Set<Long>>anyObject());
+  }
+  
+  private void mockDownloadSegmentedFields() throws OAuthException, Exception {
+    Mockito.doAnswer(new Answer<List<String>>() {
+      @Override
+      public List<String> answer(InvocationOnMock invocation) throws Throwable {
+        List<String> segmentedFields =
+            ImmutableList.of("AdNetworkType1", "AdNetworkType2", "ClickType", "ConversionCategoryName");
+        return segmentedFields;
+      }
+    }).when(reportProcessorOnFile).retrieveSegmentedFields(Mockito.anyString(), Mockito.anyString());
   }
 
   private Collection<File> getReportFiles(String fileName, int numberOfFiles) throws IOException {

@@ -252,27 +252,11 @@ public abstract class ReportBase extends Report {
 
   @Override
   public String setIdDates() {
-    // Time Segments
-    if (this.getDay() != null) {
-      return "-" + this.getDay();
-    }
-    if (this.getMonth() != null) {
-      return "-" + DateUtil.formatYearMonth(this.getMonthDateTime());
-    }
-    if (this.getDayOfWeek() != null) {
-      return "-" + this.getDayOfWeek();
-    }
-    if (this.getWeek() != null) {
-      return "-" + this.getWeek();
-    }
-    if (this.getQuarter() != null) {
-      return "-" + this.getQuarter();
-    }
-    if (this.getMonthOfYear() != null) {
-      return "-" + this.getMonthOfYear();
-    }
-    if (this.getYear() != null) {
-      return "-" + this.getYear();
+    // Time Segments - ignore.  Handled in getSegmentedId()
+    if (this.getDay() != null || this.getMonth() != null || this.getDayOfWeek() != null ||
+        this.getWeek() != null || this.getQuarter() != null || this.getMonthOfYear() != null ||
+        this.getYear() != null) {
+      return "";
     }
 
     if (this.getDateRangeType() != null) {

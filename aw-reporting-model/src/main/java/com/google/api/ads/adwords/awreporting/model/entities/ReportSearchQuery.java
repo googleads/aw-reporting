@@ -102,22 +102,10 @@ public class ReportSearchQuery extends ReportBase {
     if (this.getAdFormat() != null && this.getAdFormat().length() > 0) {
       this.id += "-" + this.getAdFormat();
     }
-    if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
-      this.id += "-" + this.getAdNetwork();
-    }
-    if (this.getAdNetworkPartners() != null && this.getAdNetworkPartners().length() > 0) {
-      this.id += "-" + this.getAdNetworkPartners();
-    }
-    if (this.getDevice() != null && this.getDevice().length() > 0) {
-      this.id += "-" + this.getDevice();
-    }
-    if (this.getClickType() != null && this.getClickType().length() > 0) {
-      this.id += "-" + this.getClickType();
-    }
     if (this.getQuery() != null && this.getQuery().length() > 0) {
       this.id += "-" + this.getQuery();
     }
-
+    this.id += getSegmentedId();
   }
 
   public String getAdFormat() {

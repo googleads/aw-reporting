@@ -64,6 +64,7 @@ import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.util.Lists;
 import com.google.api.client.util.Maps;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
 /**
@@ -106,7 +107,7 @@ public class ReportProcessorOnMemoryTest {
 
   @SuppressWarnings("unchecked")
   @Before
-  public void setUp() throws IOException, OAuthException {
+  public void setUp() throws Exception {
 
     for (int i = 1; i <= NUMBER_OF_ACCOUNTS; i++) {
       CIDS.add(Long.valueOf(i));
@@ -172,6 +173,8 @@ public class ReportProcessorOnMemoryTest {
         return runnableProcessorOnMemory;
       }
     }).when(reportProcessorOnMemory).getRunnableProcessorOnMemory(Mockito.any(RunnableProcessorOnMemory.class));
+    
+    mockDownloadSegmentedFields();
   }
 
   @Test
@@ -241,6 +244,17 @@ public class ReportProcessorOnMemoryTest {
     }
     // Undefined report type on this test
     throw (new Exception("Undefined report type on Tests: " + reportType.value()));
+  }
+  
+  private void mockDownloadSegmentedFields() throws OAuthException, Exception {
+    Mockito.doAnswer(new Answer<List<String>>() {
+      @Override
+      public List<String> answer(InvocationOnMock invocation) throws Throwable {
+        List<String> segmentedFields =
+            ImmutableList.of("AdNetworkType1", "AdNetworkType2", "ClickType", "ConversionCategoryName");
+        return segmentedFields;
+      }
+    }).when(reportProcessorOnMemory).retrieveSegmentedFields(Mockito.anyString(), Mockito.anyString());
   }
 
   private byte[] getReporDatafromCsv(ReportDefinitionReportType reportType) throws Exception {

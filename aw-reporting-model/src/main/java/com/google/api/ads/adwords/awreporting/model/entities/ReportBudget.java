@@ -102,6 +102,8 @@ public class ReportBudget extends ReportBase {
     if (this.getPeriod() != null && this.getPeriod().length() > 0) {
       this.id += "-" + this.getPeriod();
     }
+
+    this.id += getSegmentedId();
   }
 
   /**

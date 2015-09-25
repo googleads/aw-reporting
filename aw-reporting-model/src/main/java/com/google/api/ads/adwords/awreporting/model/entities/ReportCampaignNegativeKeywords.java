@@ -103,6 +103,8 @@ public class ReportCampaignNegativeKeywords extends Report {
     }
 
     this.id += setIdDates();
+ 
+    this.id += getSegmentedId();
   }
 
   // keywordId

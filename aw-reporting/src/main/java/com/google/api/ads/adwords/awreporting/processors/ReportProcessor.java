@@ -19,6 +19,8 @@ import com.google.api.ads.adwords.awreporting.model.csv.CsvReportEntitiesMapping
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.api.ads.adwords.awreporting.util.CustomerDelegate;
 import com.google.api.ads.adwords.awreporting.util.ManagedCustomerDelegate;
+import com.google.api.ads.adwords.awreporting.util.ReportDefinitionDelegate;
+import com.google.api.ads.adwords.jaxws.v201506.cm.ApiException_Exception;
 import com.google.api.ads.adwords.jaxws.v201506.mcm.ApiException;
 import com.google.api.ads.adwords.jaxws.v201506.mcm.Customer;
 import com.google.api.ads.adwords.jaxws.v201506.mcm.ManagedCustomer;
@@ -38,7 +40,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -71,6 +75,9 @@ public abstract class ReportProcessor {
   protected int reportRowsSetSize = REPORT_BUFFER_DB;
 
   protected int numberOfReportProcessors = NUMBER_OF_REPORT_PROCESSORS;
+  
+  protected Map<String, List<String>> reportSegmentedProperties =
+      new HashMap<String, List<String>>();
 
   abstract protected void cacheAccounts(Set<Long> accountIdsSet);
 
@@ -319,6 +326,38 @@ public abstract class ReportProcessor {
       return inclusionsList;
     }
     return Lists.newArrayListWithCapacity(0);
+  }
+  
+
+  public List<String> retrieveSegmentedFields(String mccAccountId, String reportType) throws OAuthException,
+      ValidationException, Exception {
+
+    List<String> segmentedFieldsList = Lists.newArrayList();
+    try {
+
+      LOGGER.info("Getting segmented fields for report " +reportType);
+      segmentedFieldsList = new ReportDefinitionDelegate(
+          authenticator.authenticate(mccAccountId, false).build()).getSegmentedReportFields(reportType);
+
+    } catch (ApiException_Exception e) {
+      if (e.getMessage().contains("AuthenticationError")) {
+
+        // retries Auth once for expired Tokens
+        LOGGER.info("AuthenticationError, Getting a new Token...");
+        LOGGER.info("Getting segmented fields for report " +reportType);
+        segmentedFieldsList = new ReportDefinitionDelegate(
+            authenticator.authenticate(mccAccountId, true).build()).getSegmentedReportFields(reportType);
+
+      } else {
+        LOGGER.error("API error: " + e.getMessage());
+        e.printStackTrace();
+        throw e;
+      }
+    }
+
+    this.reportSegmentedProperties.put(reportType, segmentedFieldsList);
+
+    return segmentedFieldsList;
   }
 
   /**

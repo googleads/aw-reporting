@@ -76,7 +76,7 @@ public class RunnableProcessorOnFileTest {
 
     runnableProcessorOnFile = new RunnableProcessorOnFile<ReportAccount>(file,
         csvToBean, mappingStrategy, ReportDefinitionDateRangeType.CUSTOM_DATE,
-        "20140101", "20140131", "123", mockedEntitiesPersister, 5);
+        "20140101", "20140131", "123", null, mockedEntitiesPersister, 5);
 
     MockitoAnnotations.initMocks(this);
 

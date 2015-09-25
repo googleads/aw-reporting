@@ -74,6 +74,7 @@ public class RunnableProcessorOnMemory<R extends Report> implements Runnable {
   private final ReportDefinitionDateRangeType dateRangeType;
   private final String dateStart;
   private final String dateEnd;
+  private List<String>segmentedFields;
   private EntityPersister entityPersister;
   private final int reportRowsSetSize;
 
@@ -99,8 +100,8 @@ public class RunnableProcessorOnMemory<R extends Report> implements Runnable {
   public RunnableProcessorOnMemory(final Long accountId, final AdWordsSession adWordsSession, 
       ReportDefinition reportDefinition, ModifiedCsvToBean<R> csvToBean,
       MappingStrategy<R> mappingStrategy, ReportDefinitionDateRangeType dateRangeType,
-      String dateStart, String dateEnd, final String mccAccountId, EntityPersister entityPersister,
-      Integer reportRowsSetSize) {
+      String dateStart, String dateEnd, final String mccAccountId, final List<String>segmentedFields,
+      EntityPersister entityPersister, Integer reportRowsSetSize) {
     this.accountId = accountId;
     this.adWordsSession = adWordsSession;
     this.adWordsSession.setClientCustomerId(String.valueOf(accountId));
@@ -111,6 +112,7 @@ public class RunnableProcessorOnMemory<R extends Report> implements Runnable {
     this.dateStart = dateStart;
     this.dateEnd = dateEnd;
     this.mccAccountId = mccAccountId;
+    this.segmentedFields = segmentedFields;
     this.entityPersister = entityPersister;
     this.reportRowsSetSize = reportRowsSetSize;
   }
@@ -146,6 +148,7 @@ public class RunnableProcessorOnMemory<R extends Report> implements Runnable {
         report.setDateRangeType(dateRangeType.value());
         report.setDateStart(dateStart);
         report.setDateEnd(dateEnd);
+        report.setSegmentedFields(segmentedFields);
         report.setId();
         reportBuffer.add(report);
 

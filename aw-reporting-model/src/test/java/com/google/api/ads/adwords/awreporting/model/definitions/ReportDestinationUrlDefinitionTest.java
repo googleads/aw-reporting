@@ -16,12 +16,15 @@ package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportDestinationUrl;
 import com.google.api.ads.adwords.lib.jaxb.v201506.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import junit.framework.Assert;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Tests the Ad Performance report definition.
@@ -190,5 +193,17 @@ extends AbstractReportDefinitionTest<ReportDestinationUrl> {
         "GmailSecondaryClicks",
         "Slot"
     };
+  }
+
+  @Override
+  protected List<String> retrieveSegmentedProperties() {
+    return Lists.newArrayList(
+        "AdNetworkType1",
+        "AdNetworkType2",
+        "ClickType",
+        "ConversionCategoryName",
+        "ConversionTrackerId",
+        "Device"
+    );
   }
 }

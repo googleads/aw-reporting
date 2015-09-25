@@ -186,9 +186,8 @@ public class ReportShopping extends ReportBase {
     if (this.getCategoryL1() != null && this.getCategoryL1().length() > 0) {
       this.id += "-" + this.getCategoryL1();
     }
-    if (this.getClickType() != null && this.getClickType().length() > 0) {
-      this.id += "-" + this.getClickType();
-    }
+
+    this.id += getSegmentedId();
   }
 
   public Long getAdGroupId() {

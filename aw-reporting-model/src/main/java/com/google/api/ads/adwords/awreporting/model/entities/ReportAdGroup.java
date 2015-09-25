@@ -188,24 +188,7 @@ public class ReportAdGroup extends ReportBase {
     this.id += this.setIdDates();
 
     // Adding extra fields for unique ID
-    if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
-      this.id += "-" + this.getAdNetwork();
-    }
-    if (this.getAdNetworkPartners() != null && this.getAdNetworkPartners().length() > 0) {
-      this.id += "-" + this.getAdNetworkPartners();
-    }
-    if (this.getDevice() != null && this.getDevice().length() > 0) {
-      this.id += "-" + this.getDevice();
-    }
-    if (this.getClickType() != null && this.getClickType().length() > 0) {
-      this.id += "-" + this.getClickType();
-    }
-    if (this.getHourOfDay() != null) {
-      this.id += "-" + this.getHourOfDay();
-    }
-    if (this.getSlot() != null && this.getSlot().length() > 0) {
-      this.id += "-" + this.getSlot();
-    }
+    this.id += getSegmentedId();
   }
 
   // adGroupId

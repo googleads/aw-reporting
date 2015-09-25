@@ -126,6 +126,11 @@ public class ReportProcessorOnMemory extends ReportProcessor {
       String reportDefinitionKey = key.toString();
       ReportDefinitionReportType reportType = this.extractReportTypeFromKey(reportDefinitionKey);
       if (reportType != null && reports.contains(reportType)) {
+        // retrieve segmented fields if we don't have them
+        if (this.reportSegmentedProperties.get(reportDefinitionKey) == null){
+          this.retrieveSegmentedFields(mccAccountId, reportDefinitionKey);
+        }
+        
         this.downloadAndProcess(mccAccountId,
             sessionBuilder,
             reportType,
@@ -182,6 +187,8 @@ public class ReportProcessorOnMemory extends ReportProcessor {
 
     final CountDownLatch latch = new CountDownLatch(acountIdList.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
+    
+    List<String> segmentedFields = this.reportSegmentedProperties.get(reportType.name());
 
     Stopwatch stopwatch = Stopwatch.createStarted();
 
@@ -207,6 +214,7 @@ public class ReportProcessorOnMemory extends ReportProcessor {
                 dateStart,
                 dateEnd,
                 mccAccountId,
+                segmentedFields,
                 persister,
                 reportRowsSetSize));
 

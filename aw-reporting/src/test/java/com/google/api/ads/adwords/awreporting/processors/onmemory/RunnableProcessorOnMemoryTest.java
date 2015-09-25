@@ -89,7 +89,7 @@ public class RunnableProcessorOnMemoryTest {
 
     runnableProcessorOnMemory = new RunnableProcessorOnMemory<ReportAccount>(1232198123L, adWordsSession, null,
         csvToBean, mappingStrategy, ReportDefinitionDateRangeType.CUSTOM_DATE,
-        "20140101", "20140131", "123", mockedEntitiesPersister, 5);
+        "20140101", "20140131", "123", null, mockedEntitiesPersister, 5);
 
     MockitoAnnotations.initMocks(this);
 

@@ -21,6 +21,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 
 import org.apache.log4j.Logger;
@@ -66,6 +67,7 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
   private String dateStart;
   private String dateEnd;
   private String mccAccountId;
+  private List<String>segmentedFields;
   private EntityPersister entityPersister;
   private int reportRowsSetSize;
 
@@ -85,6 +87,7 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
       String dateStart,
       String dateEnd,
       String mccAccountId,
+      List<String>segmentedFields,
       EntityPersister entityPersister,
       Integer reportRowsSetSize) {
     this.file = file;
@@ -94,6 +97,7 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
     this.dateStart = dateStart;
     this.dateEnd = dateEnd;
     this.mccAccountId = mccAccountId;
+    this.segmentedFields = segmentedFields;
     this.entityPersister = entityPersister;
     this.reportRowsSetSize = reportRowsSetSize;
   }
@@ -136,6 +140,7 @@ public class RunnableProcessorOnFile<R extends Report> implements Runnable {
         report.setDateRangeType(dateRangeType.value());
         report.setDateStart(dateStart);
         report.setDateEnd(dateEnd);
+        report.setSegmentedFields(segmentedFields);
         report.setId();
 
         reportBuffer.add(report);

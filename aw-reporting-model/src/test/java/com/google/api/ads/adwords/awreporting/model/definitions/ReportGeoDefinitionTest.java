@@ -16,10 +16,13 @@ package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportGeo;
 import com.google.api.ads.adwords.lib.jaxb.v201506.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -155,5 +158,17 @@ AbstractReportDefinitionTest<ReportGeo>{
         "MostSpecificCriteriaId",
         "RegionCriteriaId"
     };
+  }
+
+  @Override
+  protected List<String> retrieveSegmentedProperties() {
+    return Lists.newArrayList(
+        "AdNetworkType1",
+        "AdNetworkType2",
+        "ClickType",
+        "ConversionCategoryName",
+        "ConversionTrackerId",
+        "Device"
+    );
   }
 }

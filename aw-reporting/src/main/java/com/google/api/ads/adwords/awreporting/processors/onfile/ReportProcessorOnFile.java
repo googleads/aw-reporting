@@ -91,7 +91,8 @@ public class ReportProcessorOnFile extends ReportProcessor {
       Collection<File> localFiles,
       ReportDefinitionDateRangeType dateRangeType,
       String dateStart,
-      String dateEnd) {
+      String dateEnd,
+      List<String>segementedFields) {
 
     final CountDownLatch latch = new CountDownLatch(localFiles.size());
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfReportProcessors);
@@ -117,6 +118,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
             dateStart,
             dateEnd,
             mccAccountId,
+            segementedFields,
             persister,
             reportRowsSetSize);
         runnableProcesor.setLatch(latch);
@@ -208,10 +210,14 @@ public class ReportProcessorOnFile extends ReportProcessor {
     // reports
     Set<Object> propertiesKeys = properties.keySet();
     for (Object key : propertiesKeys) {
-
       String reportDefinitionKey = key.toString();
       ReportDefinitionReportType reportType = this.extractReportTypeFromKey(reportDefinitionKey);
       if (reportType != null && reports.contains(reportType)) {
+        // retrieve segmented fields if we don't have them
+        if (this.reportSegmentedProperties.get(reportDefinitionKey) == null){
+          this.retrieveSegmentedFields(mccAccountId, reportDefinitionKey);
+        }
+        
         this.downloadAndProcess(mccAccountId,
             sessionBuilder,
             reportType,
@@ -305,7 +311,10 @@ public class ReportProcessorOnFile extends ReportProcessor {
     @SuppressWarnings("unchecked")
     Class<R> reportBeanClass =
         (Class<R>) this.csvReportEntitiesMapping.getReportBeanClass(reportType);
-    this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd);
+    
+    List<String> segmentedFields = this.reportSegmentedProperties.get(reportType.name());
+    
+    this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd,segmentedFields);
 
     stopwatch.stop();
     LOGGER.info("\n* DB Process finished in " + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)
@@ -332,9 +341,12 @@ public class ReportProcessorOnFile extends ReportProcessor {
     Stopwatch stopwatch = Stopwatch.createStarted();
 
     Class<R> reportBeanClass;
+    List<String> segmentedFields = null;
+    
     try {
       ReportDefinitionReportType reportType = ReportDefinitionReportType.valueOf(reportTypeName);
       reportBeanClass = (Class<R>) this.csvReportEntitiesMapping.getReportBeanClass(reportType);
+      segmentedFields = this.reportSegmentedProperties.get(reportType);
     } catch (IllegalArgumentException e) {
       reportBeanClass =
           (Class<R>) this.csvReportEntitiesMapping.getExperimentalReportBeanClass(reportTypeName);
@@ -343,7 +355,7 @@ public class ReportProcessorOnFile extends ReportProcessor {
       throw new IllegalArgumentException("Report type not found: " + reportTypeName);
     }
 
-    this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd);
+    this.processFiles(mccAccountId, reportBeanClass, localFiles, dateRangeType, dateStart, dateEnd, segmentedFields);
 
     stopwatch.stop();
     LOGGER.info("\n* DB Process finished in " + (stopwatch.elapsed(TimeUnit.MILLISECONDS) / 1000)

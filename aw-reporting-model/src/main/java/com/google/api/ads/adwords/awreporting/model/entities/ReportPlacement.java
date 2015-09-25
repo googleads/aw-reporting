@@ -190,21 +190,10 @@ public class ReportPlacement extends ReportBase {
     this.id += setIdDates();
 
     // Adding extra fields for unique ID
-    if (this.getAdNetwork() != null && this.getAdNetwork().length() > 0) {
-      this.id += "-" + this.getAdNetwork();
-    }
-    if (this.getAdNetworkPartners() != null && this.getAdNetworkPartners().length() > 0) {
-      this.id += "-" + this.getAdNetworkPartners();
-    }
-    if (this.getDevice() != null && this.getDevice().length() > 0) {
-      this.id += "-" + this.getDevice();
-    }
-    if (this.getClickType() != null && this.getClickType().length() > 0) {
-      this.id += "-" + this.getClickType();
-    }
     if (this.getCriteria() != null && this.getCriteria().length() > 0) {
       this.id += "-" + this.getCriteria();
     }
+    this.id += getSegmentedId();
   }
 
   public Long getAdGroupId() {

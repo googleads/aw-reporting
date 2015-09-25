@@ -16,12 +16,15 @@ package com.google.api.ads.adwords.awreporting.model.definitions;
 
 import com.google.api.ads.adwords.awreporting.model.entities.ReportCampaignLocationTarget;
 import com.google.api.ads.adwords.lib.jaxb.v201506.ReportDefinitionReportType;
+import com.google.common.collect.Lists;
 
 import junit.framework.Assert;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Tests the Campaign Location Target report definition.
@@ -114,5 +117,17 @@ public class ReportCampaignLocationTargetDefinitionTest extends
         "AccountDescriptiveName", "AccountTimeZoneId", "CustomerDescriptiveName", "PrimaryCompanyName", "AccountCurrencyCode", "Date", "DayOfWeek", "Week", "Month", "MonthOfYear", "Quarter", "Year", "Cost", "Clicks", "Impressions", "Ctr", "AverageCpm", "AverageCpc", "AveragePosition", "Device", "ClickType", "AdNetworkType1", "AdNetworkType2", "ConversionsManyPerClick", "ConversionRateManyPerClick", "CostPerConversionManyPerClick", "ValuePerConversionManyPerClick", "ConvertedClicks", "ClickConversionRate", "CostPerConvertedClick", "ValuePerConvertedClick", "ConversionCategoryName", "ConversionTypeName", "ConversionValue", "ViewThroughConversions",
         // Specific
         "Id", "BidModifier", "CampaignId", "CampaignName", "CampaignStatus", "IsNegative"};
+  }
+
+  @Override
+  protected List<String> retrieveSegmentedProperties() {
+    return Lists.newArrayList(
+        "AdNetworkType1",
+        "AdNetworkType2",
+        "ClickType",
+        "ConversionCategoryName",
+        "ConversionTrackerId",
+        "Device"
+    );
   }
 }
