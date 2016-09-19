@@ -101,6 +101,9 @@ public class ModifiedCsvToBean<T> extends CsvToBean<T> implements Serializable{
           String value = this.trimIfPossible(line[col], prop);
           if (Number.class.isAssignableFrom(prop.getPropertyType())) {
             value = value.replaceAll("-", "");
+            if(value==null || value.length()==0){
+            	value="0";
+            }
           }
           Object obj = this.convertValue(value, prop);
 
