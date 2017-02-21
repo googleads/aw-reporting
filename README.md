@@ -261,7 +261,7 @@ Pull requests are very much appreciated. Please sign the [Google Individual Cont
 <dl>
   <dt>Authors</dt><dd><a href="https://plus.google.com/+JulianCToledo/">Julian Toledo (Google Inc.)
 <dd><a href="https://plus.google.com/+GustavoMenezes/">Gustavo Menezes (Google Inc.)</a></dd>
-  <dt>Copyright</dt><dd>Copyright © 2013 Google, Inc.</dd>
+  <dt>Copyright</dt><dd>Copyright © 2013-2017 Google, Inc.</dd>
   <dt>License</dt><dd>Apache 2.0</dd>
   <dt>Limitations</dt><dd>This is example software, use with caution under your own risk.</dd>
 </dl>
