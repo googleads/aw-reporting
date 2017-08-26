@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -50,6 +50,10 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "PolicySummary")
   @CsvField(value = "Policy", reportField = "PolicySummary")
   private String policySummary;
+
+  @Column(name = "AccentColor")
+  @CsvField(value = "Accent color (responsive)", reportField = "AccentColor")
+  private String accentColor;
 
   @Column(name = "AccountCurrencyCode")
   @CsvField(value = "Currency", reportField = "AccountCurrencyCode")
@@ -129,6 +133,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "All conv. value", reportField = "AllConversionValue")
   private BigDecimal allConversionValue;
 
+  @Column(name = "AllowFlexibleColor")
+  @CsvField(value = "Allow flexible color (responsive)", reportField = "AllowFlexibleColor")
+  private String allowFlexibleColor;
+
   @Column(name = "AverageCost")
   @CsvField(value = "Avg. Cost", reportField = "AverageCost")
   @MoneyField
@@ -179,6 +187,10 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "BusinessName")
   @CsvField(value = "Business name", reportField = "BusinessName")
   private String businessName;
+
+  @Column(name = "CallToActionText")
+  @CsvField(value = "Call to action text (responsive)", reportField = "CallToActionText")
+  private String callToActionText;
 
   @Column(name = "CampaignId")
   @CsvField(value = "Campaign ID", reportField = "CampaignId")
@@ -343,6 +355,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Engagements", reportField = "Engagements")
   private Long engagements;
 
+  @Column(name = "EnhancedDisplayCreativeLandscapeLogoImageMediaId")
+  @CsvField(value = "Landscape logo ID (responsive)", reportField = "EnhancedDisplayCreativeLandscapeLogoImageMediaId")
+  private Long enhancedDisplayCreativeLandscapeLogoImageMediaId;
+
   @Column(name = "EnhancedDisplayCreativeLogoImageMediaId")
   @CsvField(value = "Logo ID (responsive)", reportField = "EnhancedDisplayCreativeLogoImageMediaId")
   private Long enhancedDisplayCreativeLogoImageMediaId;
@@ -351,9 +367,17 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Image ID (responsive)", reportField = "EnhancedDisplayCreativeMarketingImageMediaId")
   private Long enhancedDisplayCreativeMarketingImageMediaId;
 
+  @Column(name = "EnhancedDisplayCreativeMarketingImageSquareMediaId")
+  @CsvField(value = "Square image ID (responsive)", reportField = "EnhancedDisplayCreativeMarketingImageSquareMediaId")
+  private Long enhancedDisplayCreativeMarketingImageSquareMediaId;
+
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
+
+  @Column(name = "FormatSetting")
+  @CsvField(value = "Ad format preference (responsive)", reportField = "FormatSetting")
+  private String formatSetting;
 
   @Column(name = "GmailForwards")
   @CsvField(value = "Gmail forwards", reportField = "GmailForwards")
@@ -443,6 +467,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Long headline", reportField = "LongHeadline")
   private String longHeadline;
 
+  @Column(name = "MainColor")
+  @CsvField(value = "Main color (responsive)", reportField = "MainColor")
+  private String mainColor;
+
   @Column(name = "Path1")
   @CsvField(value = "Path 1", reportField = "Path1")
   private String path1;
@@ -454,6 +482,14 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "PercentNewVisitors")
   @CsvField(value = "% new sessions", reportField = "PercentNewVisitors")
   private BigDecimal percentNewVisitors;
+
+  @Column(name = "PricePrefix")
+  @CsvField(value = "Price prefix (responsive)", reportField = "PricePrefix")
+  private String pricePrefix;
+
+  @Column(name = "PromoText")
+  @CsvField(value = "Promotion text (responsive)", reportField = "PromoText")
+  private String promoText;
 
   @Column(name = "ShortHeadline")
   @CsvField(value = "Short headline", reportField = "ShortHeadline")
@@ -539,6 +575,14 @@ public class AdPerformanceReport extends DateReport {
 
   public void setPolicySummary(String policySummary) {
     this.policySummary = policySummary;
+  }
+
+  public String getAccentColor() {
+    return accentColor;
+  }
+
+  public void setAccentColor(String accentColor) {
+    this.accentColor = accentColor;
   }
 
   public String getAccountCurrencyCode() {
@@ -717,6 +761,14 @@ public class AdPerformanceReport extends DateReport {
     this.allConversionValue = BigDecimalUtil.parseFromNumberString(allConversionValue);
   }
 
+  public String getAllowFlexibleColor() {
+    return allowFlexibleColor;
+  }
+
+  public void setAllowFlexibleColor(String allowFlexibleColor) {
+    this.allowFlexibleColor = allowFlexibleColor;
+  }
+
   public BigDecimal getAverageCost() {
     return averageCost;
   }
@@ -835,6 +887,14 @@ public class AdPerformanceReport extends DateReport {
 
   public void setBusinessName(String businessName) {
     this.businessName = businessName;
+  }
+
+  public String getCallToActionText() {
+    return callToActionText;
+  }
+
+  public void setCallToActionText(String callToActionText) {
+    this.callToActionText = callToActionText;
   }
 
   public Long getCampaignId() {
@@ -1201,6 +1261,14 @@ public class AdPerformanceReport extends DateReport {
     this.engagements = engagements;
   }
 
+  public Long getEnhancedDisplayCreativeLandscapeLogoImageMediaId() {
+    return enhancedDisplayCreativeLandscapeLogoImageMediaId;
+  }
+
+  public void setEnhancedDisplayCreativeLandscapeLogoImageMediaId(Long enhancedDisplayCreativeLandscapeLogoImageMediaId) {
+    this.enhancedDisplayCreativeLandscapeLogoImageMediaId = enhancedDisplayCreativeLandscapeLogoImageMediaId;
+  }
+
   public Long getEnhancedDisplayCreativeLogoImageMediaId() {
     return enhancedDisplayCreativeLogoImageMediaId;
   }
@@ -1217,12 +1285,28 @@ public class AdPerformanceReport extends DateReport {
     this.enhancedDisplayCreativeMarketingImageMediaId = enhancedDisplayCreativeMarketingImageMediaId;
   }
 
+  public Long getEnhancedDisplayCreativeMarketingImageSquareMediaId() {
+    return enhancedDisplayCreativeMarketingImageSquareMediaId;
+  }
+
+  public void setEnhancedDisplayCreativeMarketingImageSquareMediaId(Long enhancedDisplayCreativeMarketingImageSquareMediaId) {
+    this.enhancedDisplayCreativeMarketingImageSquareMediaId = enhancedDisplayCreativeMarketingImageSquareMediaId;
+  }
+
   public String getExternalConversionSource() {
     return externalConversionSource;
   }
 
   public void setExternalConversionSource(String externalConversionSource) {
     this.externalConversionSource = externalConversionSource;
+  }
+
+  public String getFormatSetting() {
+    return formatSetting;
+  }
+
+  public void setFormatSetting(String formatSetting) {
+    this.formatSetting = formatSetting;
   }
 
   public Long getGmailForwards() {
@@ -1413,6 +1497,14 @@ public class AdPerformanceReport extends DateReport {
     this.longHeadline = longHeadline;
   }
 
+  public String getMainColor() {
+    return mainColor;
+  }
+
+  public void setMainColor(String mainColor) {
+    this.mainColor = mainColor;
+  }
+
   public String getPath1() {
     return path1;
   }
@@ -1439,6 +1531,22 @@ public class AdPerformanceReport extends DateReport {
 
   public void setPercentNewVisitors(String percentNewVisitors) {
     this.percentNewVisitors = BigDecimalUtil.parseFromNumberString(percentNewVisitors);
+  }
+
+  public String getPricePrefix() {
+    return pricePrefix;
+  }
+
+  public void setPricePrefix(String pricePrefix) {
+    this.pricePrefix = pricePrefix;
+  }
+
+  public String getPromoText() {
+    return promoText;
+  }
+
+  public void setPromoText(String promoText) {
+    this.promoText = promoText;
   }
 
   public String getShortHeadline() {
@@ -1637,6 +1745,7 @@ public class AdPerformanceReport extends DateReport {
       .append(callOnlyPhoneNumber, other.callOnlyPhoneNumber)
       .append(imageAdUrl, other.imageAdUrl)
       .append(policySummary, other.policySummary)
+      .append(accentColor, other.accentColor)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
       .append(accountTimeZone, other.accountTimeZone)
@@ -1656,6 +1765,7 @@ public class AdPerformanceReport extends DateReport {
       .append(allConversionRate, other.allConversionRate)
       .append(allConversions, other.allConversions)
       .append(allConversionValue, other.allConversionValue)
+      .append(allowFlexibleColor, other.allowFlexibleColor)
       .append(averageCost, other.averageCost)
       .append(averageCpc, other.averageCpc)
       .append(averageCpe, other.averageCpe)
@@ -1668,6 +1778,7 @@ public class AdPerformanceReport extends DateReport {
       .append(baseCampaignId, other.baseCampaignId)
       .append(bounceRate, other.bounceRate)
       .append(businessName, other.businessName)
+      .append(callToActionText, other.callToActionText)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
@@ -1708,9 +1819,12 @@ public class AdPerformanceReport extends DateReport {
       .append(displayUrl, other.displayUrl)
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
+      .append(enhancedDisplayCreativeLandscapeLogoImageMediaId, other.enhancedDisplayCreativeLandscapeLogoImageMediaId)
       .append(enhancedDisplayCreativeLogoImageMediaId, other.enhancedDisplayCreativeLogoImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageMediaId, other.enhancedDisplayCreativeMarketingImageMediaId)
+      .append(enhancedDisplayCreativeMarketingImageSquareMediaId, other.enhancedDisplayCreativeMarketingImageSquareMediaId)
       .append(externalConversionSource, other.externalConversionSource)
+      .append(formatSetting, other.formatSetting)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
       .append(gmailSecondaryClicks, other.gmailSecondaryClicks)
@@ -1733,9 +1847,12 @@ public class AdPerformanceReport extends DateReport {
       .append(labelIds, other.labelIds)
       .append(labels, other.labels)
       .append(longHeadline, other.longHeadline)
+      .append(mainColor, other.mainColor)
       .append(path1, other.path1)
       .append(path2, other.path2)
       .append(percentNewVisitors, other.percentNewVisitors)
+      .append(pricePrefix, other.pricePrefix)
+      .append(promoText, other.promoText)
       .append(shortHeadline, other.shortHeadline)
       .append(slot, other.slot)
       .append(status, other.status)
@@ -1759,6 +1876,7 @@ public class AdPerformanceReport extends DateReport {
       .append(callOnlyPhoneNumber)
       .append(imageAdUrl)
       .append(policySummary)
+      .append(accentColor)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
       .append(accountTimeZone)
@@ -1778,6 +1896,7 @@ public class AdPerformanceReport extends DateReport {
       .append(allConversionRate)
       .append(allConversions)
       .append(allConversionValue)
+      .append(allowFlexibleColor)
       .append(averageCost)
       .append(averageCpc)
       .append(averageCpe)
@@ -1790,6 +1909,7 @@ public class AdPerformanceReport extends DateReport {
       .append(baseCampaignId)
       .append(bounceRate)
       .append(businessName)
+      .append(callToActionText)
       .append(campaignId)
       .append(campaignName)
       .append(campaignStatus)
@@ -1830,9 +1950,12 @@ public class AdPerformanceReport extends DateReport {
       .append(displayUrl)
       .append(engagementRate)
       .append(engagements)
+      .append(enhancedDisplayCreativeLandscapeLogoImageMediaId)
       .append(enhancedDisplayCreativeLogoImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageMediaId)
+      .append(enhancedDisplayCreativeMarketingImageSquareMediaId)
       .append(externalConversionSource)
+      .append(formatSetting)
       .append(gmailForwards)
       .append(gmailSaves)
       .append(gmailSecondaryClicks)
@@ -1855,9 +1978,12 @@ public class AdPerformanceReport extends DateReport {
       .append(labelIds)
       .append(labels)
       .append(longHeadline)
+      .append(mainColor)
       .append(path1)
       .append(path2)
       .append(percentNewVisitors)
+      .append(pricePrefix)
+      .append(promoText)
       .append(shortHeadline)
       .append(slot)
       .append(status)

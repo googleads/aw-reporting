@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -179,6 +179,10 @@ public class KeywordlessQueryReport extends DateReport {
   @Column(name = "Query")
   @CsvField(value = "Search term", reportField = "Query")
   private String query;
+
+  @Column(name = "QueryTargetingStatus")
+  @CsvField(value = "Added/Excluded", reportField = "QueryTargetingStatus")
+  private String queryTargetingStatus;
 
   @Column(name = "Title")
   @CsvField(value = "Landing Page Title", reportField = "Title")
@@ -510,6 +514,14 @@ public class KeywordlessQueryReport extends DateReport {
     this.query = query;
   }
 
+  public String getQueryTargetingStatus() {
+    return queryTargetingStatus;
+  }
+
+  public void setQueryTargetingStatus(String queryTargetingStatus) {
+    this.queryTargetingStatus = queryTargetingStatus;
+  }
+
   public String getTitle() {
     return title;
   }
@@ -623,6 +635,7 @@ public class KeywordlessQueryReport extends DateReport {
       .append(impressions, other.impressions)
       .append(line1, other.line1)
       .append(query, other.query)
+      .append(queryTargetingStatus, other.queryTargetingStatus)
       .append(title, other.title)
       .append(url, other.url)
       .append(valuePerAllConversion, other.valuePerAllConversion)
@@ -668,6 +681,7 @@ public class KeywordlessQueryReport extends DateReport {
       .append(impressions)
       .append(line1)
       .append(query)
+      .append(queryTargetingStatus)
       .append(title)
       .append(url)
       .append(valuePerAllConversion)

@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -234,6 +234,10 @@ public class ShoppingPerformanceReport extends DateReport {
   @Column(name = "ProductCondition")
   @CsvField(value = "Condition", reportField = "ProductCondition")
   private String productCondition;
+
+  @Column(name = "ProductTitle")
+  @CsvField(value = "Product Title", reportField = "ProductTitle")
+  private String productTitle;
 
   @Column(name = "ProductTypeL1")
   @CsvField(value = "Product type (1st level)", reportField = "ProductTypeL1")
@@ -701,6 +705,14 @@ public class ShoppingPerformanceReport extends DateReport {
     this.productCondition = productCondition;
   }
 
+  public String getProductTitle() {
+    return productTitle;
+  }
+
+  public void setProductTitle(String productTitle) {
+    this.productTitle = productTitle;
+  }
+
   public String getProductTypeL1() {
     return productTypeL1;
   }
@@ -911,6 +923,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(merchantId, other.merchantId)
       .append(offerId, other.offerId)
       .append(productCondition, other.productCondition)
+      .append(productTitle, other.productTitle)
       .append(productTypeL1, other.productTypeL1)
       .append(productTypeL2, other.productTypeL2)
       .append(productTypeL3, other.productTypeL3)
@@ -976,6 +989,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(merchantId)
       .append(offerId)
       .append(productCondition)
+      .append(productTitle)
       .append(productTypeL1)
       .append(productTypeL2)
       .append(productTypeL3)

@@ -24,8 +24,8 @@ import com.google.api.ads.adwords.awreporting.model.csv.ReportEntityMappingStrat
 import com.google.api.ads.adwords.awreporting.model.entities.DateRangeAndType;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.processors.ReportProcessor;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinition;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import java.io.File;

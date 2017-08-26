@@ -19,11 +19,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.api.ads.adwords.jaxws.v201705.cm.Selector;
-import com.google.api.ads.adwords.jaxws.v201705.mcm.ApiException;
-import com.google.api.ads.adwords.jaxws.v201705.mcm.ManagedCustomer;
-import com.google.api.ads.adwords.jaxws.v201705.mcm.ManagedCustomerPage;
-import com.google.api.ads.adwords.jaxws.v201705.mcm.ManagedCustomerServiceInterface;
+import com.google.api.ads.adwords.jaxws.v201708.cm.Selector;
+import com.google.api.ads.adwords.jaxws.v201708.mcm.ApiException;
+import com.google.api.ads.adwords.jaxws.v201708.mcm.ManagedCustomer;
+import com.google.api.ads.adwords.jaxws.v201708.mcm.ManagedCustomerPage;
+import com.google.api.ads.adwords.jaxws.v201708.mcm.ManagedCustomerServiceInterface;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import java.util.Set;
 import org.junit.Before;

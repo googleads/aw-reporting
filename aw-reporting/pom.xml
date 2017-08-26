@@ -6,7 +6,7 @@
 
   <groupId>com.google.api-ads</groupId>
   <artifactId>aw-reporting</artifactId>
-  <version>2.1.0</version>
+  <version>2.2.0</version>
   <packaging>jar</packaging>
 
   <name>aw-reporting</name>
@@ -15,7 +15,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springframework.version>3.2.2.RELEASE</springframework.version>
     <google-client.version>1.22.0</google-client.version>
-    <com.google.api-ads.version>3.4.0</com.google.api-ads.version>
+    <com.google.api-ads.version>3.7.0</com.google.api-ads.version>
   </properties>
 
   <build>

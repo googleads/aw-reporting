@@ -21,7 +21,7 @@ import com.google.api.ads.adwords.awreporting.processors.file.FileReportProcesso
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
 import com.google.api.ads.adwords.awreporting.util.DatabaseType;
 import com.google.api.ads.adwords.awreporting.util.ProcessorType;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Lists;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -78,7 +78,7 @@ public class AwReporting {
   private static final String STREAM_PROCESSING_BEANS_FILE = "aw-report-processor-beans-stream.xml";
 
   /** The Spring beans file for processing reports using files. */
-  private static final String FILE_PROCESSING_BEANS_FILE = "aw-report-processor-beans-file.xml";
+   private static final String FILE_PROCESSING_BEANS_FILE = "aw-report-processor-beans-file.xml";
 
   /** The Spring beans file for using a SQL database. */
   private static final String SQL_BEANS_FILE = "aw-report-sql-beans.xml";

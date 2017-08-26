@@ -19,7 +19,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
 import com.google.api.ads.adwords.awreporting.model.util.StringsUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201705.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -241,6 +241,10 @@ public class SearchQueryPerformanceReport extends DateReport {
   @Column(name = "QueryMatchTypeWithVariant")
   @CsvField(value = "Match type", reportField = "QueryMatchTypeWithVariant")
   private String queryMatchTypeWithVariant;
+
+  @Column(name = "QueryTargetingStatus")
+  @CsvField(value = "Added/Excluded", reportField = "QueryTargetingStatus")
+  private String queryTargetingStatus;
 
   @Column(name = "TrackingUrlTemplate", length = 2048)
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
@@ -736,6 +740,14 @@ public class SearchQueryPerformanceReport extends DateReport {
     this.queryMatchTypeWithVariant = queryMatchTypeWithVariant;
   }
 
+  public String getQueryTargetingStatus() {
+    return queryTargetingStatus;
+  }
+
+  public void setQueryTargetingStatus(String queryTargetingStatus) {
+    this.queryTargetingStatus = queryTargetingStatus;
+  }
+
   public String getTrackingUrlTemplate() {
     return trackingUrlTemplate;
   }
@@ -950,6 +962,7 @@ public class SearchQueryPerformanceReport extends DateReport {
       .append(keywordTextMatchingQuery, other.keywordTextMatchingQuery)
       .append(query, other.query)
       .append(queryMatchTypeWithVariant, other.queryMatchTypeWithVariant)
+      .append(queryTargetingStatus, other.queryTargetingStatus)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
@@ -1016,6 +1029,7 @@ public class SearchQueryPerformanceReport extends DateReport {
       .append(keywordTextMatchingQuery)
       .append(query)
       .append(queryMatchTypeWithVariant)
+      .append(queryTargetingStatus)
       .append(trackingUrlTemplate)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
