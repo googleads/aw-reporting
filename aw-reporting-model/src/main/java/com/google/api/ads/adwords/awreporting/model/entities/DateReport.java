@@ -40,8 +40,7 @@ import org.joda.time.LocalDate;
 @MappedSuperclass
 public abstract class DateReport extends Report {
   // Date Segments
-  // Date column definition set as DATETIME for database, returned as string for ROW_ID
-  @Column(name = "Date", columnDefinition="DATETIME")
+  @Column(name = "Date", columnDefinition = "DATETIME")
   @CsvField(value = "Day", reportField = "Date")
   protected String date;
 
