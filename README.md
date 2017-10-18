@@ -1,4 +1,4 @@
-# AwReporting 2.0
+# AwReporting 2.3.0
 
 ## Special Note
 
@@ -28,14 +28,13 @@ reporting.
 ### Prerequisites
 
 You will need [Java](http://www.oracle.com/technetwork/java/index.html) 7 or
-later, [Maven](https://maven.apache.org/) and [MySQL](https://www.mysql.com/)
+8 (9 is not supported), [Maven](https://maven.apache.org/) and [MySQL](https://www.mysql.com/)
 installed before configuring this project.
 
 ### Build the project using Maven
 ```
     $ git clone https://github.com/googleads/aw-reporting
-    $ mvn clean install eclipse:eclipse
-    $ mvn compile dependency:copy-dependencies package
+    $ mvn clean install
 ```
 ### Configure your MySQL database
 ```
@@ -279,7 +278,7 @@ We will keep migrating AwReporting to the latest AdWords API version. In order
 to migrate your version of AwReporting, please follow these steps:
 
 1. run <code>git pull</code> to get the latest code.
-1. run <code>mvn install</code> to build it.
+1. run <code>mvn clean install</code> to build it.
 1. Check [change log](https://github.com/googleads/aw-reporting/blob/master/ChangeLog.md)
    to see what AdWords API version is being used and refer to the AdWords API's
    [release notes](https://developers.google.com/adwords/api/docs/reference/)

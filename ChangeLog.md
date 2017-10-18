@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2017-10-10
+- Migrated to AdWords API **v201710**.
+- Fix issue with classpath dependencies being loaded from dependencies/ instead of lib/.
+- Update date type to use DATETIME (pull rq 275).
+- Not supporting Java 9 yet. To follow in future version.
+
+## [2.2.0] - 2017-08-26
+- Migrated to AdWords API **v201708**.
+
 ## [2.1.0] - 2017-06-08
 
 ### Changed

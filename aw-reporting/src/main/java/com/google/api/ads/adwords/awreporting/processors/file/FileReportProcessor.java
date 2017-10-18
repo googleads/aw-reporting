@@ -14,7 +14,6 @@
 
 package com.google.api.ads.adwords.awreporting.processors.file;
 
-
 import com.google.api.ads.adwords.awreporting.ReportProcessingException;
 import com.google.api.ads.adwords.awreporting.authentication.Authenticator;
 import com.google.api.ads.adwords.awreporting.downloader.DownloadSetting;
@@ -24,8 +23,8 @@ import com.google.api.ads.adwords.awreporting.model.csv.ReportEntityMappingStrat
 import com.google.api.ads.adwords.awreporting.model.entities.DateRangeAndType;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.processors.ReportProcessor;
-import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinition;
-import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import java.io.File;

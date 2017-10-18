@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201708.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -110,6 +110,10 @@ public class CampaignAdScheduleTargetReport extends DateReport {
   @CsvField(value = "Clicks", reportField = "Clicks")
   private Long clicks;
 
+  @Column(name = "ConversionCategoryName")
+  @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
+  private String conversionCategoryName;
+
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
   private BigDecimal conversionRate;
@@ -117,6 +121,14 @@ public class CampaignAdScheduleTargetReport extends DateReport {
   @Column(name = "Conversions")
   @CsvField(value = "Conversions", reportField = "Conversions")
   private BigDecimal conversions;
+
+  @Column(name = "ConversionTrackerId")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+
+  @Column(name = "ConversionTypeName")
+  @CsvField(value = "Conversion name", reportField = "ConversionTypeName")
+  private String conversionTypeName;
 
   @Column(name = "ConversionValue")
   @CsvField(value = "Total conv. value", reportField = "ConversionValue")
@@ -391,6 +403,14 @@ public class CampaignAdScheduleTargetReport extends DateReport {
     this.clicks = clicks;
   }
 
+  public String getConversionCategoryName() {
+    return conversionCategoryName;
+  }
+
+  public void setConversionCategoryName(String conversionCategoryName) {
+    this.conversionCategoryName = conversionCategoryName;
+  }
+
   public String getConversionRate() {
     return BigDecimalUtil.formatAsReadable(conversionRate);
   }
@@ -413,6 +433,22 @@ public class CampaignAdScheduleTargetReport extends DateReport {
 
   public void setConversions(String conversions) {
     this.conversions = BigDecimalUtil.parseFromNumberString(conversions);
+  }
+
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+
+  public String getConversionTypeName() {
+    return conversionTypeName;
+  }
+
+  public void setConversionTypeName(String conversionTypeName) {
+    this.conversionTypeName = conversionTypeName;
   }
 
   public String getConversionValue() {
@@ -668,6 +704,15 @@ public class CampaignAdScheduleTargetReport extends DateReport {
     idBuilder.append("-").append(getDateLabel());
 
     // Include all segmentation fields (if set).
+    if (!StringUtils.isEmpty(conversionCategoryName)) {
+      idBuilder.append("-").append(conversionCategoryName);
+    }
+    if (conversionTrackerId != null) {
+      idBuilder.append("-").append(conversionTrackerId);
+    }
+    if (!StringUtils.isEmpty(conversionTypeName)) {
+      idBuilder.append("-").append(conversionTypeName);
+    }
     if (!StringUtils.isEmpty(externalConversionSource)) {
       idBuilder.append("-").append(externalConversionSource);
     }
@@ -699,8 +744,11 @@ public class CampaignAdScheduleTargetReport extends DateReport {
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
       .append(clicks, other.clicks)
+      .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
+      .append(conversionTrackerId, other.conversionTrackerId)
+      .append(conversionTypeName, other.conversionTypeName)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
       .append(costPerAllConversion, other.costPerAllConversion)
@@ -749,8 +797,11 @@ public class CampaignAdScheduleTargetReport extends DateReport {
       .append(campaignName)
       .append(campaignStatus)
       .append(clicks)
+      .append(conversionCategoryName)
       .append(conversionRate)
       .append(conversions)
+      .append(conversionTrackerId)
+      .append(conversionTypeName)
       .append(conversionValue)
       .append(cost)
       .append(costPerAllConversion)
