@@ -65,7 +65,7 @@
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <classpathPrefix>dependency/</classpathPrefix>
+                <classpathPrefix>lib/</classpathPrefix>
                 <mainClass>com.google.api.ads.adwords.awreporting.AwReporting</mainClass>
               </manifest>
               <manifestEntries>
