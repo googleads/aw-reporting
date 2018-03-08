@@ -18,10 +18,11 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -93,10 +94,39 @@ public class CampaignGroupPerformanceReport extends DateReport {
   @CsvField(value = "Avg. CPV", reportField = "AverageCpv")
   private BigDecimal averageCpv;
 
+  @Column(name = "ConversionCategoryName")
+  @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
+  private String conversionCategoryName;
+
+  @Column(name = "ConversionRate")
+  @CsvField(value = "Conv. rate", reportField = "ConversionRate")
+  private BigDecimal conversionRate;
+
+  @Column(name = "Conversions")
+  @CsvField(value = "Conversions", reportField = "Conversions")
+  private BigDecimal conversions;
+
+  @Column(name = "ConversionTrackerId")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+
+  @Column(name = "ConversionTypeName")
+  @CsvField(value = "Conversion name", reportField = "ConversionTypeName")
+  private String conversionTypeName;
+
+  @Column(name = "ConversionValue")
+  @CsvField(value = "Total conv. value", reportField = "ConversionValue")
+  private BigDecimal conversionValue;
+
   @Column(name = "CostPerAllConversion")
   @CsvField(value = "Cost / all conv.", reportField = "CostPerAllConversion")
   @MoneyField
   private BigDecimal costPerAllConversion;
+
+  @Column(name = "CostPerConversion")
+  @CsvField(value = "Cost / conv.", reportField = "CostPerConversion")
+  @MoneyField
+  private BigDecimal costPerConversion;
 
   @Column(name = "CostPerCurrentModelAttributedConversion")
   @CsvField(value = "Cost / conv. (current model)", reportField = "CostPerCurrentModelAttributedConversion")
@@ -121,6 +151,10 @@ public class CampaignGroupPerformanceReport extends DateReport {
   @Column(name = "Engagements")
   @CsvField(value = "Engagements", reportField = "Engagements")
   private Long engagements;
+
+  @Column(name = "ExternalConversionSource")
+  @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
+  private String externalConversionSource;
 
   @Column(name = "Id")
   @CsvField(value = "Campaign Group ID", reportField = "Id")
@@ -161,6 +195,10 @@ public class CampaignGroupPerformanceReport extends DateReport {
   @Column(name = "VideoViews")
   @CsvField(value = "Views", reportField = "VideoViews")
   private Long videoViews;
+
+  @Column(name = "ViewThroughConversions")
+  @CsvField(value = "View-through conv.", reportField = "ViewThroughConversions")
+  private Long viewThroughConversions;
 
   /**
    * Hibernate needs an empty constructor
@@ -308,12 +346,80 @@ public class CampaignGroupPerformanceReport extends DateReport {
     this.averageCpv = BigDecimalUtil.parseFromNumberString(averageCpv);
   }
 
+  public String getConversionCategoryName() {
+    return conversionCategoryName;
+  }
+
+  public void setConversionCategoryName(String conversionCategoryName) {
+    this.conversionCategoryName = conversionCategoryName;
+  }
+
+  public String getConversionRate() {
+    return BigDecimalUtil.formatAsReadable(conversionRate);
+  }
+
+  public BigDecimal getConversionRateBigDecimal() {
+    return conversionRate;
+  }
+
+  public void setConversionRate(String conversionRate) {
+    this.conversionRate = BigDecimalUtil.parseFromNumberString(conversionRate);
+  }
+
+  public String getConversions() {
+    return BigDecimalUtil.formatAsReadable(conversions);
+  }
+
+  public BigDecimal getConversionsBigDecimal() {
+    return conversions;
+  }
+
+  public void setConversions(String conversions) {
+    this.conversions = BigDecimalUtil.parseFromNumberString(conversions);
+  }
+
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+
+  public String getConversionTypeName() {
+    return conversionTypeName;
+  }
+
+  public void setConversionTypeName(String conversionTypeName) {
+    this.conversionTypeName = conversionTypeName;
+  }
+
+  public String getConversionValue() {
+    return BigDecimalUtil.formatAsReadable(conversionValue);
+  }
+
+  public BigDecimal getConversionValueBigDecimal() {
+    return conversionValue;
+  }
+
+  public void setConversionValue(String conversionValue) {
+    this.conversionValue = BigDecimalUtil.parseFromNumberString(conversionValue);
+  }
+
   public BigDecimal getCostPerAllConversion() {
     return costPerAllConversion;
   }
 
   public void setCostPerAllConversion(BigDecimal costPerAllConversion) {
     this.costPerAllConversion = costPerAllConversion;
+  }
+
+  public BigDecimal getCostPerConversion() {
+    return costPerConversion;
+  }
+
+  public void setCostPerConversion(BigDecimal costPerConversion) {
+    this.costPerConversion = costPerConversion;
   }
 
   public String getCostPerCurrentModelAttributedConversion() {
@@ -382,6 +488,14 @@ public class CampaignGroupPerformanceReport extends DateReport {
 
   public void setEngagements(Long engagements) {
     this.engagements = engagements;
+  }
+
+  public String getExternalConversionSource() {
+    return externalConversionSource;
+  }
+
+  public void setExternalConversionSource(String externalConversionSource) {
+    this.externalConversionSource = externalConversionSource;
   }
 
   public Long getId() {
@@ -480,6 +594,14 @@ public class CampaignGroupPerformanceReport extends DateReport {
     this.videoViews = videoViews;
   }
 
+  public Long getViewThroughConversions() {
+    return viewThroughConversions;
+  }
+
+  public void setViewThroughConversions(Long viewThroughConversions) {
+    this.viewThroughConversions = viewThroughConversions;
+  }
+
   @Override
   public void setRowId() {
     // General fields for generating unique id.
@@ -487,6 +609,18 @@ public class CampaignGroupPerformanceReport extends DateReport {
     idBuilder.append("-").append(getDateLabel());
 
     // Include all segmentation fields (if set).
+    if (!StringUtils.isEmpty(conversionCategoryName)) {
+      idBuilder.append("-").append(conversionCategoryName);
+    }
+    if (conversionTrackerId != null) {
+      idBuilder.append("-").append(conversionTrackerId);
+    }
+    if (!StringUtils.isEmpty(conversionTypeName)) {
+      idBuilder.append("-").append(conversionTypeName);
+    }
+    if (!StringUtils.isEmpty(externalConversionSource)) {
+      idBuilder.append("-").append(externalConversionSource);
+    }
     this.rowId = idBuilder.toString();
   }
 
@@ -511,13 +645,21 @@ public class CampaignGroupPerformanceReport extends DateReport {
       .append(averageCost, other.averageCost)
       .append(averageCpe, other.averageCpe)
       .append(averageCpv, other.averageCpv)
+      .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionRate, other.conversionRate)
+      .append(conversions, other.conversions)
+      .append(conversionTrackerId, other.conversionTrackerId)
+      .append(conversionTypeName, other.conversionTypeName)
+      .append(conversionValue, other.conversionValue)
       .append(costPerAllConversion, other.costPerAllConversion)
+      .append(costPerConversion, other.costPerConversion)
       .append(costPerCurrentModelAttributedConversion, other.costPerCurrentModelAttributedConversion)
       .append(crossDeviceConversions, other.crossDeviceConversions)
       .append(currentModelAttributedConversions, other.currentModelAttributedConversions)
       .append(currentModelAttributedConversionValue, other.currentModelAttributedConversionValue)
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
+      .append(externalConversionSource, other.externalConversionSource)
       .append(id, other.id)
       .append(interactionRate, other.interactionRate)
       .append(interactions, other.interactions)
@@ -528,6 +670,7 @@ public class CampaignGroupPerformanceReport extends DateReport {
       .append(valuePerCurrentModelAttributedConversion, other.valuePerCurrentModelAttributedConversion)
       .append(videoViewRate, other.videoViewRate)
       .append(videoViews, other.videoViews)
+      .append(viewThroughConversions, other.viewThroughConversions)
       .isEquals();
   }
 
@@ -548,13 +691,21 @@ public class CampaignGroupPerformanceReport extends DateReport {
       .append(averageCost)
       .append(averageCpe)
       .append(averageCpv)
+      .append(conversionCategoryName)
+      .append(conversionRate)
+      .append(conversions)
+      .append(conversionTrackerId)
+      .append(conversionTypeName)
+      .append(conversionValue)
       .append(costPerAllConversion)
+      .append(costPerConversion)
       .append(costPerCurrentModelAttributedConversion)
       .append(crossDeviceConversions)
       .append(currentModelAttributedConversions)
       .append(currentModelAttributedConversionValue)
       .append(engagementRate)
       .append(engagements)
+      .append(externalConversionSource)
       .append(id)
       .append(interactionRate)
       .append(interactions)
@@ -565,6 +716,7 @@ public class CampaignGroupPerformanceReport extends DateReport {
       .append(valuePerCurrentModelAttributedConversion)
       .append(videoViewRate)
       .append(videoViews)
+      .append(viewThroughConversions)
       .toHashCode();
   }
 

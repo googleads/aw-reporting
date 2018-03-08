@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -114,6 +114,10 @@ public class VideoPerformanceReport extends DateReport {
   @Column(name = "Conversions")
   @CsvField(value = "Conversions", reportField = "Conversions")
   private BigDecimal conversions;
+
+  @Column(name = "ConversionTrackerId")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
 
   @Column(name = "ConversionTypeName")
   @CsvField(value = "Conversion name", reportField = "ConversionTypeName")
@@ -387,6 +391,14 @@ public class VideoPerformanceReport extends DateReport {
     this.conversions = BigDecimalUtil.parseFromNumberString(conversions);
   }
 
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+
   public String getConversionTypeName() {
     return conversionTypeName;
   }
@@ -634,6 +646,9 @@ public class VideoPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (conversionTrackerId != null) {
+      idBuilder.append("-").append(conversionTrackerId);
+    }
     if (!StringUtils.isEmpty(conversionTypeName)) {
       idBuilder.append("-").append(conversionTypeName);
     }
@@ -673,6 +688,7 @@ public class VideoPerformanceReport extends DateReport {
       .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
+      .append(conversionTrackerId, other.conversionTrackerId)
       .append(conversionTypeName, other.conversionTypeName)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
@@ -722,6 +738,7 @@ public class VideoPerformanceReport extends DateReport {
       .append(conversionCategoryName)
       .append(conversionRate)
       .append(conversions)
+      .append(conversionTrackerId)
       .append(conversionTypeName)
       .append(conversionValue)
       .append(cost)

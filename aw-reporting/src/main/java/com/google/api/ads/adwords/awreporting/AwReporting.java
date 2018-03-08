@@ -21,7 +21,7 @@ import com.google.api.ads.adwords.awreporting.processors.file.FileReportProcesso
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
 import com.google.api.ads.adwords.awreporting.util.DatabaseType;
 import com.google.api.ads.adwords.awreporting.util.ProcessorType;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Lists;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -112,6 +112,11 @@ public class AwReporting {
       String accountIdsFile = AwReportingOption.ACCOUNT_IDS_FILE.getOptionValue(cmdLine);
       if (accountIdsFile != null) {
         addAccountsFromFile(accountIdsSet, accountIdsFile);
+        if (accountIdsSet.isEmpty()) {
+          logger.error(
+              "Account IDs file does not contain any AdWords CIDs (" + accountIdsFile + ")");
+          System.exit(1);
+        }
       }
 
       ReportDefinitionDateRangeType dateRangeType = ReportDefinitionDateRangeType.CUSTOM_DATE;
@@ -127,7 +132,7 @@ public class AwReporting {
 
       String reportFileTypeName = AwReportingOption.REPORT_FILE_TYPE.getOptionValue(cmdLine);
       String csvReportFile = AwReportingOption.CSV_FILE_INPUT.getOptionValue(cmdLine);
-      
+
       boolean forceFileProcessor = !Strings.isNullOrEmpty(reportFileTypeName);
       Properties properties = init(propertiesPath, forceFileProcessor);
 
@@ -138,7 +143,7 @@ public class AwReporting {
       String managerAccountId = properties.getProperty("managerAccountId").replaceAll("-", "");
       DateRangeAndType dateRangeAndType =
           DateRangeAndType.fromValues(startDate, endDate, dateRangeType);
-      
+
       if (forceFileProcessor) {
         validateFileReportArguments(startDate, endDate, csvReportFile);
         List<File> localFiles = getCsvFiles(csvReportFile);
@@ -159,24 +164,24 @@ public class AwReporting {
       System.exit(1);
     }
   }
-  
+
   private static CommandLine parseCommandLine(Options options, String[] args)
       throws ReportConfigLoadException {
     CommandLineParser parser = new DefaultParser();
     try {
       return parser.parse(options, args);
     } catch (ParseException e) {
-      throw new ReportConfigLoadException("Unable to parse command line arguements", e);
+      throw new ReportConfigLoadException("Unable to parse command line arguments", e);
     }
   }
-  
+
   private static String getPropertiesPath(CommandLine cmdLine) throws ReportConfigLoadException {
     String propertiesPath = AwReportingOption.FILE.getOptionValue(cmdLine);
     if (propertiesPath == null) {
       throw new ReportConfigLoadException(
           "Missing required option: '" + AwReportingOption.FILE.getArgName() + "'");
     }
-    
+
     logger.info("Using properties file: " + propertiesPath);
     return propertiesPath;
   }
@@ -200,7 +205,7 @@ public class AwReporting {
               AwReportingOption.END_DATE.getArgName(),
               AwReportingOption.CSV_FILE_INPUT.getArgName()));
     }
-    
+
     logger.info(
         String.format(
             "Starting report processing for startDate: %s and endDate: %s on csvReportFile: %s",
@@ -218,7 +223,7 @@ public class AwReporting {
     if (!csvFile.exists()) {
       throw new ReportConfigLoadException("Could not find CSV file: " + csvReportFile);
     }
-    
+
     return Arrays.asList(csvFile);
   }
 
@@ -232,7 +237,7 @@ public class AwReporting {
       throws ReportConfigLoadException {
     logger.info("Using accounts file: " + accountsFileName);
     List<String> lines = null;
-    
+
     try {
       lines = Files.asCharSource(new File(accountsFileName), StandardCharsets.UTF_8).readLines();
     } catch (IOException e) {
@@ -241,7 +246,8 @@ public class AwReporting {
 
     logger.debug("Account IDs to be queried:");
     for (String line : lines) {
-      if (!line.startsWith("#")) {
+      line = line.trim();
+      if (!line.startsWith("#") && !line.isEmpty()) {
         String accountIdAsString = line.replaceAll("-", "");
         long accountId = Long.parseLong(accountIdAsString);
         accountIdsSet.add(accountId);
@@ -259,7 +265,7 @@ public class AwReporting {
   private static ReportProcessor createReportProcessor() {
     return appCtx.getBean(ReportProcessor.class);
   }
-  
+
   /**
    * Prints the help message.
    *
@@ -293,7 +299,7 @@ public class AwReporting {
       throw new ReportConfigLoadException("Unable to print sample properties file", e);
     }
   }
-  
+
   /**
    * Initialize the application context, adding the properties configuration file depending on the
    * specified path.
@@ -313,7 +319,7 @@ public class AwReporting {
     }
     PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
     configurer.setLocation(resource);
-    
+
     Properties properties = null;
     try {
       properties = PropertiesLoaderUtils.loadProperties(resource);
@@ -347,7 +353,7 @@ public class AwReporting {
     if (forceFileProcessor) {
       processorType = ProcessorType.FILE.name();
     }
-    
+
     if (ProcessorType.STREAM.name().equals(processorType)) {
       logger.info("Using MEMORY Processor.");
       listOfClassPathXml.add("classpath:" + STREAM_PROCESSING_BEANS_FILE);

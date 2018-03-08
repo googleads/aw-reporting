@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -155,6 +155,10 @@ public class AccountPerformanceReport extends DateReport {
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
+
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -573,6 +577,14 @@ public class AccountPerformanceReport extends DateReport {
     this.conversionCategoryName = conversionCategoryName;
   }
 
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
+  }
+
   public String getConversionRate() {
     return BigDecimalUtil.formatAsReadable(conversionRate);
   }
@@ -916,6 +928,9 @@ public class AccountPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -970,6 +985,7 @@ public class AccountPerformanceReport extends DateReport {
       .append(contentImpressionShare, other.contentImpressionShare)
       .append(contentRankLostImpressionShare, other.contentRankLostImpressionShare)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1038,6 +1054,7 @@ public class AccountPerformanceReport extends DateReport {
       .append(contentImpressionShare)
       .append(contentRankLostImpressionShare)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)

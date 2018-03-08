@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -144,9 +144,17 @@ public class DisplayKeywordPerformanceReport extends DateReport {
   @CsvField(value = "Base Campaign ID", reportField = "BaseCampaignId")
   private Long baseCampaignId;
 
-  @Column(name = "BidType")
-  @CsvField(value = "Conversion optimizer bid type", reportField = "BidType")
-  private String bidType;
+  @Column(name = "BiddingStrategyId")
+  @CsvField(value = "Bid Strategy ID", reportField = "BiddingStrategyId")
+  private Long biddingStrategyId;
+
+  @Column(name = "BiddingStrategyName")
+  @CsvField(value = "Bid Strategy Name", reportField = "BiddingStrategyName")
+  private String biddingStrategyName;
+
+  @Column(name = "BiddingStrategyType")
+  @CsvField(value = "Bid Strategy Type", reportField = "BiddingStrategyType")
+  private String biddingStrategyType;
 
   @Column(name = "CampaignId")
   @CsvField(value = "Campaign ID", reportField = "CampaignId")
@@ -612,12 +620,28 @@ public class DisplayKeywordPerformanceReport extends DateReport {
     this.baseCampaignId = baseCampaignId;
   }
 
-  public String getBidType() {
-    return bidType;
+  public Long getBiddingStrategyId() {
+    return biddingStrategyId;
   }
 
-  public void setBidType(String bidType) {
-    this.bidType = bidType;
+  public void setBiddingStrategyId(Long biddingStrategyId) {
+    this.biddingStrategyId = biddingStrategyId;
+  }
+
+  public String getBiddingStrategyName() {
+    return biddingStrategyName;
+  }
+
+  public void setBiddingStrategyName(String biddingStrategyName) {
+    this.biddingStrategyName = biddingStrategyName;
+  }
+
+  public String getBiddingStrategyType() {
+    return biddingStrategyType;
+  }
+
+  public void setBiddingStrategyType(String biddingStrategyType) {
+    this.biddingStrategyType = biddingStrategyType;
   }
 
   public Long getCampaignId() {
@@ -1184,7 +1208,9 @@ public class DisplayKeywordPerformanceReport extends DateReport {
       .append(averageCpv, other.averageCpv)
       .append(baseAdGroupId, other.baseAdGroupId)
       .append(baseCampaignId, other.baseCampaignId)
-      .append(bidType, other.bidType)
+      .append(biddingStrategyId, other.biddingStrategyId)
+      .append(biddingStrategyName, other.biddingStrategyName)
+      .append(biddingStrategyType, other.biddingStrategyType)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
@@ -1271,7 +1297,9 @@ public class DisplayKeywordPerformanceReport extends DateReport {
       .append(averageCpv)
       .append(baseAdGroupId)
       .append(baseCampaignId)
-      .append(bidType)
+      .append(biddingStrategyId)
+      .append(biddingStrategyName)
+      .append(biddingStrategyType)
       .append(campaignId)
       .append(campaignName)
       .append(campaignStatus)

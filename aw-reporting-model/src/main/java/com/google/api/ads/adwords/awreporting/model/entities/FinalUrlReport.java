@@ -19,7 +19,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
 import com.google.api.ads.adwords.awreporting.model.util.StringsUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -283,6 +283,10 @@ public class FinalUrlReport extends DateReport {
   @Column(name = "VideoViews")
   @CsvField(value = "Views", reportField = "VideoViews")
   private Long videoViews;
+
+  @Column(name = "ViewThroughConversions")
+  @CsvField(value = "View-through conv.", reportField = "ViewThroughConversions")
+  private Long viewThroughConversions;
 
   /**
    * Hibernate needs an empty constructor
@@ -842,6 +846,14 @@ public class FinalUrlReport extends DateReport {
     this.videoViews = videoViews;
   }
 
+  public Long getViewThroughConversions() {
+    return viewThroughConversions;
+  }
+
+  public void setViewThroughConversions(Long viewThroughConversions) {
+    this.viewThroughConversions = viewThroughConversions;
+  }
+
   @Override
   public void setRowId() {
     // General fields for generating unique id.
@@ -958,6 +970,7 @@ public class FinalUrlReport extends DateReport {
       .append(valuePerConversion, other.valuePerConversion)
       .append(videoViewRate, other.videoViewRate)
       .append(videoViews, other.videoViews)
+      .append(viewThroughConversions, other.viewThroughConversions)
       .isEquals();
   }
 
@@ -1024,6 +1037,7 @@ public class FinalUrlReport extends DateReport {
       .append(valuePerConversion)
       .append(videoViewRate)
       .append(videoViews)
+      .append(viewThroughConversions)
       .toHashCode();
   }
 

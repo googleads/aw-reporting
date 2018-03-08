@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -131,6 +131,10 @@ public class BudgetPerformanceReport extends Report {
   @CsvField(value = "Clicks", reportField = "Clicks")
   private Long clicks;
 
+  @Column(name = "ConversionCategoryName")
+  @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
+  private String conversionCategoryName;
+
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
   private BigDecimal conversionRate;
@@ -138,6 +142,14 @@ public class BudgetPerformanceReport extends Report {
   @Column(name = "Conversions")
   @CsvField(value = "Conversions", reportField = "Conversions")
   private BigDecimal conversions;
+
+  @Column(name = "ConversionTrackerId")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+
+  @Column(name = "ConversionTypeName")
+  @CsvField(value = "Conversion name", reportField = "ConversionTypeName")
+  private String conversionTypeName;
 
   @Column(name = "ConversionValue")
   @CsvField(value = "Total conv. value", reportField = "ConversionValue")
@@ -174,6 +186,10 @@ public class BudgetPerformanceReport extends Report {
   @CsvField(value = "Engagements", reportField = "Engagements")
   private Long engagements;
 
+  @Column(name = "ExternalConversionSource")
+  @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
+  private String externalConversionSource;
+
   @Column(name = "Impressions")
   @CsvField(value = "Impressions", reportField = "Impressions")
   private Long impressions;
@@ -193,6 +209,11 @@ public class BudgetPerformanceReport extends Report {
   @Column(name = "IsBudgetExplicitlyShared")
   @CsvField(value = "Explicitly shared", reportField = "IsBudgetExplicitlyShared")
   private String isBudgetExplicitlyShared;
+
+  @Column(name = "TotalAmount")
+  @CsvField(value = "Total Budget amount", reportField = "TotalAmount")
+  @MoneyField
+  private BigDecimal totalAmount;
 
   @Column(name = "ValuePerAllConversion")
   @CsvField(value = "Value / all conv.", reportField = "ValuePerAllConversion")
@@ -424,6 +445,14 @@ public class BudgetPerformanceReport extends Report {
     this.clicks = clicks;
   }
 
+  public String getConversionCategoryName() {
+    return conversionCategoryName;
+  }
+
+  public void setConversionCategoryName(String conversionCategoryName) {
+    this.conversionCategoryName = conversionCategoryName;
+  }
+
   public String getConversionRate() {
     return BigDecimalUtil.formatAsReadable(conversionRate);
   }
@@ -446,6 +475,22 @@ public class BudgetPerformanceReport extends Report {
 
   public void setConversions(String conversions) {
     this.conversions = BigDecimalUtil.parseFromNumberString(conversions);
+  }
+
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+
+  public String getConversionTypeName() {
+    return conversionTypeName;
+  }
+
+  public void setConversionTypeName(String conversionTypeName) {
+    this.conversionTypeName = conversionTypeName;
   }
 
   public String getConversionValue() {
@@ -528,6 +573,14 @@ public class BudgetPerformanceReport extends Report {
     this.engagements = engagements;
   }
 
+  public String getExternalConversionSource() {
+    return externalConversionSource;
+  }
+
+  public void setExternalConversionSource(String externalConversionSource) {
+    this.externalConversionSource = externalConversionSource;
+  }
+
   public Long getImpressions() {
     return impressions;
   }
@@ -570,6 +623,14 @@ public class BudgetPerformanceReport extends Report {
 
   public void setIsBudgetExplicitlyShared(String isBudgetExplicitlyShared) {
     this.isBudgetExplicitlyShared = isBudgetExplicitlyShared;
+  }
+
+  public BigDecimal getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
   }
 
   public String getValuePerAllConversion() {
@@ -645,6 +706,18 @@ public class BudgetPerformanceReport extends Report {
     if (!StringUtils.isEmpty(budgetCampaignAssociationStatus)) {
       idBuilder.append("-").append(budgetCampaignAssociationStatus);
     }
+    if (!StringUtils.isEmpty(conversionCategoryName)) {
+      idBuilder.append("-").append(conversionCategoryName);
+    }
+    if (conversionTrackerId != null) {
+      idBuilder.append("-").append(conversionTrackerId);
+    }
+    if (!StringUtils.isEmpty(conversionTypeName)) {
+      idBuilder.append("-").append(conversionTypeName);
+    }
+    if (!StringUtils.isEmpty(externalConversionSource)) {
+      idBuilder.append("-").append(externalConversionSource);
+    }
     this.rowId = idBuilder.toString();
   }
 
@@ -678,8 +751,11 @@ public class BudgetPerformanceReport extends Report {
       .append(budgetReferenceCount, other.budgetReferenceCount)
       .append(budgetStatus, other.budgetStatus)
       .append(clicks, other.clicks)
+      .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
+      .append(conversionTrackerId, other.conversionTrackerId)
+      .append(conversionTypeName, other.conversionTypeName)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
       .append(costPerAllConversion, other.costPerAllConversion)
@@ -688,11 +764,13 @@ public class BudgetPerformanceReport extends Report {
       .append(ctr, other.ctr)
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
+      .append(externalConversionSource, other.externalConversionSource)
       .append(impressions, other.impressions)
       .append(interactionRate, other.interactionRate)
       .append(interactions, other.interactions)
       .append(interactionTypes, other.interactionTypes)
       .append(isBudgetExplicitlyShared, other.isBudgetExplicitlyShared)
+      .append(totalAmount, other.totalAmount)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
       .append(videoViewRate, other.videoViewRate)
@@ -727,8 +805,11 @@ public class BudgetPerformanceReport extends Report {
       .append(budgetReferenceCount)
       .append(budgetStatus)
       .append(clicks)
+      .append(conversionCategoryName)
       .append(conversionRate)
       .append(conversions)
+      .append(conversionTrackerId)
+      .append(conversionTypeName)
       .append(conversionValue)
       .append(cost)
       .append(costPerAllConversion)
@@ -737,11 +818,13 @@ public class BudgetPerformanceReport extends Report {
       .append(ctr)
       .append(engagementRate)
       .append(engagements)
+      .append(externalConversionSource)
       .append(impressions)
       .append(interactionRate)
       .append(interactions)
       .append(interactionTypes)
       .append(isBudgetExplicitlyShared)
+      .append(totalAmount)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
       .append(videoViewRate)

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 import com.google.api.ads.adwords.awreporting.ReportProcessingException;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.client.AdWordsSession.ImmutableAdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinition;
 import com.google.api.ads.adwords.lib.utils.ReportDownloadResponse;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;

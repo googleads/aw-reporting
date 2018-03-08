@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -177,10 +177,6 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Bid Strategy Type", reportField = "BiddingStrategyType")
   private String biddingStrategyType;
 
-  @Column(name = "BidType")
-  @CsvField(value = "Conversion optimizer bid type", reportField = "BidType")
-  private String bidType;
-
   @Column(name = "BounceRate")
   @CsvField(value = "Bounce rate", reportField = "BounceRate")
   private BigDecimal bounceRate;
@@ -257,6 +253,10 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
 
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
+
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
   private BigDecimal conversionRate;
@@ -332,10 +332,6 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Enhanced CPC enabled", reportField = "EnhancedCpcEnabled")
   private String enhancedCpcEnabled;
 
-  @Column(name = "EnhancedCpvEnabled")
-  @CsvField(value = "Enhanced CPV enabled", reportField = "EnhancedCpvEnabled")
-  private String enhancedCpvEnabled;
-
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
@@ -404,6 +400,10 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Labels", reportField = "Labels")
   private String labels;
 
+  @Column(name = "MaximizeConversionValueTargetRoas")
+  @CsvField(value = "Target ROAS (Maximize Conversion Value)", reportField = "MaximizeConversionValueTargetRoas")
+  private BigDecimal maximizeConversionValueTargetRoas;
+
   @Column(name = "NumOfflineImpressions")
   @CsvField(value = "Phone impressions", reportField = "NumOfflineImpressions")
   private Long numOfflineImpressions;
@@ -424,9 +424,17 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Relative CTR", reportField = "RelativeCtr")
   private BigDecimal relativeCtr;
 
+  @Column(name = "SearchAbsoluteTopImpressionShare")
+  @CsvField(value = "Search abs. top IS", reportField = "SearchAbsoluteTopImpressionShare")
+  private BigDecimal searchAbsoluteTopImpressionShare;
+
   @Column(name = "SearchBudgetLostImpressionShare")
   @CsvField(value = "Search Lost IS (budget)", reportField = "SearchBudgetLostImpressionShare")
   private BigDecimal searchBudgetLostImpressionShare;
+
+  @Column(name = "SearchClickShare")
+  @CsvField(value = "Click share", reportField = "SearchClickShare")
+  private BigDecimal searchClickShare;
 
   @Column(name = "SearchExactMatchImpressionShare")
   @CsvField(value = "Search Exact match IS", reportField = "SearchExactMatchImpressionShare")
@@ -447,6 +455,11 @@ public class CampaignPerformanceReport extends DateReport {
   @Column(name = "Slot")
   @CsvField(value = "Top vs. Other", reportField = "Slot")
   private String slot;
+
+  @Column(name = "TotalAmount")
+  @CsvField(value = "Total Budget amount", reportField = "TotalAmount")
+  @MoneyField
+  private BigDecimal totalAmount;
 
   @Column(name = "TrackingUrlTemplate", length = 2048)
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
@@ -814,14 +827,6 @@ public class CampaignPerformanceReport extends DateReport {
     this.biddingStrategyType = biddingStrategyType;
   }
 
-  public String getBidType() {
-    return bidType;
-  }
-
-  public void setBidType(String bidType) {
-    this.bidType = bidType;
-  }
-
   public String getBounceRate() {
     return BigDecimalUtil.formatAsReadable(bounceRate);
   }
@@ -1010,6 +1015,14 @@ public class CampaignPerformanceReport extends DateReport {
     this.conversionCategoryName = conversionCategoryName;
   }
 
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
+  }
+
   public String getConversionRate() {
     return BigDecimalUtil.formatAsReadable(conversionRate);
   }
@@ -1190,14 +1203,6 @@ public class CampaignPerformanceReport extends DateReport {
     this.enhancedCpcEnabled = enhancedCpcEnabled;
   }
 
-  public String getEnhancedCpvEnabled() {
-    return enhancedCpvEnabled;
-  }
-
-  public void setEnhancedCpvEnabled(String enhancedCpvEnabled) {
-    this.enhancedCpvEnabled = enhancedCpvEnabled;
-  }
-
   public String getExternalConversionSource() {
     return externalConversionSource;
   }
@@ -1350,6 +1355,18 @@ public class CampaignPerformanceReport extends DateReport {
     this.labels = labels;
   }
 
+  public String getMaximizeConversionValueTargetRoas() {
+    return BigDecimalUtil.formatAsReadable(maximizeConversionValueTargetRoas);
+  }
+
+  public BigDecimal getMaximizeConversionValueTargetRoasBigDecimal() {
+    return maximizeConversionValueTargetRoas;
+  }
+
+  public void setMaximizeConversionValueTargetRoas(String maximizeConversionValueTargetRoas) {
+    this.maximizeConversionValueTargetRoas = BigDecimalUtil.parseFromNumberString(maximizeConversionValueTargetRoas);
+  }
+
   public Long getNumOfflineImpressions() {
     return numOfflineImpressions;
   }
@@ -1402,6 +1419,18 @@ public class CampaignPerformanceReport extends DateReport {
     this.relativeCtr = BigDecimalUtil.parseFromNumberString(relativeCtr);
   }
 
+  public String getSearchAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchAbsoluteTopImpressionShareBigDecimal() {
+    return searchAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchAbsoluteTopImpressionShare(String searchAbsoluteTopImpressionShare) {
+    this.searchAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchAbsoluteTopImpressionShare);
+  }
+
   public String getSearchBudgetLostImpressionShare() {
     return BigDecimalUtil.formatAsReadable(searchBudgetLostImpressionShare);
   }
@@ -1412,6 +1441,18 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setSearchBudgetLostImpressionShare(String searchBudgetLostImpressionShare) {
     this.searchBudgetLostImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchBudgetLostImpressionShare);
+  }
+
+  public String getSearchClickShare() {
+    return BigDecimalUtil.formatAsReadable(searchClickShare);
+  }
+
+  public BigDecimal getSearchClickShareBigDecimal() {
+    return searchClickShare;
+  }
+
+  public void setSearchClickShare(String searchClickShare) {
+    this.searchClickShare = BigDecimalUtil.parseFromNumberString(searchClickShare);
   }
 
   public String getSearchExactMatchImpressionShare() {
@@ -1464,6 +1505,14 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setSlot(String slot) {
     this.slot = slot;
+  }
+
+  public BigDecimal getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(BigDecimal totalAmount) {
+    this.totalAmount = totalAmount;
   }
 
   public String getTrackingUrlTemplate() {
@@ -1608,6 +1657,9 @@ public class CampaignPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -1667,7 +1719,6 @@ public class CampaignPerformanceReport extends DateReport {
       .append(biddingStrategyId, other.biddingStrategyId)
       .append(biddingStrategyName, other.biddingStrategyName)
       .append(biddingStrategyType, other.biddingStrategyType)
-      .append(bidType, other.bidType)
       .append(bounceRate, other.bounceRate)
       .append(budgetId, other.budgetId)
       .append(campaignDesktopBidModifier, other.campaignDesktopBidModifier)
@@ -1687,6 +1738,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(contentImpressionShare, other.contentImpressionShare)
       .append(contentRankLostImpressionShare, other.contentRankLostImpressionShare)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1705,7 +1757,6 @@ public class CampaignPerformanceReport extends DateReport {
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
       .append(enhancedCpcEnabled, other.enhancedCpcEnabled)
-      .append(enhancedCpvEnabled, other.enhancedCpvEnabled)
       .append(externalConversionSource, other.externalConversionSource)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
@@ -1723,17 +1774,21 @@ public class CampaignPerformanceReport extends DateReport {
       .append(isBudgetExplicitlyShared, other.isBudgetExplicitlyShared)
       .append(labelIds, other.labelIds)
       .append(labels, other.labels)
+      .append(maximizeConversionValueTargetRoas, other.maximizeConversionValueTargetRoas)
       .append(numOfflineImpressions, other.numOfflineImpressions)
       .append(numOfflineInteractions, other.numOfflineInteractions)
       .append(offlineInteractionRate, other.offlineInteractionRate)
       .append(percentNewVisitors, other.percentNewVisitors)
       .append(relativeCtr, other.relativeCtr)
+      .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare, other.searchBudgetLostImpressionShare)
+      .append(searchClickShare, other.searchClickShare)
       .append(searchExactMatchImpressionShare, other.searchExactMatchImpressionShare)
       .append(searchImpressionShare, other.searchImpressionShare)
       .append(searchRankLostImpressionShare, other.searchRankLostImpressionShare)
       .append(servingStatus, other.servingStatus)
       .append(slot, other.slot)
+      .append(totalAmount, other.totalAmount)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
@@ -1785,7 +1840,6 @@ public class CampaignPerformanceReport extends DateReport {
       .append(biddingStrategyId)
       .append(biddingStrategyName)
       .append(biddingStrategyType)
-      .append(bidType)
       .append(bounceRate)
       .append(budgetId)
       .append(campaignDesktopBidModifier)
@@ -1805,6 +1859,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(contentImpressionShare)
       .append(contentRankLostImpressionShare)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)
@@ -1823,7 +1878,6 @@ public class CampaignPerformanceReport extends DateReport {
       .append(engagementRate)
       .append(engagements)
       .append(enhancedCpcEnabled)
-      .append(enhancedCpvEnabled)
       .append(externalConversionSource)
       .append(gmailForwards)
       .append(gmailSaves)
@@ -1841,17 +1895,21 @@ public class CampaignPerformanceReport extends DateReport {
       .append(isBudgetExplicitlyShared)
       .append(labelIds)
       .append(labels)
+      .append(maximizeConversionValueTargetRoas)
       .append(numOfflineImpressions)
       .append(numOfflineInteractions)
       .append(offlineInteractionRate)
       .append(percentNewVisitors)
       .append(relativeCtr)
+      .append(searchAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare)
+      .append(searchClickShare)
       .append(searchExactMatchImpressionShare)
       .append(searchImpressionShare)
       .append(searchRankLostImpressionShare)
       .append(servingStatus)
       .append(slot)
+      .append(totalAmount)
       .append(trackingUrlTemplate)
       .append(valuePerAllConversion)
       .append(valuePerConversion)

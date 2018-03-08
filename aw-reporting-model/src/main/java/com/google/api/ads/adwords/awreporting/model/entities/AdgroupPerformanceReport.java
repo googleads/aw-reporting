@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -192,10 +192,6 @@ public class AdgroupPerformanceReport extends DateReport {
   @CsvField(value = "Bid Strategy Type", reportField = "BiddingStrategyType")
   private String biddingStrategyType;
 
-  @Column(name = "BidType")
-  @CsvField(value = "Conversion optimizer bid type", reportField = "BidType")
-  private String bidType;
-
   @Column(name = "BounceRate")
   @CsvField(value = "Bounce rate", reportField = "BounceRate")
   private BigDecimal bounceRate;
@@ -247,6 +243,10 @@ public class AdgroupPerformanceReport extends DateReport {
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
+
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -346,10 +346,6 @@ public class AdgroupPerformanceReport extends DateReport {
   @CsvField(value = "Enhanced CPC enabled", reportField = "EnhancedCpcEnabled")
   private String enhancedCpcEnabled;
 
-  @Column(name = "EnhancedCpvEnabled")
-  @CsvField(value = "Enhanced CPV enabled", reportField = "EnhancedCpvEnabled")
-  private String enhancedCpvEnabled;
-
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
@@ -421,6 +417,10 @@ public class AdgroupPerformanceReport extends DateReport {
   @Column(name = "RelativeCtr")
   @CsvField(value = "Relative CTR", reportField = "RelativeCtr")
   private BigDecimal relativeCtr;
+
+  @Column(name = "SearchAbsoluteTopImpressionShare")
+  @CsvField(value = "Search abs. top IS", reportField = "SearchAbsoluteTopImpressionShare")
+  private BigDecimal searchAbsoluteTopImpressionShare;
 
   @Column(name = "SearchExactMatchImpressionShare")
   @CsvField(value = "Search Exact match IS", reportField = "SearchExactMatchImpressionShare")
@@ -853,14 +853,6 @@ public class AdgroupPerformanceReport extends DateReport {
     this.biddingStrategyType = biddingStrategyType;
   }
 
-  public String getBidType() {
-    return bidType;
-  }
-
-  public void setBidType(String bidType) {
-    this.bidType = bidType;
-  }
-
   public String getBounceRate() {
     return BigDecimalUtil.formatAsReadable(bounceRate);
   }
@@ -983,6 +975,14 @@ public class AdgroupPerformanceReport extends DateReport {
 
   public void setConversionCategoryName(String conversionCategoryName) {
     this.conversionCategoryName = conversionCategoryName;
+  }
+
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
   }
 
   public String getConversionRate() {
@@ -1209,14 +1209,6 @@ public class AdgroupPerformanceReport extends DateReport {
     this.enhancedCpcEnabled = enhancedCpcEnabled;
   }
 
-  public String getEnhancedCpvEnabled() {
-    return enhancedCpvEnabled;
-  }
-
-  public void setEnhancedCpvEnabled(String enhancedCpvEnabled) {
-    this.enhancedCpvEnabled = enhancedCpvEnabled;
-  }
-
   public String getExternalConversionSource() {
     return externalConversionSource;
   }
@@ -1383,6 +1375,18 @@ public class AdgroupPerformanceReport extends DateReport {
 
   public void setRelativeCtr(String relativeCtr) {
     this.relativeCtr = BigDecimalUtil.parseFromNumberString(relativeCtr);
+  }
+
+  public String getSearchAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchAbsoluteTopImpressionShareBigDecimal() {
+    return searchAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchAbsoluteTopImpressionShare(String searchAbsoluteTopImpressionShare) {
+    this.searchAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchAbsoluteTopImpressionShare);
   }
 
   public String getSearchExactMatchImpressionShare() {
@@ -1590,6 +1594,9 @@ public class AdgroupPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -1653,7 +1660,6 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(biddingStrategyName, other.biddingStrategyName)
       .append(biddingStrategySource, other.biddingStrategySource)
       .append(biddingStrategyType, other.biddingStrategyType)
-      .append(bidType, other.bidType)
       .append(bounceRate, other.bounceRate)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
@@ -1667,6 +1673,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(contentImpressionShare, other.contentImpressionShare)
       .append(contentRankLostImpressionShare, other.contentRankLostImpressionShare)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1690,7 +1697,6 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
       .append(enhancedCpcEnabled, other.enhancedCpcEnabled)
-      .append(enhancedCpvEnabled, other.enhancedCpvEnabled)
       .append(externalConversionSource, other.externalConversionSource)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
@@ -1709,6 +1715,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(offlineInteractionRate, other.offlineInteractionRate)
       .append(percentNewVisitors, other.percentNewVisitors)
       .append(relativeCtr, other.relativeCtr)
+      .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
       .append(searchExactMatchImpressionShare, other.searchExactMatchImpressionShare)
       .append(searchImpressionShare, other.searchImpressionShare)
       .append(searchRankLostImpressionShare, other.searchRankLostImpressionShare)
@@ -1770,7 +1777,6 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(biddingStrategyName)
       .append(biddingStrategySource)
       .append(biddingStrategyType)
-      .append(bidType)
       .append(bounceRate)
       .append(campaignId)
       .append(campaignName)
@@ -1784,6 +1790,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(contentImpressionShare)
       .append(contentRankLostImpressionShare)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)
@@ -1807,7 +1814,6 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(engagementRate)
       .append(engagements)
       .append(enhancedCpcEnabled)
-      .append(enhancedCpvEnabled)
       .append(externalConversionSource)
       .append(gmailForwards)
       .append(gmailSaves)
@@ -1826,6 +1832,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(offlineInteractionRate)
       .append(percentNewVisitors)
       .append(relativeCtr)
+      .append(searchAbsoluteTopImpressionShare)
       .append(searchExactMatchImpressionShare)
       .append(searchImpressionShare)
       .append(searchRankLostImpressionShare)

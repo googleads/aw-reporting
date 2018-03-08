@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -160,10 +160,6 @@ public class CriteriaPerformanceReport extends DateReport {
   @CsvField(value = "Bid adj.", reportField = "BidModifier")
   private BigDecimal bidModifier;
 
-  @Column(name = "BidType")
-  @CsvField(value = "Conversion optimizer bid type", reportField = "BidType")
-  private String bidType;
-
   @Column(name = "CampaignId")
   @CsvField(value = "Campaign ID", reportField = "CampaignId")
   private Long campaignId;
@@ -187,6 +183,10 @@ public class CriteriaPerformanceReport extends DateReport {
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
+
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -305,10 +305,6 @@ public class CriteriaPerformanceReport extends DateReport {
   @Column(name = "EnhancedCpcEnabled")
   @CsvField(value = "Enhanced CPC enabled", reportField = "EnhancedCpcEnabled")
   private String enhancedCpcEnabled;
-
-  @Column(name = "EnhancedCpvEnabled")
-  @CsvField(value = "Enhanced CPV enabled", reportField = "EnhancedCpvEnabled")
-  private String enhancedCpvEnabled;
 
   @Column(name = "EstimatedAddClicksAtFirstPositionCpc")
   @CsvField(value = "Est. add. clicks/wk (first position bid)", reportField = "EstimatedAddClicksAtFirstPositionCpc")
@@ -753,14 +749,6 @@ public class CriteriaPerformanceReport extends DateReport {
     this.bidModifier = BigDecimalUtil.parseFromNumberString(bidModifier);
   }
 
-  public String getBidType() {
-    return bidType;
-  }
-
-  public void setBidType(String bidType) {
-    this.bidType = bidType;
-  }
-
   public Long getCampaignId() {
     return campaignId;
   }
@@ -807,6 +795,14 @@ public class CriteriaPerformanceReport extends DateReport {
 
   public void setConversionCategoryName(String conversionCategoryName) {
     this.conversionCategoryName = conversionCategoryName;
+  }
+
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
   }
 
   public String getConversionRate() {
@@ -1067,14 +1063,6 @@ public class CriteriaPerformanceReport extends DateReport {
 
   public void setEnhancedCpcEnabled(String enhancedCpcEnabled) {
     this.enhancedCpcEnabled = enhancedCpcEnabled;
-  }
-
-  public String getEnhancedCpvEnabled() {
-    return enhancedCpvEnabled;
-  }
-
-  public void setEnhancedCpvEnabled(String enhancedCpvEnabled) {
-    this.enhancedCpvEnabled = enhancedCpvEnabled;
   }
 
   public Long getEstimatedAddClicksAtFirstPositionCpc() {
@@ -1461,6 +1449,9 @@ public class CriteriaPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -1516,13 +1507,13 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(baseAdGroupId, other.baseAdGroupId)
       .append(baseCampaignId, other.baseCampaignId)
       .append(bidModifier, other.bidModifier)
-      .append(bidType, other.bidType)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
       .append(clicks, other.clicks)
       .append(clickType, other.clickType)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1551,7 +1542,6 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
       .append(enhancedCpcEnabled, other.enhancedCpcEnabled)
-      .append(enhancedCpvEnabled, other.enhancedCpvEnabled)
       .append(estimatedAddClicksAtFirstPositionCpc, other.estimatedAddClicksAtFirstPositionCpc)
       .append(estimatedAddCostAtFirstPositionCpc, other.estimatedAddCostAtFirstPositionCpc)
       .append(externalConversionSource, other.externalConversionSource)
@@ -1628,13 +1618,13 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(baseAdGroupId)
       .append(baseCampaignId)
       .append(bidModifier)
-      .append(bidType)
       .append(campaignId)
       .append(campaignName)
       .append(campaignStatus)
       .append(clicks)
       .append(clickType)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)
@@ -1663,7 +1653,6 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(engagementRate)
       .append(engagements)
       .append(enhancedCpcEnabled)
-      .append(enhancedCpvEnabled)
       .append(estimatedAddClicksAtFirstPositionCpc)
       .append(estimatedAddCostAtFirstPositionCpc)
       .append(externalConversionSource)
