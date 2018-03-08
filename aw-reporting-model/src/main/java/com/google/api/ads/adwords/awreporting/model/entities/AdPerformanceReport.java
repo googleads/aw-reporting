@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -137,6 +137,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Allow flexible color (responsive)", reportField = "AllowFlexibleColor")
   private String allowFlexibleColor;
 
+  @Column(name = "Automated")
+  @CsvField(value = "Auto-applied ad suggestion", reportField = "Automated")
+  private String automated;
+
   @Column(name = "AverageCost")
   @CsvField(value = "Avg. Cost", reportField = "AverageCost")
   @MoneyField
@@ -231,6 +235,10 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
+
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -379,6 +387,18 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Ad format preference (responsive)", reportField = "FormatSetting")
   private String formatSetting;
 
+  @Column(name = "GmailCreativeHeaderImageMediaId")
+  @CsvField(value = "Gmail ad header image media id", reportField = "GmailCreativeHeaderImageMediaId")
+  private Long gmailCreativeHeaderImageMediaId;
+
+  @Column(name = "GmailCreativeLogoImageMediaId")
+  @CsvField(value = "Gmail ad logo image media id", reportField = "GmailCreativeLogoImageMediaId")
+  private Long gmailCreativeLogoImageMediaId;
+
+  @Column(name = "GmailCreativeMarketingImageMediaId")
+  @CsvField(value = "Gmail ad marketing image media id", reportField = "GmailCreativeMarketingImageMediaId")
+  private Long gmailCreativeMarketingImageMediaId;
+
   @Column(name = "GmailForwards")
   @CsvField(value = "Gmail forwards", reportField = "GmailForwards")
   private Long gmailForwards;
@@ -390,6 +410,18 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "GmailSecondaryClicks")
   @CsvField(value = "Gmail clicks to website", reportField = "GmailSecondaryClicks")
   private Long gmailSecondaryClicks;
+
+  @Column(name = "GmailTeaserBusinessName")
+  @CsvField(value = "Gmail ad business name", reportField = "GmailTeaserBusinessName")
+  private String gmailTeaserBusinessName;
+
+  @Column(name = "GmailTeaserDescription")
+  @CsvField(value = "Gmail ad description", reportField = "GmailTeaserDescription")
+  private String gmailTeaserDescription;
+
+  @Column(name = "GmailTeaserHeadline")
+  @CsvField(value = "Gmail ad headline", reportField = "GmailTeaserHeadline")
+  private String gmailTeaserHeadline;
 
   @Column(name = "Headline")
   @CsvField(value = "Ad", reportField = "Headline")
@@ -471,6 +503,22 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Main color (responsive)", reportField = "MainColor")
   private String mainColor;
 
+  @Column(name = "MarketingImageCallToActionText")
+  @CsvField(value = "Gmail ad marketing image call to action text", reportField = "MarketingImageCallToActionText")
+  private String marketingImageCallToActionText;
+
+  @Column(name = "MarketingImageCallToActionTextColor")
+  @CsvField(value = "Gmail ad marketing image call to action text color", reportField = "MarketingImageCallToActionTextColor")
+  private String marketingImageCallToActionTextColor;
+
+  @Column(name = "MarketingImageDescription")
+  @CsvField(value = "Gmail ad marketing image description", reportField = "MarketingImageDescription")
+  private String marketingImageDescription;
+
+  @Column(name = "MarketingImageHeadline")
+  @CsvField(value = "Gmail ad marketing image headline", reportField = "MarketingImageHeadline")
+  private String marketingImageHeadline;
+
   @Column(name = "Path1")
   @CsvField(value = "Path 1", reportField = "Path1")
   private String path1;
@@ -502,6 +550,10 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "Status")
   @CsvField(value = "Ad state", reportField = "Status")
   private String status;
+
+  @Column(name = "SystemManagedEntitySource")
+  @CsvField(value = "System managed Entity Source", reportField = "SystemManagedEntitySource")
+  private String systemManagedEntitySource;
 
   @Column(name = "ValuePerAllConversion")
   @CsvField(value = "Value / all conv.", reportField = "ValuePerAllConversion")
@@ -769,6 +821,14 @@ public class AdPerformanceReport extends DateReport {
     this.allowFlexibleColor = allowFlexibleColor;
   }
 
+  public String getAutomated() {
+    return automated;
+  }
+
+  public void setAutomated(String automated) {
+    this.automated = automated;
+  }
+
   public BigDecimal getAverageCost() {
     return averageCost;
   }
@@ -983,6 +1043,14 @@ public class AdPerformanceReport extends DateReport {
 
   public void setConversionCategoryName(String conversionCategoryName) {
     this.conversionCategoryName = conversionCategoryName;
+  }
+
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
   }
 
   public String getConversionRate() {
@@ -1309,6 +1377,30 @@ public class AdPerformanceReport extends DateReport {
     this.formatSetting = formatSetting;
   }
 
+  public Long getGmailCreativeHeaderImageMediaId() {
+    return gmailCreativeHeaderImageMediaId;
+  }
+
+  public void setGmailCreativeHeaderImageMediaId(Long gmailCreativeHeaderImageMediaId) {
+    this.gmailCreativeHeaderImageMediaId = gmailCreativeHeaderImageMediaId;
+  }
+
+  public Long getGmailCreativeLogoImageMediaId() {
+    return gmailCreativeLogoImageMediaId;
+  }
+
+  public void setGmailCreativeLogoImageMediaId(Long gmailCreativeLogoImageMediaId) {
+    this.gmailCreativeLogoImageMediaId = gmailCreativeLogoImageMediaId;
+  }
+
+  public Long getGmailCreativeMarketingImageMediaId() {
+    return gmailCreativeMarketingImageMediaId;
+  }
+
+  public void setGmailCreativeMarketingImageMediaId(Long gmailCreativeMarketingImageMediaId) {
+    this.gmailCreativeMarketingImageMediaId = gmailCreativeMarketingImageMediaId;
+  }
+
   public Long getGmailForwards() {
     return gmailForwards;
   }
@@ -1331,6 +1423,30 @@ public class AdPerformanceReport extends DateReport {
 
   public void setGmailSecondaryClicks(Long gmailSecondaryClicks) {
     this.gmailSecondaryClicks = gmailSecondaryClicks;
+  }
+
+  public String getGmailTeaserBusinessName() {
+    return gmailTeaserBusinessName;
+  }
+
+  public void setGmailTeaserBusinessName(String gmailTeaserBusinessName) {
+    this.gmailTeaserBusinessName = gmailTeaserBusinessName;
+  }
+
+  public String getGmailTeaserDescription() {
+    return gmailTeaserDescription;
+  }
+
+  public void setGmailTeaserDescription(String gmailTeaserDescription) {
+    this.gmailTeaserDescription = gmailTeaserDescription;
+  }
+
+  public String getGmailTeaserHeadline() {
+    return gmailTeaserHeadline;
+  }
+
+  public void setGmailTeaserHeadline(String gmailTeaserHeadline) {
+    this.gmailTeaserHeadline = gmailTeaserHeadline;
   }
 
   public String getHeadline() {
@@ -1505,6 +1621,38 @@ public class AdPerformanceReport extends DateReport {
     this.mainColor = mainColor;
   }
 
+  public String getMarketingImageCallToActionText() {
+    return marketingImageCallToActionText;
+  }
+
+  public void setMarketingImageCallToActionText(String marketingImageCallToActionText) {
+    this.marketingImageCallToActionText = marketingImageCallToActionText;
+  }
+
+  public String getMarketingImageCallToActionTextColor() {
+    return marketingImageCallToActionTextColor;
+  }
+
+  public void setMarketingImageCallToActionTextColor(String marketingImageCallToActionTextColor) {
+    this.marketingImageCallToActionTextColor = marketingImageCallToActionTextColor;
+  }
+
+  public String getMarketingImageDescription() {
+    return marketingImageDescription;
+  }
+
+  public void setMarketingImageDescription(String marketingImageDescription) {
+    this.marketingImageDescription = marketingImageDescription;
+  }
+
+  public String getMarketingImageHeadline() {
+    return marketingImageHeadline;
+  }
+
+  public void setMarketingImageHeadline(String marketingImageHeadline) {
+    this.marketingImageHeadline = marketingImageHeadline;
+  }
+
   public String getPath1() {
     return path1;
   }
@@ -1571,6 +1719,14 @@ public class AdPerformanceReport extends DateReport {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public String getSystemManagedEntitySource() {
+    return systemManagedEntitySource;
+  }
+
+  public void setSystemManagedEntitySource(String systemManagedEntitySource) {
+    this.systemManagedEntitySource = systemManagedEntitySource;
   }
 
   public String getValuePerAllConversion() {
@@ -1713,6 +1869,9 @@ public class AdPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -1766,6 +1925,7 @@ public class AdPerformanceReport extends DateReport {
       .append(allConversions, other.allConversions)
       .append(allConversionValue, other.allConversionValue)
       .append(allowFlexibleColor, other.allowFlexibleColor)
+      .append(automated, other.automated)
       .append(averageCost, other.averageCost)
       .append(averageCpc, other.averageCpc)
       .append(averageCpe, other.averageCpe)
@@ -1789,6 +1949,7 @@ public class AdPerformanceReport extends DateReport {
       .append(clickType, other.clickType)
       .append(combinedApprovalStatus, other.combinedApprovalStatus)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1825,9 +1986,15 @@ public class AdPerformanceReport extends DateReport {
       .append(enhancedDisplayCreativeMarketingImageSquareMediaId, other.enhancedDisplayCreativeMarketingImageSquareMediaId)
       .append(externalConversionSource, other.externalConversionSource)
       .append(formatSetting, other.formatSetting)
+      .append(gmailCreativeHeaderImageMediaId, other.gmailCreativeHeaderImageMediaId)
+      .append(gmailCreativeLogoImageMediaId, other.gmailCreativeLogoImageMediaId)
+      .append(gmailCreativeMarketingImageMediaId, other.gmailCreativeMarketingImageMediaId)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
       .append(gmailSecondaryClicks, other.gmailSecondaryClicks)
+      .append(gmailTeaserBusinessName, other.gmailTeaserBusinessName)
+      .append(gmailTeaserDescription, other.gmailTeaserDescription)
+      .append(gmailTeaserHeadline, other.gmailTeaserHeadline)
       .append(headline, other.headline)
       .append(headlinePart1, other.headlinePart1)
       .append(headlinePart2, other.headlinePart2)
@@ -1848,6 +2015,10 @@ public class AdPerformanceReport extends DateReport {
       .append(labels, other.labels)
       .append(longHeadline, other.longHeadline)
       .append(mainColor, other.mainColor)
+      .append(marketingImageCallToActionText, other.marketingImageCallToActionText)
+      .append(marketingImageCallToActionTextColor, other.marketingImageCallToActionTextColor)
+      .append(marketingImageDescription, other.marketingImageDescription)
+      .append(marketingImageHeadline, other.marketingImageHeadline)
       .append(path1, other.path1)
       .append(path2, other.path2)
       .append(percentNewVisitors, other.percentNewVisitors)
@@ -1856,6 +2027,7 @@ public class AdPerformanceReport extends DateReport {
       .append(shortHeadline, other.shortHeadline)
       .append(slot, other.slot)
       .append(status, other.status)
+      .append(systemManagedEntitySource, other.systemManagedEntitySource)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
       .append(valuePerCurrentModelAttributedConversion, other.valuePerCurrentModelAttributedConversion)
@@ -1897,6 +2069,7 @@ public class AdPerformanceReport extends DateReport {
       .append(allConversions)
       .append(allConversionValue)
       .append(allowFlexibleColor)
+      .append(automated)
       .append(averageCost)
       .append(averageCpc)
       .append(averageCpe)
@@ -1920,6 +2093,7 @@ public class AdPerformanceReport extends DateReport {
       .append(clickType)
       .append(combinedApprovalStatus)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)
@@ -1956,9 +2130,15 @@ public class AdPerformanceReport extends DateReport {
       .append(enhancedDisplayCreativeMarketingImageSquareMediaId)
       .append(externalConversionSource)
       .append(formatSetting)
+      .append(gmailCreativeHeaderImageMediaId)
+      .append(gmailCreativeLogoImageMediaId)
+      .append(gmailCreativeMarketingImageMediaId)
       .append(gmailForwards)
       .append(gmailSaves)
       .append(gmailSecondaryClicks)
+      .append(gmailTeaserBusinessName)
+      .append(gmailTeaserDescription)
+      .append(gmailTeaserHeadline)
       .append(headline)
       .append(headlinePart1)
       .append(headlinePart2)
@@ -1979,6 +2159,10 @@ public class AdPerformanceReport extends DateReport {
       .append(labels)
       .append(longHeadline)
       .append(mainColor)
+      .append(marketingImageCallToActionText)
+      .append(marketingImageCallToActionTextColor)
+      .append(marketingImageDescription)
+      .append(marketingImageHeadline)
       .append(path1)
       .append(path2)
       .append(percentNewVisitors)
@@ -1987,6 +2171,7 @@ public class AdPerformanceReport extends DateReport {
       .append(shortHeadline)
       .append(slot)
       .append(status)
+      .append(systemManagedEntitySource)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
       .append(valuePerCurrentModelAttributedConversion)

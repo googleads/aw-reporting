@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2018-03-07
+- Migrated to AdWords API **v201802**.
+- Close issue 283. Exit on empty account IDs file, rather than downloading all managed accounts' data.
+- Close issue 268, 280. Report helpful error message on duplicate rows.
+
 ## [2.3.0] - 2017-10-10
 - Migrated to AdWords API **v201710**.
 - Fix issue with classpath dependencies being loaded from dependencies/ instead of lib/.

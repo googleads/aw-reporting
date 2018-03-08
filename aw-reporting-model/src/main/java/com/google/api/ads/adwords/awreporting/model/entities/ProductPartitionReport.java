@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -94,6 +94,10 @@ public class ProductPartitionReport extends DateReport {
   @CsvField(value = "Benchmark CTR", reportField = "BenchmarkCtr")
   private BigDecimal benchmarkCtr;
 
+  @Column(name = "BiddingStrategyType")
+  @CsvField(value = "Bid Strategy Type", reportField = "BiddingStrategyType")
+  private String biddingStrategyType;
+
   @Column(name = "CampaignId")
   @CsvField(value = "Campaign ID", reportField = "CampaignId")
   private Long campaignId;
@@ -114,6 +118,10 @@ public class ProductPartitionReport extends DateReport {
   @CsvField(value = "Click type", reportField = "ClickType")
   private String clickType;
 
+  @Column(name = "ConversionCategoryName")
+  @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
+  private String conversionCategoryName;
+
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
   private BigDecimal conversionRate;
@@ -121,6 +129,14 @@ public class ProductPartitionReport extends DateReport {
   @Column(name = "Conversions")
   @CsvField(value = "Conversions", reportField = "Conversions")
   private BigDecimal conversions;
+
+  @Column(name = "ConversionTrackerId")
+  @CsvField(value = "Conversion Tracker Id", reportField = "ConversionTrackerId")
+  private Long conversionTrackerId;
+
+  @Column(name = "ConversionTypeName")
+  @CsvField(value = "Conversion name", reportField = "ConversionTypeName")
+  private String conversionTypeName;
 
   @Column(name = "ConversionValue")
   @CsvField(value = "Total conv. value", reportField = "ConversionValue")
@@ -162,6 +178,10 @@ public class ProductPartitionReport extends DateReport {
   @CsvField(value = "Device", reportField = "Device")
   private String device;
 
+  @Column(name = "ExternalConversionSource")
+  @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
+  private String externalConversionSource;
+
   @Column(name = "Id")
   @CsvField(value = "Criterion ID", reportField = "Id")
   private Long id;
@@ -186,6 +206,10 @@ public class ProductPartitionReport extends DateReport {
   @CsvField(value = "Product Group", reportField = "ProductGroup")
   private String productGroup;
 
+  @Column(name = "SearchAbsoluteTopImpressionShare")
+  @CsvField(value = "Search abs. top IS", reportField = "SearchAbsoluteTopImpressionShare")
+  private BigDecimal searchAbsoluteTopImpressionShare;
+
   @Column(name = "SearchClickShare")
   @CsvField(value = "Click share", reportField = "SearchClickShare")
   private BigDecimal searchClickShare;
@@ -209,6 +233,10 @@ public class ProductPartitionReport extends DateReport {
   @Column(name = "ValuePerConversion")
   @CsvField(value = "Value / conv.", reportField = "ValuePerConversion")
   private BigDecimal valuePerConversion;
+
+  @Column(name = "ViewThroughConversions")
+  @CsvField(value = "View-through conv.", reportField = "ViewThroughConversions")
+  private Long viewThroughConversions;
 
   /**
    * Hibernate needs an empty constructor
@@ -340,6 +368,14 @@ public class ProductPartitionReport extends DateReport {
     this.benchmarkCtr = BigDecimalUtil.parseFromNumberString(benchmarkCtr);
   }
 
+  public String getBiddingStrategyType() {
+    return biddingStrategyType;
+  }
+
+  public void setBiddingStrategyType(String biddingStrategyType) {
+    this.biddingStrategyType = biddingStrategyType;
+  }
+
   public Long getCampaignId() {
     return campaignId;
   }
@@ -380,6 +416,14 @@ public class ProductPartitionReport extends DateReport {
     this.clickType = clickType;
   }
 
+  public String getConversionCategoryName() {
+    return conversionCategoryName;
+  }
+
+  public void setConversionCategoryName(String conversionCategoryName) {
+    this.conversionCategoryName = conversionCategoryName;
+  }
+
   public String getConversionRate() {
     return BigDecimalUtil.formatAsReadable(conversionRate);
   }
@@ -402,6 +446,22 @@ public class ProductPartitionReport extends DateReport {
 
   public void setConversions(String conversions) {
     this.conversions = BigDecimalUtil.parseFromNumberString(conversions);
+  }
+
+  public Long getConversionTrackerId() {
+    return conversionTrackerId;
+  }
+
+  public void setConversionTrackerId(Long conversionTrackerId) {
+    this.conversionTrackerId = conversionTrackerId;
+  }
+
+  public String getConversionTypeName() {
+    return conversionTypeName;
+  }
+
+  public void setConversionTypeName(String conversionTypeName) {
+    this.conversionTypeName = conversionTypeName;
   }
 
   public String getConversionValue() {
@@ -488,6 +548,14 @@ public class ProductPartitionReport extends DateReport {
     this.device = device;
   }
 
+  public String getExternalConversionSource() {
+    return externalConversionSource;
+  }
+
+  public void setExternalConversionSource(String externalConversionSource) {
+    this.externalConversionSource = externalConversionSource;
+  }
+
   public Long getId() {
     return id;
   }
@@ -534,6 +602,18 @@ public class ProductPartitionReport extends DateReport {
 
   public void setProductGroup(String productGroup) {
     this.productGroup = productGroup;
+  }
+
+  public String getSearchAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchAbsoluteTopImpressionShareBigDecimal() {
+    return searchAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchAbsoluteTopImpressionShare(String searchAbsoluteTopImpressionShare) {
+    this.searchAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchAbsoluteTopImpressionShare);
   }
 
   public String getSearchClickShare() {
@@ -600,6 +680,14 @@ public class ProductPartitionReport extends DateReport {
     this.valuePerConversion = BigDecimalUtil.parseFromNumberString(valuePerConversion);
   }
 
+  public Long getViewThroughConversions() {
+    return viewThroughConversions;
+  }
+
+  public void setViewThroughConversions(Long viewThroughConversions) {
+    this.viewThroughConversions = viewThroughConversions;
+  }
+
   @Override
   public void setRowId() {
     // General fields for generating unique id.
@@ -625,8 +713,20 @@ public class ProductPartitionReport extends DateReport {
     if (!StringUtils.isEmpty(clickType)) {
       idBuilder.append("-").append(clickType);
     }
+    if (!StringUtils.isEmpty(conversionCategoryName)) {
+      idBuilder.append("-").append(conversionCategoryName);
+    }
+    if (conversionTrackerId != null) {
+      idBuilder.append("-").append(conversionTrackerId);
+    }
+    if (!StringUtils.isEmpty(conversionTypeName)) {
+      idBuilder.append("-").append(conversionTypeName);
+    }
     if (!StringUtils.isEmpty(device)) {
       idBuilder.append("-").append(device);
+    }
+    if (!StringUtils.isEmpty(externalConversionSource)) {
+      idBuilder.append("-").append(externalConversionSource);
     }
     if (!StringUtils.isEmpty(partitionType)) {
       idBuilder.append("-").append(partitionType);
@@ -655,13 +755,17 @@ public class ProductPartitionReport extends DateReport {
       .append(averageCpm, other.averageCpm)
       .append(benchmarkAverageMaxCpc, other.benchmarkAverageMaxCpc)
       .append(benchmarkCtr, other.benchmarkCtr)
+      .append(biddingStrategyType, other.biddingStrategyType)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
       .append(clicks, other.clicks)
       .append(clickType, other.clickType)
+      .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
+      .append(conversionTrackerId, other.conversionTrackerId)
+      .append(conversionTypeName, other.conversionTypeName)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
       .append(costPerAllConversion, other.costPerAllConversion)
@@ -671,18 +775,21 @@ public class ProductPartitionReport extends DateReport {
       .append(crossDeviceConversions, other.crossDeviceConversions)
       .append(ctr, other.ctr)
       .append(device, other.device)
+      .append(externalConversionSource, other.externalConversionSource)
       .append(id, other.id)
       .append(impressions, other.impressions)
       .append(isNegative, other.isNegative)
       .append(parentCriterionId, other.parentCriterionId)
       .append(partitionType, other.partitionType)
       .append(productGroup, other.productGroup)
+      .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
       .append(searchClickShare, other.searchClickShare)
       .append(searchImpressionShare, other.searchImpressionShare)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(urlCustomParameters, other.urlCustomParameters)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
+      .append(viewThroughConversions, other.viewThroughConversions)
       .isEquals();
   }
 
@@ -703,13 +810,17 @@ public class ProductPartitionReport extends DateReport {
       .append(averageCpm)
       .append(benchmarkAverageMaxCpc)
       .append(benchmarkCtr)
+      .append(biddingStrategyType)
       .append(campaignId)
       .append(campaignName)
       .append(campaignStatus)
       .append(clicks)
       .append(clickType)
+      .append(conversionCategoryName)
       .append(conversionRate)
       .append(conversions)
+      .append(conversionTrackerId)
+      .append(conversionTypeName)
       .append(conversionValue)
       .append(cost)
       .append(costPerAllConversion)
@@ -719,18 +830,21 @@ public class ProductPartitionReport extends DateReport {
       .append(crossDeviceConversions)
       .append(ctr)
       .append(device)
+      .append(externalConversionSource)
       .append(id)
       .append(impressions)
       .append(isNegative)
       .append(parentCriterionId)
       .append(partitionType)
       .append(productGroup)
+      .append(searchAbsoluteTopImpressionShare)
       .append(searchClickShare)
       .append(searchImpressionShare)
       .append(trackingUrlTemplate)
       .append(urlCustomParameters)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
+      .append(viewThroughConversions)
       .toHashCode();
   }
 

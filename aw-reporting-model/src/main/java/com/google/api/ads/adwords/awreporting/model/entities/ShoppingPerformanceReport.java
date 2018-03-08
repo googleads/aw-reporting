@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -258,6 +258,10 @@ public class ShoppingPerformanceReport extends DateReport {
   @Column(name = "ProductTypeL5")
   @CsvField(value = "Product type (5th level)", reportField = "ProductTypeL5")
   private String productTypeL5;
+
+  @Column(name = "SearchAbsoluteTopImpressionShare")
+  @CsvField(value = "Search abs. top IS", reportField = "SearchAbsoluteTopImpressionShare")
+  private BigDecimal searchAbsoluteTopImpressionShare;
 
   @Column(name = "SearchClickShare")
   @CsvField(value = "Click share", reportField = "SearchClickShare")
@@ -753,6 +757,18 @@ public class ShoppingPerformanceReport extends DateReport {
     this.productTypeL5 = productTypeL5;
   }
 
+  public String getSearchAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchAbsoluteTopImpressionShareBigDecimal() {
+    return searchAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchAbsoluteTopImpressionShare(String searchAbsoluteTopImpressionShare) {
+    this.searchAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchAbsoluteTopImpressionShare);
+  }
+
   public String getSearchClickShare() {
     return BigDecimalUtil.formatAsReadable(searchClickShare);
   }
@@ -929,6 +945,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(productTypeL3, other.productTypeL3)
       .append(productTypeL4, other.productTypeL4)
       .append(productTypeL5, other.productTypeL5)
+      .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
       .append(searchClickShare, other.searchClickShare)
       .append(searchImpressionShare, other.searchImpressionShare)
       .append(storeId, other.storeId)
@@ -995,6 +1012,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(productTypeL3)
       .append(productTypeL4)
       .append(productTypeL5)
+      .append(searchAbsoluteTopImpressionShare)
       .append(searchClickShare)
       .append(searchImpressionShare)
       .append(storeId)

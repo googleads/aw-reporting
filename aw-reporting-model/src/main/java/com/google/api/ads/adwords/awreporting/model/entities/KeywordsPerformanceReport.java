@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -176,10 +176,6 @@ public class KeywordsPerformanceReport extends DateReport {
   @CsvField(value = "Bid Strategy Type", reportField = "BiddingStrategyType")
   private String biddingStrategyType;
 
-  @Column(name = "BidType")
-  @CsvField(value = "Conversion optimizer bid type", reportField = "BidType")
-  private String bidType;
-
   @Column(name = "BounceRate")
   @CsvField(value = "Bounce rate", reportField = "BounceRate")
   private BigDecimal bounceRate;
@@ -219,6 +215,10 @@ public class KeywordsPerformanceReport extends DateReport {
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
+
+  @Column(name = "ConversionLagBucket")
+  @CsvField(value = "Days to conversion", reportField = "ConversionLagBucket")
+  private String conversionLagBucket;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -848,14 +848,6 @@ public class KeywordsPerformanceReport extends DateReport {
     this.biddingStrategyType = biddingStrategyType;
   }
 
-  public String getBidType() {
-    return bidType;
-  }
-
-  public void setBidType(String bidType) {
-    this.bidType = bidType;
-  }
-
   public String getBounceRate() {
     return BigDecimalUtil.formatAsReadable(bounceRate);
   }
@@ -946,6 +938,14 @@ public class KeywordsPerformanceReport extends DateReport {
 
   public void setConversionCategoryName(String conversionCategoryName) {
     this.conversionCategoryName = conversionCategoryName;
+  }
+
+  public String getConversionLagBucket() {
+    return conversionLagBucket;
+  }
+
+  public void setConversionLagBucket(String conversionLagBucket) {
+    this.conversionLagBucket = conversionLagBucket;
   }
 
   public String getConversionRate() {
@@ -1680,6 +1680,9 @@ public class KeywordsPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
+    if (!StringUtils.isEmpty(conversionLagBucket)) {
+      idBuilder.append("-").append(conversionLagBucket);
+    }
     if (conversionTrackerId != null) {
       idBuilder.append("-").append(conversionTrackerId);
     }
@@ -1739,7 +1742,6 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(biddingStrategyName, other.biddingStrategyName)
       .append(biddingStrategySource, other.biddingStrategySource)
       .append(biddingStrategyType, other.biddingStrategyType)
-      .append(bidType, other.bidType)
       .append(bounceRate, other.bounceRate)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
@@ -1750,6 +1752,7 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(clicks, other.clicks)
       .append(clickType, other.clickType)
       .append(conversionCategoryName, other.conversionCategoryName)
+      .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionTrackerId, other.conversionTrackerId)
@@ -1866,7 +1869,6 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(biddingStrategyName)
       .append(biddingStrategySource)
       .append(biddingStrategyType)
-      .append(bidType)
       .append(bounceRate)
       .append(campaignId)
       .append(campaignName)
@@ -1877,6 +1879,7 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(clicks)
       .append(clickType)
       .append(conversionCategoryName)
+      .append(conversionLagBucket)
       .append(conversionRate)
       .append(conversions)
       .append(conversionTrackerId)

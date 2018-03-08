@@ -15,7 +15,7 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import static org.junit.Assert.assertEquals;
 
-import com.google.api.ads.adwords.lib.jaxb.v201710.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionDateRangeType;
 import org.joda.time.DateTimeUtils;
 import org.joda.time.LocalDate;
 import org.junit.After;
