@@ -1,6 +1,8 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
+## [2.5.0] - 2018-06-12
+- Migrate to AdWords API **v201806**
 
 ## [2.4.0] - 2018-03-07
 - Migrated to AdWords API **v201802**.

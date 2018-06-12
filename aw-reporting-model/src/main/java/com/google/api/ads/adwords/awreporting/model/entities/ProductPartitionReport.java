@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -181,6 +181,10 @@ public class ProductPartitionReport extends DateReport {
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
+
+  @Column(name = "FinalUrlSuffix")
+  @CsvField(value = "Final URL suffix", reportField = "FinalUrlSuffix")
+  private String finalUrlSuffix;
 
   @Column(name = "Id")
   @CsvField(value = "Criterion ID", reportField = "Id")
@@ -556,6 +560,14 @@ public class ProductPartitionReport extends DateReport {
     this.externalConversionSource = externalConversionSource;
   }
 
+  public String getFinalUrlSuffix() {
+    return finalUrlSuffix;
+  }
+
+  public void setFinalUrlSuffix(String finalUrlSuffix) {
+    this.finalUrlSuffix = finalUrlSuffix;
+  }
+
   public Long getId() {
     return id;
   }
@@ -776,6 +788,7 @@ public class ProductPartitionReport extends DateReport {
       .append(ctr, other.ctr)
       .append(device, other.device)
       .append(externalConversionSource, other.externalConversionSource)
+      .append(finalUrlSuffix, other.finalUrlSuffix)
       .append(id, other.id)
       .append(impressions, other.impressions)
       .append(isNegative, other.isNegative)
@@ -831,6 +844,7 @@ public class ProductPartitionReport extends DateReport {
       .append(ctr)
       .append(device)
       .append(externalConversionSource)
+      .append(finalUrlSuffix)
       .append(id)
       .append(impressions)
       .append(isNegative)

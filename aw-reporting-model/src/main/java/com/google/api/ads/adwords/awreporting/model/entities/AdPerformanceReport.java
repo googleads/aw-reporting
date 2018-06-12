@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -47,9 +47,45 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Image Ad URL", reportField = "ImageAdUrl")
   private String imageAdUrl;
 
+  @Column(name = "MultiAssetResponsiveDisplayAdDescriptions")
+  @CsvField(value = "Descriptions (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdDescriptions")
+  private String multiAssetResponsiveDisplayAdDescriptions;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdHeadlines")
+  @CsvField(value = "Headlines (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdHeadlines")
+  private String multiAssetResponsiveDisplayAdHeadlines;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdLandscapeLogoImages")
+  @CsvField(value = "Landscape logos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdLandscapeLogoImages")
+  private String multiAssetResponsiveDisplayAdLandscapeLogoImages;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdLogoImages")
+  @CsvField(value = "Logos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdLogoImages")
+  private String multiAssetResponsiveDisplayAdLogoImages;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdLongHeadline")
+  @CsvField(value = "Long headline (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdLongHeadline")
+  private String multiAssetResponsiveDisplayAdLongHeadline;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdMarketingImages")
+  @CsvField(value = "Images (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdMarketingImages")
+  private String multiAssetResponsiveDisplayAdMarketingImages;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdSquareMarketingImages")
+  @CsvField(value = "Square images (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdSquareMarketingImages")
+  private String multiAssetResponsiveDisplayAdSquareMarketingImages;
+
   @Column(name = "PolicySummary")
   @CsvField(value = "Policy", reportField = "PolicySummary")
   private String policySummary;
+
+  @Column(name = "ResponsiveSearchAdDescriptions")
+  @CsvField(value = "Responsive Search Ad descriptions", reportField = "ResponsiveSearchAdDescriptions")
+  private String responsiveSearchAdDescriptions;
+
+  @Column(name = "ResponsiveSearchAdHeadlines")
+  @CsvField(value = "Responsive Search Ad headlines", reportField = "ResponsiveSearchAdHeadlines")
+  private String responsiveSearchAdHeadlines;
 
   @Column(name = "AccentColor")
   @CsvField(value = "Accent color (responsive)", reportField = "AccentColor")
@@ -295,6 +331,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Final URL", reportField = "CreativeFinalUrls")
   private String creativeFinalUrls;
 
+  @Column(name = "CreativeFinalUrlSuffix")
+  @CsvField(value = "Final URL suffix", reportField = "CreativeFinalUrlSuffix")
+  private String creativeFinalUrlSuffix;
+
   @Column(name = "CreativeTrackingUrlTemplate", length = 2048)
   @CsvField(value = "Tracking template", reportField = "CreativeTrackingUrlTemplate")
   private String creativeTrackingUrlTemplate;
@@ -519,6 +559,38 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Gmail ad marketing image headline", reportField = "MarketingImageHeadline")
   private String marketingImageHeadline;
 
+  @Column(name = "MultiAssetResponsiveDisplayAdAccentColor")
+  @CsvField(value = "Accent color (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdAccentColor")
+  private String multiAssetResponsiveDisplayAdAccentColor;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdAllowFlexibleColor")
+  @CsvField(value = "Allow flexible color (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdAllowFlexibleColor")
+  private String multiAssetResponsiveDisplayAdAllowFlexibleColor;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdBusinessName")
+  @CsvField(value = "Business name (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdBusinessName")
+  private String multiAssetResponsiveDisplayAdBusinessName;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdCallToActionText")
+  @CsvField(value = "Call to action text (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdCallToActionText")
+  private String multiAssetResponsiveDisplayAdCallToActionText;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdDynamicSettingsPricePrefix")
+  @CsvField(value = "Price prefix (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdDynamicSettingsPricePrefix")
+  private String multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdDynamicSettingsPromoText")
+  @CsvField(value = "Promotion text (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdDynamicSettingsPromoText")
+  private String multiAssetResponsiveDisplayAdDynamicSettingsPromoText;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdFormatSetting")
+  @CsvField(value = "Ad format preference (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdFormatSetting")
+  private String multiAssetResponsiveDisplayAdFormatSetting;
+
+  @Column(name = "MultiAssetResponsiveDisplayAdMainColor")
+  @CsvField(value = "Main color (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdMainColor")
+  private String multiAssetResponsiveDisplayAdMainColor;
+
   @Column(name = "Path1")
   @CsvField(value = "Path 1", reportField = "Path1")
   private String path1;
@@ -538,6 +610,14 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "PromoText")
   @CsvField(value = "Promotion text (responsive)", reportField = "PromoText")
   private String promoText;
+
+  @Column(name = "ResponsiveSearchAdPath1")
+  @CsvField(value = "Responsive Search Ad path 1", reportField = "ResponsiveSearchAdPath1")
+  private String responsiveSearchAdPath1;
+
+  @Column(name = "ResponsiveSearchAdPath2")
+  @CsvField(value = "Responsive Search Ad path 2", reportField = "ResponsiveSearchAdPath2")
+  private String responsiveSearchAdPath2;
 
   @Column(name = "ShortHeadline")
   @CsvField(value = "Short headline", reportField = "ShortHeadline")
@@ -621,12 +701,84 @@ public class AdPerformanceReport extends DateReport {
     this.imageAdUrl = imageAdUrl;
   }
 
+  public String getMultiAssetResponsiveDisplayAdDescriptions() {
+    return multiAssetResponsiveDisplayAdDescriptions;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdDescriptions(String multiAssetResponsiveDisplayAdDescriptions) {
+    this.multiAssetResponsiveDisplayAdDescriptions = multiAssetResponsiveDisplayAdDescriptions;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdHeadlines() {
+    return multiAssetResponsiveDisplayAdHeadlines;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdHeadlines(String multiAssetResponsiveDisplayAdHeadlines) {
+    this.multiAssetResponsiveDisplayAdHeadlines = multiAssetResponsiveDisplayAdHeadlines;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdLandscapeLogoImages() {
+    return multiAssetResponsiveDisplayAdLandscapeLogoImages;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdLandscapeLogoImages(String multiAssetResponsiveDisplayAdLandscapeLogoImages) {
+    this.multiAssetResponsiveDisplayAdLandscapeLogoImages = multiAssetResponsiveDisplayAdLandscapeLogoImages;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdLogoImages() {
+    return multiAssetResponsiveDisplayAdLogoImages;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdLogoImages(String multiAssetResponsiveDisplayAdLogoImages) {
+    this.multiAssetResponsiveDisplayAdLogoImages = multiAssetResponsiveDisplayAdLogoImages;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdLongHeadline() {
+    return multiAssetResponsiveDisplayAdLongHeadline;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdLongHeadline(String multiAssetResponsiveDisplayAdLongHeadline) {
+    this.multiAssetResponsiveDisplayAdLongHeadline = multiAssetResponsiveDisplayAdLongHeadline;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdMarketingImages() {
+    return multiAssetResponsiveDisplayAdMarketingImages;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdMarketingImages(String multiAssetResponsiveDisplayAdMarketingImages) {
+    this.multiAssetResponsiveDisplayAdMarketingImages = multiAssetResponsiveDisplayAdMarketingImages;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdSquareMarketingImages() {
+    return multiAssetResponsiveDisplayAdSquareMarketingImages;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdSquareMarketingImages(String multiAssetResponsiveDisplayAdSquareMarketingImages) {
+    this.multiAssetResponsiveDisplayAdSquareMarketingImages = multiAssetResponsiveDisplayAdSquareMarketingImages;
+  }
+
   public String getPolicySummary() {
     return policySummary;
   }
 
   public void setPolicySummary(String policySummary) {
     this.policySummary = policySummary;
+  }
+
+  public String getResponsiveSearchAdDescriptions() {
+    return responsiveSearchAdDescriptions;
+  }
+
+  public void setResponsiveSearchAdDescriptions(String responsiveSearchAdDescriptions) {
+    this.responsiveSearchAdDescriptions = responsiveSearchAdDescriptions;
+  }
+
+  public String getResponsiveSearchAdHeadlines() {
+    return responsiveSearchAdHeadlines;
+  }
+
+  public void setResponsiveSearchAdHeadlines(String responsiveSearchAdHeadlines) {
+    this.responsiveSearchAdHeadlines = responsiveSearchAdHeadlines;
   }
 
   public String getAccentColor() {
@@ -1173,6 +1325,14 @@ public class AdPerformanceReport extends DateReport {
     this.creativeFinalUrls = creativeFinalUrls;
   }
 
+  public String getCreativeFinalUrlSuffix() {
+    return creativeFinalUrlSuffix;
+  }
+
+  public void setCreativeFinalUrlSuffix(String creativeFinalUrlSuffix) {
+    this.creativeFinalUrlSuffix = creativeFinalUrlSuffix;
+  }
+
   public String getCreativeTrackingUrlTemplate() {
     return creativeTrackingUrlTemplate;
   }
@@ -1653,6 +1813,70 @@ public class AdPerformanceReport extends DateReport {
     this.marketingImageHeadline = marketingImageHeadline;
   }
 
+  public String getMultiAssetResponsiveDisplayAdAccentColor() {
+    return multiAssetResponsiveDisplayAdAccentColor;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdAccentColor(String multiAssetResponsiveDisplayAdAccentColor) {
+    this.multiAssetResponsiveDisplayAdAccentColor = multiAssetResponsiveDisplayAdAccentColor;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdAllowFlexibleColor() {
+    return multiAssetResponsiveDisplayAdAllowFlexibleColor;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdAllowFlexibleColor(String multiAssetResponsiveDisplayAdAllowFlexibleColor) {
+    this.multiAssetResponsiveDisplayAdAllowFlexibleColor = multiAssetResponsiveDisplayAdAllowFlexibleColor;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdBusinessName() {
+    return multiAssetResponsiveDisplayAdBusinessName;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdBusinessName(String multiAssetResponsiveDisplayAdBusinessName) {
+    this.multiAssetResponsiveDisplayAdBusinessName = multiAssetResponsiveDisplayAdBusinessName;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdCallToActionText() {
+    return multiAssetResponsiveDisplayAdCallToActionText;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdCallToActionText(String multiAssetResponsiveDisplayAdCallToActionText) {
+    this.multiAssetResponsiveDisplayAdCallToActionText = multiAssetResponsiveDisplayAdCallToActionText;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdDynamicSettingsPricePrefix() {
+    return multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdDynamicSettingsPricePrefix(String multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix) {
+    this.multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix = multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdDynamicSettingsPromoText() {
+    return multiAssetResponsiveDisplayAdDynamicSettingsPromoText;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdDynamicSettingsPromoText(String multiAssetResponsiveDisplayAdDynamicSettingsPromoText) {
+    this.multiAssetResponsiveDisplayAdDynamicSettingsPromoText = multiAssetResponsiveDisplayAdDynamicSettingsPromoText;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdFormatSetting() {
+    return multiAssetResponsiveDisplayAdFormatSetting;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdFormatSetting(String multiAssetResponsiveDisplayAdFormatSetting) {
+    this.multiAssetResponsiveDisplayAdFormatSetting = multiAssetResponsiveDisplayAdFormatSetting;
+  }
+
+  public String getMultiAssetResponsiveDisplayAdMainColor() {
+    return multiAssetResponsiveDisplayAdMainColor;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdMainColor(String multiAssetResponsiveDisplayAdMainColor) {
+    this.multiAssetResponsiveDisplayAdMainColor = multiAssetResponsiveDisplayAdMainColor;
+  }
+
   public String getPath1() {
     return path1;
   }
@@ -1695,6 +1919,22 @@ public class AdPerformanceReport extends DateReport {
 
   public void setPromoText(String promoText) {
     this.promoText = promoText;
+  }
+
+  public String getResponsiveSearchAdPath1() {
+    return responsiveSearchAdPath1;
+  }
+
+  public void setResponsiveSearchAdPath1(String responsiveSearchAdPath1) {
+    this.responsiveSearchAdPath1 = responsiveSearchAdPath1;
+  }
+
+  public String getResponsiveSearchAdPath2() {
+    return responsiveSearchAdPath2;
+  }
+
+  public void setResponsiveSearchAdPath2(String responsiveSearchAdPath2) {
+    this.responsiveSearchAdPath2 = responsiveSearchAdPath2;
   }
 
   public String getShortHeadline() {
@@ -1903,7 +2143,16 @@ public class AdPerformanceReport extends DateReport {
       .appendSuper(super.equals(obj))
       .append(callOnlyPhoneNumber, other.callOnlyPhoneNumber)
       .append(imageAdUrl, other.imageAdUrl)
+      .append(multiAssetResponsiveDisplayAdDescriptions, other.multiAssetResponsiveDisplayAdDescriptions)
+      .append(multiAssetResponsiveDisplayAdHeadlines, other.multiAssetResponsiveDisplayAdHeadlines)
+      .append(multiAssetResponsiveDisplayAdLandscapeLogoImages, other.multiAssetResponsiveDisplayAdLandscapeLogoImages)
+      .append(multiAssetResponsiveDisplayAdLogoImages, other.multiAssetResponsiveDisplayAdLogoImages)
+      .append(multiAssetResponsiveDisplayAdLongHeadline, other.multiAssetResponsiveDisplayAdLongHeadline)
+      .append(multiAssetResponsiveDisplayAdMarketingImages, other.multiAssetResponsiveDisplayAdMarketingImages)
+      .append(multiAssetResponsiveDisplayAdSquareMarketingImages, other.multiAssetResponsiveDisplayAdSquareMarketingImages)
       .append(policySummary, other.policySummary)
+      .append(responsiveSearchAdDescriptions, other.responsiveSearchAdDescriptions)
+      .append(responsiveSearchAdHeadlines, other.responsiveSearchAdHeadlines)
       .append(accentColor, other.accentColor)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
@@ -1963,6 +2212,7 @@ public class AdPerformanceReport extends DateReport {
       .append(creativeFinalAppUrls, other.creativeFinalAppUrls)
       .append(creativeFinalMobileUrls, other.creativeFinalMobileUrls)
       .append(creativeFinalUrls, other.creativeFinalUrls)
+      .append(creativeFinalUrlSuffix, other.creativeFinalUrlSuffix)
       .append(creativeTrackingUrlTemplate, other.creativeTrackingUrlTemplate)
       .append(creativeUrlCustomParameters, other.creativeUrlCustomParameters)
       .append(criterionId, other.criterionId)
@@ -2019,11 +2269,21 @@ public class AdPerformanceReport extends DateReport {
       .append(marketingImageCallToActionTextColor, other.marketingImageCallToActionTextColor)
       .append(marketingImageDescription, other.marketingImageDescription)
       .append(marketingImageHeadline, other.marketingImageHeadline)
+      .append(multiAssetResponsiveDisplayAdAccentColor, other.multiAssetResponsiveDisplayAdAccentColor)
+      .append(multiAssetResponsiveDisplayAdAllowFlexibleColor, other.multiAssetResponsiveDisplayAdAllowFlexibleColor)
+      .append(multiAssetResponsiveDisplayAdBusinessName, other.multiAssetResponsiveDisplayAdBusinessName)
+      .append(multiAssetResponsiveDisplayAdCallToActionText, other.multiAssetResponsiveDisplayAdCallToActionText)
+      .append(multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix, other.multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix)
+      .append(multiAssetResponsiveDisplayAdDynamicSettingsPromoText, other.multiAssetResponsiveDisplayAdDynamicSettingsPromoText)
+      .append(multiAssetResponsiveDisplayAdFormatSetting, other.multiAssetResponsiveDisplayAdFormatSetting)
+      .append(multiAssetResponsiveDisplayAdMainColor, other.multiAssetResponsiveDisplayAdMainColor)
       .append(path1, other.path1)
       .append(path2, other.path2)
       .append(percentNewVisitors, other.percentNewVisitors)
       .append(pricePrefix, other.pricePrefix)
       .append(promoText, other.promoText)
+      .append(responsiveSearchAdPath1, other.responsiveSearchAdPath1)
+      .append(responsiveSearchAdPath2, other.responsiveSearchAdPath2)
       .append(shortHeadline, other.shortHeadline)
       .append(slot, other.slot)
       .append(status, other.status)
@@ -2047,7 +2307,16 @@ public class AdPerformanceReport extends DateReport {
       .appendSuper(super.hashCode())
       .append(callOnlyPhoneNumber)
       .append(imageAdUrl)
+      .append(multiAssetResponsiveDisplayAdDescriptions)
+      .append(multiAssetResponsiveDisplayAdHeadlines)
+      .append(multiAssetResponsiveDisplayAdLandscapeLogoImages)
+      .append(multiAssetResponsiveDisplayAdLogoImages)
+      .append(multiAssetResponsiveDisplayAdLongHeadline)
+      .append(multiAssetResponsiveDisplayAdMarketingImages)
+      .append(multiAssetResponsiveDisplayAdSquareMarketingImages)
       .append(policySummary)
+      .append(responsiveSearchAdDescriptions)
+      .append(responsiveSearchAdHeadlines)
       .append(accentColor)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
@@ -2107,6 +2376,7 @@ public class AdPerformanceReport extends DateReport {
       .append(creativeFinalAppUrls)
       .append(creativeFinalMobileUrls)
       .append(creativeFinalUrls)
+      .append(creativeFinalUrlSuffix)
       .append(creativeTrackingUrlTemplate)
       .append(creativeUrlCustomParameters)
       .append(criterionId)
@@ -2163,11 +2433,21 @@ public class AdPerformanceReport extends DateReport {
       .append(marketingImageCallToActionTextColor)
       .append(marketingImageDescription)
       .append(marketingImageHeadline)
+      .append(multiAssetResponsiveDisplayAdAccentColor)
+      .append(multiAssetResponsiveDisplayAdAllowFlexibleColor)
+      .append(multiAssetResponsiveDisplayAdBusinessName)
+      .append(multiAssetResponsiveDisplayAdCallToActionText)
+      .append(multiAssetResponsiveDisplayAdDynamicSettingsPricePrefix)
+      .append(multiAssetResponsiveDisplayAdDynamicSettingsPromoText)
+      .append(multiAssetResponsiveDisplayAdFormatSetting)
+      .append(multiAssetResponsiveDisplayAdMainColor)
       .append(path1)
       .append(path2)
       .append(percentNewVisitors)
       .append(pricePrefix)
       .append(promoText)
+      .append(responsiveSearchAdPath1)
+      .append(responsiveSearchAdPath2)
       .append(shortHeadline)
       .append(slot)
       .append(status)

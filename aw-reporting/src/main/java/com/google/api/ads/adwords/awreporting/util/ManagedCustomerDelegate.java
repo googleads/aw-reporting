@@ -14,14 +14,14 @@
 
 package com.google.api.ads.adwords.awreporting.util;
 
-import com.google.api.ads.adwords.jaxws.utils.v201802.SelectorBuilder;
-import com.google.api.ads.adwords.jaxws.v201802.cm.Selector;
-import com.google.api.ads.adwords.jaxws.v201802.mcm.ApiException;
-import com.google.api.ads.adwords.jaxws.v201802.mcm.ManagedCustomer;
-import com.google.api.ads.adwords.jaxws.v201802.mcm.ManagedCustomerPage;
-import com.google.api.ads.adwords.jaxws.v201802.mcm.ManagedCustomerServiceInterface;
+import com.google.api.ads.adwords.jaxws.utils.v201806.SelectorBuilder;
+import com.google.api.ads.adwords.jaxws.v201806.cm.Selector;
+import com.google.api.ads.adwords.jaxws.v201806.mcm.ApiException;
+import com.google.api.ads.adwords.jaxws.v201806.mcm.ManagedCustomer;
+import com.google.api.ads.adwords.jaxws.v201806.mcm.ManagedCustomerPage;
+import com.google.api.ads.adwords.jaxws.v201806.mcm.ManagedCustomerServiceInterface;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.adwords.lib.selectorfields.v201802.cm.ManagedCustomerField;
+import com.google.api.ads.adwords.lib.selectorfields.v201806.cm.ManagedCustomerField;
 import com.google.common.annotations.VisibleForTesting;
 import java.util.LinkedHashSet;
 import java.util.List;

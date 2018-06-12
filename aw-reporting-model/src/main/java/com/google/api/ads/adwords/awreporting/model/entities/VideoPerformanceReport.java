@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -74,6 +74,18 @@ public class VideoPerformanceReport extends DateReport {
   @Column(name = "AdNetworkType2")
   @CsvField(value = "Network (with search partners)", reportField = "AdNetworkType2")
   private String adNetworkType2;
+
+  @Column(name = "AllConversionRate")
+  @CsvField(value = "All conv. rate", reportField = "AllConversionRate")
+  private BigDecimal allConversionRate;
+
+  @Column(name = "AllConversions")
+  @CsvField(value = "All conv.", reportField = "AllConversions")
+  private BigDecimal allConversions;
+
+  @Column(name = "AllConversionValue")
+  @CsvField(value = "All conv. value", reportField = "AllConversionValue")
+  private BigDecimal allConversionValue;
 
   @Column(name = "AverageCpm")
   @CsvField(value = "Avg. CPM", reportField = "AverageCpm")
@@ -132,6 +144,11 @@ public class VideoPerformanceReport extends DateReport {
   @MoneyField
   private BigDecimal cost;
 
+  @Column(name = "CostPerAllConversion")
+  @CsvField(value = "Cost / all conv.", reportField = "CostPerAllConversion")
+  @MoneyField
+  private BigDecimal costPerAllConversion;
+
   @Column(name = "CostPerConversion")
   @CsvField(value = "Cost / conv.", reportField = "CostPerConversion")
   @MoneyField
@@ -144,6 +161,10 @@ public class VideoPerformanceReport extends DateReport {
   @Column(name = "CreativeStatus")
   @CsvField(value = "Ad state", reportField = "CreativeStatus")
   private String creativeStatus;
+
+  @Column(name = "CrossDeviceConversions")
+  @CsvField(value = "Cross-device conv.", reportField = "CrossDeviceConversions")
+  private BigDecimal crossDeviceConversions;
 
   @Column(name = "Ctr")
   @CsvField(value = "CTR", reportField = "Ctr")
@@ -172,6 +193,10 @@ public class VideoPerformanceReport extends DateReport {
   @Column(name = "Impressions")
   @CsvField(value = "Impressions", reportField = "Impressions")
   private Long impressions;
+
+  @Column(name = "ValuePerAllConversion")
+  @CsvField(value = "Value / all conv.", reportField = "ValuePerAllConversion")
+  private BigDecimal valuePerAllConversion;
 
   @Column(name = "VideoDuration")
   @CsvField(value = "Video Duration", reportField = "VideoDuration")
@@ -293,6 +318,42 @@ public class VideoPerformanceReport extends DateReport {
 
   public void setAdNetworkType2(String adNetworkType2) {
     this.adNetworkType2 = adNetworkType2;
+  }
+
+  public String getAllConversionRate() {
+    return BigDecimalUtil.formatAsReadable(allConversionRate);
+  }
+
+  public BigDecimal getAllConversionRateBigDecimal() {
+    return allConversionRate;
+  }
+
+  public void setAllConversionRate(String allConversionRate) {
+    this.allConversionRate = BigDecimalUtil.parseFromNumberString(allConversionRate);
+  }
+
+  public String getAllConversions() {
+    return BigDecimalUtil.formatAsReadable(allConversions);
+  }
+
+  public BigDecimal getAllConversionsBigDecimal() {
+    return allConversions;
+  }
+
+  public void setAllConversions(String allConversions) {
+    this.allConversions = BigDecimalUtil.parseFromNumberString(allConversions);
+  }
+
+  public String getAllConversionValue() {
+    return BigDecimalUtil.formatAsReadable(allConversionValue);
+  }
+
+  public BigDecimal getAllConversionValueBigDecimal() {
+    return allConversionValue;
+  }
+
+  public void setAllConversionValue(String allConversionValue) {
+    this.allConversionValue = BigDecimalUtil.parseFromNumberString(allConversionValue);
   }
 
   public String getAverageCpm() {
@@ -427,6 +488,14 @@ public class VideoPerformanceReport extends DateReport {
     this.cost = cost;
   }
 
+  public BigDecimal getCostPerAllConversion() {
+    return costPerAllConversion;
+  }
+
+  public void setCostPerAllConversion(BigDecimal costPerAllConversion) {
+    this.costPerAllConversion = costPerAllConversion;
+  }
+
   public BigDecimal getCostPerConversion() {
     return costPerConversion;
   }
@@ -449,6 +518,18 @@ public class VideoPerformanceReport extends DateReport {
 
   public void setCreativeStatus(String creativeStatus) {
     this.creativeStatus = creativeStatus;
+  }
+
+  public String getCrossDeviceConversions() {
+    return BigDecimalUtil.formatAsReadable(crossDeviceConversions);
+  }
+
+  public BigDecimal getCrossDeviceConversionsBigDecimal() {
+    return crossDeviceConversions;
+  }
+
+  public void setCrossDeviceConversions(String crossDeviceConversions) {
+    this.crossDeviceConversions = BigDecimalUtil.parseFromNumberString(crossDeviceConversions);
   }
 
   public String getCtr() {
@@ -513,6 +594,18 @@ public class VideoPerformanceReport extends DateReport {
 
   public void setImpressions(Long impressions) {
     this.impressions = impressions;
+  }
+
+  public String getValuePerAllConversion() {
+    return BigDecimalUtil.formatAsReadable(valuePerAllConversion);
+  }
+
+  public BigDecimal getValuePerAllConversionBigDecimal() {
+    return valuePerAllConversion;
+  }
+
+  public void setValuePerAllConversion(String valuePerAllConversion) {
+    this.valuePerAllConversion = BigDecimalUtil.parseFromNumberString(valuePerAllConversion);
   }
 
   public Long getVideoDuration() {
@@ -678,6 +771,9 @@ public class VideoPerformanceReport extends DateReport {
       .append(adGroupStatus, other.adGroupStatus)
       .append(adNetworkType1, other.adNetworkType1)
       .append(adNetworkType2, other.adNetworkType2)
+      .append(allConversionRate, other.allConversionRate)
+      .append(allConversions, other.allConversions)
+      .append(allConversionValue, other.allConversionValue)
       .append(averageCpm, other.averageCpm)
       .append(averageCpv, other.averageCpv)
       .append(campaignId, other.campaignId)
@@ -692,9 +788,11 @@ public class VideoPerformanceReport extends DateReport {
       .append(conversionTypeName, other.conversionTypeName)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
+      .append(costPerAllConversion, other.costPerAllConversion)
       .append(costPerConversion, other.costPerConversion)
       .append(creativeId, other.creativeId)
       .append(creativeStatus, other.creativeStatus)
+      .append(crossDeviceConversions, other.crossDeviceConversions)
       .append(ctr, other.ctr)
       .append(customerDescriptiveName, other.customerDescriptiveName)
       .append(device, other.device)
@@ -702,6 +800,7 @@ public class VideoPerformanceReport extends DateReport {
       .append(engagements, other.engagements)
       .append(externalConversionSource, other.externalConversionSource)
       .append(impressions, other.impressions)
+      .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(videoDuration, other.videoDuration)
       .append(videoId, other.videoId)
       .append(videoQuartile100Rate, other.videoQuartile100Rate)
@@ -728,6 +827,9 @@ public class VideoPerformanceReport extends DateReport {
       .append(adGroupStatus)
       .append(adNetworkType1)
       .append(adNetworkType2)
+      .append(allConversionRate)
+      .append(allConversions)
+      .append(allConversionValue)
       .append(averageCpm)
       .append(averageCpv)
       .append(campaignId)
@@ -742,9 +844,11 @@ public class VideoPerformanceReport extends DateReport {
       .append(conversionTypeName)
       .append(conversionValue)
       .append(cost)
+      .append(costPerAllConversion)
       .append(costPerConversion)
       .append(creativeId)
       .append(creativeStatus)
+      .append(crossDeviceConversions)
       .append(ctr)
       .append(customerDescriptiveName)
       .append(device)
@@ -752,6 +856,7 @@ public class VideoPerformanceReport extends DateReport {
       .append(engagements)
       .append(externalConversionSource)
       .append(impressions)
+      .append(valuePerAllConversion)
       .append(videoDuration)
       .append(videoId)
       .append(videoQuartile100Rate)

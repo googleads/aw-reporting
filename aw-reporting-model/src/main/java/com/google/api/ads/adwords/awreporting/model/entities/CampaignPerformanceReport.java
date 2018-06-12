@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -335,6 +335,10 @@ public class CampaignPerformanceReport extends DateReport {
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
+
+  @Column(name = "FinalUrlSuffix")
+  @CsvField(value = "Final URL suffix", reportField = "FinalUrlSuffix")
+  private String finalUrlSuffix;
 
   @Column(name = "GmailForwards")
   @CsvField(value = "Gmail forwards", reportField = "GmailForwards")
@@ -1211,6 +1215,14 @@ public class CampaignPerformanceReport extends DateReport {
     this.externalConversionSource = externalConversionSource;
   }
 
+  public String getFinalUrlSuffix() {
+    return finalUrlSuffix;
+  }
+
+  public void setFinalUrlSuffix(String finalUrlSuffix) {
+    this.finalUrlSuffix = finalUrlSuffix;
+  }
+
   public Long getGmailForwards() {
     return gmailForwards;
   }
@@ -1758,6 +1770,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(engagements, other.engagements)
       .append(enhancedCpcEnabled, other.enhancedCpcEnabled)
       .append(externalConversionSource, other.externalConversionSource)
+      .append(finalUrlSuffix, other.finalUrlSuffix)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
       .append(gmailSecondaryClicks, other.gmailSecondaryClicks)
@@ -1879,6 +1892,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(engagements)
       .append(enhancedCpcEnabled)
       .append(externalConversionSource)
+      .append(finalUrlSuffix)
       .append(gmailForwards)
       .append(gmailSaves)
       .append(gmailSecondaryClicks)

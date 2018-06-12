@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.entities.DateReport;
 import com.google.api.ads.adwords.awreporting.model.entities.Report;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 import com.google.api.client.util.Maps;
 import com.google.common.collect.Sets;
 import java.io.IOException;

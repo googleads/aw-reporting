@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -214,7 +214,7 @@ public class BidGoalPerformanceReport extends DateReport {
 
   @Column(name = "TargetOutrankShare")
   @CsvField(value = "Target outranking share", reportField = "TargetOutrankShare")
-  private Integer targetOutrankShare;
+  private BigDecimal targetOutrankShare;
 
   @Column(name = "TargetOutrankShareBidChangesForRaisesOnly")
   @CsvField(value = "Bid automation (Target Outranking Share)", reportField = "TargetOutrankShareBidChangesForRaisesOnly")
@@ -651,12 +651,16 @@ public class BidGoalPerformanceReport extends DateReport {
     this.targetCpaMaxCpcBidFloor = targetCpaMaxCpcBidFloor;
   }
 
-  public Integer getTargetOutrankShare() {
+  public String getTargetOutrankShare() {
+    return BigDecimalUtil.formatAsReadable(targetOutrankShare);
+  }
+
+  public BigDecimal getTargetOutrankShareBigDecimal() {
     return targetOutrankShare;
   }
 
-  public void setTargetOutrankShare(Integer targetOutrankShare) {
-    this.targetOutrankShare = targetOutrankShare;
+  public void setTargetOutrankShare(String targetOutrankShare) {
+    this.targetOutrankShare = BigDecimalUtil.parseFromNumberString(targetOutrankShare);
   }
 
   public String getTargetOutrankShareBidChangesForRaisesOnly() {

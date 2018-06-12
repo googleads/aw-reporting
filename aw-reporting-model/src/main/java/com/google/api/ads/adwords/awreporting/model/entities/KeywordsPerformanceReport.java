@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -345,6 +345,10 @@ public class KeywordsPerformanceReport extends DateReport {
   @Column(name = "FinalUrls", length = 2048)
   @CsvField(value = "Final URL", reportField = "FinalUrls")
   private String finalUrls;
+
+  @Column(name = "FinalUrlSuffix")
+  @CsvField(value = "Final URL suffix", reportField = "FinalUrlSuffix")
+  private String finalUrlSuffix;
 
   @Column(name = "FirstPageCpc")
   @CsvField(value = "First page CPC", reportField = "FirstPageCpc")
@@ -1224,6 +1228,14 @@ public class KeywordsPerformanceReport extends DateReport {
     this.finalUrls = finalUrls;
   }
 
+  public String getFinalUrlSuffix() {
+    return finalUrlSuffix;
+  }
+
+  public void setFinalUrlSuffix(String finalUrlSuffix) {
+    this.finalUrlSuffix = finalUrlSuffix;
+  }
+
   public String getFirstPageCpc() {
     return firstPageCpc;
   }
@@ -1783,6 +1795,7 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(finalAppUrls, other.finalAppUrls)
       .append(finalMobileUrls, other.finalMobileUrls)
       .append(finalUrls, other.finalUrls)
+      .append(finalUrlSuffix, other.finalUrlSuffix)
       .append(firstPageCpc, other.firstPageCpc)
       .append(firstPositionCpc, other.firstPositionCpc)
       .append(gmailForwards, other.gmailForwards)
@@ -1910,6 +1923,7 @@ public class KeywordsPerformanceReport extends DateReport {
       .append(finalAppUrls)
       .append(finalMobileUrls)
       .append(finalUrls)
+      .append(finalUrlSuffix)
       .append(firstPageCpc)
       .append(firstPositionCpc)
       .append(gmailForwards)

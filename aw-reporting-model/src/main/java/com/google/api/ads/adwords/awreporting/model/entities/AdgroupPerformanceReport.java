@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -120,6 +120,10 @@ public class AdgroupPerformanceReport extends DateReport {
   @Column(name = "AdNetworkType2")
   @CsvField(value = "Network (with search partners)", reportField = "AdNetworkType2")
   private String adNetworkType2;
+
+  @Column(name = "AdRotationMode")
+  @CsvField(value = "Ad rotation mode", reportField = "AdRotationMode")
+  private String adRotationMode;
 
   @Column(name = "AllConversionRate")
   @CsvField(value = "All conv. rate", reportField = "AllConversionRate")
@@ -349,6 +353,10 @@ public class AdgroupPerformanceReport extends DateReport {
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
+
+  @Column(name = "FinalUrlSuffix")
+  @CsvField(value = "Final URL suffix", reportField = "FinalUrlSuffix")
+  private String finalUrlSuffix;
 
   @Column(name = "GmailForwards")
   @CsvField(value = "Gmail forwards", reportField = "GmailForwards")
@@ -683,6 +691,14 @@ public class AdgroupPerformanceReport extends DateReport {
 
   public void setAdNetworkType2(String adNetworkType2) {
     this.adNetworkType2 = adNetworkType2;
+  }
+
+  public String getAdRotationMode() {
+    return adRotationMode;
+  }
+
+  public void setAdRotationMode(String adRotationMode) {
+    this.adRotationMode = adRotationMode;
   }
 
   public String getAllConversionRate() {
@@ -1217,6 +1233,14 @@ public class AdgroupPerformanceReport extends DateReport {
     this.externalConversionSource = externalConversionSource;
   }
 
+  public String getFinalUrlSuffix() {
+    return finalUrlSuffix;
+  }
+
+  public void setFinalUrlSuffix(String finalUrlSuffix) {
+    this.finalUrlSuffix = finalUrlSuffix;
+  }
+
   public Long getGmailForwards() {
     return gmailForwards;
   }
@@ -1643,6 +1667,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(adGroupType, other.adGroupType)
       .append(adNetworkType1, other.adNetworkType1)
       .append(adNetworkType2, other.adNetworkType2)
+      .append(adRotationMode, other.adRotationMode)
       .append(allConversionRate, other.allConversionRate)
       .append(allConversions, other.allConversions)
       .append(allConversionValue, other.allConversionValue)
@@ -1698,6 +1723,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(engagements, other.engagements)
       .append(enhancedCpcEnabled, other.enhancedCpcEnabled)
       .append(externalConversionSource, other.externalConversionSource)
+      .append(finalUrlSuffix, other.finalUrlSuffix)
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
       .append(gmailSecondaryClicks, other.gmailSecondaryClicks)
@@ -1760,6 +1786,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(adGroupType)
       .append(adNetworkType1)
       .append(adNetworkType2)
+      .append(adRotationMode)
       .append(allConversionRate)
       .append(allConversions)
       .append(allConversionValue)
@@ -1815,6 +1842,7 @@ public class AdgroupPerformanceReport extends DateReport {
       .append(engagements)
       .append(enhancedCpcEnabled)
       .append(externalConversionSource)
+      .append(finalUrlSuffix)
       .append(gmailForwards)
       .append(gmailSaves)
       .append(gmailSecondaryClicks)

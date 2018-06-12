@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201802.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -282,6 +282,10 @@ public class ShoppingPerformanceReport extends DateReport {
   @Column(name = "ValuePerConversion")
   @CsvField(value = "Value / conv.", reportField = "ValuePerConversion")
   private BigDecimal valuePerConversion;
+
+  @Column(name = "ViewThroughConversions")
+  @CsvField(value = "View-through conv.", reportField = "ViewThroughConversions")
+  private Long viewThroughConversions;
 
   /**
    * Hibernate needs an empty constructor
@@ -825,6 +829,14 @@ public class ShoppingPerformanceReport extends DateReport {
     this.valuePerConversion = BigDecimalUtil.parseFromNumberString(valuePerConversion);
   }
 
+  public Long getViewThroughConversions() {
+    return viewThroughConversions;
+  }
+
+  public void setViewThroughConversions(Long viewThroughConversions) {
+    this.viewThroughConversions = viewThroughConversions;
+  }
+
   @Override
   public void setRowId() {
     // General fields for generating unique id.
@@ -951,6 +963,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(storeId, other.storeId)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
+      .append(viewThroughConversions, other.viewThroughConversions)
       .isEquals();
   }
 
@@ -1018,6 +1031,7 @@ public class ShoppingPerformanceReport extends DateReport {
       .append(storeId)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
+      .append(viewThroughConversions)
       .toHashCode();
   }
 
