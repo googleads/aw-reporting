@@ -1,4 +1,4 @@
-# AwReporting
+# AdWords API Reporting Sync
 
 ## Special Note
 
@@ -38,7 +38,7 @@ installed before configuring this project.
 ```
 ### Configure your MySQL database
 ```
-    CREATE DATABASE AWReports DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
+    CREATE DATABASE AWAPIReports DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
     CREATE USER 'reportuser'@'localhost' IDENTIFIED BY 'SOME_PASSWORD';
     GRANT ALL PRIVILEGES ON AWReports.\* TO 'reportuser'@'localhost' WITH GRANT OPTION;
 ```
