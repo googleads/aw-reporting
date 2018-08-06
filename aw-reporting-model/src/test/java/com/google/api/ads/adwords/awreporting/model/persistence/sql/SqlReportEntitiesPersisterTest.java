@@ -14,22 +14,25 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.sql;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Matchers.any;
 
 import com.google.api.ads.adwords.awreporting.model.entities.AccountPerformanceReport;
 import com.google.api.ads.adwords.awreporting.model.entities.DateRangeAndType;
-import com.google.common.collect.Lists;
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.exception.LockAcquisitionException;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -48,6 +51,8 @@ public class SqlReportEntitiesPersisterTest {
 
   @Mock private Criteria criteria;
 
+  private InOrder sequence;
+
   @Before
   public void setUp() {
     MockitoAnnotations.initMocks(this);
@@ -55,14 +60,80 @@ public class SqlReportEntitiesPersisterTest {
     Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
     Mockito.when(session.createCriteria(AccountPerformanceReport.class)).thenReturn(criteria);
 
+    sequence = Mockito.inOrder(session);
+
     reportEntitiesPersister = new SqlReportEntitiesPersister(sessionFactory);
+    reportEntitiesPersister.setRetryDelay(Duration.ZERO);
   }
 
-  /**
-   * Tests the persistence and retrieval of Report Entities.
-   */
   @Test
-  public void testPersistence() {
+  public void SqlReportEntitiesPersister_persistReportEntities_savesSingleInstance() {
+    AccountPerformanceReport report = generateReport();
+
+    reportEntitiesPersister.persistReportEntities(Arrays.asList(report));
+
+    sequence.verify(session).saveOrUpdate(report);
+  }
+
+  @Test
+  public void SqlReportEntitiesPersister_persistReportEntities_savesInBatches() {
+    reportEntitiesPersister.setBatchSize(1);
+
+    List<AccountPerformanceReport> reports =
+        Arrays.asList(generateReport(), generateReport(), generateReport());
+
+    reportEntitiesPersister.persistReportEntities(reports);
+
+    sequence.verify(session).saveOrUpdate(reports.get(0));
+    sequence.verify(session).flush();
+    sequence.verify(session).clear();
+
+    sequence.verify(session).saveOrUpdate(reports.get(1));
+    sequence.verify(session).flush();
+    sequence.verify(session).clear();
+
+    sequence.verify(session).saveOrUpdate(reports.get(2));
+    sequence.verify(session).flush();
+    sequence.verify(session).clear();
+  }
+
+  @Test
+  public void SqlReportEntitiesPersister_persistReportEntities_abortsOnSqlException() {
+    Mockito.doThrow(new HibernateException("")).when(session).saveOrUpdate(any());
+
+    assertThrows(
+        HibernateException.class,
+        () -> reportEntitiesPersister.persistReportEntities(Arrays.asList(generateReport())));
+  }
+
+  @Test
+  public void SqlReportEntitiesPersister_persistReportEntities_retriesAfterDeadlockThenFails() {
+    AccountPerformanceReport report = generateReport();
+
+    Mockito.doThrow(new LockAcquisitionException("", null)).when(session).saveOrUpdate(any());
+
+    assertThrows(
+        LockAcquisitionException.class,
+        () -> reportEntitiesPersister.persistReportEntities(Arrays.asList(report)));
+
+    sequence.verify(session, Mockito.times(5)).saveOrUpdate(report);
+  }
+
+  @Test
+  public void SqlReportEntitiesPersister_persistReportEntities_retriesAfterDeadlockThenSucceeds() {
+    AccountPerformanceReport report = generateReport();
+
+    Mockito.doThrow(new LockAcquisitionException("", null))
+        .doNothing()
+        .when(session)
+        .saveOrUpdate(any());
+
+    reportEntitiesPersister.persistReportEntities(Arrays.asList(report));
+
+    sequence.verify(session, Mockito.times(2)).saveOrUpdate(report);
+  }
+
+  private AccountPerformanceReport generateReport() {
     AccountPerformanceReport report = new AccountPerformanceReport(123L, 456L);
     report.setAccountDescriptiveName("testAccount");
 
@@ -71,46 +142,6 @@ public class SqlReportEntitiesPersisterTest {
     report.setDateRangeType(dateRange.getTypeStr());
     report.setStartDate(dateRange.getStartDateStr());
     report.setEndDate(dateRange.getEndDateStr());
-
-    report.setRowId();
-    List<AccountPerformanceReport> reportList = Lists.newArrayList();
-    reportList.add(report);
-    reportEntitiesPersister.persistReportEntities(reportList);
-
-    Mockito.when(reportEntitiesPersister.listReports(AccountPerformanceReport.class))
-        .thenReturn(reportList);
-    List<AccountPerformanceReport> reportAccountList =
-        reportEntitiesPersister.listReports(AccountPerformanceReport.class);
-    assertReportEntities(reportAccountList, 123L, 456L, "testAccount");
-
-    report = new AccountPerformanceReport(789L, 456L);
-    report.setAccountDescriptiveName("updatedTestAccount");
-    report.setDateRangeType(dateRange.getTypeStr());
-    report.setStartDate(dateRange.getStartDateStr());
-    report.setEndDate(dateRange.getEndDateStr());
-    
-    reportList = Lists.newArrayList();
-    reportList.add(report);
-    reportEntitiesPersister.persistReportEntities(reportList);
-
-    Mockito.when(reportEntitiesPersister.listReports(AccountPerformanceReport.class))
-        .thenReturn(reportList);
-
-    reportAccountList = reportEntitiesPersister.listReports(AccountPerformanceReport.class);
-    assertReportEntities(reportAccountList, 789L, 456L, "updatedTestAccount");
-  }
-
-
-  private void assertReportEntities(List<AccountPerformanceReport> reportAccountList,
-      long expectedTopCustomerId, long expectedCustomerId, String expectedAccountDescriptiveName){
-    assertNotNull("Report account list should not be null", reportAccountList);
-    assertEquals("Expecting matching report list size", 1, reportAccountList.size());
-    assertTrue("Expecting matching top customer ID",
-        reportAccountList.get(0).getTopCustomerId().equals(expectedTopCustomerId));
-    assertTrue("Expecting matching customer IDs",
-        reportAccountList.get(0).getCustomerId().equals(expectedCustomerId));
-    assertTrue("Expecting matching account descriptions",
-        reportAccountList.get(0).getAccountDescriptiveName()
-        .equals(expectedAccountDescriptiveName));
+    return report;
   }
 }

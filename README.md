@@ -27,7 +27,7 @@ reporting.
 
 ### Prerequisites
 
-You will need [Java](http://www.oracle.com/technetwork/java/index.html) 7 or
+You will need [Java](http://www.oracle.com/technetwork/java/index.html)
 8 (9 is not supported), [Maven](https://maven.apache.org/) and [MySQL](https://www.mysql.com/)
 installed before configuring this project.
 

@@ -18,12 +18,14 @@ import com.google.api.ads.adwords.awreporting.model.entities.Report;
 import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import java.time.Duration;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.NonUniqueObjectException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.LockAcquisitionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +43,9 @@ public class SqlReportEntitiesPersister implements EntityPersister {
 
   private static final Logger logger = LoggerFactory.getLogger(SqlReportEntitiesPersister.class);
   private static final int BATCH_SIZE = 50;
+  private static final int MAX_RETRIES = 5;
 
+  private Duration retryDelay = Duration.ofSeconds(1);
   private int batchSize = BATCH_SIZE;
   private SessionFactory sessionFactory;
 
@@ -58,8 +62,31 @@ public class SqlReportEntitiesPersister implements EntityPersister {
 
   /** Persists all the given entities into the DB configured in the {@code SessionFactory}. */
   @Override
-  @Transactional
   public void persistReportEntities(List<? extends Report> reportEntities) {
+    // Github issue 294, retry on MS SQL Server deadlocks
+    // SQL Servers smallest lockable unit is a page (8KB) so deadlocks happen frequently.
+    int attemptCount = 0;
+    while (attemptCount < MAX_RETRIES) {
+      ++attemptCount;
+      try {
+        persistReportEntitiesTransactional(reportEntities);
+        return;
+      } catch (LockAcquisitionException ex) {
+        if (attemptCount == MAX_RETRIES) {
+          logger.error("Maximum number of deadlock retries reached, aborting.");
+          throw ex;
+        }
+      }
+      try {
+        Thread.sleep((long) Math.floor(retryDelay.toMillis() * Math.random()));
+      } catch (InterruptedException ex) {
+        return;
+      }
+    }
+  }
+
+  @Transactional
+  private void persistReportEntitiesTransactional(List<? extends Report> reportEntities) {
     int batchFlush = 0;
     Session session = sessionFactory.getCurrentSession();
 
@@ -98,11 +125,6 @@ public class SqlReportEntitiesPersister implements EntityPersister {
         batchFlush = 0;
       }
     }
-
-    if (batchFlush > 0) {
-      session.flush();
-      session.clear();
-    }
   }
 
   @Override
@@ -127,16 +149,13 @@ public class SqlReportEntitiesPersister implements EntityPersister {
     return criteria.list();
   }
 
-  @SuppressWarnings("unchecked")
   @VisibleForTesting
-  <T extends Report> List<T> listReports(Class<T> classT) {
-    Criteria criteria = createCriteria(classT);
-    return criteria.list();
+  void setBatchSize(int batchSize) {
+    this.batchSize = batchSize;
   }
 
   @VisibleForTesting
-  protected void setBatchSize(int batchSize) {
-    Preconditions.checkArgument(batchSize > 0, "batchSize <= 0");
-    this.batchSize = batchSize;
+  void setRetryDelay(Duration retryDelay) {
+    this.retryDelay = retryDelay;
   }
 }
