@@ -43,7 +43,7 @@ public class SqlReportEntitiesPersister implements EntityPersister {
 
   private static final Logger logger = LoggerFactory.getLogger(SqlReportEntitiesPersister.class);
   private static final int BATCH_SIZE = 50;
-  private static final int MAX_RETRIES = 5;
+  private static final int MAX_RETRIES = 10;
 
   private Duration retryDelay = Duration.ofSeconds(1);
   private int batchSize = BATCH_SIZE;
