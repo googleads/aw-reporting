@@ -13,7 +13,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springframework.version>3.2.16.RELEASE</springframework.version>
+    <springframework.version>3.2.18.RELEASE</springframework.version>
     <google-client.version>1.22.0</google-client.version>
     <com.google.api-ads.version>3.15.0</com.google.api-ads.version>
   </properties>
@@ -42,7 +42,6 @@
   </build>
 
   <dependencies>
-
         <dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
@@ -50,6 +49,11 @@
         </dependency>
 
     <!-- Spring dependencies -->
+    <dependency>
+      <groupId>org.springframework.retry</groupId>
+      <artifactId>spring-retry</artifactId>
+      <version>1.2.2.RELEASE</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-beans</artifactId>
@@ -85,14 +89,16 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>${springframework.version}</version>
-    </dependency><dependency>
-    <groupId>org.aspectj</groupId>
-    <artifactId>aspectjrt</artifactId>
-    <version>1.9.1</version>
-</dependency><dependency>
-    <groupId>org.aspectj</groupId>
-    <artifactId>aspectjweaver</artifactId>
-    <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.1</version>
 </dependency>
 
     <dependency>
