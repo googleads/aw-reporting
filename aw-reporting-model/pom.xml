@@ -47,7 +47,6 @@
             <artifactId>spring-retry</artifactId>
             <version>1.2.2.RELEASE</version>
         </dependency>
-
     <!-- Spring dependencies -->
     <dependency>
       <groupId>org.springframework.retry</groupId>
@@ -89,6 +88,16 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-jdbc</artifactId>
       <version>${springframework.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.1</version>
     </dependency>
     <dependency>
       <groupId>org.aspectj</groupId>
