@@ -40,7 +40,7 @@ installed before configuring this project.
 ```
     CREATE DATABASE AWAPIReports DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
     CREATE USER 'reportuser'@'localhost' IDENTIFIED BY 'SOME_PASSWORD';
-    GRANT ALL PRIVILEGES ON AWReports.\* TO 'reportuser'@'localhost' WITH GRANT OPTION;
+    GRANT ALL PRIVILEGES ON AWAPIReports.\* TO 'reportuser'@'localhost' WITH GRANT OPTION;
 ```
 ### Configure AwReporting
 
