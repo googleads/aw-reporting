@@ -21,7 +21,7 @@ import com.google.api.ads.adwords.awreporting.processors.file.FileReportProcesso
 import com.google.api.ads.adwords.awreporting.proxy.JaxWsProxySelector;
 import com.google.api.ads.adwords.awreporting.util.DatabaseType;
 import com.google.api.ads.adwords.awreporting.util.ProcessorType;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Lists;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;

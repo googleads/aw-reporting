@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -151,6 +151,14 @@ public class AccountPerformanceReport extends DateReport {
   @Column(name = "ContentRankLostImpressionShare")
   @CsvField(value = "Content Lost IS (rank)", reportField = "ContentRankLostImpressionShare")
   private BigDecimal contentRankLostImpressionShare;
+
+  @Column(name = "ConversionAdjustment")
+  @CsvField(value = "Conversion adjustment", reportField = "ConversionAdjustment")
+  private String conversionAdjustment;
+
+  @Column(name = "ConversionAdjustmentLagBucket")
+  @CsvField(value = "Days to conversion or adjustment", reportField = "ConversionAdjustmentLagBucket")
+  private String conversionAdjustmentLagBucket;
 
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
@@ -569,6 +577,22 @@ public class AccountPerformanceReport extends DateReport {
     this.contentRankLostImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(contentRankLostImpressionShare);
   }
 
+  public String getConversionAdjustment() {
+    return conversionAdjustment;
+  }
+
+  public void setConversionAdjustment(String conversionAdjustment) {
+    this.conversionAdjustment = conversionAdjustment;
+  }
+
+  public String getConversionAdjustmentLagBucket() {
+    return conversionAdjustmentLagBucket;
+  }
+
+  public void setConversionAdjustmentLagBucket(String conversionAdjustmentLagBucket) {
+    this.conversionAdjustmentLagBucket = conversionAdjustmentLagBucket;
+  }
+
   public String getConversionCategoryName() {
     return conversionCategoryName;
   }
@@ -925,6 +949,9 @@ public class AccountPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(clickType)) {
       idBuilder.append("-").append(clickType);
     }
+    if (!StringUtils.isEmpty(conversionAdjustmentLagBucket)) {
+      idBuilder.append("-").append(conversionAdjustmentLagBucket);
+    }
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
@@ -984,6 +1011,8 @@ public class AccountPerformanceReport extends DateReport {
       .append(contentBudgetLostImpressionShare, other.contentBudgetLostImpressionShare)
       .append(contentImpressionShare, other.contentImpressionShare)
       .append(contentRankLostImpressionShare, other.contentRankLostImpressionShare)
+      .append(conversionAdjustment, other.conversionAdjustment)
+      .append(conversionAdjustmentLagBucket, other.conversionAdjustmentLagBucket)
       .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
@@ -1053,6 +1082,8 @@ public class AccountPerformanceReport extends DateReport {
       .append(contentBudgetLostImpressionShare)
       .append(contentImpressionShare)
       .append(contentRankLostImpressionShare)
+      .append(conversionAdjustment)
+      .append(conversionAdjustmentLagBucket)
       .append(conversionCategoryName)
       .append(conversionLagBucket)
       .append(conversionRate)

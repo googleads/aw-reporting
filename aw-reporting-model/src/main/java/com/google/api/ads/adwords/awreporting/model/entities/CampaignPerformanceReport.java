@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -249,6 +249,18 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Content Lost IS (rank)", reportField = "ContentRankLostImpressionShare")
   private BigDecimal contentRankLostImpressionShare;
 
+  @Column(name = "ConversionAdjustment")
+  @CsvField(value = "Conversion adjustment", reportField = "ConversionAdjustment")
+  private String conversionAdjustment;
+
+  @Column(name = "ConversionAdjustmentLagBucket")
+  @CsvField(value = "Days to conversion or adjustment", reportField = "ConversionAdjustmentLagBucket")
+  private String conversionAdjustmentLagBucket;
+
+  @Column(name = "ConversionAttributionEventType")
+  @CsvField(value = "Ad event type", reportField = "ConversionAttributionEventType")
+  private String conversionAttributionEventType;
+
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
@@ -352,6 +364,10 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Gmail clicks to website", reportField = "GmailSecondaryClicks")
   private Long gmailSecondaryClicks;
 
+  @Column(name = "HasRecommendedBudget")
+  @CsvField(value = "Has recommended Budget", reportField = "HasRecommendedBudget")
+  private String hasRecommendedBudget;
+
   @Column(name = "ImpressionAssistedConversions")
   @CsvField(value = "Impr. Assisted Conv.", reportField = "ImpressionAssistedConversions")
   private Long impressionAssistedConversions;
@@ -423,6 +439,11 @@ public class CampaignPerformanceReport extends DateReport {
   @Column(name = "PercentNewVisitors")
   @CsvField(value = "% new sessions", reportField = "PercentNewVisitors")
   private BigDecimal percentNewVisitors;
+
+  @Column(name = "RecommendedBudgetAmount")
+  @CsvField(value = "Recommended Budget amount", reportField = "RecommendedBudgetAmount")
+  @MoneyField
+  private BigDecimal recommendedBudgetAmount;
 
   @Column(name = "RelativeCtr")
   @CsvField(value = "Relative CTR", reportField = "RelativeCtr")
@@ -1011,6 +1032,30 @@ public class CampaignPerformanceReport extends DateReport {
     this.contentRankLostImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(contentRankLostImpressionShare);
   }
 
+  public String getConversionAdjustment() {
+    return conversionAdjustment;
+  }
+
+  public void setConversionAdjustment(String conversionAdjustment) {
+    this.conversionAdjustment = conversionAdjustment;
+  }
+
+  public String getConversionAdjustmentLagBucket() {
+    return conversionAdjustmentLagBucket;
+  }
+
+  public void setConversionAdjustmentLagBucket(String conversionAdjustmentLagBucket) {
+    this.conversionAdjustmentLagBucket = conversionAdjustmentLagBucket;
+  }
+
+  public String getConversionAttributionEventType() {
+    return conversionAttributionEventType;
+  }
+
+  public void setConversionAttributionEventType(String conversionAttributionEventType) {
+    this.conversionAttributionEventType = conversionAttributionEventType;
+  }
+
   public String getConversionCategoryName() {
     return conversionCategoryName;
   }
@@ -1247,6 +1292,14 @@ public class CampaignPerformanceReport extends DateReport {
     this.gmailSecondaryClicks = gmailSecondaryClicks;
   }
 
+  public String getHasRecommendedBudget() {
+    return hasRecommendedBudget;
+  }
+
+  public void setHasRecommendedBudget(String hasRecommendedBudget) {
+    this.hasRecommendedBudget = hasRecommendedBudget;
+  }
+
   public Long getImpressionAssistedConversions() {
     return impressionAssistedConversions;
   }
@@ -1417,6 +1470,14 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setPercentNewVisitors(String percentNewVisitors) {
     this.percentNewVisitors = BigDecimalUtil.parseFromNumberString(percentNewVisitors);
+  }
+
+  public BigDecimal getRecommendedBudgetAmount() {
+    return recommendedBudgetAmount;
+  }
+
+  public void setRecommendedBudgetAmount(BigDecimal recommendedBudgetAmount) {
+    this.recommendedBudgetAmount = recommendedBudgetAmount;
   }
 
   public String getRelativeCtr() {
@@ -1666,6 +1727,12 @@ public class CampaignPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(clickType)) {
       idBuilder.append("-").append(clickType);
     }
+    if (!StringUtils.isEmpty(conversionAdjustmentLagBucket)) {
+      idBuilder.append("-").append(conversionAdjustmentLagBucket);
+    }
+    if (!StringUtils.isEmpty(conversionAttributionEventType)) {
+      idBuilder.append("-").append(conversionAttributionEventType);
+    }
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
@@ -1749,6 +1816,9 @@ public class CampaignPerformanceReport extends DateReport {
       .append(contentBudgetLostImpressionShare, other.contentBudgetLostImpressionShare)
       .append(contentImpressionShare, other.contentImpressionShare)
       .append(contentRankLostImpressionShare, other.contentRankLostImpressionShare)
+      .append(conversionAdjustment, other.conversionAdjustment)
+      .append(conversionAdjustmentLagBucket, other.conversionAdjustmentLagBucket)
+      .append(conversionAttributionEventType, other.conversionAttributionEventType)
       .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
@@ -1774,6 +1844,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(gmailForwards, other.gmailForwards)
       .append(gmailSaves, other.gmailSaves)
       .append(gmailSecondaryClicks, other.gmailSecondaryClicks)
+      .append(hasRecommendedBudget, other.hasRecommendedBudget)
       .append(impressionAssistedConversions, other.impressionAssistedConversions)
       .append(impressionAssistedConversionsOverLastClickConversions, other.impressionAssistedConversionsOverLastClickConversions)
       .append(impressionAssistedConversionValue, other.impressionAssistedConversionValue)
@@ -1792,6 +1863,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(numOfflineInteractions, other.numOfflineInteractions)
       .append(offlineInteractionRate, other.offlineInteractionRate)
       .append(percentNewVisitors, other.percentNewVisitors)
+      .append(recommendedBudgetAmount, other.recommendedBudgetAmount)
       .append(relativeCtr, other.relativeCtr)
       .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare, other.searchBudgetLostImpressionShare)
@@ -1871,6 +1943,9 @@ public class CampaignPerformanceReport extends DateReport {
       .append(contentBudgetLostImpressionShare)
       .append(contentImpressionShare)
       .append(contentRankLostImpressionShare)
+      .append(conversionAdjustment)
+      .append(conversionAdjustmentLagBucket)
+      .append(conversionAttributionEventType)
       .append(conversionCategoryName)
       .append(conversionLagBucket)
       .append(conversionRate)
@@ -1896,6 +1971,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(gmailForwards)
       .append(gmailSaves)
       .append(gmailSecondaryClicks)
+      .append(hasRecommendedBudget)
       .append(impressionAssistedConversions)
       .append(impressionAssistedConversionsOverLastClickConversions)
       .append(impressionAssistedConversionValue)
@@ -1914,6 +1990,7 @@ public class CampaignPerformanceReport extends DateReport {
       .append(numOfflineInteractions)
       .append(offlineInteractionRate)
       .append(percentNewVisitors)
+      .append(recommendedBudgetAmount)
       .append(relativeCtr)
       .append(searchAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare)

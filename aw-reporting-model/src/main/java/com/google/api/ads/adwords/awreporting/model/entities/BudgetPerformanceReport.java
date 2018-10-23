@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -190,6 +190,10 @@ public class BudgetPerformanceReport extends Report {
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
 
+  @Column(name = "HasRecommendedBudget")
+  @CsvField(value = "Has recommended Budget", reportField = "HasRecommendedBudget")
+  private String hasRecommendedBudget;
+
   @Column(name = "Impressions")
   @CsvField(value = "Impressions", reportField = "Impressions")
   private Long impressions;
@@ -209,6 +213,28 @@ public class BudgetPerformanceReport extends Report {
   @Column(name = "IsBudgetExplicitlyShared")
   @CsvField(value = "Explicitly shared", reportField = "IsBudgetExplicitlyShared")
   private String isBudgetExplicitlyShared;
+
+  @Column(name = "RecommendedBudgetAmount")
+  @CsvField(value = "Recommended Budget amount", reportField = "RecommendedBudgetAmount")
+  @MoneyField
+  private BigDecimal recommendedBudgetAmount;
+
+  @Column(name = "RecommendedBudgetEstimatedChangeInWeeklyClicks")
+  @CsvField(value = "Estimated change in weekly clicks at recommended Budget", reportField = "RecommendedBudgetEstimatedChangeInWeeklyClicks")
+  private Long recommendedBudgetEstimatedChangeInWeeklyClicks;
+
+  @Column(name = "RecommendedBudgetEstimatedChangeInWeeklyCost")
+  @CsvField(value = "Estimated change in weekly cost at recommended Budget", reportField = "RecommendedBudgetEstimatedChangeInWeeklyCost")
+  @MoneyField
+  private BigDecimal recommendedBudgetEstimatedChangeInWeeklyCost;
+
+  @Column(name = "RecommendedBudgetEstimatedChangeInWeeklyInteractions")
+  @CsvField(value = "Estimated change in weekly interactions at recommended Budget", reportField = "RecommendedBudgetEstimatedChangeInWeeklyInteractions")
+  private Long recommendedBudgetEstimatedChangeInWeeklyInteractions;
+
+  @Column(name = "RecommendedBudgetEstimatedChangeInWeeklyViews")
+  @CsvField(value = "Estimated change in weekly views at recommended Budget", reportField = "RecommendedBudgetEstimatedChangeInWeeklyViews")
+  private Long recommendedBudgetEstimatedChangeInWeeklyViews;
 
   @Column(name = "TotalAmount")
   @CsvField(value = "Total Budget amount", reportField = "TotalAmount")
@@ -581,6 +607,14 @@ public class BudgetPerformanceReport extends Report {
     this.externalConversionSource = externalConversionSource;
   }
 
+  public String getHasRecommendedBudget() {
+    return hasRecommendedBudget;
+  }
+
+  public void setHasRecommendedBudget(String hasRecommendedBudget) {
+    this.hasRecommendedBudget = hasRecommendedBudget;
+  }
+
   public Long getImpressions() {
     return impressions;
   }
@@ -623,6 +657,46 @@ public class BudgetPerformanceReport extends Report {
 
   public void setIsBudgetExplicitlyShared(String isBudgetExplicitlyShared) {
     this.isBudgetExplicitlyShared = isBudgetExplicitlyShared;
+  }
+
+  public BigDecimal getRecommendedBudgetAmount() {
+    return recommendedBudgetAmount;
+  }
+
+  public void setRecommendedBudgetAmount(BigDecimal recommendedBudgetAmount) {
+    this.recommendedBudgetAmount = recommendedBudgetAmount;
+  }
+
+  public Long getRecommendedBudgetEstimatedChangeInWeeklyClicks() {
+    return recommendedBudgetEstimatedChangeInWeeklyClicks;
+  }
+
+  public void setRecommendedBudgetEstimatedChangeInWeeklyClicks(Long recommendedBudgetEstimatedChangeInWeeklyClicks) {
+    this.recommendedBudgetEstimatedChangeInWeeklyClicks = recommendedBudgetEstimatedChangeInWeeklyClicks;
+  }
+
+  public BigDecimal getRecommendedBudgetEstimatedChangeInWeeklyCost() {
+    return recommendedBudgetEstimatedChangeInWeeklyCost;
+  }
+
+  public void setRecommendedBudgetEstimatedChangeInWeeklyCost(BigDecimal recommendedBudgetEstimatedChangeInWeeklyCost) {
+    this.recommendedBudgetEstimatedChangeInWeeklyCost = recommendedBudgetEstimatedChangeInWeeklyCost;
+  }
+
+  public Long getRecommendedBudgetEstimatedChangeInWeeklyInteractions() {
+    return recommendedBudgetEstimatedChangeInWeeklyInteractions;
+  }
+
+  public void setRecommendedBudgetEstimatedChangeInWeeklyInteractions(Long recommendedBudgetEstimatedChangeInWeeklyInteractions) {
+    this.recommendedBudgetEstimatedChangeInWeeklyInteractions = recommendedBudgetEstimatedChangeInWeeklyInteractions;
+  }
+
+  public Long getRecommendedBudgetEstimatedChangeInWeeklyViews() {
+    return recommendedBudgetEstimatedChangeInWeeklyViews;
+  }
+
+  public void setRecommendedBudgetEstimatedChangeInWeeklyViews(Long recommendedBudgetEstimatedChangeInWeeklyViews) {
+    this.recommendedBudgetEstimatedChangeInWeeklyViews = recommendedBudgetEstimatedChangeInWeeklyViews;
   }
 
   public BigDecimal getTotalAmount() {
@@ -765,11 +839,17 @@ public class BudgetPerformanceReport extends Report {
       .append(engagementRate, other.engagementRate)
       .append(engagements, other.engagements)
       .append(externalConversionSource, other.externalConversionSource)
+      .append(hasRecommendedBudget, other.hasRecommendedBudget)
       .append(impressions, other.impressions)
       .append(interactionRate, other.interactionRate)
       .append(interactions, other.interactions)
       .append(interactionTypes, other.interactionTypes)
       .append(isBudgetExplicitlyShared, other.isBudgetExplicitlyShared)
+      .append(recommendedBudgetAmount, other.recommendedBudgetAmount)
+      .append(recommendedBudgetEstimatedChangeInWeeklyClicks, other.recommendedBudgetEstimatedChangeInWeeklyClicks)
+      .append(recommendedBudgetEstimatedChangeInWeeklyCost, other.recommendedBudgetEstimatedChangeInWeeklyCost)
+      .append(recommendedBudgetEstimatedChangeInWeeklyInteractions, other.recommendedBudgetEstimatedChangeInWeeklyInteractions)
+      .append(recommendedBudgetEstimatedChangeInWeeklyViews, other.recommendedBudgetEstimatedChangeInWeeklyViews)
       .append(totalAmount, other.totalAmount)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
@@ -819,11 +899,17 @@ public class BudgetPerformanceReport extends Report {
       .append(engagementRate)
       .append(engagements)
       .append(externalConversionSource)
+      .append(hasRecommendedBudget)
       .append(impressions)
       .append(interactionRate)
       .append(interactions)
       .append(interactionTypes)
       .append(isBudgetExplicitlyShared)
+      .append(recommendedBudgetAmount)
+      .append(recommendedBudgetEstimatedChangeInWeeklyClicks)
+      .append(recommendedBudgetEstimatedChangeInWeeklyCost)
+      .append(recommendedBudgetEstimatedChangeInWeeklyInteractions)
+      .append(recommendedBudgetEstimatedChangeInWeeklyViews)
       .append(totalAmount)
       .append(valuePerAllConversion)
       .append(valuePerConversion)

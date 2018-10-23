@@ -14,8 +14,8 @@
 
 package com.google.api.ads.adwords.awreporting.model.entities;
 
-import com.google.api.ads.adwords.lib.jaxb.v201806.DateRange;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionDateRangeType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.DateRange;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionDateRangeType;
 import com.google.api.client.util.Preconditions;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;

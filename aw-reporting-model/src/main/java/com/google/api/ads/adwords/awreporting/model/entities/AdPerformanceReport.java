@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -38,6 +38,10 @@ import javax.persistence.Table;
 @Table(name = "AW_AdPerformanceReport")
 @CsvReport(value = ReportDefinitionReportType.AD_PERFORMANCE_REPORT)
 public class AdPerformanceReport extends DateReport {
+
+  @Column(name = "AdStrengthInfo")
+  @CsvField(value = "Ad strength", reportField = "AdStrengthInfo")
+  private String adStrengthInfo;
 
   @Column(name = "CallOnlyPhoneNumber")
   @CsvField(value = "Call-only ad phone number", reportField = "CallOnlyPhoneNumber")
@@ -75,6 +79,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Square images (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdSquareMarketingImages")
   private String multiAssetResponsiveDisplayAdSquareMarketingImages;
 
+  @Column(name = "MultiAssetResponsiveDisplayAdYouTubeVideos")
+  @CsvField(value = "Youtube videos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdYouTubeVideos")
+  private String multiAssetResponsiveDisplayAdYouTubeVideos;
+
   @Column(name = "PolicySummary")
   @CsvField(value = "Policy", reportField = "PolicySummary")
   private String policySummary;
@@ -86,6 +94,30 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "ResponsiveSearchAdHeadlines")
   @CsvField(value = "Responsive Search Ad headlines", reportField = "ResponsiveSearchAdHeadlines")
   private String responsiveSearchAdHeadlines;
+
+  @Column(name = "UniversalAppAdDescriptions")
+  @CsvField(value = "Universal App Ad descriptions", reportField = "UniversalAppAdDescriptions")
+  private String universalAppAdDescriptions;
+
+  @Column(name = "UniversalAppAdHeadlines")
+  @CsvField(value = "Universal App Ad headlines", reportField = "UniversalAppAdHeadlines")
+  private String universalAppAdHeadlines;
+
+  @Column(name = "UniversalAppAdHtml5MediaBundles")
+  @CsvField(value = "Universal App Ad html5 media bundles", reportField = "UniversalAppAdHtml5MediaBundles")
+  private String universalAppAdHtml5MediaBundles;
+
+  @Column(name = "UniversalAppAdImages")
+  @CsvField(value = "Universal App Ad images", reportField = "UniversalAppAdImages")
+  private String universalAppAdImages;
+
+  @Column(name = "UniversalAppAdMandatoryAdText")
+  @CsvField(value = "Universal App Ad mandatory ad text", reportField = "UniversalAppAdMandatoryAdText")
+  private String universalAppAdMandatoryAdText;
+
+  @Column(name = "UniversalAppAdYouTubeVideos")
+  @CsvField(value = "Universal App Ad youTube videos", reportField = "UniversalAppAdYouTubeVideos")
+  private String universalAppAdYouTubeVideos;
 
   @Column(name = "AccentColor")
   @CsvField(value = "Accent color (responsive)", reportField = "AccentColor")
@@ -268,6 +300,14 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Approval status", reportField = "CombinedApprovalStatus")
   private String combinedApprovalStatus;
 
+  @Column(name = "ConversionAdjustment")
+  @CsvField(value = "Conversion adjustment", reportField = "ConversionAdjustment")
+  private String conversionAdjustment;
+
+  @Column(name = "ConversionAdjustmentLagBucket")
+  @CsvField(value = "Days to conversion or adjustment", reportField = "ConversionAdjustmentLagBucket")
+  private String conversionAdjustmentLagBucket;
+
   @Column(name = "ConversionCategoryName")
   @CsvField(value = "Conversion category", reportField = "ConversionCategoryName")
   private String conversionCategoryName;
@@ -418,6 +458,18 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "EnhancedDisplayCreativeMarketingImageSquareMediaId")
   @CsvField(value = "Square image ID (responsive)", reportField = "EnhancedDisplayCreativeMarketingImageSquareMediaId")
   private Long enhancedDisplayCreativeMarketingImageSquareMediaId;
+
+  @Column(name = "ExpandedDynamicSearchCreativeDescription2")
+  @CsvField(value = "Expanded Dynamic Search Ad Description 2", reportField = "ExpandedDynamicSearchCreativeDescription2")
+  private String expandedDynamicSearchCreativeDescription2;
+
+  @Column(name = "ExpandedTextAdDescription2")
+  @CsvField(value = "Expanded Text Ad Description 2", reportField = "ExpandedTextAdDescription2")
+  private String expandedTextAdDescription2;
+
+  @Column(name = "ExpandedTextAdHeadlinePart3")
+  @CsvField(value = "Expanded Text Ad Headline 3", reportField = "ExpandedTextAdHeadlinePart3")
+  private String expandedTextAdHeadlinePart3;
 
   @Column(name = "ExternalConversionSource")
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
@@ -685,6 +737,14 @@ public class AdPerformanceReport extends DateReport {
     super(topAccountId, accountId);
   }
 
+  public String getAdStrengthInfo() {
+    return adStrengthInfo;
+  }
+
+  public void setAdStrengthInfo(String adStrengthInfo) {
+    this.adStrengthInfo = adStrengthInfo;
+  }
+
   public String getCallOnlyPhoneNumber() {
     return callOnlyPhoneNumber;
   }
@@ -757,6 +817,14 @@ public class AdPerformanceReport extends DateReport {
     this.multiAssetResponsiveDisplayAdSquareMarketingImages = multiAssetResponsiveDisplayAdSquareMarketingImages;
   }
 
+  public String getMultiAssetResponsiveDisplayAdYouTubeVideos() {
+    return multiAssetResponsiveDisplayAdYouTubeVideos;
+  }
+
+  public void setMultiAssetResponsiveDisplayAdYouTubeVideos(String multiAssetResponsiveDisplayAdYouTubeVideos) {
+    this.multiAssetResponsiveDisplayAdYouTubeVideos = multiAssetResponsiveDisplayAdYouTubeVideos;
+  }
+
   public String getPolicySummary() {
     return policySummary;
   }
@@ -779,6 +847,54 @@ public class AdPerformanceReport extends DateReport {
 
   public void setResponsiveSearchAdHeadlines(String responsiveSearchAdHeadlines) {
     this.responsiveSearchAdHeadlines = responsiveSearchAdHeadlines;
+  }
+
+  public String getUniversalAppAdDescriptions() {
+    return universalAppAdDescriptions;
+  }
+
+  public void setUniversalAppAdDescriptions(String universalAppAdDescriptions) {
+    this.universalAppAdDescriptions = universalAppAdDescriptions;
+  }
+
+  public String getUniversalAppAdHeadlines() {
+    return universalAppAdHeadlines;
+  }
+
+  public void setUniversalAppAdHeadlines(String universalAppAdHeadlines) {
+    this.universalAppAdHeadlines = universalAppAdHeadlines;
+  }
+
+  public String getUniversalAppAdHtml5MediaBundles() {
+    return universalAppAdHtml5MediaBundles;
+  }
+
+  public void setUniversalAppAdHtml5MediaBundles(String universalAppAdHtml5MediaBundles) {
+    this.universalAppAdHtml5MediaBundles = universalAppAdHtml5MediaBundles;
+  }
+
+  public String getUniversalAppAdImages() {
+    return universalAppAdImages;
+  }
+
+  public void setUniversalAppAdImages(String universalAppAdImages) {
+    this.universalAppAdImages = universalAppAdImages;
+  }
+
+  public String getUniversalAppAdMandatoryAdText() {
+    return universalAppAdMandatoryAdText;
+  }
+
+  public void setUniversalAppAdMandatoryAdText(String universalAppAdMandatoryAdText) {
+    this.universalAppAdMandatoryAdText = universalAppAdMandatoryAdText;
+  }
+
+  public String getUniversalAppAdYouTubeVideos() {
+    return universalAppAdYouTubeVideos;
+  }
+
+  public void setUniversalAppAdYouTubeVideos(String universalAppAdYouTubeVideos) {
+    this.universalAppAdYouTubeVideos = universalAppAdYouTubeVideos;
   }
 
   public String getAccentColor() {
@@ -1189,6 +1305,22 @@ public class AdPerformanceReport extends DateReport {
     this.combinedApprovalStatus = combinedApprovalStatus;
   }
 
+  public String getConversionAdjustment() {
+    return conversionAdjustment;
+  }
+
+  public void setConversionAdjustment(String conversionAdjustment) {
+    this.conversionAdjustment = conversionAdjustment;
+  }
+
+  public String getConversionAdjustmentLagBucket() {
+    return conversionAdjustmentLagBucket;
+  }
+
+  public void setConversionAdjustmentLagBucket(String conversionAdjustmentLagBucket) {
+    this.conversionAdjustmentLagBucket = conversionAdjustmentLagBucket;
+  }
+
   public String getConversionCategoryName() {
     return conversionCategoryName;
   }
@@ -1519,6 +1651,30 @@ public class AdPerformanceReport extends DateReport {
 
   public void setEnhancedDisplayCreativeMarketingImageSquareMediaId(Long enhancedDisplayCreativeMarketingImageSquareMediaId) {
     this.enhancedDisplayCreativeMarketingImageSquareMediaId = enhancedDisplayCreativeMarketingImageSquareMediaId;
+  }
+
+  public String getExpandedDynamicSearchCreativeDescription2() {
+    return expandedDynamicSearchCreativeDescription2;
+  }
+
+  public void setExpandedDynamicSearchCreativeDescription2(String expandedDynamicSearchCreativeDescription2) {
+    this.expandedDynamicSearchCreativeDescription2 = expandedDynamicSearchCreativeDescription2;
+  }
+
+  public String getExpandedTextAdDescription2() {
+    return expandedTextAdDescription2;
+  }
+
+  public void setExpandedTextAdDescription2(String expandedTextAdDescription2) {
+    this.expandedTextAdDescription2 = expandedTextAdDescription2;
+  }
+
+  public String getExpandedTextAdHeadlinePart3() {
+    return expandedTextAdHeadlinePart3;
+  }
+
+  public void setExpandedTextAdHeadlinePart3(String expandedTextAdHeadlinePart3) {
+    this.expandedTextAdHeadlinePart3 = expandedTextAdHeadlinePart3;
   }
 
   public String getExternalConversionSource() {
@@ -2106,6 +2262,9 @@ public class AdPerformanceReport extends DateReport {
     if (!StringUtils.isEmpty(clickType)) {
       idBuilder.append("-").append(clickType);
     }
+    if (!StringUtils.isEmpty(conversionAdjustmentLagBucket)) {
+      idBuilder.append("-").append(conversionAdjustmentLagBucket);
+    }
     if (!StringUtils.isEmpty(conversionCategoryName)) {
       idBuilder.append("-").append(conversionCategoryName);
     }
@@ -2141,6 +2300,7 @@ public class AdPerformanceReport extends DateReport {
     AdPerformanceReport other = (AdPerformanceReport) obj;
     return new EqualsBuilder()
       .appendSuper(super.equals(obj))
+      .append(adStrengthInfo, other.adStrengthInfo)
       .append(callOnlyPhoneNumber, other.callOnlyPhoneNumber)
       .append(imageAdUrl, other.imageAdUrl)
       .append(multiAssetResponsiveDisplayAdDescriptions, other.multiAssetResponsiveDisplayAdDescriptions)
@@ -2150,9 +2310,16 @@ public class AdPerformanceReport extends DateReport {
       .append(multiAssetResponsiveDisplayAdLongHeadline, other.multiAssetResponsiveDisplayAdLongHeadline)
       .append(multiAssetResponsiveDisplayAdMarketingImages, other.multiAssetResponsiveDisplayAdMarketingImages)
       .append(multiAssetResponsiveDisplayAdSquareMarketingImages, other.multiAssetResponsiveDisplayAdSquareMarketingImages)
+      .append(multiAssetResponsiveDisplayAdYouTubeVideos, other.multiAssetResponsiveDisplayAdYouTubeVideos)
       .append(policySummary, other.policySummary)
       .append(responsiveSearchAdDescriptions, other.responsiveSearchAdDescriptions)
       .append(responsiveSearchAdHeadlines, other.responsiveSearchAdHeadlines)
+      .append(universalAppAdDescriptions, other.universalAppAdDescriptions)
+      .append(universalAppAdHeadlines, other.universalAppAdHeadlines)
+      .append(universalAppAdHtml5MediaBundles, other.universalAppAdHtml5MediaBundles)
+      .append(universalAppAdImages, other.universalAppAdImages)
+      .append(universalAppAdMandatoryAdText, other.universalAppAdMandatoryAdText)
+      .append(universalAppAdYouTubeVideos, other.universalAppAdYouTubeVideos)
       .append(accentColor, other.accentColor)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
@@ -2197,6 +2364,8 @@ public class AdPerformanceReport extends DateReport {
       .append(clicks, other.clicks)
       .append(clickType, other.clickType)
       .append(combinedApprovalStatus, other.combinedApprovalStatus)
+      .append(conversionAdjustment, other.conversionAdjustment)
+      .append(conversionAdjustmentLagBucket, other.conversionAdjustmentLagBucket)
       .append(conversionCategoryName, other.conversionCategoryName)
       .append(conversionLagBucket, other.conversionLagBucket)
       .append(conversionRate, other.conversionRate)
@@ -2234,6 +2403,9 @@ public class AdPerformanceReport extends DateReport {
       .append(enhancedDisplayCreativeLogoImageMediaId, other.enhancedDisplayCreativeLogoImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageMediaId, other.enhancedDisplayCreativeMarketingImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageSquareMediaId, other.enhancedDisplayCreativeMarketingImageSquareMediaId)
+      .append(expandedDynamicSearchCreativeDescription2, other.expandedDynamicSearchCreativeDescription2)
+      .append(expandedTextAdDescription2, other.expandedTextAdDescription2)
+      .append(expandedTextAdHeadlinePart3, other.expandedTextAdHeadlinePart3)
       .append(externalConversionSource, other.externalConversionSource)
       .append(formatSetting, other.formatSetting)
       .append(gmailCreativeHeaderImageMediaId, other.gmailCreativeHeaderImageMediaId)
@@ -2305,6 +2477,7 @@ public class AdPerformanceReport extends DateReport {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
       .appendSuper(super.hashCode())
+      .append(adStrengthInfo)
       .append(callOnlyPhoneNumber)
       .append(imageAdUrl)
       .append(multiAssetResponsiveDisplayAdDescriptions)
@@ -2314,9 +2487,16 @@ public class AdPerformanceReport extends DateReport {
       .append(multiAssetResponsiveDisplayAdLongHeadline)
       .append(multiAssetResponsiveDisplayAdMarketingImages)
       .append(multiAssetResponsiveDisplayAdSquareMarketingImages)
+      .append(multiAssetResponsiveDisplayAdYouTubeVideos)
       .append(policySummary)
       .append(responsiveSearchAdDescriptions)
       .append(responsiveSearchAdHeadlines)
+      .append(universalAppAdDescriptions)
+      .append(universalAppAdHeadlines)
+      .append(universalAppAdHtml5MediaBundles)
+      .append(universalAppAdImages)
+      .append(universalAppAdMandatoryAdText)
+      .append(universalAppAdYouTubeVideos)
       .append(accentColor)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
@@ -2361,6 +2541,8 @@ public class AdPerformanceReport extends DateReport {
       .append(clicks)
       .append(clickType)
       .append(combinedApprovalStatus)
+      .append(conversionAdjustment)
+      .append(conversionAdjustmentLagBucket)
       .append(conversionCategoryName)
       .append(conversionLagBucket)
       .append(conversionRate)
@@ -2398,6 +2580,9 @@ public class AdPerformanceReport extends DateReport {
       .append(enhancedDisplayCreativeLogoImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageMediaId)
       .append(enhancedDisplayCreativeMarketingImageSquareMediaId)
+      .append(expandedDynamicSearchCreativeDescription2)
+      .append(expandedTextAdDescription2)
+      .append(expandedTextAdHeadlinePart3)
       .append(externalConversionSource)
       .append(formatSetting)
       .append(gmailCreativeHeaderImageMediaId)

@@ -1,6 +1,10 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
+## [2.6.0] - 2018-06-12
+- Migrate to AdWords API **v201809**
+- Requires Java 8 (1.8) or higher.
+
 ## [2.5.0] - 2018-06-12
 - Migrate to AdWords API **v201806**
 

@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.ReportProcessingException;
 import com.google.api.ads.adwords.awreporting.util.AdWordsSessionUtil;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.client.AdWordsSession.ImmutableAdWordsSession;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinition;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinition;
 import com.google.api.ads.common.lib.exception.ValidationException;
 import com.google.common.base.Joiner;
 import com.google.common.base.Stopwatch;

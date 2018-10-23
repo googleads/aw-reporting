@@ -18,7 +18,7 @@ import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.MoneyField;
 import com.google.api.ads.adwords.awreporting.model.util.BigDecimalUtil;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 import java.math.BigDecimal;
 
@@ -166,9 +166,21 @@ public class LandingPageReport extends DateReport {
   @CsvField(value = "Interaction Types", reportField = "InteractionTypes")
   private String interactionTypes;
 
+  @Column(name = "PercentageMobileFriendlyClicks")
+  @CsvField(value = "Mobile-friendly click rate", reportField = "PercentageMobileFriendlyClicks")
+  private BigDecimal percentageMobileFriendlyClicks;
+
+  @Column(name = "PercentageValidAcceleratedMobilePagesClicks")
+  @CsvField(value = "Valid AMP click rate", reportField = "PercentageValidAcceleratedMobilePagesClicks")
+  private BigDecimal percentageValidAcceleratedMobilePagesClicks;
+
   @Column(name = "Slot")
   @CsvField(value = "Top vs. Other", reportField = "Slot")
   private String slot;
+
+  @Column(name = "SpeedScore")
+  @CsvField(value = "Mobile speed score", reportField = "SpeedScore")
+  private Long speedScore;
 
   @Column(name = "UnexpandedFinalUrlString")
   @CsvField(value = "Landing page", reportField = "UnexpandedFinalUrlString")
@@ -464,12 +476,44 @@ public class LandingPageReport extends DateReport {
     this.interactionTypes = interactionTypes;
   }
 
+  public String getPercentageMobileFriendlyClicks() {
+    return BigDecimalUtil.formatAsReadable(percentageMobileFriendlyClicks);
+  }
+
+  public BigDecimal getPercentageMobileFriendlyClicksBigDecimal() {
+    return percentageMobileFriendlyClicks;
+  }
+
+  public void setPercentageMobileFriendlyClicks(String percentageMobileFriendlyClicks) {
+    this.percentageMobileFriendlyClicks = BigDecimalUtil.parseFromNumberString(percentageMobileFriendlyClicks);
+  }
+
+  public String getPercentageValidAcceleratedMobilePagesClicks() {
+    return BigDecimalUtil.formatAsReadable(percentageValidAcceleratedMobilePagesClicks);
+  }
+
+  public BigDecimal getPercentageValidAcceleratedMobilePagesClicksBigDecimal() {
+    return percentageValidAcceleratedMobilePagesClicks;
+  }
+
+  public void setPercentageValidAcceleratedMobilePagesClicks(String percentageValidAcceleratedMobilePagesClicks) {
+    this.percentageValidAcceleratedMobilePagesClicks = BigDecimalUtil.parseFromNumberString(percentageValidAcceleratedMobilePagesClicks);
+  }
+
   public String getSlot() {
     return slot;
   }
 
   public void setSlot(String slot) {
     this.slot = slot;
+  }
+
+  public Long getSpeedScore() {
+    return speedScore;
+  }
+
+  public void setSpeedScore(Long speedScore) {
+    this.speedScore = speedScore;
   }
 
   public String getUnexpandedFinalUrlString() {
@@ -552,7 +596,10 @@ public class LandingPageReport extends DateReport {
       .append(interactionRate, other.interactionRate)
       .append(interactions, other.interactions)
       .append(interactionTypes, other.interactionTypes)
+      .append(percentageMobileFriendlyClicks, other.percentageMobileFriendlyClicks)
+      .append(percentageValidAcceleratedMobilePagesClicks, other.percentageValidAcceleratedMobilePagesClicks)
       .append(slot, other.slot)
+      .append(speedScore, other.speedScore)
       .append(unexpandedFinalUrlString, other.unexpandedFinalUrlString)
       .append(valuePerConversion, other.valuePerConversion)
       .isEquals();
@@ -592,7 +639,10 @@ public class LandingPageReport extends DateReport {
       .append(interactionRate)
       .append(interactions)
       .append(interactionTypes)
+      .append(percentageMobileFriendlyClicks)
+      .append(percentageValidAcceleratedMobilePagesClicks)
       .append(slot)
+      .append(speedScore)
       .append(unexpandedFinalUrlString)
       .append(valuePerConversion)
       .toHashCode();

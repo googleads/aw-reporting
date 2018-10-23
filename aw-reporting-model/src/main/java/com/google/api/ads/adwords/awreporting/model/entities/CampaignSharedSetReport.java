@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +51,10 @@ public class CampaignSharedSetReport extends Report {
   @Column(name = "CampaignStatus")
   @CsvField(value = "Campaign state", reportField = "CampaignStatus")
   private String campaignStatus;
+
+  @Column(name = "SharedSetId")
+  @CsvField(value = "Shared Set ID", reportField = "SharedSetId")
+  private Long sharedSetId;
 
   @Column(name = "SharedSetName")
   @CsvField(value = "Shared Set Name", reportField = "SharedSetName")
@@ -106,6 +110,14 @@ public class CampaignSharedSetReport extends Report {
     this.campaignStatus = campaignStatus;
   }
 
+  public Long getSharedSetId() {
+    return sharedSetId;
+  }
+
+  public void setSharedSetId(Long sharedSetId) {
+    this.sharedSetId = sharedSetId;
+  }
+
   public String getSharedSetName() {
     return sharedSetName;
   }
@@ -157,6 +169,7 @@ public class CampaignSharedSetReport extends Report {
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
       .append(campaignStatus, other.campaignStatus)
+      .append(sharedSetId, other.sharedSetId)
       .append(sharedSetName, other.sharedSetName)
       .append(sharedSetType, other.sharedSetType)
       .append(status, other.status)
@@ -171,6 +184,7 @@ public class CampaignSharedSetReport extends Report {
       .append(campaignId)
       .append(campaignName)
       .append(campaignStatus)
+      .append(sharedSetId)
       .append(sharedSetName)
       .append(sharedSetType)
       .append(status)

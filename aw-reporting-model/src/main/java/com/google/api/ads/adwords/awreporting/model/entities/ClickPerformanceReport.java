@@ -16,7 +16,7 @@ package com.google.api.ads.adwords.awreporting.model.entities;
 
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvField;
 import com.google.api.ads.adwords.awreporting.model.csv.annotation.CsvReport;
-import com.google.api.ads.adwords.lib.jaxb.v201806.ReportDefinitionReportType;
+import com.google.api.ads.adwords.lib.jaxb.v201809.ReportDefinitionReportType;
 
 
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +67,18 @@ public class ClickPerformanceReport extends DateReport {
   @Column(name = "AdNetworkType2")
   @CsvField(value = "Network (with search partners)", reportField = "AdNetworkType2")
   private String adNetworkType2;
+
+  @Column(name = "AdVariationControlTrialArmId")
+  @CsvField(value = "Ad Variation Control Trial Arm ID", reportField = "AdVariationControlTrialArmId")
+  private Long adVariationControlTrialArmId;
+
+  @Column(name = "AdVariationTreatmentTrialArmId")
+  @CsvField(value = "Ad Variation Treatment Trial Arm ID", reportField = "AdVariationTreatmentTrialArmId")
+  private Long adVariationTreatmentTrialArmId;
+
+  @Column(name = "AdVariationTrialId")
+  @CsvField(value = "Ad Variation Trial ID", reportField = "AdVariationTrialId")
+  private Long adVariationTrialId;
 
   @Column(name = "AoiCityCriteriaId")
   @CsvField(value = "City (Location of interest)", reportField = "AoiCityCriteriaId")
@@ -236,6 +248,30 @@ public class ClickPerformanceReport extends DateReport {
 
   public void setAdNetworkType2(String adNetworkType2) {
     this.adNetworkType2 = adNetworkType2;
+  }
+
+  public Long getAdVariationControlTrialArmId() {
+    return adVariationControlTrialArmId;
+  }
+
+  public void setAdVariationControlTrialArmId(Long adVariationControlTrialArmId) {
+    this.adVariationControlTrialArmId = adVariationControlTrialArmId;
+  }
+
+  public Long getAdVariationTreatmentTrialArmId() {
+    return adVariationTreatmentTrialArmId;
+  }
+
+  public void setAdVariationTreatmentTrialArmId(Long adVariationTreatmentTrialArmId) {
+    this.adVariationTreatmentTrialArmId = adVariationTreatmentTrialArmId;
+  }
+
+  public Long getAdVariationTrialId() {
+    return adVariationTrialId;
+  }
+
+  public void setAdVariationTrialId(Long adVariationTrialId) {
+    this.adVariationTrialId = adVariationTrialId;
   }
 
   public Integer getAoiCityCriteriaId() {
@@ -459,6 +495,9 @@ public class ClickPerformanceReport extends DateReport {
       .append(adGroupStatus, other.adGroupStatus)
       .append(adNetworkType1, other.adNetworkType1)
       .append(adNetworkType2, other.adNetworkType2)
+      .append(adVariationControlTrialArmId, other.adVariationControlTrialArmId)
+      .append(adVariationTreatmentTrialArmId, other.adVariationTreatmentTrialArmId)
+      .append(adVariationTrialId, other.adVariationTrialId)
       .append(aoiCityCriteriaId, other.aoiCityCriteriaId)
       .append(aoiCountryCriteriaId, other.aoiCountryCriteriaId)
       .append(aoiMetroCriteriaId, other.aoiMetroCriteriaId)
@@ -498,6 +537,9 @@ public class ClickPerformanceReport extends DateReport {
       .append(adGroupStatus)
       .append(adNetworkType1)
       .append(adNetworkType2)
+      .append(adVariationControlTrialArmId)
+      .append(adVariationTreatmentTrialArmId)
+      .append(adVariationTrialId)
       .append(aoiCityCriteriaId)
       .append(aoiCountryCriteriaId)
       .append(aoiMetroCriteriaId)
