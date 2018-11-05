@@ -14,56 +14,182 @@
 
 package com.google.api.ads.adwords.awreporting.model.persistence.sql;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
 
 import com.google.api.ads.adwords.awreporting.model.entities.AccountPerformanceReport;
 import com.google.api.ads.adwords.awreporting.model.entities.DateRangeAndType;
-import com.google.common.collect.Lists;
+import com.google.api.ads.adwords.awreporting.model.persistence.EntityPersister;
+import java.util.Arrays;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.exception.LockAcquisitionException;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.retry.annotation.EnableRetry;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 /**
  * Test case for the {@code SqlReportEntitiesPersister} class.
+ *
+ * <p>Note: Tests in this class do not use assertThrows as this is not available without updating to
+ * JUnit5.
  */
-@RunWith(JUnit4.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(
+    classes = {SqlReportEntitiesPersisterTest.Config.class},
+    loader = AnnotationConfigContextLoader.class)
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class SqlReportEntitiesPersisterTest {
 
-  private SqlReportEntitiesPersister reportEntitiesPersister;
+  @Autowired
+  @Qualifier("sqlEntitiesPersister")
+  private EntityPersister sqlEntitiesPersister;
 
-  @Mock private Session session;
+  @Autowired private Session session;
 
-  @Mock private SessionFactory sessionFactory;
+  @Autowired private SessionFactory sessionFactory;
+
+  @Autowired private SqlReportEntitiesPersister.Config config;
 
   @Mock private Criteria criteria;
 
+  private InOrder sequence;
+
+  @Configuration
+  @ComponentScan(
+      basePackageClasses = {
+        com.google.api.ads.adwords.awreporting.model.persistence.sql.SqlReportEntitiesPersister
+            .class
+      })
+  @EnableRetry
+  public static class Config {
+
+    @Bean
+    public SessionFactory sessionFactory() {
+      return Mockito.mock(SessionFactory.class);
+    }
+
+    @Bean
+    public Session session() {
+      return Mockito.mock(Session.class);
+    }
+
+    @Bean
+    SqlReportEntitiesPersister.Config config() {
+      return new SqlReportEntitiesPersister.Config();
+    }
+  }
+
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
-
     Mockito.when(sessionFactory.getCurrentSession()).thenReturn(session);
     Mockito.when(session.createCriteria(AccountPerformanceReport.class)).thenReturn(criteria);
 
-    reportEntitiesPersister = new SqlReportEntitiesPersister(sessionFactory);
+    sequence = Mockito.inOrder(session);
   }
 
-  /**
-   * Tests the persistence and retrieval of Report Entities.
-   */
   @Test
-  public void testPersistence() {
-    AccountPerformanceReport report = new AccountPerformanceReport(123L, 456L);
+  public void persistReportEntities_savesSingleInstance() {
+    AccountPerformanceReport report = generateReport(1);
+
+    sqlEntitiesPersister.persistReportEntities(Arrays.asList(report));
+
+    sequence.verify(session).saveOrUpdate(report);
+  }
+
+  @Test
+  public void persistReportEntities_savesInBatches() {
+    config.setBatchSize(2);
+
+    List<AccountPerformanceReport> reports =
+        Arrays.asList(generateReport(1), generateReport(2), generateReport(3));
+
+    sqlEntitiesPersister.persistReportEntities(reports);
+
+    sequence.verify(session).saveOrUpdate(reports.get(0));
+    sequence.verify(session).saveOrUpdate(reports.get(1));
+    sequence.verify(session).flush();
+    sequence.verify(session).clear();
+
+    sequence.verify(session).saveOrUpdate(reports.get(2));
+  }
+
+  @Test
+  public void persistReportEntities_abortsOnSqlException() {
+    Mockito.doThrow(new HibernateException("")).when(session).saveOrUpdate(any());
+
+    try {
+      sqlEntitiesPersister.persistReportEntities(Arrays.asList(generateReport(1)));
+      fail();
+    } catch (HibernateException ex) {
+      // expected
+    }
+  }
+
+  @Test
+  public void persistReportEntities_retriesAfterDeadlockThenFails() {
+    AccountPerformanceReport report = generateReport(1);
+
+    Mockito.doThrow(new LockAcquisitionException("", null)).when(session).saveOrUpdate(any());
+
+    try {
+      sqlEntitiesPersister.persistReportEntities(Arrays.asList(report));
+      fail();
+    } catch (LockAcquisitionException ex) {
+      // expected
+    }
+
+    sequence.verify(session, Mockito.times(20)).saveOrUpdate(report);
+  }
+
+  @Test
+  public void persistReportEntities_retriesAfterDeadlockThenSucceeds() {
+    AccountPerformanceReport report = generateReport(1);
+
+    Mockito.doThrow(new LockAcquisitionException("", null))
+        .doNothing()
+        .when(session)
+        .saveOrUpdate(any());
+
+    sqlEntitiesPersister.persistReportEntities(Arrays.asList(report));
+
+    sequence.verify(session, Mockito.times(2)).saveOrUpdate(report);
+  }
+
+  @Test
+  public void persistReportEntities_setsManualFlushModeAndResetsIt() {
+      AccountPerformanceReport report = generateReport(1);
+
+      Mockito.when(session.getFlushMode()).thenReturn(FlushMode.AUTO);
+
+      sqlEntitiesPersister.persistReportEntities(Arrays.asList(report));
+
+      sequence.verify(session).getFlushMode();
+      sequence.verify(session).setFlushMode(FlushMode.MANUAL);
+      sequence.verify(session).setFlushMode(FlushMode.AUTO);
+  }
+
+  private AccountPerformanceReport generateReport(long accountId) {
+    AccountPerformanceReport report = new AccountPerformanceReport(123L, accountId);
     report.setAccountDescriptiveName("testAccount");
 
     LocalDate today = LocalDate.now();
@@ -71,46 +197,6 @@ public class SqlReportEntitiesPersisterTest {
     report.setDateRangeType(dateRange.getTypeStr());
     report.setStartDate(dateRange.getStartDateStr());
     report.setEndDate(dateRange.getEndDateStr());
-
-    report.setRowId();
-    List<AccountPerformanceReport> reportList = Lists.newArrayList();
-    reportList.add(report);
-    reportEntitiesPersister.persistReportEntities(reportList);
-
-    Mockito.when(reportEntitiesPersister.listReports(AccountPerformanceReport.class))
-        .thenReturn(reportList);
-    List<AccountPerformanceReport> reportAccountList =
-        reportEntitiesPersister.listReports(AccountPerformanceReport.class);
-    assertReportEntities(reportAccountList, 123L, 456L, "testAccount");
-
-    report = new AccountPerformanceReport(789L, 456L);
-    report.setAccountDescriptiveName("updatedTestAccount");
-    report.setDateRangeType(dateRange.getTypeStr());
-    report.setStartDate(dateRange.getStartDateStr());
-    report.setEndDate(dateRange.getEndDateStr());
-    
-    reportList = Lists.newArrayList();
-    reportList.add(report);
-    reportEntitiesPersister.persistReportEntities(reportList);
-
-    Mockito.when(reportEntitiesPersister.listReports(AccountPerformanceReport.class))
-        .thenReturn(reportList);
-
-    reportAccountList = reportEntitiesPersister.listReports(AccountPerformanceReport.class);
-    assertReportEntities(reportAccountList, 789L, 456L, "updatedTestAccount");
-  }
-
-
-  private void assertReportEntities(List<AccountPerformanceReport> reportAccountList,
-      long expectedTopCustomerId, long expectedCustomerId, String expectedAccountDescriptiveName){
-    assertNotNull("Report account list should not be null", reportAccountList);
-    assertEquals("Expecting matching report list size", 1, reportAccountList.size());
-    assertTrue("Expecting matching top customer ID",
-        reportAccountList.get(0).getTopCustomerId().equals(expectedTopCustomerId));
-    assertTrue("Expecting matching customer IDs",
-        reportAccountList.get(0).getCustomerId().equals(expectedCustomerId));
-    assertTrue("Expecting matching account descriptions",
-        reportAccountList.get(0).getAccountDescriptiveName()
-        .equals(expectedAccountDescriptiveName));
+    return report;
   }
 }
