@@ -25,8 +25,8 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
-import org.hibernate.SessionFactory;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.exception.LockAcquisitionException;
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -179,13 +179,13 @@ public class SqlReportEntitiesPersisterTest {
   public void persistReportEntities_setsManualFlushModeAndResetsIt() {
       AccountPerformanceReport report = generateReport(1);
 
-      Mockito.when(session.getFlushMode()).thenReturn(FlushMode.AUTO);
+      Mockito.when(session.getHibernateFlushMode()).thenReturn(FlushMode.AUTO);
 
       sqlEntitiesPersister.persistReportEntities(Arrays.asList(report));
 
-      sequence.verify(session).getFlushMode();
-      sequence.verify(session).setFlushMode(FlushMode.MANUAL);
-      sequence.verify(session).setFlushMode(FlushMode.AUTO);
+      sequence.verify(session).getHibernateFlushMode();
+      sequence.verify(session).setHibernateFlushMode(FlushMode.MANUAL);
+      sequence.verify(session).setHibernateFlushMode(FlushMode.AUTO);
   }
 
   private AccountPerformanceReport generateReport(long accountId) {

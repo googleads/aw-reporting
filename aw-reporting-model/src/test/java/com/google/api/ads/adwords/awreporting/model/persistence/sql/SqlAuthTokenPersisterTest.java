@@ -19,9 +19,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import com.google.api.ads.adwords.awreporting.model.entities.AuthToken;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.Session;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

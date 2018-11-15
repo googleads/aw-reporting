@@ -9,7 +9,7 @@
 
   <jdbc:embedded-database id="dataSource" type="H2" />
   
-  <bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+  <bean class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
         id="sessionFactory">
     <property name="dataSource" ref="dataSource"></property>
     <property name="hibernateProperties">
@@ -25,7 +25,7 @@
       value="com.google.api.ads.adwords.awreporting.model.entities" />
   </bean>
   
-  <bean class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+  <bean class="org.springframework.orm.hibernate5.HibernateTransactionManager"
         id="transactionManager">
     <property name="sessionFactory" ref="sessionFactory" />
   </bean>

@@ -75,8 +75,8 @@ public class SqlReportEntitiesPersister implements EntityPersister {
   public void persistReportEntities(List<? extends Report> reportEntities) {
     int batchFlush = 0;
     Session session = sessionFactory.getCurrentSession();
-    FlushMode previousFlushMode = session.getFlushMode();
-    session.setFlushMode(FlushMode.MANUAL);
+    FlushMode previousFlushMode = session.getHibernateFlushMode();
+    session.setHibernateFlushMode(FlushMode.MANUAL);
 
     try {
       for (Report report : reportEntities) {
@@ -121,7 +121,7 @@ public class SqlReportEntitiesPersister implements EntityPersister {
           reportEntities.get(0).getClass().getName());
       throw ex;
     } finally {
-      session.setFlushMode(previousFlushMode);
+      session.setHibernateFlushMode(previousFlushMode);
     }
   }
 
