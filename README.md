@@ -287,3 +287,11 @@ to migrate your version of AwReporting, please follow these steps:
    report data into the new database.
 1. Create database scripts to import data from old database to new one, or just
    run AwReporting to pull all historical data you need.
+   
+## Troubleshooting
+
+The MySql version supported by default is v5.6. If you encounter any database
+issues, specifically on schema creation, and you are using a higher version of
+MySql, the suggested fix is to change the `hibernate.dialect` property in
+`src/main/resources/data-source-mysql.xml` so that it refers to a higher
+version dialect, e.g. `org.hibernate.dialect.MySQL8Dialect`.

@@ -15,7 +15,7 @@
     <property name="hibernateProperties">
       <props>
         <prop key="hibernate.show_sql">false</prop>
-        <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
         <prop key="hibernate.hbm2ddl.auto">update</prop>
         <prop key="hibernate.jdbc.batch_size">50</prop>
         <prop key="hibernate.order_inserts">true</prop>
