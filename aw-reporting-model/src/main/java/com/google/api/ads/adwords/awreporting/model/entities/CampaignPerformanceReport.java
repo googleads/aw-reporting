@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -43,9 +44,14 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Budget period", reportField = "Period")
   private String period;
 
-  @Column(name = "UrlCustomParameters", length = 2048)
+  @Column(name = "UrlCustomParameters")
+  @Lob
   @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
   private String urlCustomParameters;
+
+  @Column(name = "AbsoluteTopImpressionPercentage")
+  @CsvField(value = "Impr. (Abs. Top) %", reportField = "AbsoluteTopImpressionPercentage")
+  private BigDecimal absoluteTopImpressionPercentage;
 
   @Column(name = "AccountCurrencyCode")
   @CsvField(value = "Currency", reportField = "AccountCurrencyCode")
@@ -453,9 +459,17 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Search abs. top IS", reportField = "SearchAbsoluteTopImpressionShare")
   private BigDecimal searchAbsoluteTopImpressionShare;
 
+  @Column(name = "SearchBudgetLostAbsoluteTopImpressionShare")
+  @CsvField(value = "Search lost abs. top IS (budget)", reportField = "SearchBudgetLostAbsoluteTopImpressionShare")
+  private BigDecimal searchBudgetLostAbsoluteTopImpressionShare;
+
   @Column(name = "SearchBudgetLostImpressionShare")
   @CsvField(value = "Search Lost IS (budget)", reportField = "SearchBudgetLostImpressionShare")
   private BigDecimal searchBudgetLostImpressionShare;
+
+  @Column(name = "SearchBudgetLostTopImpressionShare")
+  @CsvField(value = "Search lost top IS (budget)", reportField = "SearchBudgetLostTopImpressionShare")
+  private BigDecimal searchBudgetLostTopImpressionShare;
 
   @Column(name = "SearchClickShare")
   @CsvField(value = "Click share", reportField = "SearchClickShare")
@@ -469,9 +483,21 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Search Impr. share", reportField = "SearchImpressionShare")
   private BigDecimal searchImpressionShare;
 
+  @Column(name = "SearchRankLostAbsoluteTopImpressionShare")
+  @CsvField(value = "Search lost abs. top IS (rank)", reportField = "SearchRankLostAbsoluteTopImpressionShare")
+  private BigDecimal searchRankLostAbsoluteTopImpressionShare;
+
   @Column(name = "SearchRankLostImpressionShare")
   @CsvField(value = "Search Lost IS (rank)", reportField = "SearchRankLostImpressionShare")
   private BigDecimal searchRankLostImpressionShare;
+
+  @Column(name = "SearchRankLostTopImpressionShare")
+  @CsvField(value = "Search lost top IS (rank)", reportField = "SearchRankLostTopImpressionShare")
+  private BigDecimal searchRankLostTopImpressionShare;
+
+  @Column(name = "SearchTopImpressionShare")
+  @CsvField(value = "Search top IS", reportField = "SearchTopImpressionShare")
+  private BigDecimal searchTopImpressionShare;
 
   @Column(name = "ServingStatus")
   @CsvField(value = "Campaign serving status", reportField = "ServingStatus")
@@ -481,12 +507,17 @@ public class CampaignPerformanceReport extends DateReport {
   @CsvField(value = "Top vs. Other", reportField = "Slot")
   private String slot;
 
+  @Column(name = "TopImpressionPercentage")
+  @CsvField(value = "Impr. (Top) %", reportField = "TopImpressionPercentage")
+  private BigDecimal topImpressionPercentage;
+
   @Column(name = "TotalAmount")
   @CsvField(value = "Total Budget amount", reportField = "TotalAmount")
   @MoneyField
   private BigDecimal totalAmount;
 
-  @Column(name = "TrackingUrlTemplate", length = 2048)
+  @Column(name = "TrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
   private String trackingUrlTemplate;
 
@@ -554,6 +585,18 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setUrlCustomParameters(String urlCustomParameters) {
     this.urlCustomParameters = urlCustomParameters;
+  }
+
+  public String getAbsoluteTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(absoluteTopImpressionPercentage);
+  }
+
+  public BigDecimal getAbsoluteTopImpressionPercentageBigDecimal() {
+    return absoluteTopImpressionPercentage;
+  }
+
+  public void setAbsoluteTopImpressionPercentage(String absoluteTopImpressionPercentage) {
+    this.absoluteTopImpressionPercentage = BigDecimalUtil.parseFromNumberString(absoluteTopImpressionPercentage);
   }
 
   public String getAccountCurrencyCode() {
@@ -1504,6 +1547,18 @@ public class CampaignPerformanceReport extends DateReport {
     this.searchAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchAbsoluteTopImpressionShare);
   }
 
+  public String getSearchBudgetLostAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchBudgetLostAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchBudgetLostAbsoluteTopImpressionShareBigDecimal() {
+    return searchBudgetLostAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchBudgetLostAbsoluteTopImpressionShare(String searchBudgetLostAbsoluteTopImpressionShare) {
+    this.searchBudgetLostAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchBudgetLostAbsoluteTopImpressionShare);
+  }
+
   public String getSearchBudgetLostImpressionShare() {
     return BigDecimalUtil.formatAsReadable(searchBudgetLostImpressionShare);
   }
@@ -1514,6 +1569,18 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setSearchBudgetLostImpressionShare(String searchBudgetLostImpressionShare) {
     this.searchBudgetLostImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchBudgetLostImpressionShare);
+  }
+
+  public String getSearchBudgetLostTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchBudgetLostTopImpressionShare);
+  }
+
+  public BigDecimal getSearchBudgetLostTopImpressionShareBigDecimal() {
+    return searchBudgetLostTopImpressionShare;
+  }
+
+  public void setSearchBudgetLostTopImpressionShare(String searchBudgetLostTopImpressionShare) {
+    this.searchBudgetLostTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchBudgetLostTopImpressionShare);
   }
 
   public String getSearchClickShare() {
@@ -1552,6 +1619,18 @@ public class CampaignPerformanceReport extends DateReport {
     this.searchImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchImpressionShare);
   }
 
+  public String getSearchRankLostAbsoluteTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchRankLostAbsoluteTopImpressionShare);
+  }
+
+  public BigDecimal getSearchRankLostAbsoluteTopImpressionShareBigDecimal() {
+    return searchRankLostAbsoluteTopImpressionShare;
+  }
+
+  public void setSearchRankLostAbsoluteTopImpressionShare(String searchRankLostAbsoluteTopImpressionShare) {
+    this.searchRankLostAbsoluteTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchRankLostAbsoluteTopImpressionShare);
+  }
+
   public String getSearchRankLostImpressionShare() {
     return BigDecimalUtil.formatAsReadable(searchRankLostImpressionShare);
   }
@@ -1562,6 +1641,30 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setSearchRankLostImpressionShare(String searchRankLostImpressionShare) {
     this.searchRankLostImpressionShare = BigDecimalUtil.parseFromNumberStringPercentage(searchRankLostImpressionShare);
+  }
+
+  public String getSearchRankLostTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchRankLostTopImpressionShare);
+  }
+
+  public BigDecimal getSearchRankLostTopImpressionShareBigDecimal() {
+    return searchRankLostTopImpressionShare;
+  }
+
+  public void setSearchRankLostTopImpressionShare(String searchRankLostTopImpressionShare) {
+    this.searchRankLostTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchRankLostTopImpressionShare);
+  }
+
+  public String getSearchTopImpressionShare() {
+    return BigDecimalUtil.formatAsReadable(searchTopImpressionShare);
+  }
+
+  public BigDecimal getSearchTopImpressionShareBigDecimal() {
+    return searchTopImpressionShare;
+  }
+
+  public void setSearchTopImpressionShare(String searchTopImpressionShare) {
+    this.searchTopImpressionShare = BigDecimalUtil.parseFromNumberString(searchTopImpressionShare);
   }
 
   public String getServingStatus() {
@@ -1578,6 +1681,18 @@ public class CampaignPerformanceReport extends DateReport {
 
   public void setSlot(String slot) {
     this.slot = slot;
+  }
+
+  public String getTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(topImpressionPercentage);
+  }
+
+  public BigDecimal getTopImpressionPercentageBigDecimal() {
+    return topImpressionPercentage;
+  }
+
+  public void setTopImpressionPercentage(String topImpressionPercentage) {
+    this.topImpressionPercentage = BigDecimalUtil.parseFromNumberString(topImpressionPercentage);
   }
 
   public BigDecimal getTotalAmount() {
@@ -1767,6 +1882,7 @@ public class CampaignPerformanceReport extends DateReport {
       .appendSuper(super.equals(obj))
       .append(period, other.period)
       .append(urlCustomParameters, other.urlCustomParameters)
+      .append(absoluteTopImpressionPercentage, other.absoluteTopImpressionPercentage)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
       .append(accountTimeZone, other.accountTimeZone)
@@ -1866,13 +1982,19 @@ public class CampaignPerformanceReport extends DateReport {
       .append(recommendedBudgetAmount, other.recommendedBudgetAmount)
       .append(relativeCtr, other.relativeCtr)
       .append(searchAbsoluteTopImpressionShare, other.searchAbsoluteTopImpressionShare)
+      .append(searchBudgetLostAbsoluteTopImpressionShare, other.searchBudgetLostAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare, other.searchBudgetLostImpressionShare)
+      .append(searchBudgetLostTopImpressionShare, other.searchBudgetLostTopImpressionShare)
       .append(searchClickShare, other.searchClickShare)
       .append(searchExactMatchImpressionShare, other.searchExactMatchImpressionShare)
       .append(searchImpressionShare, other.searchImpressionShare)
+      .append(searchRankLostAbsoluteTopImpressionShare, other.searchRankLostAbsoluteTopImpressionShare)
       .append(searchRankLostImpressionShare, other.searchRankLostImpressionShare)
+      .append(searchRankLostTopImpressionShare, other.searchRankLostTopImpressionShare)
+      .append(searchTopImpressionShare, other.searchTopImpressionShare)
       .append(servingStatus, other.servingStatus)
       .append(slot, other.slot)
+      .append(topImpressionPercentage, other.topImpressionPercentage)
       .append(totalAmount, other.totalAmount)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(valuePerAllConversion, other.valuePerAllConversion)
@@ -1894,6 +2016,7 @@ public class CampaignPerformanceReport extends DateReport {
       .appendSuper(super.hashCode())
       .append(period)
       .append(urlCustomParameters)
+      .append(absoluteTopImpressionPercentage)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
       .append(accountTimeZone)
@@ -1993,13 +2116,19 @@ public class CampaignPerformanceReport extends DateReport {
       .append(recommendedBudgetAmount)
       .append(relativeCtr)
       .append(searchAbsoluteTopImpressionShare)
+      .append(searchBudgetLostAbsoluteTopImpressionShare)
       .append(searchBudgetLostImpressionShare)
+      .append(searchBudgetLostTopImpressionShare)
       .append(searchClickShare)
       .append(searchExactMatchImpressionShare)
       .append(searchImpressionShare)
+      .append(searchRankLostAbsoluteTopImpressionShare)
       .append(searchRankLostImpressionShare)
+      .append(searchRankLostTopImpressionShare)
+      .append(searchTopImpressionShare)
       .append(servingStatus)
       .append(slot)
+      .append(topImpressionPercentage)
       .append(totalAmount)
       .append(trackingUrlTemplate)
       .append(valuePerAllConversion)

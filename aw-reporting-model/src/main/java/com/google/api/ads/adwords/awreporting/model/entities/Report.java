@@ -40,13 +40,13 @@ public abstract class Report implements MongoEntity {
   @Column(name = "TIMESTAMP")
   protected Date timestamp;
 
-  @Column(name = "START_DATE")
+  @Column(name = "START_DATE", length = 8)
   protected String startDate;
 
-  @Column(name = "END_DATE")
+  @Column(name = "END_DATE", length = 8)
   protected String endDate;
 
-  @Column(name = "DATE_RANGE_TYPE")
+  @Column(name = "DATE_RANGE_TYPE", length = 20)
   protected String dateRangeType;
 
   @Column(name = "ExternalCustomerId")
@@ -140,7 +140,7 @@ public abstract class Report implements MongoEntity {
       return true;
     }
 
-    if (getClass() != obj.getClass()) {
+    if (!(obj instanceof Report)) {
       return false;
     }
     

@@ -77,6 +77,10 @@ public class LandingPageReport extends DateReport {
   @CsvField(value = "Ad group", reportField = "AdGroupName")
   private String adGroupName;
 
+  @Column(name = "AdGroupStatus")
+  @CsvField(value = "Ad group state", reportField = "AdGroupStatus")
+  private String adGroupStatus;
+
   @Column(name = "AdNetworkType1")
   @CsvField(value = "Network", reportField = "AdNetworkType1")
   private String adNetworkType1;
@@ -84,6 +88,14 @@ public class LandingPageReport extends DateReport {
   @Column(name = "AdNetworkType2")
   @CsvField(value = "Network (with search partners)", reportField = "AdNetworkType2")
   private String adNetworkType2;
+
+  @Column(name = "AdvertisingChannelType")
+  @CsvField(value = "Advertising Channel", reportField = "AdvertisingChannelType")
+  private String advertisingChannelType;
+
+  @Column(name = "AllConversions")
+  @CsvField(value = "All conv.", reportField = "AllConversions")
+  private BigDecimal allConversions;
 
   @Column(name = "AverageCost")
   @CsvField(value = "Avg. Cost", reportField = "AverageCost")
@@ -95,10 +107,18 @@ public class LandingPageReport extends DateReport {
   @MoneyField
   private BigDecimal averageCpc;
 
+  @Column(name = "AverageCpe")
+  @CsvField(value = "Avg. CPE", reportField = "AverageCpe")
+  private BigDecimal averageCpe;
+
   @Column(name = "AverageCpm")
   @CsvField(value = "Avg. CPM", reportField = "AverageCpm")
   @MoneyField
   private BigDecimal averageCpm;
+
+  @Column(name = "AverageCpv")
+  @CsvField(value = "Avg. CPV", reportField = "AverageCpv")
+  private BigDecimal averageCpv;
 
   @Column(name = "AveragePosition")
   @CsvField(value = "Avg. position", reportField = "AveragePosition")
@@ -112,9 +132,17 @@ public class LandingPageReport extends DateReport {
   @CsvField(value = "Campaign", reportField = "CampaignName")
   private String campaignName;
 
+  @Column(name = "CampaignStatus")
+  @CsvField(value = "Campaign state", reportField = "CampaignStatus")
+  private String campaignStatus;
+
   @Column(name = "Clicks")
   @CsvField(value = "Clicks", reportField = "Clicks")
   private Long clicks;
+
+  @Column(name = "ClickType")
+  @CsvField(value = "Click type", reportField = "ClickType")
+  private String clickType;
 
   @Column(name = "ConversionRate")
   @CsvField(value = "Conv. rate", reportField = "ConversionRate")
@@ -138,6 +166,10 @@ public class LandingPageReport extends DateReport {
   @MoneyField
   private BigDecimal costPerConversion;
 
+  @Column(name = "CrossDeviceConversions")
+  @CsvField(value = "Cross-device conv.", reportField = "CrossDeviceConversions")
+  private BigDecimal crossDeviceConversions;
+
   @Column(name = "Ctr")
   @CsvField(value = "CTR", reportField = "Ctr")
   private BigDecimal ctr;
@@ -145,6 +177,14 @@ public class LandingPageReport extends DateReport {
   @Column(name = "Device")
   @CsvField(value = "Device", reportField = "Device")
   private String device;
+
+  @Column(name = "EngagementRate")
+  @CsvField(value = "Engagement rate", reportField = "EngagementRate")
+  private BigDecimal engagementRate;
+
+  @Column(name = "Engagements")
+  @CsvField(value = "Engagements", reportField = "Engagements")
+  private Long engagements;
 
   @Column(name = "ExpandedFinalUrlString")
   @CsvField(value = "Expanded landing page", reportField = "ExpandedFinalUrlString")
@@ -189,6 +229,14 @@ public class LandingPageReport extends DateReport {
   @Column(name = "ValuePerConversion")
   @CsvField(value = "Value / conv.", reportField = "ValuePerConversion")
   private BigDecimal valuePerConversion;
+
+  @Column(name = "VideoViewRate")
+  @CsvField(value = "View rate", reportField = "VideoViewRate")
+  private BigDecimal videoViewRate;
+
+  @Column(name = "VideoViews")
+  @CsvField(value = "Views", reportField = "VideoViews")
+  private Long videoViews;
 
   /**
    * Hibernate needs an empty constructor
@@ -284,6 +332,14 @@ public class LandingPageReport extends DateReport {
     this.adGroupName = adGroupName;
   }
 
+  public String getAdGroupStatus() {
+    return adGroupStatus;
+  }
+
+  public void setAdGroupStatus(String adGroupStatus) {
+    this.adGroupStatus = adGroupStatus;
+  }
+
   public String getAdNetworkType1() {
     return adNetworkType1;
   }
@@ -298,6 +354,26 @@ public class LandingPageReport extends DateReport {
 
   public void setAdNetworkType2(String adNetworkType2) {
     this.adNetworkType2 = adNetworkType2;
+  }
+
+  public String getAdvertisingChannelType() {
+    return advertisingChannelType;
+  }
+
+  public void setAdvertisingChannelType(String advertisingChannelType) {
+    this.advertisingChannelType = advertisingChannelType;
+  }
+
+  public String getAllConversions() {
+    return BigDecimalUtil.formatAsReadable(allConversions);
+  }
+
+  public BigDecimal getAllConversionsBigDecimal() {
+    return allConversions;
+  }
+
+  public void setAllConversions(String allConversions) {
+    this.allConversions = BigDecimalUtil.parseFromNumberString(allConversions);
   }
 
   public BigDecimal getAverageCost() {
@@ -316,12 +392,36 @@ public class LandingPageReport extends DateReport {
     this.averageCpc = averageCpc;
   }
 
+  public String getAverageCpe() {
+    return BigDecimalUtil.formatAsReadable(averageCpe);
+  }
+
+  public BigDecimal getAverageCpeBigDecimal() {
+    return averageCpe;
+  }
+
+  public void setAverageCpe(String averageCpe) {
+    this.averageCpe = BigDecimalUtil.parseFromNumberString(averageCpe);
+  }
+
   public BigDecimal getAverageCpm() {
     return averageCpm;
   }
 
   public void setAverageCpm(BigDecimal averageCpm) {
     this.averageCpm = averageCpm;
+  }
+
+  public String getAverageCpv() {
+    return BigDecimalUtil.formatAsReadable(averageCpv);
+  }
+
+  public BigDecimal getAverageCpvBigDecimal() {
+    return averageCpv;
+  }
+
+  public void setAverageCpv(String averageCpv) {
+    this.averageCpv = BigDecimalUtil.parseFromNumberString(averageCpv);
   }
 
   public String getAveragePosition() {
@@ -352,12 +452,28 @@ public class LandingPageReport extends DateReport {
     this.campaignName = campaignName;
   }
 
+  public String getCampaignStatus() {
+    return campaignStatus;
+  }
+
+  public void setCampaignStatus(String campaignStatus) {
+    this.campaignStatus = campaignStatus;
+  }
+
   public Long getClicks() {
     return clicks;
   }
 
   public void setClicks(Long clicks) {
     this.clicks = clicks;
+  }
+
+  public String getClickType() {
+    return clickType;
+  }
+
+  public void setClickType(String clickType) {
+    this.clickType = clickType;
   }
 
   public String getConversionRate() {
@@ -412,6 +528,18 @@ public class LandingPageReport extends DateReport {
     this.costPerConversion = costPerConversion;
   }
 
+  public String getCrossDeviceConversions() {
+    return BigDecimalUtil.formatAsReadable(crossDeviceConversions);
+  }
+
+  public BigDecimal getCrossDeviceConversionsBigDecimal() {
+    return crossDeviceConversions;
+  }
+
+  public void setCrossDeviceConversions(String crossDeviceConversions) {
+    this.crossDeviceConversions = BigDecimalUtil.parseFromNumberString(crossDeviceConversions);
+  }
+
   public String getCtr() {
     return BigDecimalUtil.formatAsReadable(ctr);
   }
@@ -430,6 +558,26 @@ public class LandingPageReport extends DateReport {
 
   public void setDevice(String device) {
     this.device = device;
+  }
+
+  public String getEngagementRate() {
+    return BigDecimalUtil.formatAsReadable(engagementRate);
+  }
+
+  public BigDecimal getEngagementRateBigDecimal() {
+    return engagementRate;
+  }
+
+  public void setEngagementRate(String engagementRate) {
+    this.engagementRate = BigDecimalUtil.parseFromNumberString(engagementRate);
+  }
+
+  public Long getEngagements() {
+    return engagements;
+  }
+
+  public void setEngagements(Long engagements) {
+    this.engagements = engagements;
   }
 
   public String getExpandedFinalUrlString() {
@@ -536,6 +684,26 @@ public class LandingPageReport extends DateReport {
     this.valuePerConversion = BigDecimalUtil.parseFromNumberString(valuePerConversion);
   }
 
+  public String getVideoViewRate() {
+    return BigDecimalUtil.formatAsReadable(videoViewRate);
+  }
+
+  public BigDecimal getVideoViewRateBigDecimal() {
+    return videoViewRate;
+  }
+
+  public void setVideoViewRate(String videoViewRate) {
+    this.videoViewRate = BigDecimalUtil.parseFromNumberString(videoViewRate);
+  }
+
+  public Long getVideoViews() {
+    return videoViews;
+  }
+
+  public void setVideoViews(Long videoViews) {
+    this.videoViews = videoViews;
+  }
+
   @Override
   public void setRowId() {
     // General fields for generating unique id.
@@ -548,6 +716,9 @@ public class LandingPageReport extends DateReport {
     }
     if (!StringUtils.isEmpty(adNetworkType2)) {
       idBuilder.append("-").append(adNetworkType2);
+    }
+    if (!StringUtils.isEmpty(clickType)) {
+      idBuilder.append("-").append(clickType);
     }
     if (!StringUtils.isEmpty(device)) {
       idBuilder.append("-").append(device);
@@ -575,22 +746,32 @@ public class LandingPageReport extends DateReport {
       .append(activeViewViewability, other.activeViewViewability)
       .append(adGroupId, other.adGroupId)
       .append(adGroupName, other.adGroupName)
+      .append(adGroupStatus, other.adGroupStatus)
       .append(adNetworkType1, other.adNetworkType1)
       .append(adNetworkType2, other.adNetworkType2)
+      .append(advertisingChannelType, other.advertisingChannelType)
+      .append(allConversions, other.allConversions)
       .append(averageCost, other.averageCost)
       .append(averageCpc, other.averageCpc)
+      .append(averageCpe, other.averageCpe)
       .append(averageCpm, other.averageCpm)
+      .append(averageCpv, other.averageCpv)
       .append(averagePosition, other.averagePosition)
       .append(campaignId, other.campaignId)
       .append(campaignName, other.campaignName)
+      .append(campaignStatus, other.campaignStatus)
       .append(clicks, other.clicks)
+      .append(clickType, other.clickType)
       .append(conversionRate, other.conversionRate)
       .append(conversions, other.conversions)
       .append(conversionValue, other.conversionValue)
       .append(cost, other.cost)
       .append(costPerConversion, other.costPerConversion)
+      .append(crossDeviceConversions, other.crossDeviceConversions)
       .append(ctr, other.ctr)
       .append(device, other.device)
+      .append(engagementRate, other.engagementRate)
+      .append(engagements, other.engagements)
       .append(expandedFinalUrlString, other.expandedFinalUrlString)
       .append(impressions, other.impressions)
       .append(interactionRate, other.interactionRate)
@@ -602,6 +783,8 @@ public class LandingPageReport extends DateReport {
       .append(speedScore, other.speedScore)
       .append(unexpandedFinalUrlString, other.unexpandedFinalUrlString)
       .append(valuePerConversion, other.valuePerConversion)
+      .append(videoViewRate, other.videoViewRate)
+      .append(videoViews, other.videoViews)
       .isEquals();
   }
 
@@ -618,22 +801,32 @@ public class LandingPageReport extends DateReport {
       .append(activeViewViewability)
       .append(adGroupId)
       .append(adGroupName)
+      .append(adGroupStatus)
       .append(adNetworkType1)
       .append(adNetworkType2)
+      .append(advertisingChannelType)
+      .append(allConversions)
       .append(averageCost)
       .append(averageCpc)
+      .append(averageCpe)
       .append(averageCpm)
+      .append(averageCpv)
       .append(averagePosition)
       .append(campaignId)
       .append(campaignName)
+      .append(campaignStatus)
       .append(clicks)
+      .append(clickType)
       .append(conversionRate)
       .append(conversions)
       .append(conversionValue)
       .append(cost)
       .append(costPerConversion)
+      .append(crossDeviceConversions)
       .append(ctr)
       .append(device)
+      .append(engagementRate)
+      .append(engagements)
       .append(expandedFinalUrlString)
       .append(impressions)
       .append(interactionRate)
@@ -645,6 +838,8 @@ public class LandingPageReport extends DateReport {
       .append(speedScore)
       .append(unexpandedFinalUrlString)
       .append(valuePerConversion)
+      .append(videoViewRate)
+      .append(videoViews)
       .toHashCode();
   }
 

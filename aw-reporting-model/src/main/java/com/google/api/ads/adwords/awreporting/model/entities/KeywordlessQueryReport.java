@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -188,7 +189,8 @@ public class KeywordlessQueryReport extends DateReport {
   @CsvField(value = "Landing Page Title", reportField = "Title")
   private String title;
 
-  @Column(name = "Url", length = 2048)
+  @Column(name = "Url")
+  @Lob
   @CsvField(value = "URL", reportField = "Url")
   private String url;
 

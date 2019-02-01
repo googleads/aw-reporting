@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -241,7 +242,8 @@ public class ParentalStatusPerformanceReport extends DateReport {
   @CsvField(value = "Parental status", reportField = "Criteria")
   private String criteria;
 
-  @Column(name = "CriteriaDestinationUrl", length = 2048)
+  @Column(name = "CriteriaDestinationUrl")
+  @Lob
   @CsvField(value = "Destination URL", reportField = "CriteriaDestinationUrl")
   private String criteriaDestinationUrl;
 
@@ -273,15 +275,18 @@ public class ParentalStatusPerformanceReport extends DateReport {
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
 
-  @Column(name = "FinalAppUrls", length = 2048)
+  @Column(name = "FinalAppUrls")
+  @Lob
   @CsvField(value = "App final URL", reportField = "FinalAppUrls")
   private String finalAppUrls;
 
-  @Column(name = "FinalMobileUrls", length = 2048)
+  @Column(name = "FinalMobileUrls")
+  @Lob
   @CsvField(value = "Mobile final URL", reportField = "FinalMobileUrls")
   private String finalMobileUrls;
 
-  @Column(name = "FinalUrls", length = 2048)
+  @Column(name = "FinalUrls")
+  @Lob
   @CsvField(value = "Final URL", reportField = "FinalUrls")
   private String finalUrls;
 
@@ -329,11 +334,13 @@ public class ParentalStatusPerformanceReport extends DateReport {
   @CsvField(value = "Parental status state", reportField = "Status")
   private String status;
 
-  @Column(name = "TrackingUrlTemplate", length = 2048)
+  @Column(name = "TrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
   private String trackingUrlTemplate;
 
-  @Column(name = "UrlCustomParameters", length = 2048)
+  @Column(name = "UrlCustomParameters")
+  @Lob
   @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
   private String urlCustomParameters;
 

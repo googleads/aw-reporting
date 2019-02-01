@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -43,6 +44,10 @@ public class SearchQueryPerformanceReport extends DateReport {
   @Column(name = "KeywordId")
   @CsvField(value = "Keyword ID", reportField = "KeywordId")
   private String keywordId;
+
+  @Column(name = "AbsoluteTopImpressionPercentage")
+  @CsvField(value = "Impr. (Abs. Top) %", reportField = "AbsoluteTopImpressionPercentage")
+  private BigDecimal absoluteTopImpressionPercentage;
 
   @Column(name = "AccountCurrencyCode")
   @CsvField(value = "Currency", reportField = "AccountCurrencyCode")
@@ -190,7 +195,8 @@ public class SearchQueryPerformanceReport extends DateReport {
   @CsvField(value = "Client name", reportField = "CustomerDescriptiveName")
   private String customerDescriptiveName;
 
-  @Column(name = "DestinationUrl", length = 2048)
+  @Column(name = "DestinationUrl")
+  @Lob
   @CsvField(value = "Destination URL", reportField = "DestinationUrl")
   private String destinationUrl;
 
@@ -210,7 +216,8 @@ public class SearchQueryPerformanceReport extends DateReport {
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
 
-  @Column(name = "FinalUrl", length = 2048)
+  @Column(name = "FinalUrl")
+  @Lob
   @CsvField(value = "Final URL", reportField = "FinalUrl")
   private String finalUrl;
 
@@ -246,7 +253,12 @@ public class SearchQueryPerformanceReport extends DateReport {
   @CsvField(value = "Added/Excluded", reportField = "QueryTargetingStatus")
   private String queryTargetingStatus;
 
-  @Column(name = "TrackingUrlTemplate", length = 2048)
+  @Column(name = "TopImpressionPercentage")
+  @CsvField(value = "Impr. (Top) %", reportField = "TopImpressionPercentage")
+  private BigDecimal topImpressionPercentage;
+
+  @Column(name = "TrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
   private String trackingUrlTemplate;
 
@@ -302,6 +314,18 @@ public class SearchQueryPerformanceReport extends DateReport {
 
   public void setKeywordId(String keywordId) {
     this.keywordId = keywordId;
+  }
+
+  public String getAbsoluteTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(absoluteTopImpressionPercentage);
+  }
+
+  public BigDecimal getAbsoluteTopImpressionPercentageBigDecimal() {
+    return absoluteTopImpressionPercentage;
+  }
+
+  public void setAbsoluteTopImpressionPercentage(String absoluteTopImpressionPercentage) {
+    this.absoluteTopImpressionPercentage = BigDecimalUtil.parseFromNumberString(absoluteTopImpressionPercentage);
   }
 
   public String getAccountCurrencyCode() {
@@ -748,6 +772,18 @@ public class SearchQueryPerformanceReport extends DateReport {
     this.queryTargetingStatus = queryTargetingStatus;
   }
 
+  public String getTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(topImpressionPercentage);
+  }
+
+  public BigDecimal getTopImpressionPercentageBigDecimal() {
+    return topImpressionPercentage;
+  }
+
+  public void setTopImpressionPercentage(String topImpressionPercentage) {
+    this.topImpressionPercentage = BigDecimalUtil.parseFromNumberString(topImpressionPercentage);
+  }
+
   public String getTrackingUrlTemplate() {
     return trackingUrlTemplate;
   }
@@ -914,6 +950,7 @@ public class SearchQueryPerformanceReport extends DateReport {
     return new EqualsBuilder()
       .appendSuper(super.equals(obj))
       .append(keywordId, other.keywordId)
+      .append(absoluteTopImpressionPercentage, other.absoluteTopImpressionPercentage)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
       .append(accountTimeZone, other.accountTimeZone)
@@ -963,6 +1000,7 @@ public class SearchQueryPerformanceReport extends DateReport {
       .append(query, other.query)
       .append(queryMatchTypeWithVariant, other.queryMatchTypeWithVariant)
       .append(queryTargetingStatus, other.queryTargetingStatus)
+      .append(topImpressionPercentage, other.topImpressionPercentage)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
@@ -981,6 +1019,7 @@ public class SearchQueryPerformanceReport extends DateReport {
     return new HashCodeBuilder(17, 37)
       .appendSuper(super.hashCode())
       .append(keywordId)
+      .append(absoluteTopImpressionPercentage)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
       .append(accountTimeZone)
@@ -1030,6 +1069,7 @@ public class SearchQueryPerformanceReport extends DateReport {
       .append(query)
       .append(queryMatchTypeWithVariant)
       .append(queryTargetingStatus)
+      .append(topImpressionPercentage)
       .append(trackingUrlTemplate)
       .append(valuePerAllConversion)
       .append(valuePerConversion)

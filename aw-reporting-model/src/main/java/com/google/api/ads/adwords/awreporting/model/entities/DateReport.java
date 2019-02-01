@@ -44,7 +44,7 @@ public abstract class DateReport extends Report {
   @CsvField(value = "Day", reportField = "Date")
   protected String date;
 
-  @Column(name = "DayOfWeek")
+  @Column(name = "DayOfWeek", length = 10)
   @CsvField(value = "Day of week", reportField = "DayOfWeek")
   protected String dayOfWeek;
 
@@ -52,19 +52,19 @@ public abstract class DateReport extends Report {
   @CsvField(value = "Hour of day", reportField = "HourOfDay")
   protected Long hourOfDay;
 
-  @Column(name = "Week")
+  @Column(name = "Week", length = 10)
   @CsvField(value = "Week", reportField = "Week")
   protected String week;
 
-  @Column(name = "Month")
+  @Column(name = "Month", length = 10)
   @CsvField(value = "Month", reportField = "Month")
   protected String month;
 
-  @Column(name = "MonthOfYear")
+  @Column(name = "MonthOfYear", length = 10)
   @CsvField(value = "Month of Year", reportField = "MonthOfYear")
   protected String monthOfYear;
 
-  @Column(name = "Quarter")
+  @Column(name = "Quarter", length = 10)
   @CsvField(value = "Quarter", reportField = "Quarter")
   protected String quarter;
 
@@ -204,7 +204,7 @@ public abstract class DateReport extends Report {
       return true;
     }
 
-    if (getClass() != obj.getClass()) {
+    if (!(obj instanceof DateReport)) {
       return false;
     }
     

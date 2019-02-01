@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -39,31 +40,32 @@ import javax.persistence.Table;
 @CsvReport(value = ReportDefinitionReportType.AD_PERFORMANCE_REPORT)
 public class AdPerformanceReport extends DateReport {
 
-  @Column(name = "AdStrengthInfo")
-  @CsvField(value = "Ad strength", reportField = "AdStrengthInfo")
-  private String adStrengthInfo;
-
   @Column(name = "CallOnlyPhoneNumber")
   @CsvField(value = "Call-only ad phone number", reportField = "CallOnlyPhoneNumber")
   private String callOnlyPhoneNumber;
 
-  @Column(name = "ImageAdUrl", length = 2048)
+  @Column(name = "ImageAdUrl")
+  @Lob
   @CsvField(value = "Image Ad URL", reportField = "ImageAdUrl")
   private String imageAdUrl;
 
   @Column(name = "MultiAssetResponsiveDisplayAdDescriptions")
+  @Lob
   @CsvField(value = "Descriptions (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdDescriptions")
   private String multiAssetResponsiveDisplayAdDescriptions;
 
   @Column(name = "MultiAssetResponsiveDisplayAdHeadlines")
+  @Lob
   @CsvField(value = "Headlines (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdHeadlines")
   private String multiAssetResponsiveDisplayAdHeadlines;
 
   @Column(name = "MultiAssetResponsiveDisplayAdLandscapeLogoImages")
+  @Lob
   @CsvField(value = "Landscape logos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdLandscapeLogoImages")
   private String multiAssetResponsiveDisplayAdLandscapeLogoImages;
 
   @Column(name = "MultiAssetResponsiveDisplayAdLogoImages")
+  @Lob
   @CsvField(value = "Logos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdLogoImages")
   private String multiAssetResponsiveDisplayAdLogoImages;
 
@@ -72,52 +74,68 @@ public class AdPerformanceReport extends DateReport {
   private String multiAssetResponsiveDisplayAdLongHeadline;
 
   @Column(name = "MultiAssetResponsiveDisplayAdMarketingImages")
+  @Lob
   @CsvField(value = "Images (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdMarketingImages")
   private String multiAssetResponsiveDisplayAdMarketingImages;
 
   @Column(name = "MultiAssetResponsiveDisplayAdSquareMarketingImages")
+  @Lob
   @CsvField(value = "Square images (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdSquareMarketingImages")
   private String multiAssetResponsiveDisplayAdSquareMarketingImages;
 
   @Column(name = "MultiAssetResponsiveDisplayAdYouTubeVideos")
+  @Lob
   @CsvField(value = "Youtube videos (multi asset responsive display)", reportField = "MultiAssetResponsiveDisplayAdYouTubeVideos")
   private String multiAssetResponsiveDisplayAdYouTubeVideos;
 
   @Column(name = "PolicySummary")
+  @Lob
   @CsvField(value = "Policy", reportField = "PolicySummary")
   private String policySummary;
 
   @Column(name = "ResponsiveSearchAdDescriptions")
+  @Lob
   @CsvField(value = "Responsive Search Ad descriptions", reportField = "ResponsiveSearchAdDescriptions")
   private String responsiveSearchAdDescriptions;
 
   @Column(name = "ResponsiveSearchAdHeadlines")
+  @Lob
   @CsvField(value = "Responsive Search Ad headlines", reportField = "ResponsiveSearchAdHeadlines")
   private String responsiveSearchAdHeadlines;
 
   @Column(name = "UniversalAppAdDescriptions")
+  @Lob
   @CsvField(value = "Universal App Ad descriptions", reportField = "UniversalAppAdDescriptions")
   private String universalAppAdDescriptions;
 
   @Column(name = "UniversalAppAdHeadlines")
+  @Lob
   @CsvField(value = "Universal App Ad headlines", reportField = "UniversalAppAdHeadlines")
   private String universalAppAdHeadlines;
 
   @Column(name = "UniversalAppAdHtml5MediaBundles")
+  @Lob
   @CsvField(value = "Universal App Ad html5 media bundles", reportField = "UniversalAppAdHtml5MediaBundles")
   private String universalAppAdHtml5MediaBundles;
 
   @Column(name = "UniversalAppAdImages")
+  @Lob
   @CsvField(value = "Universal App Ad images", reportField = "UniversalAppAdImages")
   private String universalAppAdImages;
 
   @Column(name = "UniversalAppAdMandatoryAdText")
+  @Lob
   @CsvField(value = "Universal App Ad mandatory ad text", reportField = "UniversalAppAdMandatoryAdText")
   private String universalAppAdMandatoryAdText;
 
   @Column(name = "UniversalAppAdYouTubeVideos")
+  @Lob
   @CsvField(value = "Universal App Ad youTube videos", reportField = "UniversalAppAdYouTubeVideos")
   private String universalAppAdYouTubeVideos;
+
+  @Column(name = "AbsoluteTopImpressionPercentage")
+  @CsvField(value = "Impr. (Abs. Top) %", reportField = "AbsoluteTopImpressionPercentage")
+  private BigDecimal absoluteTopImpressionPercentage;
 
   @Column(name = "AccentColor")
   @CsvField(value = "Accent color (responsive)", reportField = "AccentColor")
@@ -184,6 +202,10 @@ public class AdPerformanceReport extends DateReport {
   @Column(name = "AdNetworkType2")
   @CsvField(value = "Network (with search partners)", reportField = "AdNetworkType2")
   private String adNetworkType2;
+
+  @Column(name = "AdStrengthInfo")
+  @CsvField(value = "Ad strength", reportField = "AdStrengthInfo")
+  private String adStrengthInfo;
 
   @Column(name = "AdType")
   @CsvField(value = "Ad type", reportField = "AdType")
@@ -355,19 +377,23 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Cost / conv. (current model)", reportField = "CostPerCurrentModelAttributedConversion")
   private BigDecimal costPerCurrentModelAttributedConversion;
 
-  @Column(name = "CreativeDestinationUrl", length = 2048)
+  @Column(name = "CreativeDestinationUrl")
+  @Lob
   @CsvField(value = "Destination URL", reportField = "CreativeDestinationUrl")
   private String creativeDestinationUrl;
 
-  @Column(name = "CreativeFinalAppUrls", length = 2048)
+  @Column(name = "CreativeFinalAppUrls")
+  @Lob
   @CsvField(value = "App final URL", reportField = "CreativeFinalAppUrls")
   private String creativeFinalAppUrls;
 
-  @Column(name = "CreativeFinalMobileUrls", length = 2048)
+  @Column(name = "CreativeFinalMobileUrls")
+  @Lob
   @CsvField(value = "Mobile final URL", reportField = "CreativeFinalMobileUrls")
   private String creativeFinalMobileUrls;
 
-  @Column(name = "CreativeFinalUrls", length = 2048)
+  @Column(name = "CreativeFinalUrls")
+  @Lob
   @CsvField(value = "Final URL", reportField = "CreativeFinalUrls")
   private String creativeFinalUrls;
 
@@ -375,11 +401,13 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Final URL suffix", reportField = "CreativeFinalUrlSuffix")
   private String creativeFinalUrlSuffix;
 
-  @Column(name = "CreativeTrackingUrlTemplate", length = 2048)
+  @Column(name = "CreativeTrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "CreativeTrackingUrlTemplate")
   private String creativeTrackingUrlTemplate;
 
-  @Column(name = "CreativeUrlCustomParameters", length = 2048)
+  @Column(name = "CreativeUrlCustomParameters")
+  @Lob
   @CsvField(value = "Custom parameter", reportField = "CreativeUrlCustomParameters")
   private String creativeUrlCustomParameters;
 
@@ -431,7 +459,8 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "Device preference", reportField = "DevicePreference")
   private Long devicePreference;
 
-  @Column(name = "DisplayUrl", length = 2048)
+  @Column(name = "DisplayUrl")
+  @Lob
   @CsvField(value = "Display URL", reportField = "DisplayUrl")
   private String displayUrl;
 
@@ -687,6 +716,10 @@ public class AdPerformanceReport extends DateReport {
   @CsvField(value = "System managed Entity Source", reportField = "SystemManagedEntitySource")
   private String systemManagedEntitySource;
 
+  @Column(name = "TopImpressionPercentage")
+  @CsvField(value = "Impr. (Top) %", reportField = "TopImpressionPercentage")
+  private BigDecimal topImpressionPercentage;
+
   @Column(name = "ValuePerAllConversion")
   @CsvField(value = "Value / all conv.", reportField = "ValuePerAllConversion")
   private BigDecimal valuePerAllConversion;
@@ -735,14 +768,6 @@ public class AdPerformanceReport extends DateReport {
 
   public AdPerformanceReport(Long topAccountId, Long accountId){
     super(topAccountId, accountId);
-  }
-
-  public String getAdStrengthInfo() {
-    return adStrengthInfo;
-  }
-
-  public void setAdStrengthInfo(String adStrengthInfo) {
-    this.adStrengthInfo = adStrengthInfo;
   }
 
   public String getCallOnlyPhoneNumber() {
@@ -897,6 +922,18 @@ public class AdPerformanceReport extends DateReport {
     this.universalAppAdYouTubeVideos = universalAppAdYouTubeVideos;
   }
 
+  public String getAbsoluteTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(absoluteTopImpressionPercentage);
+  }
+
+  public BigDecimal getAbsoluteTopImpressionPercentageBigDecimal() {
+    return absoluteTopImpressionPercentage;
+  }
+
+  public void setAbsoluteTopImpressionPercentage(String absoluteTopImpressionPercentage) {
+    this.absoluteTopImpressionPercentage = BigDecimalUtil.parseFromNumberString(absoluteTopImpressionPercentage);
+  }
+
   public String getAccentColor() {
     return accentColor;
   }
@@ -1035,6 +1072,14 @@ public class AdPerformanceReport extends DateReport {
 
   public void setAdNetworkType2(String adNetworkType2) {
     this.adNetworkType2 = adNetworkType2;
+  }
+
+  public String getAdStrengthInfo() {
+    return adStrengthInfo;
+  }
+
+  public void setAdStrengthInfo(String adStrengthInfo) {
+    this.adStrengthInfo = adStrengthInfo;
   }
 
   public String getAdType() {
@@ -2125,6 +2170,18 @@ public class AdPerformanceReport extends DateReport {
     this.systemManagedEntitySource = systemManagedEntitySource;
   }
 
+  public String getTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(topImpressionPercentage);
+  }
+
+  public BigDecimal getTopImpressionPercentageBigDecimal() {
+    return topImpressionPercentage;
+  }
+
+  public void setTopImpressionPercentage(String topImpressionPercentage) {
+    this.topImpressionPercentage = BigDecimalUtil.parseFromNumberString(topImpressionPercentage);
+  }
+
   public String getValuePerAllConversion() {
     return BigDecimalUtil.formatAsReadable(valuePerAllConversion);
   }
@@ -2300,7 +2357,6 @@ public class AdPerformanceReport extends DateReport {
     AdPerformanceReport other = (AdPerformanceReport) obj;
     return new EqualsBuilder()
       .appendSuper(super.equals(obj))
-      .append(adStrengthInfo, other.adStrengthInfo)
       .append(callOnlyPhoneNumber, other.callOnlyPhoneNumber)
       .append(imageAdUrl, other.imageAdUrl)
       .append(multiAssetResponsiveDisplayAdDescriptions, other.multiAssetResponsiveDisplayAdDescriptions)
@@ -2320,6 +2376,7 @@ public class AdPerformanceReport extends DateReport {
       .append(universalAppAdImages, other.universalAppAdImages)
       .append(universalAppAdMandatoryAdText, other.universalAppAdMandatoryAdText)
       .append(universalAppAdYouTubeVideos, other.universalAppAdYouTubeVideos)
+      .append(absoluteTopImpressionPercentage, other.absoluteTopImpressionPercentage)
       .append(accentColor, other.accentColor)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
@@ -2336,6 +2393,7 @@ public class AdPerformanceReport extends DateReport {
       .append(adGroupStatus, other.adGroupStatus)
       .append(adNetworkType1, other.adNetworkType1)
       .append(adNetworkType2, other.adNetworkType2)
+      .append(adStrengthInfo, other.adStrengthInfo)
       .append(adType, other.adType)
       .append(allConversionRate, other.allConversionRate)
       .append(allConversions, other.allConversions)
@@ -2460,6 +2518,7 @@ public class AdPerformanceReport extends DateReport {
       .append(slot, other.slot)
       .append(status, other.status)
       .append(systemManagedEntitySource, other.systemManagedEntitySource)
+      .append(topImpressionPercentage, other.topImpressionPercentage)
       .append(valuePerAllConversion, other.valuePerAllConversion)
       .append(valuePerConversion, other.valuePerConversion)
       .append(valuePerCurrentModelAttributedConversion, other.valuePerCurrentModelAttributedConversion)
@@ -2477,7 +2536,6 @@ public class AdPerformanceReport extends DateReport {
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
       .appendSuper(super.hashCode())
-      .append(adStrengthInfo)
       .append(callOnlyPhoneNumber)
       .append(imageAdUrl)
       .append(multiAssetResponsiveDisplayAdDescriptions)
@@ -2497,6 +2555,7 @@ public class AdPerformanceReport extends DateReport {
       .append(universalAppAdImages)
       .append(universalAppAdMandatoryAdText)
       .append(universalAppAdYouTubeVideos)
+      .append(absoluteTopImpressionPercentage)
       .append(accentColor)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
@@ -2513,6 +2572,7 @@ public class AdPerformanceReport extends DateReport {
       .append(adGroupStatus)
       .append(adNetworkType1)
       .append(adNetworkType2)
+      .append(adStrengthInfo)
       .append(adType)
       .append(allConversionRate)
       .append(allConversions)
@@ -2637,6 +2697,7 @@ public class AdPerformanceReport extends DateReport {
       .append(slot)
       .append(status)
       .append(systemManagedEntitySource)
+      .append(topImpressionPercentage)
       .append(valuePerAllConversion)
       .append(valuePerConversion)
       .append(valuePerCurrentModelAttributedConversion)

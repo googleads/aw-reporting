@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -162,7 +163,8 @@ public class ProductPartitionReport extends DateReport {
   @MoneyField
   private BigDecimal cpcBid;
 
-  @Column(name = "CriteriaDestinationUrl", length = 2048)
+  @Column(name = "CriteriaDestinationUrl")
+  @Lob
   @CsvField(value = "Keyword/Placement destination URL", reportField = "CriteriaDestinationUrl")
   private String criteriaDestinationUrl;
 
@@ -222,11 +224,13 @@ public class ProductPartitionReport extends DateReport {
   @CsvField(value = "Search Impr. share", reportField = "SearchImpressionShare")
   private BigDecimal searchImpressionShare;
 
-  @Column(name = "TrackingUrlTemplate", length = 2048)
+  @Column(name = "TrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
   private String trackingUrlTemplate;
 
-  @Column(name = "UrlCustomParameters", length = 2048)
+  @Column(name = "UrlCustomParameters")
+  @Lob
   @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
   private String urlCustomParameters;
 

@@ -1,6 +1,11 @@
 # Change Log
 
 All notable changes to this project will be documented in this file.
+## [2.7.0] - 2019-01-24
+- Closed issue 299 by annotating several String <code>properties</code> with <code>@Lob</code> to make sure that they are rendered to DB by Hibernate as CLOBs rather than VARCHARs. This has been made necessary by the fact that some <code>CREATE TABLE</code> commands were failing due to rows exceeding the length limit imposed by the DBMS; moving the larger columns to CLOB storage allows them to be stored separately, preventing the risk of hitting the row size limit. This may have an unquantifiable performance impact, but there is no other way to persist this number of columns to database.
+- Closed issue 300 by adding the properties that were missing.
+- Reduced the length of some date fields that didn't really need the default VARCHAR size, e.g. <code>Week</code>
+
 ## [2.6.0] - 2018-06-12
 - Migrate to AdWords API **v201809**
 - Requires Java 8 (1.8) or higher.

@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -42,6 +43,10 @@ public class CriteriaPerformanceReport extends DateReport {
   @Column(name = "Parameter")
   @CsvField(value = "Dynamic ad target", reportField = "Parameter")
   private String parameter;
+
+  @Column(name = "AbsoluteTopImpressionPercentage")
+  @CsvField(value = "Impr. (Abs. Top) %", reportField = "AbsoluteTopImpressionPercentage")
+  private BigDecimal absoluteTopImpressionPercentage;
 
   @Column(name = "AccountCurrencyCode")
   @CsvField(value = "Currency", reportField = "AccountCurrencyCode")
@@ -266,7 +271,8 @@ public class CriteriaPerformanceReport extends DateReport {
   @CsvField(value = "Keyword / Placement", reportField = "Criteria")
   private String criteria;
 
-  @Column(name = "CriteriaDestinationUrl", length = 2048)
+  @Column(name = "CriteriaDestinationUrl")
+  @Lob
   @CsvField(value = "Keyword/Placement destination URL", reportField = "CriteriaDestinationUrl")
   private String criteriaDestinationUrl;
 
@@ -327,15 +333,18 @@ public class CriteriaPerformanceReport extends DateReport {
   @CsvField(value = "Conversion source", reportField = "ExternalConversionSource")
   private String externalConversionSource;
 
-  @Column(name = "FinalAppUrls", length = 2048)
+  @Column(name = "FinalAppUrls")
+  @Lob
   @CsvField(value = "App final URL", reportField = "FinalAppUrls")
   private String finalAppUrls;
 
-  @Column(name = "FinalMobileUrls", length = 2048)
+  @Column(name = "FinalMobileUrls")
+  @Lob
   @CsvField(value = "Mobile final URL", reportField = "FinalMobileUrls")
   private String finalMobileUrls;
 
-  @Column(name = "FinalUrls", length = 2048)
+  @Column(name = "FinalUrls")
+  @Lob
   @CsvField(value = "Final URL", reportField = "FinalUrls")
   private String finalUrls;
 
@@ -423,15 +432,21 @@ public class CriteriaPerformanceReport extends DateReport {
   @CsvField(value = "Criterion serving status", reportField = "SystemServingStatus")
   private String systemServingStatus;
 
+  @Column(name = "TopImpressionPercentage")
+  @CsvField(value = "Impr. (Top) %", reportField = "TopImpressionPercentage")
+  private BigDecimal topImpressionPercentage;
+
   @Column(name = "TopOfPageCpc")
   @CsvField(value = "Top of page CPC", reportField = "TopOfPageCpc")
   private String topOfPageCpc;
 
-  @Column(name = "TrackingUrlTemplate", length = 2048)
+  @Column(name = "TrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "TrackingUrlTemplate")
   private String trackingUrlTemplate;
 
-  @Column(name = "UrlCustomParameters", length = 2048)
+  @Column(name = "UrlCustomParameters")
+  @Lob
   @CsvField(value = "Custom parameter", reportField = "UrlCustomParameters")
   private String urlCustomParameters;
 
@@ -495,6 +510,18 @@ public class CriteriaPerformanceReport extends DateReport {
 
   public void setParameter(String parameter) {
     this.parameter = parameter;
+  }
+
+  public String getAbsoluteTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(absoluteTopImpressionPercentage);
+  }
+
+  public BigDecimal getAbsoluteTopImpressionPercentageBigDecimal() {
+    return absoluteTopImpressionPercentage;
+  }
+
+  public void setAbsoluteTopImpressionPercentage(String absoluteTopImpressionPercentage) {
+    this.absoluteTopImpressionPercentage = BigDecimalUtil.parseFromNumberString(absoluteTopImpressionPercentage);
   }
 
   public String getAccountCurrencyCode() {
@@ -1313,6 +1340,18 @@ public class CriteriaPerformanceReport extends DateReport {
     this.systemServingStatus = systemServingStatus;
   }
 
+  public String getTopImpressionPercentage() {
+    return BigDecimalUtil.formatAsReadable(topImpressionPercentage);
+  }
+
+  public BigDecimal getTopImpressionPercentageBigDecimal() {
+    return topImpressionPercentage;
+  }
+
+  public void setTopImpressionPercentage(String topImpressionPercentage) {
+    this.topImpressionPercentage = BigDecimalUtil.parseFromNumberString(topImpressionPercentage);
+  }
+
   public String getTopOfPageCpc() {
     return topOfPageCpc;
   }
@@ -1518,6 +1557,7 @@ public class CriteriaPerformanceReport extends DateReport {
     return new EqualsBuilder()
       .appendSuper(super.equals(obj))
       .append(parameter, other.parameter)
+      .append(absoluteTopImpressionPercentage, other.absoluteTopImpressionPercentage)
       .append(accountCurrencyCode, other.accountCurrencyCode)
       .append(accountDescriptiveName, other.accountDescriptiveName)
       .append(accountTimeZone, other.accountTimeZone)
@@ -1610,6 +1650,7 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(slot, other.slot)
       .append(status, other.status)
       .append(systemServingStatus, other.systemServingStatus)
+      .append(topImpressionPercentage, other.topImpressionPercentage)
       .append(topOfPageCpc, other.topOfPageCpc)
       .append(trackingUrlTemplate, other.trackingUrlTemplate)
       .append(urlCustomParameters, other.urlCustomParameters)
@@ -1632,6 +1673,7 @@ public class CriteriaPerformanceReport extends DateReport {
     return new HashCodeBuilder(17, 37)
       .appendSuper(super.hashCode())
       .append(parameter)
+      .append(absoluteTopImpressionPercentage)
       .append(accountCurrencyCode)
       .append(accountDescriptiveName)
       .append(accountTimeZone)
@@ -1724,6 +1766,7 @@ public class CriteriaPerformanceReport extends DateReport {
       .append(slot)
       .append(status)
       .append(systemServingStatus)
+      .append(topImpressionPercentage)
       .append(topOfPageCpc)
       .append(trackingUrlTemplate)
       .append(urlCustomParameters)

@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -228,11 +229,13 @@ public class FinalUrlReport extends DateReport {
   @CsvField(value = "Device", reportField = "Device")
   private String device;
 
-  @Column(name = "EffectiveFinalUrl", length = 2048)
+  @Column(name = "EffectiveFinalUrl")
+  @Lob
   @CsvField(value = "Final URL", reportField = "EffectiveFinalUrl")
   private String effectiveFinalUrl;
 
-  @Column(name = "EffectiveTrackingUrlTemplate", length = 2048)
+  @Column(name = "EffectiveTrackingUrlTemplate")
+  @Lob
   @CsvField(value = "Tracking template", reportField = "EffectiveTrackingUrlTemplate")
   private String effectiveTrackingUrlTemplate;
 

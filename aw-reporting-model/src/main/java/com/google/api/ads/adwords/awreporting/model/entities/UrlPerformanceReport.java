@@ -29,6 +29,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -268,7 +269,8 @@ public class UrlPerformanceReport extends DateReport {
   @CsvField(value = "Targeting Mode", reportField = "IsAutoOptimized")
   private String isAutoOptimized;
 
-  @Column(name = "Url", length = 2048)
+  @Column(name = "Url")
+  @Lob
   @CsvField(value = "URL", reportField = "Url")
   private String url;
 
