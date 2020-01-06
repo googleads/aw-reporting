@@ -29,7 +29,6 @@ import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -52,7 +51,7 @@ public class MongoEntityPersister implements EntityPersister {
     mongoClient = new MongoClient(new MongoClientURI(mongoConnectionUrl));
     db = mongoClient.getDB(mongoDataBaseName);
   }
-  
+
   @Override
   public void persistReportEntities(List<? extends Report> reportEntities) {
     if (reportEntities != null && reportEntities.size() > 0) {
@@ -85,24 +84,24 @@ public class MongoEntityPersister implements EntityPersister {
     }
     return newT;
   }
-  
+
   @Override
   public <T, V> List<T> get(Class<T> classT, String key, V value) {
     BasicDBObject query = new BasicDBObject();
     if (key != null && value != null) {
       query.put(key, value);
     }
-    
+
     DBCursor cur = getCollection(classT).find(query);
     List<T> list = new ArrayList<T>();
     while (cur.hasNext()) {
       DBObject dbObject = cur.next();
       list.add(gson.fromJson(com.mongodb.util.JSON.serialize(dbObject), classT));
     }
-    
+
     return list;
   }
-  
+
   private <T> DBCollection getCollection(Class<T> classT) {
     String[] fragments = classT.getCanonicalName().split("\\.");
     String collectionName = fragments[fragments.length -1];
