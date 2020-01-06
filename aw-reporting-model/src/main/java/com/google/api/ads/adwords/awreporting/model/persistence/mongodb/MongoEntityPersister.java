@@ -29,6 +29,7 @@ import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -103,10 +104,13 @@ public class MongoEntityPersister implements EntityPersister {
   }
   
   private <T> DBCollection getCollection(Class<T> classT) {
-    if (db.collectionExists(classT.getCanonicalName())) {
-      return  db.getCollection(classT.getCanonicalName());
+    String[] fragments = classT.getCanonicalName().split("\\.");
+    String collectionName = fragments[fragments.length -1];
+
+    if (db.collectionExists(collectionName)) {
+      return  db.getCollection(collectionName);
     } else {
-      return db.createCollection(classT.getCanonicalName(), new BasicDBObject());
+      return db.createCollection(collectionName, new BasicDBObject());
     }
   }
 }
