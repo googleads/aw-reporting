@@ -1,16 +1,6 @@
 # AdWords API Reporting Sync
 
-## Special Note
-
-If you are using this project, please follow the AdWords API announcements and
-deprecation schedule:
-
-*   https://developers.google.com/adwords/api/community/
-*   https://developers.google.com/adwords/api/docs/sunset-dates
-
-The AdWords API updates version more or less every 4 months, so you would need
-to upgrade your project around that timeframe, by just following the
-[migration guide](#migration-guide).
+:warning: **WARNING: This project is no longer maintained. See the [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start) to learn more about using the Google Ads API. If you have questions about this project, reach out to us on the [Google Ads API Forum](https://developers.google.com/adwords/api/community/).**  
 
 ## Overview
 
