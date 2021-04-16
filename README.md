@@ -1,6 +1,6 @@
 # AdWords API Reporting Sync
 
-:warning: **WARNING: This project is no longer maintained. This repository will be removed on or after 15th May 2021. See the [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start) to learn more about using the Google Ads API. If you have questions about this project, reach out to us on the [Google Ads API Forum](https://developers.google.com/adwords/api/community/).**  
+:warning: **WARNING: This project is no longer maintained. This repository will be removed on or after 15th May 2021. See the [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start) to learn more about using the Google Ads API.**  
 
 ## Overview
 
