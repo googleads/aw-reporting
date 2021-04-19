@@ -1,16 +1,6 @@
 # AdWords API Reporting Sync
 
-## Special Note
-
-If you are using this project, please follow the AdWords API announcements and
-deprecation schedule:
-
-*   https://developers.google.com/adwords/api/community/
-*   https://developers.google.com/adwords/api/docs/sunset-dates
-
-The AdWords API updates version more or less every 4 months, so you would need
-to upgrade your project around that timeframe, by just following the
-[migration guide](#migration-guide).
+:warning: **WARNING: This project has reached its end of life, and no new features will be added. We will sunset this project on 30 Apr 2022, and will continue to maintain the project and provide bug fixes until then. We recommend using the [BigQuery Data Transfer Service for Google Ads](https://cloud.google.com/bigquery-transfer/docs/adwords-transfer) which provides similar functionality.**
 
 ## Overview
 
