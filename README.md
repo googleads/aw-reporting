@@ -1,6 +1,6 @@
 # AdWords API Reporting Sync
 
-:warning: **WARNING: This project is no longer maintained. This repository will be removed on or after 15th May 2021. See the [Google Ads API Documentation](https://developers.google.com/google-ads/api/docs/start) to learn more about using the Google Ads API.**  
+:warning: **WARNING: This project has reached its end of life, and no new features will be added. We will sunset this project on 30 Apr 2022, and will continue to maintain the project and provide bug fixes until then. We recommend using the [BigQuery Data Transfer Service for Google Ads](https://cloud.google.com/bigquery-transfer/docs/adwords-transfer) which provides similar functionality.**
 
 ## Overview
 
