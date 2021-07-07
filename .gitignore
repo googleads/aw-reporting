@@ -1,7 +1,9 @@
 *.log
+*.iml
 
 .project
 .settings
+.idea
 
 aw-reporting-model/target/*
 aw-reporting-model/.classpath

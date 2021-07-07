@@ -51,7 +51,7 @@ public class MongoEntityPersister implements EntityPersister {
     mongoClient = new MongoClient(new MongoClientURI(mongoConnectionUrl));
     db = mongoClient.getDB(mongoDataBaseName);
   }
-  
+
   @Override
   public void persistReportEntities(List<? extends Report> reportEntities) {
     if (reportEntities != null && reportEntities.size() > 0) {
@@ -84,29 +84,32 @@ public class MongoEntityPersister implements EntityPersister {
     }
     return newT;
   }
-  
+
   @Override
   public <T, V> List<T> get(Class<T> classT, String key, V value) {
     BasicDBObject query = new BasicDBObject();
     if (key != null && value != null) {
       query.put(key, value);
     }
-    
+
     DBCursor cur = getCollection(classT).find(query);
     List<T> list = new ArrayList<T>();
     while (cur.hasNext()) {
       DBObject dbObject = cur.next();
       list.add(gson.fromJson(com.mongodb.util.JSON.serialize(dbObject), classT));
     }
-    
+
     return list;
   }
-  
+
   private <T> DBCollection getCollection(Class<T> classT) {
-    if (db.collectionExists(classT.getCanonicalName())) {
-      return  db.getCollection(classT.getCanonicalName());
+    String[] fragments = classT.getCanonicalName().split("\\.");
+    String collectionName = fragments[fragments.length -1];
+
+    if (db.collectionExists(collectionName)) {
+      return  db.getCollection(collectionName);
     } else {
-      return db.createCollection(classT.getCanonicalName(), new BasicDBObject());
+      return db.createCollection(collectionName, new BasicDBObject());
     }
   }
 }
